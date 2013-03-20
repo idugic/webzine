@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_rs_id_webzine_domain_Article" object="${article}" path="/articles" z="mLbs4ByleVld9le+QI2/z07c7go=">
+        <field:display field="managedContentId" id="s_rs_id_webzine_domain_Article_managedContentId" object="${article}" z="vZuIUk7VBgFvneniEgokj4r49NU="/>
+        <field:display field="um" id="s_rs_id_webzine_domain_Article_um" object="${article}" z="F0bK0JmTjqaJuyR1tto0wnlyCCc="/>
+        <field:display field="uc" id="s_rs_id_webzine_domain_Article_uc" object="${article}" z="EF0YsS+KxsF8AYv5kBj6EFcEbLw="/>
+        <field:display field="authorUserId" id="s_rs_id_webzine_domain_Article_authorUserId" object="${article}" z="fdSFGDj/5AA3MSd9PckOP/H8q3c="/>
+        <field:display field="publishedBy" id="s_rs_id_webzine_domain_Article_publishedBy" object="${article}" z="X9mMU2sfgTtGmBqYkYdkQ9zSIEU="/>
+        <field:display field="status" id="s_rs_id_webzine_domain_Article_status" object="${article}" z="TZSLsM/oW5kh9TtJoWtt0ElqmGE="/>
+        <field:display field="title" id="s_rs_id_webzine_domain_Article_title" object="${article}" z="m4r/yWOnGLy5Sei6MCrf3w3I7J4="/>
+        <field:display field="abstractText" id="s_rs_id_webzine_domain_Article_abstractText" object="${article}" z="QCmoDIFlk0lLPfZomSjfQ+mD1iE="/>
+        <field:display field="abstractImage" id="s_rs_id_webzine_domain_Article_abstractImage" object="${article}" z="X3WAJ3iBMk9rhOpa5gnZpmB6TP0="/>
+        <field:display calendar="true" dateTimePattern="${article_publishedat_date_format}" field="publishedAt" id="s_rs_id_webzine_domain_Article_publishedAt" object="${article}" z="L96bHc8dv4+A5Ovju/2bZXztSkE="/>
+        <field:display calendar="true" dateTimePattern="${article_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_Article_dc" object="${article}" z="KV6JaNUHYy8agO6v5Yug/DkfIio="/>
+        <field:display calendar="true" dateTimePattern="${article_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_Article_dm" object="${article}" z="b/yIG+xCkShxqUlP8BLts0fF7Ag="/>
+    </page:show>
+</div>

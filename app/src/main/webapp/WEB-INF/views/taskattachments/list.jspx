@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_rs_id_webzine_domain_TaskAttachment" items="${taskattachments}" z="VsuTYTxzTVWQHTKXqk22KpVxl98=">
+        <table:table data="${taskattachments}" id="l_rs_id_webzine_domain_TaskAttachment" path="/taskattachments" z="R48/cpUExTJVkWH7zQyE70Ekv0k=">
+            <table:column id="c_rs_id_webzine_domain_TaskAttachment_taskId" property="taskId" z="Rc8aErGq9tzSxJfrkkEdquf/yQ0="/>
+            <table:column id="c_rs_id_webzine_domain_TaskAttachment_um" property="um" z="GkSigtW6MDDWkyDO1ebqauXnEb0="/>
+            <table:column id="c_rs_id_webzine_domain_TaskAttachment_uc" property="uc" z="w0zwNXzgc7Hs5Zt+yASS3r4S8e0="/>
+            <table:column id="c_rs_id_webzine_domain_TaskAttachment_name" property="name" z="h7YpL/W4V9VI7Fk1OfXVLDgGjis="/>
+            <table:column id="c_rs_id_webzine_domain_TaskAttachment_content" property="content" z="Mjf/zyBZfuLsgmA9ER7ovCeJe4A="/>
+            <table:column calendar="true" dateTimePattern="${taskAttachment_dc_date_format}" id="c_rs_id_webzine_domain_TaskAttachment_dc" property="dc" z="h09HHWIhWPlZOsKzGhSKbbjhOPk="/>
+        </table:table>
+    </page:list>
+</div>

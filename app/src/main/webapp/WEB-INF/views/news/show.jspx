@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_rs_id_webzine_domain_News" object="${news}" path="/news" z="siTG/eUhr1IByd9B1uwsXKxMNSw=">
+        <field:display field="publishedBy" id="s_rs_id_webzine_domain_News_publishedBy" object="${news}" z="oWbI5uxYo2wHEFzEeNABMx5XocU="/>
+        <field:display field="um" id="s_rs_id_webzine_domain_News_um" object="${news}" z="3OR6YfKiSsRZVet9ahSWNg37drs="/>
+        <field:display field="uc" id="s_rs_id_webzine_domain_News_uc" object="${news}" z="T0Wkoc2ziXOP0Frdf34WlRYDxx8="/>
+        <field:display field="status" id="s_rs_id_webzine_domain_News_status" object="${news}" z="v+D12XYA8Dc0WHDznFqAt7oigmw="/>
+        <field:display field="text" id="s_rs_id_webzine_domain_News_text" object="${news}" z="cHnTzJf8xQv2ThQFc9DvD48mm+c="/>
+        <field:display field="link" id="s_rs_id_webzine_domain_News_link" object="${news}" z="btgtGXqDic8yNws7h2uICBRebso="/>
+        <field:display field="linkTarget" id="s_rs_id_webzine_domain_News_linkTarget" object="${news}" z="pZteHDsYWfSLiFpmNv85eNturrA="/>
+        <field:display calendar="true" dateTimePattern="${news_publishedat_date_format}" field="publishedAt" id="s_rs_id_webzine_domain_News_publishedAt" object="${news}" z="uYAjXn59vP9FgdvmNATkhyQ4RR8="/>
+        <field:display calendar="true" dateTimePattern="${news_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_News_dc" object="${news}" z="mb16YSj0mXdfDK2D9XH/4/tcPA8="/>
+        <field:display calendar="true" dateTimePattern="${news_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_News_dm" object="${news}" z="VTr42qdLPE+dhRO8jVWajnQWXMw="/>
+    </page:show>
+</div>

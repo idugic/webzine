@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_rs_id_webzine_domain_UserProfile" items="${userprofiles}" z="nlJntnVdupDLBteiZjke0iWD6H0=">
+        <table:table data="${userprofiles}" id="l_rs_id_webzine_domain_UserProfile" path="/userprofiles" z="lRpjIgql7NjxM/V9rhhn1a6RHxk=">
+            <table:column id="c_rs_id_webzine_domain_UserProfile_addressId" property="addressId" z="Kgk7XUqNxtepQVlz0CLmp33wFyQ="/>
+            <table:column id="c_rs_id_webzine_domain_UserProfile_userId" property="userId" z="2uMOhLqzqDMugd2Qf05C2t/1m5w="/>
+            <table:column id="c_rs_id_webzine_domain_UserProfile_firstName" property="firstName" z="gHqMcgafsziiKwRFRlQMIGfMuSg="/>
+            <table:column id="c_rs_id_webzine_domain_UserProfile_lastName" property="lastName" z="iQ6zuGsnShZ1yByheWDJsPyeCgU="/>
+            <table:column date="true" dateTimePattern="${userProfile_birthday_date_format}" id="c_rs_id_webzine_domain_UserProfile_birthday" property="birthday" z="YuxiJfghs0SCT3Vq5WybQs4ABIs="/>
+            <table:column id="c_rs_id_webzine_domain_UserProfile_image" property="image" z="rF36v0fOXhQqzxPlSk3shQYGsX8="/>
+        </table:table>
+    </page:list>
+</div>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_rs_id_webzine_domain_Task" modelAttribute="task" path="/tasks" versionField="none" z="C2FNFXq4oGar3ApKxj+ZkXVxqoY=">
+        <field:simple field="tasks" id="c_rs_id_webzine_domain_Task_tasks" messageCode="entity_reference_not_managed" messageCodeAttribute="Task" z="u6QtKOedEONBzVs542SYAi/dkvk="/>
+        <field:simple field="taskAttachments" id="c_rs_id_webzine_domain_Task_taskAttachments" messageCode="entity_reference_not_managed" messageCodeAttribute="Task Attachment" z="IJwzcYWJSLD7h63PhOVDOFvgqmY="/>
+        <field:simple field="taskComments" id="c_rs_id_webzine_domain_Task_taskComments" messageCode="entity_reference_not_managed" messageCodeAttribute="Task Comment" z="GJfh4k2/ngZEeC8sq4aLAammoGs="/>
+        <field:select field="parentTaskId" id="c_rs_id_webzine_domain_Task_parentTaskId" itemValue="id" items="${tasks}" path="/tasks" z="uwAOhzMPPlkWspF0yqU+YOqB9Nk="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_Task_uc" itemValue="id" items="${userses}" path="/userses" z="b1uIn1mzq5sSN7Ndm42KcoFRcNg="/>
+        <field:select field="ownerUserId" id="c_rs_id_webzine_domain_Task_ownerUserId" itemValue="id" items="${userses}" path="/userses" z="bWAPbsvb37ZdK1ga4kxATX6t6v4="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_Task_um" itemValue="id" items="${userses}" path="/userses" z="Bc+B7UitDKEDnHqAOKMDZtrPlmw="/>
+        <field:input field="status" id="c_rs_id_webzine_domain_Task_status" required="true" validationMessageCode="field_invalid_integer" z="2RsGyAGdDym2GkjJVNiGWrWHgOU="/>
+        <field:input field="priority" id="c_rs_id_webzine_domain_Task_priority" required="true" validationMessageCode="field_invalid_integer" z="XuKxmA/4EJohYzhEeVPYQ6OxDSw="/>
+        <field:input field="title" id="c_rs_id_webzine_domain_Task_title" required="true" z="ZMz6GOyuzjItuQi9PIPUFGAjfGc="/>
+        <field:input field="description" id="c_rs_id_webzine_domain_Task_description" z="pZqLaeYtNdZOK4U1FEROLsXTcdg="/>
+        <field:datetime dateTimePattern="${task_dc_date_format}" field="dc" id="c_rs_id_webzine_domain_Task_dc" required="true" z="fgU8dCtbrSzr71eWK25sxNzRk+w="/>
+        <field:datetime dateTimePattern="${task_dm_date_format}" field="dm" id="c_rs_id_webzine_domain_Task_dm" z="8qZ1ofKkVec5tXZA2jWbyf7UO40="/>
+    </form:update>
+</div>

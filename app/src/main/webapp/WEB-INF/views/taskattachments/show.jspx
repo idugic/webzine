@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_rs_id_webzine_domain_TaskAttachment" object="${taskattachment}" path="/taskattachments" z="sbpthfitXT92209Oz9Gd1WgsZMM=">
+        <field:display field="taskId" id="s_rs_id_webzine_domain_TaskAttachment_taskId" object="${taskattachment}" z="ov/Ru/fSwMZ1X1ewND8/VlUgIfE="/>
+        <field:display field="um" id="s_rs_id_webzine_domain_TaskAttachment_um" object="${taskattachment}" z="++Cnj+z5KNZDixpRrGSNAEetc24="/>
+        <field:display field="uc" id="s_rs_id_webzine_domain_TaskAttachment_uc" object="${taskattachment}" z="7Vhph+e0GWNLiobR+j6Hcz4WhAQ="/>
+        <field:display field="name" id="s_rs_id_webzine_domain_TaskAttachment_name" object="${taskattachment}" z="yN9xeaww2QQv3R9exoCKAJ2pJ+8="/>
+        <field:display field="content" id="s_rs_id_webzine_domain_TaskAttachment_content" object="${taskattachment}" z="fZtX2fKbJ7ETWPvSoL2fOh9b7/8="/>
+        <field:display calendar="true" dateTimePattern="${taskAttachment_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_TaskAttachment_dc" object="${taskattachment}" z="d9ZqqHhxvJUo780GiYORdAqgTjo="/>
+        <field:display calendar="true" dateTimePattern="${taskAttachment_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_TaskAttachment_dm" object="${taskattachment}" z="mkjaibMR6E5r0lBEIHv+MGXbXS8="/>
+    </page:show>
+</div>

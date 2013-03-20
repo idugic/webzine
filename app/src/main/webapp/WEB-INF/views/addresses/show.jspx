@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_rs_id_webzine_domain_Address" object="${address}" path="/addresses" z="89VnuDvFgH+XINcf9MiLZNdegi0=">
+        <field:display field="countryId" id="s_rs_id_webzine_domain_Address_countryId" object="${address}" z="5wECWracHxkMGK0Fcno1/IEWTZw="/>
+        <field:display field="email" id="s_rs_id_webzine_domain_Address_email" object="${address}" z="MjJTXevRS3knifsq14APatoU5q4="/>
+        <field:display field="phone" id="s_rs_id_webzine_domain_Address_phone" object="${address}" z="bZWmfLBBtr5wevx3xCShxgqjHuY="/>
+        <field:display field="streetLine" id="s_rs_id_webzine_domain_Address_streetLine" object="${address}" z="f0drUUNsjOTY8YlFuo9nw8Yn9Zw="/>
+        <field:display field="city" id="s_rs_id_webzine_domain_Address_city" object="${address}" z="3kFlGR9ZM97HAjy1+UqvTVffZ0U="/>
+        <field:display field="postalCode" id="s_rs_id_webzine_domain_Address_postalCode" object="${address}" z="kNBGrf0usZzMR4+LFE/NKPLP038="/>
+        <field:display field="www" id="s_rs_id_webzine_domain_Address_www" object="${address}" z="U+R/holt7SQ+wBA+A9T/vb6q4V0="/>
+    </page:show>
+</div>

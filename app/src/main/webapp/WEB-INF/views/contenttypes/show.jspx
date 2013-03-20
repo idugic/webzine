@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_rs_id_webzine_domain_ContentType" object="${contenttype}" path="/contenttypes" z="r1jJFXgZ0WiVwEkEuTqPfPSmbmY=">
+        <field:display field="cd" id="s_rs_id_webzine_domain_ContentType_cd" object="${contenttype}" z="ciCHovoZiYXjnRH9B845GyK0m7I="/>
+        <field:display field="name" id="s_rs_id_webzine_domain_ContentType_name" object="${contenttype}" z="qzT01apCB+4nyGbmx98Vv3KYV+8="/>
+    </page:show>
+</div>

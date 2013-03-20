@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_rs_id_webzine_domain_ArticleComment" object="${articlecomment}" path="/articlecomments" z="9mcld3MO8hwXcpzyj0ZJdo979kQ=">
+        <field:display field="articleId" id="s_rs_id_webzine_domain_ArticleComment_articleId" object="${articlecomment}" z="kPy5G0yiUu3EgDUQF2aukZBRzWk="/>
+        <field:display field="publishedBy" id="s_rs_id_webzine_domain_ArticleComment_publishedBy" object="${articlecomment}" z="YuY6hQXszpsiH8oooyabbYwmYr0="/>
+        <field:display field="um" id="s_rs_id_webzine_domain_ArticleComment_um" object="${articlecomment}" z="UdE6fP0jOYeLXy+9qdsnTNhLFGw="/>
+        <field:display field="uc" id="s_rs_id_webzine_domain_ArticleComment_uc" object="${articlecomment}" z="Mov7r30r4kO2ozhU0HPJxF6zW6I="/>
+        <field:display field="status" id="s_rs_id_webzine_domain_ArticleComment_status" object="${articlecomment}" z="8jVPGVkg7/yxqjSDnAUtUJ0f4Ww="/>
+        <field:display field="text" id="s_rs_id_webzine_domain_ArticleComment_text" object="${articlecomment}" z="7nyO62DNhYY0OvZRGKn6zbVG6xM="/>
+        <field:display calendar="true" dateTimePattern="${articleComment_publishedat_date_format}" field="publishedAt" id="s_rs_id_webzine_domain_ArticleComment_publishedAt" object="${articlecomment}" z="Y3/hEFNQMcgrEluXaRqHNs0H+IU="/>
+        <field:display calendar="true" dateTimePattern="${articleComment_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_ArticleComment_dc" object="${articlecomment}" z="YaOeEb3ya+40BLBBCfKKu9Cgjbc="/>
+        <field:display calendar="true" dateTimePattern="${articleComment_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_ArticleComment_dm" object="${articlecomment}" z="OzZyjlDayEhcGg1MZ7N7wZ1QC0U="/>
+    </page:show>
+</div>

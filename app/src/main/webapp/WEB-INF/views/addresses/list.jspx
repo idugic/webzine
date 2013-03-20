@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_rs_id_webzine_domain_Address" items="${addresses}" z="C8hmQy21NCGQxnU2dLBytQf4vc0=">
+        <table:table data="${addresses}" id="l_rs_id_webzine_domain_Address" path="/addresses" z="9vMF6b4jxTNivA+QXKb979IOgPI=">
+            <table:column id="c_rs_id_webzine_domain_Address_countryId" property="countryId" z="//3tv9Bg9ypWclP4SSMX4HM/FY4="/>
+            <table:column id="c_rs_id_webzine_domain_Address_email" property="email" z="ztLJFbvtAs99ksqU6WFVdKghxUg="/>
+            <table:column id="c_rs_id_webzine_domain_Address_phone" property="phone" z="GJz/CxgndGGJ8lZFQm2f0RscJm0="/>
+            <table:column id="c_rs_id_webzine_domain_Address_streetLine" property="streetLine" z="ikMKB3vwGgOIuTROvdOy/BeKbjc="/>
+        </table:table>
+    </page:list>
+</div>

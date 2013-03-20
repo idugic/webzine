@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_rs_id_webzine_domain_Ad" object="${ad}" path="/ads" z="bXr8OJxpu6svpFUMgX4gbjVKNC4=">
+        <field:display field="articleId" id="s_rs_id_webzine_domain_Ad_articleId" object="${ad}" z="bf/jNiX9kq3A7KrSTjEKMe4M/u8="/>
+        <field:display field="customerId" id="s_rs_id_webzine_domain_Ad_customerId" object="${ad}" z="lzB/gWaIOK8bQJvbFj/Nv8Rx9gg="/>
+        <field:display field="managedContentId" id="s_rs_id_webzine_domain_Ad_managedContentId" object="${ad}" z="+QpOX9YmJPv44N54Z04tdNWqR7Q="/>
+        <field:display field="status" id="s_rs_id_webzine_domain_Ad_status" object="${ad}" z="aBKffCfHbPIp6x+nUMjjgKwgxXA="/>
+        <field:display field="description" id="s_rs_id_webzine_domain_Ad_description" object="${ad}" z="AH/Nhn2ZcQxeLR8txNbhkGfpaII="/>
+        <field:display calendar="true" dateTimePattern="${ad_validfrom_date_format}" field="validFrom" id="s_rs_id_webzine_domain_Ad_validFrom" object="${ad}" z="tIgzbxTxtkPapXx5KV8LP4KAcGg="/>
+        <field:display calendar="true" dateTimePattern="${ad_validto_date_format}" field="validTo" id="s_rs_id_webzine_domain_Ad_validTo" object="${ad}" z="fqAMyM4ILgwV5Bs04S4Cn5TkhEc="/>
+    </page:show>
+</div>

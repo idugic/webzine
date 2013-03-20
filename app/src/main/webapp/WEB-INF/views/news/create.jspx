@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_rs_id_webzine_domain_News" modelAttribute="news" path="/news" render="${empty dependencies}" z="Bmp9Oc1X6tOoi6OCVkSPc8b64pw=">
+        <field:select field="publishedBy" id="c_rs_id_webzine_domain_News_publishedBy" itemValue="id" items="${userses}" path="/userses" z="gPw7XYqyhZphnDlAvuUcCpicZo4="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_News_um" itemValue="id" items="${userses}" path="/userses" z="QJgvJjmup4Ub0yLKoguA5Yn1lm0="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_News_uc" itemValue="id" items="${userses}" path="/userses" z="Bn5PSaYASh/G44lBDaP3Hz1+hHo="/>
+        <field:input field="status" id="c_rs_id_webzine_domain_News_status" required="true" validationMessageCode="field_invalid_integer" z="Va2pp8+Zu9kpULkakcPDKiStU7U="/>
+        <field:input field="text" id="c_rs_id_webzine_domain_News_text" required="true" z="WeP1sdHZvasVfIxXtqZtkPF9mIE="/>
+        <field:input field="link" id="c_rs_id_webzine_domain_News_link" z="2gsaf7wYuJu8jLqOHeo6EOoZ28Q="/>
+        <field:input field="linkTarget" id="c_rs_id_webzine_domain_News_linkTarget" z="jiRL1UgdFkHhM7F2o3sfwtqz75w="/>
+        <field:datetime dateTimePattern="${news_publishedat_date_format}" field="publishedAt" id="c_rs_id_webzine_domain_News_publishedAt" z="QhZNzEd7C3KWbSlKKyrkD4HwbOQ="/>
+        <field:datetime dateTimePattern="${news_dc_date_format}" field="dc" id="c_rs_id_webzine_domain_News_dc" required="true" z="i2LnuZarJr84USKrQ9XVW4cqAp4="/>
+        <field:datetime dateTimePattern="${news_dm_date_format}" field="dm" id="c_rs_id_webzine_domain_News_dm" z="IBmqb96/FsmYYkWCY3MxUsaaLOY="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_rs_id_webzine_domain_News" render="${not empty dependencies}" z="MLcQSr1PfgbF9HVv3PWmQwBOdbM="/>
+</div>
