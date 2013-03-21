@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
-public class DomainController {
+public class WebController {
 
 	String encodeUrlPathSegment(String pathSegment,
 			HttpServletRequest httpServletRequest) {

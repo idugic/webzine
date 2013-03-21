@@ -15,7 +15,7 @@ import rs.id.webzine.domain.Roles;
 
 @RequestMapping("/roles")
 @Controller
-public class RolesController extends DomainController {
+public class RolesController extends WebController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(@Valid Roles roles, BindingResult bindingResult,

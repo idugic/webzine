@@ -16,7 +16,7 @@ import rs.id.webzine.domain.Users;
 
 @RequestMapping("/users")
 @Controller
-public class UsersController extends DomainController {
+public class UsersController extends WebController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(@Valid Users users, BindingResult bindingResult,
