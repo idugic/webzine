@@ -469,7 +469,7 @@ public class ApplicationConversionServiceFactoryBean extends
 	public Converter<Integer, Roles> getIdToRolesConverter() {
 		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Roles>() {
 			public rs.id.webzine.domain.Roles convert(java.lang.Integer id) {
-				return Roles.findRoles(id);
+				return Roles.findRole(id);
 			}
 		};
 	}

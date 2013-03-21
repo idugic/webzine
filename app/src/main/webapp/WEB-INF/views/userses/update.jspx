@@ -31,7 +31,7 @@
         <field:simple field="userArticles" id="c_rs_id_webzine_domain_Users_userArticles" messageCode="entity_reference_not_managed" messageCodeAttribute="User Article" z="2qh8+vxSz5gDWrRfWb+HaTvYodc="/>
         <field:simple field="userArticles1" id="c_rs_id_webzine_domain_Users_userArticles1" messageCode="entity_reference_not_managed" messageCodeAttribute="User Article" z="vcqMbslRR/zn4tb8gk7F3PL3ZsE="/>
         <field:simple field="userProfiles" id="c_rs_id_webzine_domain_Users_userProfiles" messageCode="entity_reference_not_managed" messageCodeAttribute="User Profile" z="ppTe4lLMm8lqu6HOu8v5A5xdPt4="/>
-        <field:select field="roleId" id="c_rs_id_webzine_domain_Users_roleId" itemValue="id" items="${roleses}" path="/roleses" z="aYQLaQCtpRYlwsno/b7q90FSjIk="/>
+        <field:select field="roleId" id="c_rs_id_webzine_domain_Users_roleId" itemValue="id" items="${roles}" path="/roles" z="aYQLaQCtpRYlwsno/b7q90FSjIk="/>
         <field:input field="userName" id="c_rs_id_webzine_domain_Users_userName" required="true" z="IzDHMbaYxbMFQ1CgsjAu6suKQ/k="/>
         <field:input field="password" id="c_rs_id_webzine_domain_Users_password" required="true" z="fcpV4om3xGa7lvyNur++yNxbHq4="/>
         <field:input field="status" id="c_rs_id_webzine_domain_Users_status" required="true" validationMessageCode="field_invalid_integer" z="UMKuch+zN0decCtbKQn/bLCl3bs="/>

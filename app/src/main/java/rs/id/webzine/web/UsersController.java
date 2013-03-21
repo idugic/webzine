@@ -125,7 +125,7 @@ public class UsersController {
 		uiModel.addAttribute("articlerates", ArticleRate.findAllArticleRates());
 		uiModel.addAttribute("categorys", Category.findAllCategorys());
 		uiModel.addAttribute("newsitems", News.findAllNews());
-		uiModel.addAttribute("roleses", Roles.findAllRoleses());
+		uiModel.addAttribute("roles", Roles.findAllRoles());
 		uiModel.addAttribute("tasks", Task.findAllTasks());
 		uiModel.addAttribute("taskattachments",
 				TaskAttachment.findAllTaskAttachments());
