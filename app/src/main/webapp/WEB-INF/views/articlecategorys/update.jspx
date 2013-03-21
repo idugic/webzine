@@ -5,8 +5,8 @@
     <form:update id="fu_rs_id_webzine_domain_ArticleCategory" modelAttribute="articleCategory" path="/articlecategorys" versionField="none" z="hsjHfU9gb/w1tDapya6HKfn/XJs=">
         <field:select field="articleId" id="c_rs_id_webzine_domain_ArticleCategory_articleId" itemValue="id" items="${articles}" path="/articles" z="r5D3TjctOhcp57gvo2WTlrLI6Vg="/>
         <field:select field="categoryId" id="c_rs_id_webzine_domain_ArticleCategory_categoryId" itemValue="id" items="${categorys}" path="/categorys" z="r/IVYO6vwUtXbNz/v8y6k0mhuwY="/>
-        <field:select field="um" id="c_rs_id_webzine_domain_ArticleCategory_um" itemValue="id" items="${userses}" path="/userses" z="sSBGVCth3tvUMi9LzWlHnt7Bed0="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_ArticleCategory_uc" itemValue="id" items="${userses}" path="/userses" z="o03lQsnXb4ARHaIYpo2/iH2oVcU="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_ArticleCategory_um" itemValue="id" items="${users}" path="/users" z="sSBGVCth3tvUMi9LzWlHnt7Bed0="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_ArticleCategory_uc" itemValue="id" items="${users}" path="/users" z="o03lQsnXb4ARHaIYpo2/iH2oVcU="/>
         <field:datetime dateTimePattern="${articleCategory_dc_date_format}" field="dc" id="c_rs_id_webzine_domain_ArticleCategory_dc" required="true" z="fLkVQ3qym8EVlVaXj6VBOZnFZd4="/>
         <field:datetime dateTimePattern="${articleCategory_dm_date_format}" field="dm" id="c_rs_id_webzine_domain_ArticleCategory_dm" z="E/EF3fLQGYmOaQlOnI4WW1TN5xQ="/>
     </form:update>

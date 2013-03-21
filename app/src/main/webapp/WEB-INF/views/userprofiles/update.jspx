@@ -4,7 +4,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_rs_id_webzine_domain_UserProfile" modelAttribute="userProfile" path="/userprofiles" versionField="none" z="msQmyczs7KWG2eE51bveNHFkErs=">
         <field:select field="addressId" id="c_rs_id_webzine_domain_UserProfile_addressId" itemValue="id" items="${addresses}" path="/addresses" z="4H7J7+WpfxeEQuRU4C4EvVtNwFA="/>
-        <field:select field="userId" id="c_rs_id_webzine_domain_UserProfile_userId" itemValue="id" items="${userses}" path="/userses" z="Kz/GUm/MkLEO00AgNEmm6nkTf00="/>
+        <field:select field="userId" id="c_rs_id_webzine_domain_UserProfile_userId" itemValue="id" items="${users}" path="/users" z="Kz/GUm/MkLEO00AgNEmm6nkTf00="/>
         <field:input field="firstName" id="c_rs_id_webzine_domain_UserProfile_firstName" z="fuDKVES4jrgjqQ+MU14JM23XzCI="/>
         <field:input field="lastName" id="c_rs_id_webzine_domain_UserProfile_lastName" z="TaJuG9fUzkUdmYfH1x1ZSZi5/YE="/>
         <field:datetime dateTimePattern="${userProfile_birthday_date_format}" field="birthday" id="c_rs_id_webzine_domain_UserProfile_birthday" z="DjZmoLCtJSHydhYWlNfwKQL/jV4="/>

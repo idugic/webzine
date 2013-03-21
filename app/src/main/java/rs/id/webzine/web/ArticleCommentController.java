@@ -130,7 +130,7 @@ public class ArticleCommentController {
 		uiModel.addAttribute("articleComment", articleComment);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAllArticles());
-		uiModel.addAttribute("userses", Users.findAllUserses());
+		uiModel.addAttribute("users", Users.findAllUsers());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

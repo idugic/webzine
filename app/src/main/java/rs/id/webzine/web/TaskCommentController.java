@@ -124,7 +124,7 @@ public class TaskCommentController {
 		uiModel.addAttribute("taskComment", taskComment);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("tasks", Task.findAllTasks());
-		uiModel.addAttribute("userses", Users.findAllUserses());
+		uiModel.addAttribute("users", Users.findAllUsers());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

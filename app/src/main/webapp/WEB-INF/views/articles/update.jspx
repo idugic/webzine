@@ -9,10 +9,10 @@
         <field:simple field="articleComments" id="c_rs_id_webzine_domain_Article_articleComments" messageCode="entity_reference_not_managed" messageCodeAttribute="Article Comment" z="XAXVwkfQr+mL3ZFX4Z7AjphnfQE="/>
         <field:simple field="articleRates" id="c_rs_id_webzine_domain_Article_articleRates" messageCode="entity_reference_not_managed" messageCodeAttribute="Article Rate" z="4JH5SISB3zUojT4e2GzoN05R7h0="/>
         <field:select field="managedContentId" id="c_rs_id_webzine_domain_Article_managedContentId" itemValue="id" items="${managedcontents}" path="/managedcontents" z="dRkWSAVYYIxJhjZ3QHUprd+u9iI="/>
-        <field:select field="um" id="c_rs_id_webzine_domain_Article_um" itemValue="id" items="${userses}" path="/userses" z="kIll9MTQk7GBg6Z2PxSDrSicMlQ="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_Article_uc" itemValue="id" items="${userses}" path="/userses" z="jXhsHSGPWOOl/2f7oYQNH4iRGOM="/>
-        <field:select field="authorUserId" id="c_rs_id_webzine_domain_Article_authorUserId" itemValue="id" items="${userses}" path="/userses" z="5p6sV/yYmNqVDeTHIJPE1LnUpnY="/>
-        <field:select field="publishedBy" id="c_rs_id_webzine_domain_Article_publishedBy" itemValue="id" items="${userses}" path="/userses" z="rtOasITxqCHRNEURpCLpp6t1kHM="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_Article_um" itemValue="id" items="${users}" path="/users" z="kIll9MTQk7GBg6Z2PxSDrSicMlQ="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_Article_uc" itemValue="id" items="${users}" path="/users" z="jXhsHSGPWOOl/2f7oYQNH4iRGOM="/>
+        <field:select field="authorUserId" id="c_rs_id_webzine_domain_Article_authorUserId" itemValue="id" items="${users}" path="/users" z="5p6sV/yYmNqVDeTHIJPE1LnUpnY="/>
+        <field:select field="publishedBy" id="c_rs_id_webzine_domain_Article_publishedBy" itemValue="id" items="${users}" path="/users" z="rtOasITxqCHRNEURpCLpp6t1kHM="/>
         <field:input field="status" id="c_rs_id_webzine_domain_Article_status" required="true" validationMessageCode="field_invalid_integer" z="eB0olGsee0jfNwQcFzUQpVg3sRg="/>
         <field:input field="title" id="c_rs_id_webzine_domain_Article_title" required="true" z="BgACQeUqj9+Q8sKzbUD2K6dvx+Q="/>
         <field:input field="abstractText" id="c_rs_id_webzine_domain_Article_abstractText" z="nJ9/kWrWaU+CCf5bNXFAk/lQttY="/>

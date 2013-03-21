@@ -640,7 +640,7 @@ public class ApplicationConversionServiceFactoryBean extends
 	public Converter<Integer, Users> getIdToUsersConverter() {
 		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Users>() {
 			public rs.id.webzine.domain.Users convert(java.lang.Integer id) {
-				return Users.findUsers(id);
+				return Users.findUser(id);
 			}
 		};
 	}

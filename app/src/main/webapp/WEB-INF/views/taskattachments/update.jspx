@@ -4,8 +4,8 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_rs_id_webzine_domain_TaskAttachment" modelAttribute="taskAttachment" path="/taskattachments" versionField="none" z="Hyx9MFT/Mj4uRT4Uzc4wG8v+104=">
         <field:select field="taskId" id="c_rs_id_webzine_domain_TaskAttachment_taskId" itemValue="id" items="${tasks}" path="/tasks" z="bZv7TkkpzC9rAgd+yrH6P+6wbbU="/>
-        <field:select field="um" id="c_rs_id_webzine_domain_TaskAttachment_um" itemValue="id" items="${userses}" path="/userses" z="vHHK5u6DZHmQE8Gl6Vw7Xr97LmA="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_TaskAttachment_uc" itemValue="id" items="${userses}" path="/userses" z="+MP4whQ2TjCL/ygO+E5Ik9t6bTY="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_TaskAttachment_um" itemValue="id" items="${users}" path="/users" z="vHHK5u6DZHmQE8Gl6Vw7Xr97LmA="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_TaskAttachment_uc" itemValue="id" items="${users}" path="/users" z="+MP4whQ2TjCL/ygO+E5Ik9t6bTY="/>
         <field:input field="name" id="c_rs_id_webzine_domain_TaskAttachment_name" required="true" z="s4OBi6WRFkbE3XYgFlSRTTCQRP0="/>
         <field:input field="content" id="c_rs_id_webzine_domain_TaskAttachment_content" required="true" z="CebSQw35EvatTd/77uoXs4lpkX4="/>
         <field:datetime dateTimePattern="${taskAttachment_dc_date_format}" field="dc" id="c_rs_id_webzine_domain_TaskAttachment_dc" required="true" z="tyOMlQ/rG7U4jje1Fcyqo5kLvXs="/>

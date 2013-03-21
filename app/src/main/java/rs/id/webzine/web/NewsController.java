@@ -123,7 +123,7 @@ public class NewsController {
 	void populateEditForm(Model uiModel, News news) {
 		uiModel.addAttribute("news", news);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("userses", Users.findAllUserses());
+		uiModel.addAttribute("users", Users.findAllUsers());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

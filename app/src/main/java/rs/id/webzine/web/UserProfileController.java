@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.Address;
-import rs.id.webzine.domain.UserProfile;
+import rs.id.webzine.domain.UserProfile; 
 import rs.id.webzine.domain.Users;
 
 @RequestMapping("/userprofiles")
@@ -120,7 +120,7 @@ public class UserProfileController {
 		uiModel.addAttribute("userProfile", userProfile);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("addresses", Address.findAllAddresses());
-		uiModel.addAttribute("userses", Users.findAllUserses());
+		uiModel.addAttribute("users", Users.findAllUsers());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

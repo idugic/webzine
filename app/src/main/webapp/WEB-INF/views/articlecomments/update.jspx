@@ -4,9 +4,9 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_rs_id_webzine_domain_ArticleComment" modelAttribute="articleComment" path="/articlecomments" versionField="none" z="bkbrlBo6KnwNrqM3ZHhDOT3c31o=">
         <field:select field="articleId" id="c_rs_id_webzine_domain_ArticleComment_articleId" itemValue="id" items="${articles}" path="/articles" z="sqsawH/x2HJPAPNFa07KT9nb/10="/>
-        <field:select field="publishedBy" id="c_rs_id_webzine_domain_ArticleComment_publishedBy" itemValue="id" items="${userses}" path="/userses" z="aO/ISbxflXopiXdVE6WOuUNrUpI="/>
-        <field:select field="um" id="c_rs_id_webzine_domain_ArticleComment_um" itemValue="id" items="${userses}" path="/userses" z="+Urx0GsOEw2LW2tKxyzf7+tkk8U="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_ArticleComment_uc" itemValue="id" items="${userses}" path="/userses" z="ALG8sMKxptg+iQtcr+9IMfdbcqk="/>
+        <field:select field="publishedBy" id="c_rs_id_webzine_domain_ArticleComment_publishedBy" itemValue="id" items="${users}" path="/users" z="aO/ISbxflXopiXdVE6WOuUNrUpI="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_ArticleComment_um" itemValue="id" items="${users}" path="/users" z="+Urx0GsOEw2LW2tKxyzf7+tkk8U="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_ArticleComment_uc" itemValue="id" items="${users}" path="/users" z="ALG8sMKxptg+iQtcr+9IMfdbcqk="/>
         <field:input field="status" id="c_rs_id_webzine_domain_ArticleComment_status" required="true" validationMessageCode="field_invalid_integer" z="OaHnOiGkWDHVHD9T33X+uHcjieg="/>
         <field:input field="text" id="c_rs_id_webzine_domain_ArticleComment_text" required="true" z="3UNdYAURxQARO90mIyWyULyz0rw="/>
         <field:datetime dateTimePattern="${articleComment_publishedat_date_format}" field="publishedAt" id="c_rs_id_webzine_domain_ArticleComment_publishedAt" z="5ac+dGwaf1TGpYXvPwlRD35dd7A="/>

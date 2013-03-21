@@ -7,9 +7,9 @@
         <field:simple field="taskAttachments" id="c_rs_id_webzine_domain_Task_taskAttachments" messageCode="entity_reference_not_managed" messageCodeAttribute="Task Attachment" z="IJwzcYWJSLD7h63PhOVDOFvgqmY="/>
         <field:simple field="taskComments" id="c_rs_id_webzine_domain_Task_taskComments" messageCode="entity_reference_not_managed" messageCodeAttribute="Task Comment" z="GJfh4k2/ngZEeC8sq4aLAammoGs="/>
         <field:select field="parentTaskId" id="c_rs_id_webzine_domain_Task_parentTaskId" itemValue="id" items="${tasks}" path="/tasks" z="uwAOhzMPPlkWspF0yqU+YOqB9Nk="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_Task_uc" itemValue="id" items="${userses}" path="/userses" z="b1uIn1mzq5sSN7Ndm42KcoFRcNg="/>
-        <field:select field="ownerUserId" id="c_rs_id_webzine_domain_Task_ownerUserId" itemValue="id" items="${userses}" path="/userses" z="bWAPbsvb37ZdK1ga4kxATX6t6v4="/>
-        <field:select field="um" id="c_rs_id_webzine_domain_Task_um" itemValue="id" items="${userses}" path="/userses" z="Bc+B7UitDKEDnHqAOKMDZtrPlmw="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_Task_uc" itemValue="id" items="${users}" path="/users" z="b1uIn1mzq5sSN7Ndm42KcoFRcNg="/>
+        <field:select field="ownerUserId" id="c_rs_id_webzine_domain_Task_ownerUserId" itemValue="id" items="${users}" path="/users" z="bWAPbsvb37ZdK1ga4kxATX6t6v4="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_Task_um" itemValue="id" items="${users}" path="/users" z="Bc+B7UitDKEDnHqAOKMDZtrPlmw="/>
         <field:input field="status" id="c_rs_id_webzine_domain_Task_status" required="true" validationMessageCode="field_invalid_integer" z="2RsGyAGdDym2GkjJVNiGWrWHgOU="/>
         <field:input field="priority" id="c_rs_id_webzine_domain_Task_priority" required="true" validationMessageCode="field_invalid_integer" z="XuKxmA/4EJohYzhEeVPYQ6OxDSw="/>
         <field:input field="title" id="c_rs_id_webzine_domain_Task_title" required="true" z="ZMz6GOyuzjItuQi9PIPUFGAjfGc="/>

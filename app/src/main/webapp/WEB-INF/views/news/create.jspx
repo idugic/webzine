@@ -3,9 +3,9 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_rs_id_webzine_domain_News" modelAttribute="news" path="/news" render="${empty dependencies}" z="Bmp9Oc1X6tOoi6OCVkSPc8b64pw=">
-        <field:select field="publishedBy" id="c_rs_id_webzine_domain_News_publishedBy" itemValue="id" items="${userses}" path="/userses" z="gPw7XYqyhZphnDlAvuUcCpicZo4="/>
-        <field:select field="um" id="c_rs_id_webzine_domain_News_um" itemValue="id" items="${userses}" path="/userses" z="QJgvJjmup4Ub0yLKoguA5Yn1lm0="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_News_uc" itemValue="id" items="${userses}" path="/userses" z="Bn5PSaYASh/G44lBDaP3Hz1+hHo="/>
+        <field:select field="publishedBy" id="c_rs_id_webzine_domain_News_publishedBy" itemValue="id" items="${users}" path="/users" z="gPw7XYqyhZphnDlAvuUcCpicZo4="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_News_um" itemValue="id" items="${users}" path="/users" z="QJgvJjmup4Ub0yLKoguA5Yn1lm0="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_News_uc" itemValue="id" items="${users}" path="/users" z="Bn5PSaYASh/G44lBDaP3Hz1+hHo="/>
         <field:input field="status" id="c_rs_id_webzine_domain_News_status" required="true" validationMessageCode="field_invalid_integer" z="Va2pp8+Zu9kpULkakcPDKiStU7U="/>
         <field:input field="text" id="c_rs_id_webzine_domain_News_text" required="true" z="WeP1sdHZvasVfIxXtqZtkPF9mIE="/>
         <field:input field="link" id="c_rs_id_webzine_domain_News_link" z="2gsaf7wYuJu8jLqOHeo6EOoZ28Q="/>

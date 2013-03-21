@@ -3,8 +3,8 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_rs_id_webzine_domain_UserArticle" modelAttribute="userArticle" path="/userarticles" versionField="none" z="Rl/KxrembLwEm9xDU4/M2aCiZmg=">
-        <field:select field="um" id="c_rs_id_webzine_domain_UserArticle_um" itemValue="id" items="${userses}" path="/userses" z="UigVZJiQ32FGivrowBzZukfPKjg="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_UserArticle_uc" itemValue="id" items="${userses}" path="/userses" z="zm/odlS9gSLngMLJOn6LPVYwoDM="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_UserArticle_um" itemValue="id" items="${users}" path="/users" z="UigVZJiQ32FGivrowBzZukfPKjg="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_UserArticle_uc" itemValue="id" items="${users}" path="/users" z="zm/odlS9gSLngMLJOn6LPVYwoDM="/>
         <field:input field="status" id="c_rs_id_webzine_domain_UserArticle_status" required="true" validationMessageCode="field_invalid_integer" z="eKQJskuynVI8r20HdDVaZpaS+nc="/>
         <field:input field="title" id="c_rs_id_webzine_domain_UserArticle_title" required="true" z="OJUXxcZWtAsF4r1CcJs+JiQGbVk="/>
         <field:input field="text" id="c_rs_id_webzine_domain_UserArticle_text" z="FaDwL0v0RLWtCiNRxMMTCH5sol4="/>

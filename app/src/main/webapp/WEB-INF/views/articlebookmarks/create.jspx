@@ -4,8 +4,8 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_rs_id_webzine_domain_ArticleBookmark" modelAttribute="articleBookmark" path="/articlebookmarks" render="${empty dependencies}" z="2WZy6SzHRYieSTqrdswloVs+mrQ=">
         <field:select field="articleId" id="c_rs_id_webzine_domain_ArticleBookmark_articleId" itemValue="id" items="${articles}" path="/articles" z="XN01IxUh6c1LQK4rKmE+I/r9r68="/>
-        <field:select field="um" id="c_rs_id_webzine_domain_ArticleBookmark_um" itemValue="id" items="${userses}" path="/userses" z="lUuRMgdZrMpBOjqlNcqmoHhAGUg="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_ArticleBookmark_uc" itemValue="id" items="${userses}" path="/userses" z="GrTO+bEKoidVxk25UrBwAaV7j/w="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_ArticleBookmark_um" itemValue="id" items="${users}" path="/users" z="lUuRMgdZrMpBOjqlNcqmoHhAGUg="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_ArticleBookmark_uc" itemValue="id" items="${users}" path="/users" z="GrTO+bEKoidVxk25UrBwAaV7j/w="/>
         <field:datetime dateTimePattern="${articleBookmark_dc_date_format}" field="dc" id="c_rs_id_webzine_domain_ArticleBookmark_dc" required="true" z="J5tNyofD9PoUa4UakvIdeQCeImQ="/>
         <field:datetime dateTimePattern="${articleBookmark_dm_date_format}" field="dm" id="c_rs_id_webzine_domain_ArticleBookmark_dm" z="iblhap93iH1iRrw/gDwar6p8KJ8="/>
     </form:create>

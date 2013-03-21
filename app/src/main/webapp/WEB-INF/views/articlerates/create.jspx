@@ -4,8 +4,8 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_rs_id_webzine_domain_ArticleRate" modelAttribute="articleRate" path="/articlerates" render="${empty dependencies}" z="ASM+5aasxxgNaY3xX8mhJIT89AY=">
         <field:select field="articleId" id="c_rs_id_webzine_domain_ArticleRate_articleId" itemValue="id" items="${articles}" path="/articles" z="+gp0FFAvBjNMMEprasPM9l3pFLI="/>
-        <field:select field="um" id="c_rs_id_webzine_domain_ArticleRate_um" itemValue="id" items="${userses}" path="/userses" z="MhoY7OC3OQgQBf76Lkf5FaVmY8A="/>
-        <field:select field="uc" id="c_rs_id_webzine_domain_ArticleRate_uc" itemValue="id" items="${userses}" path="/userses" z="H4mtVyWl/xtsxKtI53o670WFHKo="/>
+        <field:select field="um" id="c_rs_id_webzine_domain_ArticleRate_um" itemValue="id" items="${users}" path="/users" z="MhoY7OC3OQgQBf76Lkf5FaVmY8A="/>
+        <field:select field="uc" id="c_rs_id_webzine_domain_ArticleRate_uc" itemValue="id" items="${users}" path="/users" z="H4mtVyWl/xtsxKtI53o670WFHKo="/>
         <field:input field="rate" id="c_rs_id_webzine_domain_ArticleRate_rate" required="true" validationMessageCode="field_invalid_integer" z="0j/t2EnqhDFecFVz9yIwOHG1FHU="/>
         <field:datetime dateTimePattern="${articleRate_dc_date_format}" field="dc" id="c_rs_id_webzine_domain_ArticleRate_dc" required="true" z="68pkEKUYNBQs5ZZx191I82M+StE="/>
         <field:datetime dateTimePattern="${articleRate_dm_date_format}" field="dm" id="c_rs_id_webzine_domain_ArticleRate_dm" z="6lMXj02A4jloPHi6dz1OhmAbKFs="/>

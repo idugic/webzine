@@ -1,8 +1,8 @@
 package rs.id.webzine.web;
 
-import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriUtils;
-import org.springframework.web.util.WebUtils;
+
 import rs.id.webzine.domain.Roles;
-import rs.id.webzine.domain.Users;
 
 @RequestMapping("/roles")
 @Controller
-public class RolesController {
+public class RolesController extends DomainController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(@Valid Roles roles, BindingResult bindingResult,
@@ -103,19 +101,6 @@ public class RolesController {
 
 	void populateEditForm(Model uiModel, Roles roles) {
 		uiModel.addAttribute("roles", roles);
-		uiModel.addAttribute("userses", Users.findAllUserses());
 	}
 
-	String encodeUrlPathSegment(String pathSegment,
-			HttpServletRequest httpServletRequest) {
-		String enc = httpServletRequest.getCharacterEncoding();
-		if (enc == null) {
-			enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
-		}
-		try {
-			pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
-		} catch (UnsupportedEncodingException uee) {
-		}
-		return pathSegment;
-	}
 }

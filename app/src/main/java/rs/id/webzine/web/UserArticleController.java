@@ -122,7 +122,7 @@ public class UserArticleController {
 	void populateEditForm(Model uiModel, UserArticle userArticle) {
 		uiModel.addAttribute("userArticle", userArticle);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("userses", Users.findAllUserses());
+		uiModel.addAttribute("users", Users.findAllUsers());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

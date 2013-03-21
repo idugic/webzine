@@ -139,7 +139,7 @@ public class ArticleController {
 		uiModel.addAttribute("articlerates", ArticleRate.findAllArticleRates());
 		uiModel.addAttribute("managedcontents",
 				ManagedContent.findAllManagedContents());
-		uiModel.addAttribute("userses", Users.findAllUserses());
+		uiModel.addAttribute("users", Users.findAllUsers());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

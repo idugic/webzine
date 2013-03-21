@@ -127,7 +127,7 @@ public class ArticleBookmarkController {
 		uiModel.addAttribute("articleBookmark", articleBookmark);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAllArticles());
-		uiModel.addAttribute("userses", Users.findAllUserses());
+		uiModel.addAttribute("users", Users.findAllUsers());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,
