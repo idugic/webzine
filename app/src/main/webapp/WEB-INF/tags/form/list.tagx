@@ -17,6 +17,7 @@
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_plural" var="labelPlural" htmlEscape="false" />
     </c:if>
     <spring:message arguments="${labelPlural}" code="entity_list_all" var="title_msg" htmlEscape="false" />
+    <spring:message var="typeName" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_new_label" htmlEscape="false" />
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <c:choose>
         <c:when test="${not empty items}">
@@ -24,6 +25,18 @@
         </c:when>
         <c:otherwise>
           <spring:message arguments="${label}" code="entity_not_found" />
+          <div class="quicklinks">
+            <span>
+              <spring:url value="${path}" var="create_form_url">
+                <spring:param name="form" />
+              </spring:url>
+              <spring:url value="/resources/images/create.png" var="create_image_url" />
+              <spring:message arguments="${typeName}" code="entity_create" var="create_label" htmlEscape="false" />
+              <a href="${create_form_url}" alt="${fn:escapeXml(create_label)}" title="${fn:escapeXml(create_label)}">
+                <img alt="${fn:escapeXml(create_label)}" class="image" src="${create_image_url}" title="${fn:escapeXml(create_label)}" />
+              </a>
+            </span>
+          </div>
         </c:otherwise>
       </c:choose>
     </util:panel>
