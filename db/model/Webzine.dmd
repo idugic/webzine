@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="Webzine" id="63F586C2-A537-73A4-5B0E-31190F0DBE0B" version="3.5">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 07:20:24 UTC</createdTime>
+<ownerDesignName>webzine</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>63F586C2-A537-73A4-5B0E-31190F0DBE0B</designId>
+</OSDM_Design>

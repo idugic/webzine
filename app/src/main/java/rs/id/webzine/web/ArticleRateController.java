@@ -124,7 +124,7 @@ public class ArticleRateController {
 		uiModel.addAttribute("articleRate", articleRate);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAllArticles());
-		uiModel.addAttribute("users", Users.findAllUsers());
+		uiModel.addAttribute("users", Users.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

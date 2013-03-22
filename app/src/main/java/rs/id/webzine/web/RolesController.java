@@ -15,7 +15,7 @@ import rs.id.webzine.domain.Roles;
 
 @RequestMapping("/roles")
 @Controller
-public class RolesController extends WebController {
+public class RolesController extends ModelController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(@Valid Roles roles, BindingResult bindingResult,
@@ -39,7 +39,7 @@ public class RolesController extends WebController {
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
-		uiModel.addAttribute("roles", Roles.findRole(id));
+		uiModel.addAttribute("roles", Roles.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "roles/show";
 	}
@@ -54,14 +54,14 @@ public class RolesController extends WebController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("roles",
-					Roles.findRoleEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Roles.countRoles() / sizeNo;
+					Roles.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) Roles.count() / sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
 					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
 							: nrOfPages));
 		} else {
-			uiModel.addAttribute("roles", Roles.findAllRoles());
+			uiModel.addAttribute("roles", Roles.findAll());
 		}
 		return "roles/list";
 	}
@@ -82,7 +82,7 @@ public class RolesController extends WebController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, Roles.findRole(id));
+		populateEditForm(uiModel, Roles.find(id));
 		return "roles/update";
 	}
 
@@ -91,7 +91,7 @@ public class RolesController extends WebController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		Roles roles = Roles.findRole(id);
+		Roles roles = Roles.find(id);
 		roles.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());

@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="Webzine Relational" id="E0C24EF7-010A-7463-D4B6-A3B5B041C1E1" mainViewID="95CD60AC-BB90-40C6-FA11-7D646F2D93E3">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 07:20:24 UTC</createdTime>
+<ownerDesignName>webzine</ownerDesignName>
+<shouldBeOpen>true</shouldBeOpen>
+<selectedRDBMSSite>32076570-2523-435C-2E92-BF29817DFF70</selectedRDBMSSite>
+</relationalModel>

@@ -126,7 +126,7 @@ public class TaskAttachmentController {
 		uiModel.addAttribute("taskAttachment", taskAttachment);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("tasks", Task.findAllTasks());
-		uiModel.addAttribute("users", Users.findAllUsers());
+		uiModel.addAttribute("users", Users.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

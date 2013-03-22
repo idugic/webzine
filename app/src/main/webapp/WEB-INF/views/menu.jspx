@@ -6,6 +6,7 @@
         <menu:category id="c_system">
             <menu:item id="i_roles_list" messageCode="global_menu_list" url="/roles?page=1&amp;size=${empty param.size ? 10 : param.size}" z="hajFcKWAQ9yfIfMWvLv3ooTzCFE="/>
             <menu:item id="i_users_list" messageCode="global_menu_list" url="/users?page=1&amp;size=${empty param.size ? 10 : param.size}" z="tqSwojZmRduyx4xtHWcJzgbgtJk="/>
+            <menu:item id="i_country_list" messageCode="global_menu_list" url="/countries?page=1&amp;size=${empty param.size ? 10 : param.size}" z="AwKhjnZH+dOj0X4glIoj4SVuHNY="/>
         </menu:category>
     
         <menu:category id="c_readertype" z="ZwdvmpzEeuzSUlSs9Zpe7ta3A88=">
@@ -68,10 +69,6 @@
             <menu:item id="i_content_new" messageCode="global_menu_new" url="/contents?form" z="7bS0K311+IKUT6Z62akUNLDTibs="/>
             <menu:item id="i_content_list" messageCode="global_menu_list" url="/contents?page=1&amp;size=${empty param.size ? 10 : param.size}" z="gKZ2YsscPT2dXDDTQRe1GnpFV10="/>
         </menu:category>
-        <menu:category id="c_country" z="+9IFFFqXHr5bWdYjx7upDibmQfo=">
-            <menu:item id="i_country_new" messageCode="global_menu_new" url="/countrys?form" z="OnEHsuvR46cQji6jmcBL0pJOBMc="/>
-            <menu:item id="i_country_list" messageCode="global_menu_list" url="/countrys?page=1&amp;size=${empty param.size ? 10 : param.size}" z="AwKhjnZH+dOj0X4glIoj4SVuHNY="/>
-        </menu:category>
         <menu:category id="c_article" z="oVNJNDenBhaVP1r/ZABV7ICLZ+4=">
             <menu:item id="i_article_new" messageCode="global_menu_new" url="/articles?form" z="KAIw4owYUar1rhsKMIgMqdaUYKQ="/>
             <menu:item id="i_article_list" messageCode="global_menu_list" url="/articles?page=1&amp;size=${empty param.size ? 10 : param.size}" z="s9OgZlm3YfBTpWNrQfYLkfKCmC0="/>
@@ -83,10 +80,6 @@
         <menu:category id="c_articlebookmark" z="+zLUqkhRGBqWrJq51YgzksQL6eU=">
             <menu:item id="i_articlebookmark_new" messageCode="global_menu_new" url="/articlebookmarks?form" z="Fqv2Yte7kiaJB7aQ/8jIH5qW+hU="/>
             <menu:item id="i_articlebookmark_list" messageCode="global_menu_list" url="/articlebookmarks?page=1&amp;size=${empty param.size ? 10 : param.size}" z="mtuig7lMSUKNapQ8Ema3RMPvYqo="/>
-        </menu:category>
-        <menu:category id="c_address" z="my5R1aInTRohGzWz9TL4j8LX/vE=">
-            <menu:item id="i_address_new" messageCode="global_menu_new" url="/addresses?form" z="vg+UZ0neKcizSzKiVzXeI3oY1BA="/>
-            <menu:item id="i_address_list" messageCode="global_menu_list" url="/addresses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="u8ooCATbc0N+VHl1spo80t0zy+k="/>
         </menu:category>
     </menu:menu>
 </div>

@@ -333,7 +333,7 @@ public class ApplicationConversionServiceFactoryBean extends
 	public Converter<Integer, Country> getIdToCountryConverter() {
 		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Country>() {
 			public rs.id.webzine.domain.Country convert(java.lang.Integer id) {
-				return Country.findCountry(id);
+				return Country.find(id);
 			}
 		};
 	}
@@ -458,10 +458,9 @@ public class ApplicationConversionServiceFactoryBean extends
 	}
 
 	public Converter<Roles, String> getRolesToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Roles, java.lang.String>() {
+		return new org.springframework.core.convert.converter.Converter<rs .id.webzine.domain.Roles, java.lang.String>() {
 			public String convert(Roles roles) {
-				return new StringBuilder().append(roles.getCd()).append(' ')
-						.append(roles.getName()).toString();
+				return new StringBuilder().append(roles.getName()).toString();
 			}
 		};
 	}
@@ -469,7 +468,7 @@ public class ApplicationConversionServiceFactoryBean extends
 	public Converter<Integer, Roles> getIdToRolesConverter() {
 		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Roles>() {
 			public rs.id.webzine.domain.Roles convert(java.lang.Integer id) {
-				return Roles.findRole(id);
+				return Roles.find(id);
 			}
 		};
 	}
@@ -640,7 +639,7 @@ public class ApplicationConversionServiceFactoryBean extends
 	public Converter<Integer, Users> getIdToUsersConverter() {
 		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Users>() {
 			public rs.id.webzine.domain.Users convert(java.lang.Integer id) {
-				return Users.findUser(id);
+				return Users.find(id);
 			}
 		};
 	}

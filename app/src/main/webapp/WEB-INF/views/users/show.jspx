@@ -3,7 +3,7 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <page:show id="ps_rs_id_webzine_domain_Users" object="${users}" path="/users" z="gaBf4CpjbordjOUc2pQzFl8ZD8o=">
-        <field:display field="roleId" id="s_rs_id_webzine_domain_Users_roleId" object="${users}" z="94ybLHMaLX1jOiGtdA1FZVRaOjA="/>
+        <field:display field="roleId" id="s_rs_id_webzine_domain_Users_roleId" object="${users}"/>
         <field:display field="userName" id="s_rs_id_webzine_domain_Users_userName" object="${users}" z="P9b5/sA4x3i2BEfSEUSlqGshVe8="/>
         <field:display field="password" id="s_rs_id_webzine_domain_Users_password" object="${users}" z="AgUiU5Gd23lKrHM4JvFsuz+zx5s="/>
         <field:display field="status" id="s_rs_id_webzine_domain_Users_status" object="${users}" z="nj7S90bNvbuIJWTkJ9iKTseCrfI="/>

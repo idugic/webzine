@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" id="3F33A6E9-97BF-C606-9BB9-EAFC76708E5E" directorySegmentName="seg_0" name="CATE_READ_TYPE_FK_1">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-09 10:08:59 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<containerWithKeyObject>F2CCE094-73DC-5BCB-0F17-199613C25628</containerWithKeyObject>
+<deleteRule>NO ACTION</deleteRule>
+<localFKIndex>E63076A3-9252-5448-4B81-708381778854</localFKIndex>
+<keyObject>7D98B77C-B2D7-C3A6-1056-29F7FFB6F56D</keyObject>
+<mandatory>true</mandatory>
+<transferable>true</transferable>
+</FKIndexAssociation>

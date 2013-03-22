@@ -1,0 +1,96 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" id="28B021DF-292D-A217-6C7D-76204FBA2D5F" directorySegmentName="seg_0" name="READER_TYPE">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 08:11:40 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<beforeDrop>INSERT INTO READER_TYPE (CD, NAME) VALUES (&apos;LK&apos;, &apos;Little Kids (Ages 3-6)&apos;);&lt;br/&gt;INSERT INTO READER_TYPE (CD, NAME) VALUES (&apos;K&apos;, &apos;Kids (Ages 7-14)&apos;);&lt;br/&gt;INSERT INTO READER_TYPE (CD, NAME) VALUES (&apos;G&apos;, &apos;Grown Ups&apos;);</beforeDrop>
+<shouldGeneratescript>true</shouldGeneratescript>
+<pkName>PRODUCT_TYPE_PK</pkName>
+<fonts>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Title</foType>
+<fontStyle>1</fontStyle>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Column</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Datatype</foType>
+<colorRGB>-16744448</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>PK Element</foType>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>FK Element</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>UK Element</foType>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Not Null</foType>
+<colorRGB>-65536</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Key</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+</fonts>
+<columns>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ID" id="A7397188-EFB6-863A-006A-6736C8706FB5">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 08:12:03 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="CD" id="DBCE2331-FF73-CAE6-A01F-36E1F9966EF4">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 08:13:21 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="NAME" id="F119CFD5-A98F-D3E8-518F-827C41979100">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 08:12:33 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="7D98B77C-B2D7-C3A6-1056-29F7FFB6F56D" name="READ_TYPE_PK">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 08:12:03 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="A7397188-EFB6-863A-006A-6736C8706FB5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="25D75B07-55C0-2C26-651B-DE47462CCD07" name="READ_TYPE_UK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 08:13:33 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="DBCE2331-FF73-CAE6-A01F-36E1F9966EF4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

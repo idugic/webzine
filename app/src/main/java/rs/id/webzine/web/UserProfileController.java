@@ -120,7 +120,7 @@ public class UserProfileController {
 		uiModel.addAttribute("userProfile", userProfile);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("addresses", Address.findAllAddresses());
-		uiModel.addAttribute("users", Users.findAllUsers());
+		uiModel.addAttribute("users", Users.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

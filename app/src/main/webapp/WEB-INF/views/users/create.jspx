@@ -3,7 +3,7 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_rs_id_webzine_domain_Users" modelAttribute="users" path="/users" render="${empty dependencies}" z="tloblUUkGwXchWKt7VytKz1eemU=">
-        <field:select field="roleId" id="c_rs_id_webzine_domain_Users_roleId" itemValue="id" items="${roles}" path="/roles" z="aYQLaQCtpRYlwsno/b7q90FSjIk="/>
+        <field:select field="roleId" id="c_rs_id_webzine_domain_Users_roleId" itemValue="id" items="${roles}" path="/roles"/>
         <field:input field="userName" id="c_rs_id_webzine_domain_Users_userName" required="true" z="IzDHMbaYxbMFQ1CgsjAu6suKQ/k="/>
         <field:input field="password" id="c_rs_id_webzine_domain_Users_password" required="true" z="fcpV4om3xGa7lvyNur++yNxbHq4="/>
         <field:input field="status" id="c_rs_id_webzine_domain_Users_status" required="true" validationMessageCode="field_invalid_integer" z="UMKuch+zN0decCtbKQn/bLCl3bs="/>

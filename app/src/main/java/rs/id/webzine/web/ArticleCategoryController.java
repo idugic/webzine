@@ -129,7 +129,7 @@ public class ArticleCategoryController {
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAllArticles());
 		uiModel.addAttribute("categorys", Category.findAllCategorys());
-		uiModel.addAttribute("users", Users.findAllUsers());
+		uiModel.addAttribute("users", Users.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

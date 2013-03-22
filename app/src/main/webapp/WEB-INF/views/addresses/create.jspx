@@ -5,7 +5,7 @@
     <form:create id="fc_rs_id_webzine_domain_Address" modelAttribute="address" path="/addresses" render="${empty dependencies}" z="2WFF6GD8c5EWURf8A5z8lUVBoJc=">
         <field:simple field="customers" id="c_rs_id_webzine_domain_Address_customers" messageCode="entity_reference_not_managed" messageCodeAttribute="Customer" z="dUDcBYYWHZh8Tv55hBtlhsUtCVw="/>
         <field:simple field="userProfiles" id="c_rs_id_webzine_domain_Address_userProfiles" messageCode="entity_reference_not_managed" messageCodeAttribute="User Profile" z="pEz7pi5GdNIh7t3ce3h/2RFa8Zc="/>
-        <field:select field="countryId" id="c_rs_id_webzine_domain_Address_countryId" itemValue="id" items="${countrys}" path="/countrys" z="9tAx/nEtyxwXladUfE+RdPR6xYE="/>
+        <field:select field="countryId" id="c_rs_id_webzine_domain_Address_countryId" itemValue="id" items="${countries}" path="/countries" z="9tAx/nEtyxwXladUfE+RdPR6xYE="/>
         <field:input field="email" id="c_rs_id_webzine_domain_Address_email" validationMessageCode="field_invalid_email" z="ndrAUyQ8j65B9egVm38+92iBiq8="/>
         <field:input field="phone" id="c_rs_id_webzine_domain_Address_phone" z="yrp+2XsjWabQtVBBYNsgzzMBJdc="/>
         <field:input field="streetLine" id="c_rs_id_webzine_domain_Address_streetLine" z="2JBbsULXg7NlNBdPPiJRIQe169M="/>

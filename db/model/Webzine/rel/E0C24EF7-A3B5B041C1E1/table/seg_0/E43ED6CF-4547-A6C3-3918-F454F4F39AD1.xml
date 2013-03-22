@@ -1,0 +1,183 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" id="E43ED6CF-4547-A6C3-3918-F454F4F39AD1" directorySegmentName="seg_0" name="ARTICLE_CATEGORY">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-06 21:19:14 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<pkName>ARTICLE_TAG_PK</pkName>
+<fonts>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Title</foType>
+<fontStyle>1</fontStyle>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Column</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Datatype</foType>
+<colorRGB>-16744448</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>PK Element</foType>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>FK Element</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>UK Element</foType>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Not Null</foType>
+<colorRGB>-65536</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Key</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+</fonts>
+<columns>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ID" id="10EB7A92-0EE3-7361-5F42-A4FDA95FC43E">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ARTICLE_ID" id="F747FF52-14DE-9262-47BA-F4079D3DFE4A">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>FBD5DC74-6027-B26F-E798-B445640A5670</delegate>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="957611A3-1100-A689-591E-D25FDF736C83" referredColumn="FBD5DC74-6027-B26F-E798-B445640A5670"/>
+</associations>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="CATEGORY_ID" id="00E7041D-7666-B53F-8A4B-BC38071294E1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>956F8161-A165-6494-43B3-9275F73FA61D</delegate>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="481B7FFE-7D77-1126-65A5-F90D5C43989A" referredColumn="956F8161-A165-6494-43B3-9275F73FA61D"/>
+</associations>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="UC" id="F002EE3B-85B3-1779-9872-6BE5FC967D9D">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>1A353260-FAA0-3F2E-367E-F2021BBFD227</delegate>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="5637A6A3-BA88-4D50-0C92-ABB058E57AF8" referredColumn="1A353260-FAA0-3F2E-367E-F2021BBFD227"/>
+</associations>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="DC" id="C73AF8DD-F694-1050-6A0B-96AF8483A158">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="UM" id="271AB154-651F-206E-AD9A-292AE18492AB">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>1A353260-FAA0-3F2E-367E-F2021BBFD227</delegate>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3CA0FAF7-7650-6060-A13B-ECADA9D5CA8B" referredColumn="1A353260-FAA0-3F2E-367E-F2021BBFD227"/>
+</associations>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="DM" id="BB9FD4DD-8859-0A8F-5626-EE0D43F480C2">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="263E60DB-8741-D3BC-F38C-CEEDA3FA7B41" name="ARTI_CATE_PK">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="10EB7A92-0EE3-7361-5F42-A4FDA95FC43E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="26F6F1DA-368F-5B89-C6A5-BFA9299F2E6C" name="ARTI_CATE_UK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-18 10:00:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="F747FF52-14DE-9262-47BA-F4079D3DFE4A"/>
+<colUsage columnID="00E7041D-7666-B53F-8A4B-BC38071294E1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="A48DB9BC-1D78-EFCC-C188-4D59F8CD4750" name="ARTI_CATE_ARTI_FK_1">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-06 21:20:52 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="F747FF52-14DE-9262-47BA-F4079D3DFE4A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="EFE39C07-D49A-3DA6-C9AF-96B2737FE4C3" name="ARTI_CATE_USER_FK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-15 08:19:14 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="F002EE3B-85B3-1779-9872-6BE5FC967D9D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="1D975A8B-1369-7F37-F1D4-072A65C57A7A" name="ARTI_CATE_CATE_FK_1">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-09 10:10:06 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="00E7041D-7666-B53F-8A4B-BC38071294E1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="BC31F7A6-AFAD-ACC1-B75E-783ED80CD371" name="ARTI_CATE_USER_FK_2">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-15 08:19:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="271AB154-651F-206E-AD9A-292AE18492AB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

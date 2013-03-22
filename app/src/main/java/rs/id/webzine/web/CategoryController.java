@@ -124,7 +124,7 @@ public class CategoryController {
 		uiModel.addAttribute("articlecategorys",
 				ArticleCategory.findAllArticleCategorys());
 		uiModel.addAttribute("readertypes", ReaderType.findAllReaderTypes());
-		uiModel.addAttribute("users", Users.findAllUsers());
+		uiModel.addAttribute("users", Users.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

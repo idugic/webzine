@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<BusinessInfoDesign class="oracle.dbtools.crest.model.businessinfo.BusinessInfoDesign" name="Business Information" id="E3C81F8A-179B-84BB-14C1-AF955A5438CE">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 07:20:24 UTC</createdTime>
+<ownerDesignName>webzine</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</BusinessInfoDesign>

@@ -16,7 +16,7 @@ import rs.id.webzine.domain.Users;
 
 @RequestMapping("/users")
 @Controller
-public class UsersController extends WebController {
+public class UsersController extends ModelController {
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(@Valid Users users, BindingResult bindingResult,
@@ -40,7 +40,7 @@ public class UsersController extends WebController {
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
-		uiModel.addAttribute("users", Users.findUser(id));
+		uiModel.addAttribute("users", Users.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "users/show";
 	}
@@ -55,14 +55,14 @@ public class UsersController extends WebController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("users",
-					Users.findUserEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Users.countUsers() / sizeNo;
+					Users.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) Users.count() / sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
 					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
 							: nrOfPages));
 		} else {
-			uiModel.addAttribute("users", Users.findAllUsers());
+			uiModel.addAttribute("users", Users.findAll());
 		}
 		return "users/list";
 	}
@@ -83,7 +83,7 @@ public class UsersController extends WebController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, Users.findUser(id));
+		populateEditForm(uiModel, Users.find(id));
 		return "users/update";
 	}
 
@@ -92,7 +92,7 @@ public class UsersController extends WebController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		Users users = Users.findUser(id);
+		Users users = Users.find(id);
 		users.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
@@ -102,7 +102,7 @@ public class UsersController extends WebController {
 
 	void populateEditForm(Model uiModel, Users users) {
 		uiModel.addAttribute("users", users);
-		uiModel.addAttribute("roles", Roles.findAllRoles());
+		uiModel.addAttribute("roles", Roles.findAll());
 	}
 
 }

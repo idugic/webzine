@@ -125,7 +125,7 @@ public class TaskController {
 		uiModel.addAttribute("taskattachments",
 				TaskAttachment.findAllTaskAttachments());
 		uiModel.addAttribute("taskcomments", TaskComment.findAllTaskComments());
-		uiModel.addAttribute("users", Users.findAllUsers());
+		uiModel.addAttribute("users", Users.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

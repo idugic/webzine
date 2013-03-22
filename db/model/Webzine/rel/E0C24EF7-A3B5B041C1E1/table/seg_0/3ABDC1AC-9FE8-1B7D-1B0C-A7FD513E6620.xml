@@ -1,0 +1,96 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" id="3ABDC1AC-9FE8-1B7D-1B0C-A7FD513E6620" directorySegmentName="seg_0" name="CONTENT_TYPE">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-08 08:41:32 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<afterCreate>INSERT INTO ARTICLE_COMPONENT_TYPE (CD, NAME) VALUES (&apos;TEXT&apos;, &apos;Text&apos;);&lt;br/&gt;INSERT INTO ARTICLE_COMPONENT_TYPE (CD, NAME) VALUES (&apos;IMAGE&apos;, &apos;Image&apos;);&lt;br/&gt;INSERT INTO ARTICLE_COMPONENT_TYPE (CD, NAME) VALUES (&apos;FLASH&apos;, &apos;Flash&apos;);&lt;br/&gt;INSERT INTO ARTICLE_COMPONENT_TYPE (CD, NAME) VALUES (&apos;HTML&apos;, &apos;Html&apos;);&lt;br/&gt;</afterCreate>
+<pkName>ARTICLE_COMPONENT_TYPE_PK</pkName>
+<fonts>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Title</foType>
+<fontStyle>1</fontStyle>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Column</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Datatype</foType>
+<colorRGB>-16744448</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>PK Element</foType>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>FK Element</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>UK Element</foType>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Not Null</foType>
+<colorRGB>-65536</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Key</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+</fonts>
+<columns>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ID" id="A705CDC8-A1BD-B173-B70B-2E7C5ABB2262">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-08 08:42:13 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="CD" id="F60261E1-8288-67DC-F665-02998AB4DC35">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-08 08:42:34 UTC</createdTime>
+<comment>TEXT, IMAGE, FLASH</comment>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="NAME" id="BD62710C-78A2-6E8E-507B-A20C991EAC2A">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-08 08:42:50 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="5CE319D0-AED6-5DCA-1F6A-4B16C9E6A3BF" name="CONT_TYPE_PK">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-08 08:42:13 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="A705CDC8-A1BD-B173-B70B-2E7C5ABB2262"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="B2562F6E-D33E-A414-92BD-06D62C86D1D0" name="CONT_TYPE_UK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-08 08:44:03 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="F60261E1-8288-67DC-F665-02998AB4DC35"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

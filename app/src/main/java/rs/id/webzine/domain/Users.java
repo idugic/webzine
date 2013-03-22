@@ -16,30 +16,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Table(schema = "ADMIN", name = "USERS")
 public class Users extends IdEntity {
 
-	public static long countUsers() {
-		return entityManager().createQuery("SELECT COUNT(o) FROM Users o",
-				Long.class).getSingleResult();
-	}
-
-	public static List<Users> findAllUsers() {
-		return entityManager()
-				.createQuery("SELECT o FROM Users o", Users.class)
-				.getResultList();
-	}
-
-	public static Users findUser(Integer id) {
-		if (id == null)
-			return null;
-		return entityManager().find(Users.class, id);
-	}
-
-	public static List<Users> findUserEntries(int firstResult, int maxResults) {
-		return entityManager()
-				.createQuery("SELECT o FROM Users o", Users.class)
-				.setFirstResult(firstResult).setMaxResults(maxResults)
-				.getResultList();
-	}
-
 	@ManyToOne
 	@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID", nullable = false)
 	private Roles roleId;
@@ -86,6 +62,30 @@ public class Users extends IdEntity {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public static long count() {
+		return entityManager().createQuery("SELECT COUNT(o) FROM Users o",
+				Long.class).getSingleResult();
+	}
+
+	public static List<Users> findAll() {
+		return entityManager()
+				.createQuery("SELECT o FROM Users o", Users.class)
+				.getResultList();
+	}
+
+	public static Users find(Integer id) {
+		if (id == null)
+			return null;
+		return entityManager().find(Users.class, id);
+	}
+
+	public static List<Users> findEntries(int firstResult, int maxResults) {
+		return entityManager()
+				.createQuery("SELECT o FROM Users o", Users.class)
+				.setFirstResult(firstResult).setMaxResults(maxResults)
+				.getResultList();
 	}
 
 }

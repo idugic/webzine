@@ -105,7 +105,7 @@ public class AddressController {
 
 	void populateEditForm(Model uiModel, Address address) {
 		uiModel.addAttribute("address", address);
-		uiModel.addAttribute("countrys", Country.findAllCountrys());
+		uiModel.addAttribute("countries", Country.findAll());
 		uiModel.addAttribute("customers", Customer.findAllCustomers());
 		uiModel.addAttribute("userprofiles", UserProfile.findAllUserProfiles());
 	}

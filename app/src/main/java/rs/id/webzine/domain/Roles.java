@@ -38,24 +38,24 @@ public class Roles extends IdEntity {
 		this.name = name;
 	}
 
-	public static long countRoles() {
+	public static long count() {
 		return entityManager().createQuery("SELECT COUNT(o) FROM Roles o",
 				Long.class).getSingleResult();
 	}
 
-	public static List<Roles> findAllRoles() {
+	public static List<Roles> findAll() {
 		return entityManager()
 				.createQuery("SELECT o FROM Roles o", Roles.class)
 				.getResultList();
 	}
 
-	public static Roles findRole(Integer id) {
+	public static Roles find(Integer id) {
 		if (id == null)
 			return null;
 		return entityManager().find(Roles.class, id);
 	}
 
-	public static List<Roles> findRoleEntries(int firstResult, int maxResults) {
+	public static List<Roles> findEntries(int firstResult, int maxResults) {
 		return entityManager()
 				.createQuery("SELECT o FROM Roles o", Roles.class)
 				.setFirstResult(firstResult).setMaxResults(maxResults)

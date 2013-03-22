@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="63F1F47B-63EC-0E02-BE41-921C787413FA" mainViewID="B8460B30-302C-61F4-D578-48C0A4F8567F">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-05 07:20:24 UTC</createdTime>
+<ownerDesignName>webzine</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>
