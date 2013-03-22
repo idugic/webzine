@@ -5,6 +5,7 @@
     <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
         <menu:category id="c_system">
             <menu:item id="i_roles_list" messageCode="global_menu_list" url="/roles?page=1&amp;size=${empty param.size ? 10 : param.size}" z="hajFcKWAQ9yfIfMWvLv3ooTzCFE="/>
+            <menu:item id="i_userstatus_list" messageCode="global_menu_list" url="/userstatuses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="tqSwojZmRduyx4xtHWcJzgbgtJk="/>
             <menu:item id="i_users_list" messageCode="global_menu_list" url="/users?page=1&amp;size=${empty param.size ? 10 : param.size}" z="tqSwojZmRduyx4xtHWcJzgbgtJk="/>
             <menu:item id="i_country_list" messageCode="global_menu_list" url="/countries?page=1&amp;size=${empty param.size ? 10 : param.size}" z="AwKhjnZH+dOj0X4glIoj4SVuHNY="/>
         </menu:category>
@@ -61,10 +62,7 @@
             <menu:item id="i_userarticle_new" messageCode="global_menu_new" url="/userarticles?form" z="Mk0rimYN3YQs+5RFRDnMUZqb4sw="/>
             <menu:item id="i_userarticle_list" messageCode="global_menu_list" url="/userarticles?page=1&amp;size=${empty param.size ? 10 : param.size}" z="bfZv5ydElBUS35BHHQWvvS9dKR0="/>
         </menu:category>
-        <menu:category id="c_userprofile" z="2kJ9OpCfQCJw1Bn7dN6zVF1sN3I=">
-            <menu:item id="i_userprofile_new" messageCode="global_menu_new" url="/userprofiles?form" z="RYXZPbBQnd8xC3sX9BmwGEMjG7I="/>
-            <menu:item id="i_userprofile_list" messageCode="global_menu_list" url="/userprofiles?page=1&amp;size=${empty param.size ? 10 : param.size}" z="9erJNttMn6QObSrmM4/XDGz4+1Y="/>
-        </menu:category>
+        
         <menu:category id="c_content" z="SlpAPLsDfLx8P6Ju1aXzEuQFWv0=">
             <menu:item id="i_content_new" messageCode="global_menu_new" url="/contents?form" z="7bS0K311+IKUT6Z62akUNLDTibs="/>
             <menu:item id="i_content_list" messageCode="global_menu_list" url="/contents?page=1&amp;size=${empty param.size ? 10 : param.size}" z="gKZ2YsscPT2dXDDTQRe1GnpFV10="/>

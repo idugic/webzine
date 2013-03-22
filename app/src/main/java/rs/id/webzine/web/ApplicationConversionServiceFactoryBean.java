@@ -25,7 +25,6 @@ import rs.id.webzine.domain.Task;
 import rs.id.webzine.domain.TaskAttachment;
 import rs.id.webzine.domain.TaskComment;
 import rs.id.webzine.domain.UserArticle;
-import rs.id.webzine.domain.UserProfile;
 import rs.id.webzine.domain.UserStatus;
 import rs.id.webzine.domain.Users;
 
@@ -84,7 +83,7 @@ public class ApplicationConversionServiceFactoryBean extends
 	public Converter<Integer, Address> getIdToAddressConverter() {
 		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Address>() {
 			public rs.id.webzine.domain.Address convert(java.lang.Integer id) {
-				return Address.findAddress(id);
+				return Address.find(id);
 			}
 		};
 	}
@@ -625,35 +624,6 @@ public class ApplicationConversionServiceFactoryBean extends
 		};
 	}
 
-	public Converter<UserProfile, String> getUserProfileToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.UserProfile, java.lang.String>() {
-			public String convert(UserProfile userProfile) {
-				return new StringBuilder().append(userProfile.getFirstName())
-						.append(' ').append(userProfile.getLastName())
-						.append(' ').append(userProfile.getBirthday())
-						.append(' ').append(userProfile.getImage()).toString();
-			}
-		};
-	}
-
-	public Converter<Integer, UserProfile> getIdToUserProfileConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.UserProfile>() {
-			public rs.id.webzine.domain.UserProfile convert(java.lang.Integer id) {
-				return UserProfile.findUserProfile(id);
-			}
-		};
-	}
-
-	public Converter<String, UserProfile> getStringToUserProfileConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.UserProfile>() {
-			public rs.id.webzine.domain.UserProfile convert(String id) {
-				return getObject().convert(
-						getObject().convert(id, Integer.class),
-						UserProfile.class);
-			}
-		};
-	}
-
 	public Converter<Users, String> getUsersToStringConverter() {
 		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Users, java.lang.String>() {
 			public String convert(Users users) {
@@ -744,9 +714,6 @@ public class ApplicationConversionServiceFactoryBean extends
 		registry.addConverter(getUserArticleToStringConverter());
 		registry.addConverter(getIdToUserArticleConverter());
 		registry.addConverter(getStringToUserArticleConverter());
-		registry.addConverter(getUserProfileToStringConverter());
-		registry.addConverter(getIdToUserProfileConverter());
-		registry.addConverter(getStringToUserProfileConverter());
 		registry.addConverter(getUsersToStringConverter());
 		registry.addConverter(getIdToUsersConverter());
 		registry.addConverter(getStringToUsersConverter());

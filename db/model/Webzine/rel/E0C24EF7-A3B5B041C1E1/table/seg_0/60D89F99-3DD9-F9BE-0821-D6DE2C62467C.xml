@@ -63,6 +63,19 @@
 <colAssociation fkAssociation="CC298D7C-4A1F-F2C5-5EF2-C818488FA71E" referredColumn="3F91647E-CF74-E70F-F2AD-3A63DA92F685"/>
 </associations>
 </Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ROLE_ID" id="72474FB5-A18F-DDB0-7BC4-060696D9A560">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-13 12:35:48 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>E197EEE4-D423-4E33-685C-9F28AD014876</delegate>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CECF21C3-6237-F1A8-7FFD-4E3DB204FC45" referredColumn="E197EEE4-D423-4E33-685C-9F28AD014876"/>
+</associations>
+</Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="USER_NAME" id="1020A9DD-7611-653C-3181-841420AE7EB1">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-05 07:31:01 UTC</createdTime>
@@ -83,17 +96,60 @@
 <dataTypeSize>50</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ROLE_ID" id="72474FB5-A18F-DDB0-7BC4-060696D9A560">
-<createdBy>idugic</createdBy>
-<createdTime>2013-03-13 12:35:48 UTC</createdTime>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="FIRST_NAME" id="31124590-96A4-D149-9C81-E204714C339D">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-22 20:36:08 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="LAST_NAME" id="11B42DC4-2D63-4456-EAD2-16E27F3838B3">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-22 20:36:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="BIRTHDAY" id="B0CB621A-1F0C-E37C-C9C2-83C2C02A2115">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-22 20:36:36 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="IMAGE" id="B3EBDE6C-64CF-3D0E-364C-18E6D8BB956E">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-22 20:36:46 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT029</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ADDRESS_ID" id="548533AA-8405-1E8D-6DA9-FAB737167253">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-22 20:36:57 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
-<delegate>E197EEE4-D423-4E33-685C-9F28AD014876</delegate>
+<delegate>CAF22817-F7E1-9B30-826A-3A80483DA57E</delegate>
 <autoIncrementCycle>false</autoIncrementCycle>
 <associations>
-<colAssociation fkAssociation="CECF21C3-6237-F1A8-7FFD-4E3DB204FC45" referredColumn="E197EEE4-D423-4E33-685C-9F28AD014876"/>
+<colAssociation fkAssociation="C0744002-2B9F-394D-8402-0B1092AB403A" referredColumn="CAF22817-F7E1-9B30-826A-3A80483DA57E"/>
 </associations>
 </Column>
 </columns>
@@ -133,6 +189,15 @@
 <indexState>Foreign Key</indexState>
 <indexColumnUsage>
 <colUsage columnID="F41777B1-C126-9635-D654-2D75889123DA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="B6355E13-CC67-F566-6926-94275233D442" name="USER_ADDR_FK_1">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-22 20:37:18 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="548533AA-8405-1E8D-6DA9-FAB737167253"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

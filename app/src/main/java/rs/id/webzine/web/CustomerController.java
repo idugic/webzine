@@ -105,7 +105,7 @@ public class CustomerController {
 	void populateEditForm(Model uiModel, Customer customer) {
 		uiModel.addAttribute("customer", customer);
 		uiModel.addAttribute("ads", Ad.findAllAds());
-		uiModel.addAttribute("addresses", Address.findAllAddresses());
+		uiModel.addAttribute("addresses", Address.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

@@ -1,5 +1,7 @@
 package rs.id.webzine.domain;
 
+import java.sql.Blob;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -7,9 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Configurable
 @Entity
@@ -31,6 +36,24 @@ public class Users extends IdEntity {
 	@Column(name = "PASSWORD", length = 50)
 	@NotNull
 	private String password;
+
+	@Column(name = "FIRST_NAME", length = 50)
+	private String firstName;
+
+	@Column(name = "LAST_NAME", length = 50)
+	private String lastName;
+
+	@Column(name = "BIRTHDAY")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(style = "M-")
+	private Date birthday;
+
+	@Column(name = "IMAGE")
+	private Blob image;
+
+	@ManyToOne
+	@JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
+	private Address addressId;
 
 	public Roles getRoleId() {
 		return roleId;
@@ -62,6 +85,46 @@ public class Users extends IdEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public Blob getImage() {
+		return image;
+	}
+
+	public void setImage(Blob image) {
+		this.image = image;
+	}
+
+	public Address getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Address addressId) {
+		this.addressId = addressId;
 	}
 
 	public static long count() {

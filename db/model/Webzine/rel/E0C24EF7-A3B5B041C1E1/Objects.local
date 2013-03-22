@@ -21,9 +21,7 @@
    <object objectType="Table" objectID="50FBA290-24F2-F990-A8AE-CAECFEABA0D4" name="TASK_COMMENT" seqName="seg_0"/>
    <object objectType="Table" objectID="60D89F99-3DD9-F9BE-0821-D6DE2C62467C" name="USERS" seqName="seg_0"/>
    <object objectType="Table" objectID="575432BE-1D1B-FF5C-C9F9-BCFB9CBD58B7" name="USER_ARTICLE" seqName="seg_0"/>
-   <object objectType="Table" objectID="20195B92-FFBE-832F-3BAB-212608928395" name="USER_PROFILE" seqName="seg_0"/>
    <object objectType="Table" objectID="394A95CE-5F14-AFEB-909B-328E4E44C29F" name="USER_STATUS" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="6DAADA81-BB24-F6D0-55AA-8FDCBE69B930" name="ADDR_COUN_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="B8BA1C0F-0CE7-825A-67C1-711F5741FB04" name="AD_ARTI_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="2EA5129B-A48D-BD55-1A58-AC43B5782A73" name="AD_CUST_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="45954ECA-5173-0D24-F43D-1C0289FBCF9C" name="AD_MANA_CONT_FK_1" seqName="seg_0"/>
@@ -52,7 +50,6 @@
    <object objectType="FKIndexAssociation" objectID="DC096D11-BD8A-D2D0-6350-2CAC9FC19A50" name="CONT_CONT_TYPE_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="143AE3AC-8EDF-2F32-98D9-E80E24CFA400" name="CONT_MANA_CONT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="2D257986-6242-935B-9D63-F8738E1A2D3A" name="CUST_ADDR_FK_1" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="CC298D7C-4A1F-F2C5-5EF2-C818488FA71E" name="USER_USER_STAT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="549EB515-20AB-0410-686D-930EF23B9496" name="NEWS_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="EA74CA1E-CCD9-6DE3-39BE-1A1D76C4A09D" name="NEWS_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="67E68852-B8BB-3B7E-BDC3-CA1254E6239C" name="NEWS_USER_FK_3" seqName="seg_0"/>
@@ -66,11 +63,11 @@
    <object objectType="FKIndexAssociation" objectID="AAD3D7B2-AF1B-744E-CF76-A5175F6D3D4F" name="TASK_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="F73C526F-D207-9A6B-FD1F-0B51536060FB" name="TASK_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="4C9278DE-5628-1BC1-E0CE-9B11C7E5CC02" name="TASK_USER_FK_3" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="C0744002-2B9F-394D-8402-0B1092AB403A" name="USER_ADDR_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="87BE4AA5-A53B-8822-CA73-320F5946DEBE" name="USER_ARTI_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="ABFCB3EF-45A2-53F5-F52F-FC8F8A502A85" name="USER_ARTI_USER_FK_2" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="A8BB2A6F-38B1-8559-49B4-189A27190FAE" name="USER_PROF_ADDR_FK_1" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="10CA86F5-4545-89CC-AB94-6585AF0374F0" name="USER_PROF_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="CECF21C3-6237-F1A8-7FFD-4E3DB204FC45" name="USER_ROLE_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="CC298D7C-4A1F-F2C5-5EF2-C818488FA71E" name="USER_USER_STAT_FK_1" seqName="seg_0"/>
    <object objectType="Note" objectID="344B062E-5DBC-0FC3-A2BD-9529DDAB79D1" name="Note_3" seqName="seg_0"/>
    <object objectType="Note" objectID="56608649-34C2-3C9F-CD11-0CF001005D90" name="Note_5" seqName="seg_0"/>
    <object objectType="Note" objectID="6765C1B3-E919-3C89-84B1-0A359DA83176" name="Note_1" seqName="seg_0"/>

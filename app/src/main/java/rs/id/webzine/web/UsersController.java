@@ -3,6 +3,8 @@ package rs.id.webzine.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.joda.time.format.DateTimeFormat;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,13 @@ import rs.id.webzine.domain.Users;
 @Controller
 public class UsersController extends ModelController {
 
+	void addDateTimeFormatPatterns(Model uiModel) {
+		uiModel.addAttribute(
+				"users_birthday_date_format",
+				DateTimeFormat.patternForStyle("M-",
+						LocaleContextHolder.getLocale()));
+	}
+	
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(@Valid Users users, BindingResult bindingResult,
 			Model uiModel, HttpServletRequest httpServletRequest) {
@@ -43,6 +52,7 @@ public class UsersController extends ModelController {
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
 		uiModel.addAttribute("users", Users.find(id));
 		uiModel.addAttribute("itemId", id);
+		addDateTimeFormatPatterns(uiModel);
 		return "users/show";
 	}
 
@@ -65,6 +75,7 @@ public class UsersController extends ModelController {
 		} else {
 			uiModel.addAttribute("users", Users.findAll());
 		}
+		addDateTimeFormatPatterns(uiModel);
 		return "users/list";
 	}
 
@@ -105,6 +116,7 @@ public class UsersController extends ModelController {
 		uiModel.addAttribute("users", users);
 		uiModel.addAttribute("roles", Roles.findAll());
 		uiModel.addAttribute("userstatuses", UserStatus.findAll());
+		addDateTimeFormatPatterns(uiModel);
 	}
 
 }

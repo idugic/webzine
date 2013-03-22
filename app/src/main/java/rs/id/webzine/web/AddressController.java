@@ -15,7 +15,6 @@ import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.Address;
 import rs.id.webzine.domain.Country;
 import rs.id.webzine.domain.Customer;
-import rs.id.webzine.domain.UserProfile;
 
 @RequestMapping("/addresses")
 @Controller
@@ -43,7 +42,7 @@ public class AddressController {
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
-		uiModel.addAttribute("address", Address.findAddress(id));
+		uiModel.addAttribute("address", Address.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "addresses/show";
 	}
@@ -58,14 +57,14 @@ public class AddressController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("addresses",
-					Address.findAddressEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Address.countAddresses() / sizeNo;
+					Address.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) Address.count() / sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
 					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
 							: nrOfPages));
 		} else {
-			uiModel.addAttribute("addresses", Address.findAllAddresses());
+			uiModel.addAttribute("addresses", Address.findAll());
 		}
 		return "addresses/list";
 	}
@@ -86,7 +85,7 @@ public class AddressController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, Address.findAddress(id));
+		populateEditForm(uiModel, Address.find(id));
 		return "addresses/update";
 	}
 
@@ -95,7 +94,7 @@ public class AddressController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		Address address = Address.findAddress(id);
+		Address address = Address.find(id);
 		address.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
@@ -107,7 +106,6 @@ public class AddressController {
 		uiModel.addAttribute("address", address);
 		uiModel.addAttribute("countries", Country.findAll());
 		uiModel.addAttribute("customers", Customer.findAllCustomers());
-		uiModel.addAttribute("userprofiles", UserProfile.findAllUserProfiles());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

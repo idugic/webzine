@@ -104,19 +104,28 @@
 <dataTypeSize>15</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="COUNTRY_ID" id="CCA83264-1D4B-E7F8-18D6-21147BECB6AF">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="COUNTRY" id="CCA83264-1D4B-E7F8-18D6-21147BECB6AF">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-05 10:25:56 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
 <delegate>E56B7B08-EF3C-C7C4-1B86-D31BAFB97BEF</delegate>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="6DAADA81-BB24-F6D0-55AA-8FDCBE69B930" referredColumn="E56B7B08-EF3C-C7C4-1B86-D31BAFB97BEF"/>
-</associations>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="COUNTRY_CODE" id="D6B45572-9F78-E5FA-2D37-D64C548278C4">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-22 20:40:02 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="WWW" id="532D41D5-6DA2-B79C-BA40-7BD27059FBA2">
 <createdBy>IvanD</createdBy>
@@ -139,15 +148,6 @@
 <indexState>Primary Constraint</indexState>
 <indexColumnUsage>
 <colUsage columnID="CAF22817-F7E1-9B30-826A-3A80483DA57E"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="71770EB8-C6B1-3160-ED29-5C8FF559F2BC" name="ADDR_COUN_FK_1">
-<createdBy>idugic</createdBy>
-<createdTime>2013-03-05 10:26:05 UTC</createdTime>
-<ownerDesignName>Webzine</ownerDesignName>
-<indexState>Foreign Key</indexState>
-<indexColumnUsage>
-<colUsage columnID="CCA83264-1D4B-E7F8-18D6-21147BECB6AF"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>
