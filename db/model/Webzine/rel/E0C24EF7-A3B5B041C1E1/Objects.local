@@ -22,6 +22,7 @@
    <object objectType="Table" objectID="60D89F99-3DD9-F9BE-0821-D6DE2C62467C" name="USERS" seqName="seg_0"/>
    <object objectType="Table" objectID="575432BE-1D1B-FF5C-C9F9-BCFB9CBD58B7" name="USER_ARTICLE" seqName="seg_0"/>
    <object objectType="Table" objectID="20195B92-FFBE-832F-3BAB-212608928395" name="USER_PROFILE" seqName="seg_0"/>
+   <object objectType="Table" objectID="394A95CE-5F14-AFEB-909B-328E4E44C29F" name="USER_STATUS" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="6DAADA81-BB24-F6D0-55AA-8FDCBE69B930" name="ADDR_COUN_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="B8BA1C0F-0CE7-825A-67C1-711F5741FB04" name="AD_ARTI_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="2EA5129B-A48D-BD55-1A58-AC43B5782A73" name="AD_CUST_FK_1" seqName="seg_0"/>
@@ -51,6 +52,7 @@
    <object objectType="FKIndexAssociation" objectID="DC096D11-BD8A-D2D0-6350-2CAC9FC19A50" name="CONT_CONT_TYPE_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="143AE3AC-8EDF-2F32-98D9-E80E24CFA400" name="CONT_MANA_CONT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="2D257986-6242-935B-9D63-F8738E1A2D3A" name="CUST_ADDR_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="CC298D7C-4A1F-F2C5-5EF2-C818488FA71E" name="USER_USER_STAT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="549EB515-20AB-0410-686D-930EF23B9496" name="NEWS_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="EA74CA1E-CCD9-6DE3-39BE-1A1D76C4A09D" name="NEWS_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="67E68852-B8BB-3B7E-BDC3-CA1254E6239C" name="NEWS_USER_FK_3" seqName="seg_0"/>

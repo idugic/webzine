@@ -20,6 +20,10 @@ public class Users extends IdEntity {
 	@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID", nullable = false)
 	private Roles roleId;
 
+	@ManyToOne
+	@JoinColumn(name = "STATUS_ID", referencedColumnName = "ID", nullable = false)
+	private UserStatus statusId;
+
 	@Column(name = "USER_NAME", length = 50, unique = true)
 	@NotNull
 	private String userName;
@@ -28,16 +32,20 @@ public class Users extends IdEntity {
 	@NotNull
 	private String password;
 
-	@Column(name = "STATUS")
-	@NotNull
-	private Integer status;
-
 	public Roles getRoleId() {
 		return roleId;
 	}
 
 	public void setRoleId(Roles roleId) {
 		this.roleId = roleId;
+	}
+
+	public UserStatus getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(UserStatus statusId) {
+		this.statusId = statusId;
 	}
 
 	public String getUserName() {
@@ -54,14 +62,6 @@ public class Users extends IdEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 
 	public static long count() {

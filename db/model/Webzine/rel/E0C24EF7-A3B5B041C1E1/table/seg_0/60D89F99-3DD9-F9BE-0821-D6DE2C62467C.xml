@@ -50,15 +50,18 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS" id="F41777B1-C126-9635-D654-2D75889123DA">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS_ID" id="F41777B1-C126-9635-D654-2D75889123DA">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-05 07:31:48 UTC</createdTime>
-<comment>0-Inactive, 1-Active</comment>
 <ownerDesignName>Webzine</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>3F91647E-CF74-E70F-F2AD-3A63DA92F685</delegate>
 <autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CC298D7C-4A1F-F2C5-5EF2-C818488FA71E" referredColumn="3F91647E-CF74-E70F-F2AD-3A63DA92F685"/>
+</associations>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="USER_NAME" id="1020A9DD-7611-653C-3181-841420AE7EB1">
 <createdBy>idugic</createdBy>
@@ -123,13 +126,14 @@
 <colUsage columnID="72474FB5-A18F-DDB0-7BC4-060696D9A560"/>
 </indexColumnUsage>
 </ind_PK_UK>
-</indexes>
-<tableCheckConstraints>
-<tableCheckConstraint class="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint" name="USER_CK_1" id="688CA6E1-F9CC-82A8-4EAE-D8854545CB63" directorySegmentName="seg_0">
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="34D7AD01-ECF8-D9A6-21C5-110271FA6949" name="USER_USER_STAT_FK_1">
 <createdBy>idugic</createdBy>
-<createdTime>2013-03-05 07:34:54 UTC</createdTime>
-<ownerDesignName>webzine</ownerDesignName>
-<rule>STATUS IN (0, 1)</rule>
-</tableCheckConstraint>
-</tableCheckConstraints>
+<createdTime>2013-03-22 13:28:52 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="F41777B1-C126-9635-D654-2D75889123DA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
 </Table>

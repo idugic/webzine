@@ -6,6 +6,6 @@
         <field:select field="roleId" id="c_rs_id_webzine_domain_Users_roleId" itemValue="id" items="${roles}" path="/roles"/>
         <field:input field="userName" id="c_rs_id_webzine_domain_Users_userName" required="true"/>
         <field:input field="password" id="c_rs_id_webzine_domain_Users_password" required="true"/>
-        <field:input field="status" id="c_rs_id_webzine_domain_Users_status" required="true" validationMessageCode="field_invalid_integer"/>
+        <field:select field="statusId" id="c_rs_id_webzine_domain_Users_statusId" itemValue="id" items="${userstatuses}" path="/roles"/>
     </form:update>
 </div>

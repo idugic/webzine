@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.domain.Roles;
+import rs.id.webzine.domain.UserStatus;
 import rs.id.webzine.domain.Users;
 
 @RequestMapping("/users")
@@ -103,6 +104,7 @@ public class UsersController extends ModelController {
 	void populateEditForm(Model uiModel, Users users) {
 		uiModel.addAttribute("users", users);
 		uiModel.addAttribute("roles", Roles.findAll());
+		uiModel.addAttribute("userstatuses", UserStatus.findAll());
 	}
 
 }

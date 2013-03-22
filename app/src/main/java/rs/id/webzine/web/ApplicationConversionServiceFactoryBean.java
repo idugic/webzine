@@ -26,6 +26,7 @@ import rs.id.webzine.domain.TaskAttachment;
 import rs.id.webzine.domain.TaskComment;
 import rs.id.webzine.domain.UserArticle;
 import rs.id.webzine.domain.UserProfile;
+import rs.id.webzine.domain.UserStatus;
 import rs.id.webzine.domain.Users;
 
 @Configurable
@@ -458,7 +459,7 @@ public class ApplicationConversionServiceFactoryBean extends
 	}
 
 	public Converter<Roles, String> getRolesToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs .id.webzine.domain.Roles, java.lang.String>() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Roles, java.lang.String>() {
 			public String convert(Roles roles) {
 				return new StringBuilder().append(roles.getName()).toString();
 			}
@@ -478,6 +479,33 @@ public class ApplicationConversionServiceFactoryBean extends
 			public rs.id.webzine.domain.Roles convert(String id) {
 				return getObject().convert(
 						getObject().convert(id, Integer.class), Roles.class);
+			}
+		};
+	}
+
+	public Converter<UserStatus, String> getUserStatusToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.UserStatus, java.lang.String>() {
+			public String convert(UserStatus userStatus) {
+				return new StringBuilder().append(userStatus.getName())
+						.toString();
+			}
+		};
+	}
+
+	public Converter<Integer, UserStatus> getIdToUserStatusConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.UserStatus>() {
+			public rs.id.webzine.domain.UserStatus convert(java.lang.Integer id) {
+				return UserStatus.find(id);
+			}
+		};
+	}
+
+	public Converter<String, UserStatus> getStringToUserStatusConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.UserStatus>() {
+			public rs.id.webzine.domain.UserStatus convert(String id) {
+				return getObject().convert(
+						getObject().convert(id, Integer.class),
+						UserStatus.class);
 			}
 		};
 	}
@@ -630,8 +658,7 @@ public class ApplicationConversionServiceFactoryBean extends
 		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Users, java.lang.String>() {
 			public String convert(Users users) {
 				return new StringBuilder().append(users.getUserName())
-						.append(' ').append(users.getPassword()).append(' ')
-						.append(users.getStatus()).toString();
+						.toString();
 			}
 		};
 	}
@@ -700,8 +727,11 @@ public class ApplicationConversionServiceFactoryBean extends
 		registry.addConverter(getIdToReaderTypeConverter());
 		registry.addConverter(getStringToReaderTypeConverter());
 		registry.addConverter(getRolesToStringConverter());
+		registry.addConverter(getUserStatusToStringConverter());
 		registry.addConverter(getIdToRolesConverter());
+		registry.addConverter(getIdToUserStatusConverter());
 		registry.addConverter(getStringToRolesConverter());
+		registry.addConverter(getStringToUserStatusConverter());
 		registry.addConverter(getTaskToStringConverter());
 		registry.addConverter(getIdToTaskConverter());
 		registry.addConverter(getStringToTaskConverter());

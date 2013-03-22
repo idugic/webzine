@@ -6,7 +6,7 @@
         <table:table data="${users}" id="l_rs_id_webzine_domain_Users" path="/users" z="87FgFRQ/qs7CoeKRj5h7HAGmpBc=">
           <table:column id="c_rs_id_webzine_domain_Users_username" property="userName" z="CB6yvtRzYiV1xyzPuxIqy4F/hjE="/>
           <table:column id="c_rs_id_webzine_domain_Users_roleid" property="roleId" z="CB6yvtRzYiV1xyzPuxIqy4F/hjE=" />
-          <table:column id="c_rs_id_webzine_domain_Users_status" property="status" z="UdjADJ3cF2x4rFeEkEVlOJoW3+Y="/>
+          <table:column id="c_rs_id_webzine_domain_Users_statusid" property="statusId" z="CB6yvtRzYiV1xyzPuxIqy4F/hjE=" />
         </table:table>
     </page:list>
 </div>

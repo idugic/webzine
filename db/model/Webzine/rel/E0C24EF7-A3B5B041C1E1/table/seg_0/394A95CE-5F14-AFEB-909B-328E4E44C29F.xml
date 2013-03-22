@@ -1,0 +1,97 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" id="394A95CE-5F14-AFEB-909B-328E4E44C29F" directorySegmentName="seg_0" name="USER_STATUS">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-22 13:24:59 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<afterCreate>&lt;br/&gt;</afterCreate>
+<shouldGeneratescript>true</shouldGeneratescript>
+<pkName>ROLES_PK</pkName>
+<fonts>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Title</foType>
+<fontStyle>1</fontStyle>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Column</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Datatype</foType>
+<colorRGB>-16744448</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>PK Element</foType>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>FK Element</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>UK Element</foType>
+<colorRGB>-16776961</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Not Null</foType>
+<colorRGB>-65536</colorRGB>
+</FontObject>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Key</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+</fonts>
+<columns>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ID" id="3F91647E-CF74-E70F-F2AD-3A63DA92F685">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-22 13:24:59 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="CD" id="743B905E-7B04-619F-D069-BF635CF95442">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-22 13:24:59 UTC</createdTime>
+<comment>0-Inactive, 1-Active</comment>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="NAME" id="95AE2EFE-82D1-6C01-6636-FA522EC74D32">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-22 13:24:59 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="D734014A-FE1D-566B-94C6-819B072380ED" name="USER_STAT_PK">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-22 13:24:59 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="3F91647E-CF74-E70F-F2AD-3A63DA92F685"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="E35800F8-3FF5-2A18-0BC6-A6B2056E20A6" name="USER_STAT_UK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-22 13:24:59 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="743B905E-7B04-619F-D069-BF635CF95442"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
