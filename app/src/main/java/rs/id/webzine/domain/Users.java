@@ -1,16 +1,19 @@
 package rs.id.webzine.domain;
 
-import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
@@ -49,8 +52,15 @@ public class Users extends IdEntity {
 	private Date birthday;
 
 	@Column(name = "IMAGE")
-	private Blob image;
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] image;
 
+	@Column(name = "IMAGE_CONTENT_TYPE", length = 100)
+	private String imageContentType;
+
+	@Transient
+	private String imageUrl;
 	@ManyToOne
 	@JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
 	private Address addressId;
@@ -111,12 +121,28 @@ public class Users extends IdEntity {
 		this.birthday = birthday;
 	}
 
-	public Blob getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(Blob image) {
+	public void setImage(byte[] image) {
 		this.image = image;
+	}
+
+	public String getImageContentType() {
+		return imageContentType;
+	}
+
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public Address getAddressId() {

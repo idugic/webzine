@@ -138,6 +138,17 @@
 <logicalDatatype>LOGDT029</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="IMAGE_CONTENT_TYPE" id="91401D18-AE39-ED92-6EEF-1D7A7E110165">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-23 14:29:47 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT037</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="ADDRESS_ID" id="548533AA-8405-1E8D-6DA9-FAB737167253">
 <createdBy>IvanD</createdBy>
 <createdTime>2013-03-22 20:36:57 UTC</createdTime>
