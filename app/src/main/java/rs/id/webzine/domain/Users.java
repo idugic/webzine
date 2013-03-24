@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
@@ -59,8 +58,6 @@ public class Users extends IdEntity {
 	@Column(name = "IMAGE_CONTENT_TYPE", length = 100)
 	private String imageContentType;
 
-	@Transient
-	private String imageUrl;
 	@ManyToOne
 	@JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
 	private Address addressId;
@@ -135,14 +132,6 @@ public class Users extends IdEntity {
 
 	public void setImageContentType(String imageContentType) {
 		this.imageContentType = imageContentType;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 	public Address getAddressId() {
