@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "ROLES")
-public class Roles extends IdEntity {
+public class Role extends IdEntity {
 
 	@Column(name = "CD", length = 15, unique = true)
 	@NotNull
@@ -39,26 +39,21 @@ public class Roles extends IdEntity {
 	}
 
 	public static long count() {
-		return entityManager().createQuery("SELECT COUNT(o) FROM Roles o",
-				Long.class).getSingleResult();
+		return entityManager().createQuery("SELECT COUNT(o) FROM Role o", Long.class).getSingleResult();
 	}
 
-	public static List<Roles> findAll() {
-		return entityManager()
-				.createQuery("SELECT o FROM Roles o", Roles.class)
-				.getResultList();
+	public static List<Role> findAll() {
+		return entityManager().createQuery("SELECT o FROM Role o", Role.class).getResultList();
 	}
 
-	public static Roles find(Integer id) {
+	public static Role find(Integer id) {
 		if (id == null)
 			return null;
-		return entityManager().find(Roles.class, id);
+		return entityManager().find(Role.class, id);
 	}
 
-	public static List<Roles> findEntries(int firstResult, int maxResults) {
-		return entityManager()
-				.createQuery("SELECT o FROM Roles o", Roles.class)
-				.setFirstResult(firstResult).setMaxResults(maxResults)
-				.getResultList();
+	public static List<Role> findEntries(int firstResult, int maxResults) {
+		return entityManager().createQuery("SELECT o FROM Role o", Role.class).setFirstResult(firstResult)
+		        .setMaxResults(maxResults).getResultList();
 	}
 }

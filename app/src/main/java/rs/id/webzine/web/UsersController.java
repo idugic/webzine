@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.domain.Address;
-import rs.id.webzine.domain.Roles;
+import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.UserStatus;
 import rs.id.webzine.domain.Users;
 import rs.id.webzine.web.backing.UserBacking;
@@ -219,7 +219,7 @@ public class UsersController extends ModelController {
 
 	void populateEditForm(Model uiModel, UserBacking userBacking) {
 		uiModel.addAttribute("userBacking", userBacking);
-		uiModel.addAttribute("roles", Roles.findAll());
+		uiModel.addAttribute("roles", Role.findAll());
 		uiModel.addAttribute("userstatuses", UserStatus.findAll());
 		addDateTimeFormatPatterns(uiModel);
 	}

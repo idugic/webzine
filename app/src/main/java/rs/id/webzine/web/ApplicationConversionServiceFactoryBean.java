@@ -23,7 +23,7 @@ import rs.id.webzine.domain.Customer;
 import rs.id.webzine.domain.ManagedContent;
 import rs.id.webzine.domain.News;
 import rs.id.webzine.domain.ReaderType;
-import rs.id.webzine.domain.Roles;
+import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.Task;
 import rs.id.webzine.domain.TaskAttachment;
 import rs.id.webzine.domain.TaskComment;
@@ -421,26 +421,26 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		};
 	}
 
-	public Converter<Roles, String> getRolesToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Roles, java.lang.String>() {
-			public String convert(Roles roles) {
-				return new StringBuilder().append(roles.getName()).toString();
+	public Converter<Role, String> getRoleToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Role, java.lang.String>() {
+			public String convert(Role role) {
+				return new StringBuilder().append(role.getName()).toString();
 			}
 		};
 	}
 
-	public Converter<Integer, Roles> getIdToRolesConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Roles>() {
-			public rs.id.webzine.domain.Roles convert(java.lang.Integer id) {
-				return Roles.find(id);
+	public Converter<Integer, Role> getIdToRoleConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Role>() {
+			public rs.id.webzine.domain.Role convert(java.lang.Integer id) {
+				return Role.find(id);
 			}
 		};
 	}
 
-	public Converter<String, Roles> getStringToRolesConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Roles>() {
-			public rs.id.webzine.domain.Roles convert(String id) {
-				return getObject().convert(getObject().convert(id, Integer.class), Roles.class);
+	public Converter<String, Role> getStringToRoleConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Role>() {
+			public rs.id.webzine.domain.Role convert(String id) {
+				return getObject().convert(getObject().convert(id, Integer.class), Role.class);
 			}
 		};
 	}
@@ -676,11 +676,11 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		registry.addConverter(getReaderTypeToStringConverter());
 		registry.addConverter(getIdToReaderTypeConverter());
 		registry.addConverter(getStringToReaderTypeConverter());
-		registry.addConverter(getRolesToStringConverter());
+		registry.addConverter(getRoleToStringConverter());
 		registry.addConverter(getUserStatusToStringConverter());
-		registry.addConverter(getIdToRolesConverter());
+		registry.addConverter(getIdToRoleConverter());
 		registry.addConverter(getIdToUserStatusConverter());
-		registry.addConverter(getStringToRolesConverter());
+		registry.addConverter(getStringToRoleConverter());
 		registry.addConverter(getStringToUserStatusConverter());
 		registry.addConverter(getTaskToStringConverter());
 		registry.addConverter(getIdToTaskConverter());

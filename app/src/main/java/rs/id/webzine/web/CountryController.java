@@ -13,90 +13,84 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.domain.Country;
 
-@RequestMapping("/countries")
+@RequestMapping("admin/country")
 @Controller
 public class CountryController extends ModelController {
-
-	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-	public String create(@Valid Country country, BindingResult bindingResult,
-			Model uiModel, HttpServletRequest httpServletRequest) {
-		if (bindingResult.hasErrors()) {
-			populateEditForm(uiModel, country);
-			return "countries/create";
-		}
-		uiModel.asMap().clear();
-		country.persist();
-		return "redirect:/countries/"
-				+ encodeUrlPathSegment(country.getId().toString(),
-						httpServletRequest);
-	}
 
 	@RequestMapping(params = "form", produces = "text/html")
 	public String createForm(Model uiModel) {
 		populateEditForm(uiModel, new Country());
-		return "countries/create";
+		return "admin/country/create";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
+	public String create(@Valid Country country, BindingResult bindingResult, Model uiModel,
+	        HttpServletRequest httpServletRequest) {
+		if (bindingResult.hasErrors()) {
+			populateEditForm(uiModel, country);
+			return "admin/country/create";
+		}
+
+		// TODO Server side validation (check on duplicate CD)
+
+		uiModel.asMap().clear();
+		country.persist();
+		return "redirect:/admin/country/" + encodeUrlPathSegment(country.getId().toString(), httpServletRequest);
 	}
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
 		uiModel.addAttribute("country", Country.find(id));
 		uiModel.addAttribute("itemId", id);
-		return "countries/show";
+		return "admin/country/show";
 	}
 
 	@RequestMapping(produces = "text/html")
-	public String list(
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			Model uiModel) {
+	public String list(@RequestParam(value = "page", required = false) Integer page,
+	        @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
 		if (page != null || size != null) {
 			int sizeNo = size == null ? 10 : size.intValue();
-			final int firstResult = page == null ? 0 : (page.intValue() - 1)
-					* sizeNo;
-			uiModel.addAttribute("countries",
-					Country.findEntries(firstResult, sizeNo));
+			final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+			uiModel.addAttribute("country", Country.findEntries(firstResult, sizeNo));
 			float nrOfPages = (float) Country.count() / sizeNo;
-			uiModel.addAttribute(
-					"maxPages",
-					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-							: nrOfPages));
+			uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
+			        : nrOfPages));
 		} else {
-			uiModel.addAttribute("countries", Country.findAll());
+			uiModel.addAttribute("country", Country.findAll());
 		}
-		return "countries/list";
+		return "admin/country/list";
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-	public String update(@Valid Country country, BindingResult bindingResult,
-			Model uiModel, HttpServletRequest httpServletRequest) {
+	public String update(@Valid Country country, BindingResult bindingResult, Model uiModel,
+	        HttpServletRequest httpServletRequest) {
 		if (bindingResult.hasErrors()) {
 			populateEditForm(uiModel, country);
-			return "countries/update";
+			return "admin/country/update";
 		}
+
+		// TODO Server side validation (check on duplicate CD)
+
 		uiModel.asMap().clear();
 		country.merge();
-		return "redirect:/countries/"
-				+ encodeUrlPathSegment(country.getId().toString(),
-						httpServletRequest);
+		return "redirect:/admin/country/" + encodeUrlPathSegment(country.getId().toString(), httpServletRequest);
 	}
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
 		populateEditForm(uiModel, Country.find(id));
-		return "countries/update";
+		return "admin/country/update";
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-	public String delete(@PathVariable("id") Integer id,
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			Model uiModel) {
+	public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
+	        @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
 		Country country = Country.find(id);
 		country.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
 		uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-		return "redirect:/countries";
+		return "redirect:/admin/country";
 	}
 
 	void populateEditForm(Model uiModel, Country country) {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<page:list id="pl_rs_id_webzine_domain_Country" items="${country}">
+		<table:table data="${country}" id="l_rs_id_webzine_domain_Country" path="/admin/country">
+			<table:column id="c_rs_id_webzine_domain_Country_cd" property="cd" />
+			<table:column id="c_rs_id_webzine_domain_Country_name" property="name" />
+		</table:table>
+	</page:list>
+</div>

@@ -3,7 +3,7 @@ package rs.id.webzine.web.backing;
 import java.util.Date;
 
 import rs.id.webzine.domain.Address;
-import rs.id.webzine.domain.Roles;
+import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.UserStatus;
 
 public class UserBacking {
@@ -11,7 +11,7 @@ public class UserBacking {
 	// user
 	private Integer userId;
 
-	private Roles roleId;
+	private Role roleId;
 
 	private UserStatus statusId;
 
@@ -58,11 +58,11 @@ public class UserBacking {
 		this.userId = userId;
 	}
 
-	public Roles getRoleId() {
+	public Role getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Roles roleId) {
+	public void setRoleId(Role roleId) {
 		this.roleId = roleId;
 	}
 

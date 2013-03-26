@@ -25,7 +25,7 @@ public class Users extends IdEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID", nullable = false)
-	private Roles roleId;
+	private Role roleId;
 
 	@ManyToOne
 	@JoinColumn(name = "STATUS_ID", referencedColumnName = "ID", nullable = false)
@@ -62,11 +62,11 @@ public class Users extends IdEntity {
 	@JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
 	private Address addressId;
 
-	public Roles getRoleId() {
+	public Role getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Roles roleId) {
+	public void setRoleId(Role roleId) {
 		this.roleId = roleId;
 	}
 
