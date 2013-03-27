@@ -2,14 +2,12 @@ package rs.id.webzine.web.backing;
 
 import java.util.Date;
 
-import rs.id.webzine.domain.Address;
 import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.UserStatus;
 
 public class UserBacking {
 
-	// user
-	private Integer userId;
+	private Integer backingId;
 
 	private Role roleId;
 
@@ -31,8 +29,6 @@ public class UserBacking {
 
 	private String imageUrl;
 
-	private Address addressId;
-
 	// address
 	private String email;
 
@@ -50,12 +46,12 @@ public class UserBacking {
 
 	private String www;
 
-	public Integer getUserId() {
-		return userId;
+	public Integer getBackingId() {
+		return backingId;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setBackingId(Integer backingId) {
+		this.backingId = backingId;
 	}
 
 	public Role getRoleId() {
@@ -136,14 +132,6 @@ public class UserBacking {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-	public Address getAddressId() {
-		return addressId;
-	}
-
-	public void setAddressId(Address addressId) {
-		this.addressId = addressId;
 	}
 
 	public String getEmail() {

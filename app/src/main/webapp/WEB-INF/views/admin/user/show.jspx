@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<page:show id="ps_rs_id_webzine_domain_User" object="${userBacking}" path="/admin/user">
+
+		<field:display field="roleId" id="s_rs_id_webzine_domain_User_roleId" object="${userBacking}" />
+		<field:display field="statusId" id="s_rs_id_webzine_domain_User_statusId" object="${userBacking}" />
+		<field:display field="userName" id="s_rs_id_webzine_domain_User_userName" object="${userBacking}" />
+		<field:display field="password" id="s_rs_id_webzine_domain_User_password" object="${userBacking}" />
+		<field:display field="firstName" id="s_rs_id_webzine_domain_User_firstName" object="${userBacking}" />
+		<field:display field="lastName" id="s_rs_id_webzine_domain_User_lastName" object="${userBacking}" />
+		<field:display date="true" dateTimePattern="${user_birthday_date_format}" field="birthday" id="s_rs_id_webzine_domain_User_birthday"
+			object="${userBacking}" />
+
+		<field:display field="email" id="s_rs_id_webzine_domain_Address_email" object="${userBacking}" />
+		<field:display field="phone" id="s_rs_id_webzine_domain_Address_phone" object="${userBacking}" />
+		<field:display field="streetLine" id="s_rs_id_webzine_domain_Address_streetLine" object="${userBacking}" />
+		<field:display field="city" id="s_rs_id_webzine_domain_Address_city" object="${userBacking}" />
+		<field:display field="postalCode" id="s_rs_id_webzine_domain_Address_postalCode" object="${userBacking}" />
+
+		<field:display field="country" id="s_rs_id_webzine_domain_Address_country" object="${userBacking}" />
+		<field:display field="countryCode" id="s_rs_id_webzine_domain_Address_countryCode" object="${userBacking}" />
+
+		<field:display field="www" id="s_rs_id_webzine_domain_Address_www" object="${userBacking}" />
+
+		<field:frame field="imageUrl" id="s_rs_id_webzine_domain_User_image" object="${userBacking}" />
+
+	</page:show>
+</div>

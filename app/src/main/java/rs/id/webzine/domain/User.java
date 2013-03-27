@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "USERS")
-public class Users extends IdEntity {
+public class User extends IdEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID", nullable = false)
@@ -143,25 +143,25 @@ public class Users extends IdEntity {
 	}
 
 	public static long count() {
-		return entityManager().createQuery("SELECT COUNT(o) FROM Users o",
+		return entityManager().createQuery("SELECT COUNT(o) FROM User o",
 				Long.class).getSingleResult();
 	}
 
-	public static List<Users> findAll() {
+	public static List<User> findAll() {
 		return entityManager()
-				.createQuery("SELECT o FROM Users o", Users.class)
+				.createQuery("SELECT o FROM User o", User.class)
 				.getResultList();
 	}
 
-	public static Users find(Integer id) {
+	public static User find(Integer id) {
 		if (id == null)
 			return null;
-		return entityManager().find(Users.class, id);
+		return entityManager().find(User.class, id);
 	}
 
-	public static List<Users> findEntries(int firstResult, int maxResults) {
+	public static List<User> findEntries(int firstResult, int maxResults) {
 		return entityManager()
-				.createQuery("SELECT o FROM Users o", Users.class)
+				.createQuery("SELECT o FROM User o", User.class)
 				.setFirstResult(firstResult).setMaxResults(maxResults)
 				.getResultList();
 	}

@@ -131,15 +131,15 @@ public class Task {
 
 	@ManyToOne
 	@JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-	private Users uc;
+	private User uc;
 
 	@ManyToOne
 	@JoinColumn(name = "OWNER_USER_ID", referencedColumnName = "ID")
-	private Users ownerUserId;
+	private User ownerUserId;
 
 	@ManyToOne
 	@JoinColumn(name = "UM", referencedColumnName = "ID")
-	private Users um;
+	private User um;
 
 	@Column(name = "STATUS")
 	@NotNull
@@ -199,27 +199,27 @@ public class Task {
 		this.parentTaskId = parentTaskId;
 	}
 
-	public Users getUc() {
+	public User getUc() {
 		return uc;
 	}
 
-	public void setUc(Users uc) {
+	public void setUc(User uc) {
 		this.uc = uc;
 	}
 
-	public Users getOwnerUserId() {
+	public User getOwnerUserId() {
 		return ownerUserId;
 	}
 
-	public void setOwnerUserId(Users ownerUserId) {
+	public void setOwnerUserId(User ownerUserId) {
 		this.ownerUserId = ownerUserId;
 	}
 
-	public Users getUm() {
+	public User getUm() {
 		return um;
 	}
 
-	public void setUm(Users um) {
+	public void setUm(User um) {
 		this.um = um;
 	}
 

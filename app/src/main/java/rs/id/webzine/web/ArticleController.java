@@ -21,7 +21,7 @@ import rs.id.webzine.domain.ArticleCategory;
 import rs.id.webzine.domain.ArticleComment;
 import rs.id.webzine.domain.ArticleRate;
 import rs.id.webzine.domain.ManagedContent;
-import rs.id.webzine.domain.Users;
+import rs.id.webzine.domain.User;
 
 @RequestMapping("/articles")
 @Controller
@@ -139,7 +139,7 @@ public class ArticleController {
 		uiModel.addAttribute("articlerates", ArticleRate.findAllArticleRates());
 		uiModel.addAttribute("managedcontents",
 				ManagedContent.findAllManagedContents());
-		uiModel.addAttribute("users", Users.findAll());
+		uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

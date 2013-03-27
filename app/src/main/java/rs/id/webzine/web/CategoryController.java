@@ -17,7 +17,7 @@ import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.ArticleCategory;
 import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.ReaderType;
-import rs.id.webzine.domain.Users;
+import rs.id.webzine.domain.User;
 
 @RequestMapping("/categorys")
 @Controller
@@ -124,7 +124,7 @@ public class CategoryController {
 		uiModel.addAttribute("articlecategorys",
 				ArticleCategory.findAllArticleCategorys());
 		uiModel.addAttribute("readertypes", ReaderType.findAllReaderTypes());
-		uiModel.addAttribute("users", Users.findAll());
+		uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

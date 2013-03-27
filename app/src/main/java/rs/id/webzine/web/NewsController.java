@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.News;
-import rs.id.webzine.domain.Users;
+import rs.id.webzine.domain.User;
 
 @RequestMapping("/news")
 @Controller
@@ -123,7 +123,7 @@ public class NewsController {
 	void populateEditForm(Model uiModel, News news) {
 		uiModel.addAttribute("news", news);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("users", Users.findAll());
+		uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

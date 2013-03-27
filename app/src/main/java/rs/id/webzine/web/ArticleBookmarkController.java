@@ -16,7 +16,7 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleBookmark;
-import rs.id.webzine.domain.Users;
+import rs.id.webzine.domain.User;
 
 @RequestMapping("/articlebookmarks")
 @Controller
@@ -127,7 +127,7 @@ public class ArticleBookmarkController {
 		uiModel.addAttribute("articleBookmark", articleBookmark);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAllArticles());
-		uiModel.addAttribute("users", Users.findAll());
+		uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

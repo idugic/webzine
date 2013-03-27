@@ -17,7 +17,7 @@ import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.Task;
 import rs.id.webzine.domain.TaskAttachment;
 import rs.id.webzine.domain.TaskComment;
-import rs.id.webzine.domain.Users;
+import rs.id.webzine.domain.User;
 
 @RequestMapping("/tasks")
 @Controller
@@ -125,7 +125,7 @@ public class TaskController {
 		uiModel.addAttribute("taskattachments",
 				TaskAttachment.findAllTaskAttachments());
 		uiModel.addAttribute("taskcomments", TaskComment.findAllTaskComments());
-		uiModel.addAttribute("users", Users.findAll());
+		uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

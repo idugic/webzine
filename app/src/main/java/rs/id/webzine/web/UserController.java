@@ -2,6 +2,8 @@ package rs.id.webzine.web;
 
 import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +31,14 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import rs.id.webzine.domain.Address;
 import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.UserStatus;
-import rs.id.webzine.domain.Users;
+import rs.id.webzine.domain.User;
 import rs.id.webzine.web.backing.UserBacking;
 
-@RequestMapping("/users")
+@RequestMapping("admin/user")
 @Controller
-public class UsersController extends ModelController {
-	private static final Log log = LogFactory.getLog(UsersController.class);
+public class UserController extends ModelController {
+
+	private static final Log log = LogFactory.getLog(UserController.class);
 
 	@InitBinder
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
@@ -43,7 +46,7 @@ public class UsersController extends ModelController {
 	}
 
 	void addDateTimeFormatPatterns(Model uiModel) {
-		uiModel.addAttribute("users_birthday_date_format",
+		uiModel.addAttribute("user_birthday_date_format",
 		        DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
 	}
 
@@ -53,7 +56,7 @@ public class UsersController extends ModelController {
 		try {
 			if (bindingResult.hasErrors()) {
 				populateEditForm(uiModel, userBacking);
-				return "users/create";
+				return "admin/user/create";
 			}
 			uiModel.asMap().clear();
 
@@ -62,13 +65,13 @@ public class UsersController extends ModelController {
 			PropertyUtils.copyProperties(address, userBacking);
 			address.persist();
 
-			Users user = new Users();
+			User user = new User();
 			PropertyUtils.copyProperties(user, userBacking);
 			user.setImageContentType(image.getContentType());
 			user.setAddressId(address);
 			user.persist();
 
-			return "redirect:/users/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
+			return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -79,7 +82,7 @@ public class UsersController extends ModelController {
 	@RequestMapping(params = "form", produces = "text/html")
 	public String createForm(Model uiModel) {
 		populateEditForm(uiModel, new UserBacking());
-		return "users/create";
+		return "admin/user/create";
 	}
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
@@ -87,19 +90,20 @@ public class UsersController extends ModelController {
 		try {
 			UserBacking userBacking = new UserBacking();
 
-			Users user = Users.find(id);
+			User user = User.find(id);
 
 			if (user.getAddressId() != null) {
 				PropertyUtils.copyProperties(userBacking, user.getAddressId());
+				userBacking.setBackingId(id);
 			}
 			PropertyUtils.copyProperties(userBacking, user);
 
-			userBacking.setImageUrl("http://localhost:8080/webzine/users/showimage/" + id); // TODO
+			userBacking.setImageUrl("http://localhost:8080/webzine/admin/user/showimage/" + id); // TODO
 
 			uiModel.addAttribute("userBacking", userBacking);
 			uiModel.addAttribute("itemId", id);
 			addDateTimeFormatPatterns(uiModel);
-			return "users/show";
+			return "admin/user/show";
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -112,11 +116,11 @@ public class UsersController extends ModelController {
 		try {
 			response.setHeader("Content-Disposition", "inline;");
 
-			Users users = Users.find(id);
-			response.setContentType(users.getImageContentType());
+			User user = User.find(id);
+			response.setContentType(user.getImageContentType());
 
 			OutputStream out = response.getOutputStream();
-			IOUtils.copy(new ByteArrayInputStream(users.getImage()), out);
+			IOUtils.copy(new ByteArrayInputStream(user.getImage()), out);
 			out.flush();
 
 			return null;
@@ -129,18 +133,42 @@ public class UsersController extends ModelController {
 	@RequestMapping(produces = "text/html")
 	public String list(@RequestParam(value = "page", required = false) Integer page,
 	        @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-		if (page != null || size != null) {
-			int sizeNo = size == null ? 10 : size.intValue();
-			final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-			uiModel.addAttribute("users", Users.findEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Users.count() / sizeNo;
-			uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-			        : nrOfPages));
-		} else {
-			uiModel.addAttribute("users", Users.findAll());
+		try {
+			List<User> userList = new ArrayList<User>();
+			if (page != null || size != null) {
+				int sizeNo = size == null ? 10 : size.intValue();
+				final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+
+				userList = User.findEntries(firstResult, sizeNo);
+				float nrOfPages = (float) User.count() / sizeNo;
+				uiModel.addAttribute("maxPages",
+				        (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+			} else {
+				userList = User.findAll();
+			}
+			addDateTimeFormatPatterns(uiModel);
+
+			List<UserBacking> userBackingList = new ArrayList<UserBacking>();
+			for (User user : userList) {
+				UserBacking userBacking = new UserBacking();
+				PropertyUtils.copyProperties(userBacking, user);
+				userBacking.setBackingId(user.getId());
+
+				Address address = user.getAddressId();
+				if (address != null) {
+					PropertyUtils.copyProperties(userBacking, address);
+				}
+
+				userBackingList.add(userBacking);
+			}
+
+			uiModel.addAttribute("userBacking", userBackingList);
+
+			return "admin/user/list";
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
 		}
-		addDateTimeFormatPatterns(uiModel);
-		return "users/list";
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
@@ -149,19 +177,19 @@ public class UsersController extends ModelController {
 		try {
 			if (bindingResult.hasErrors()) {
 				populateEditForm(uiModel, userBacking);
-				return "users/update";
+				return "admin/user/update";
 			}
 
 			// user
-			Users user = Users.find(userBacking.getUserId());
+			User user = User.find(userBacking.getBackingId());
 			PropertyUtils.copyProperties(user, userBacking);
-			user.setId(userBacking.getUserId());
+			user.setId(userBacking.getBackingId());
 
 			// image
 			if (image == null || image.getBytes() == null || image.getBytes().length == 0) {
-				Users oldUsers = Users.find(userBacking.getUserId());
-				user.setImage(oldUsers.getImage());
-				user.setImageContentType(oldUsers.getImageContentType());
+				User oldUser = User.find(userBacking.getBackingId());
+				user.setImage(oldUser.getImage());
+				user.setImageContentType(oldUser.getImageContentType());
 			} else {
 				user.setImageContentType(image.getContentType());
 			}
@@ -179,7 +207,7 @@ public class UsersController extends ModelController {
 
 			uiModel.asMap().clear();
 			user.merge();
-			return "redirect:/users/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
+			return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -190,16 +218,16 @@ public class UsersController extends ModelController {
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
 		try {
 			UserBacking userBacking = new UserBacking();
-			Users user = Users.find(id);
+			User user = User.find(id);
 			PropertyUtils.copyProperties(userBacking, user);
-			userBacking.setUserId(user.getId());
+			userBacking.setBackingId(user.getId());
 
 			if (user.getAddressId() != null) {
 				PropertyUtils.copyProperties(userBacking, user.getAddressId());
 			}
 
 			populateEditForm(uiModel, userBacking);
-			return "users/update";
+			return "admin/user/update";
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -209,18 +237,18 @@ public class UsersController extends ModelController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
 	public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
 	        @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-		Users users = Users.find(id);
-		users.remove();
+		User user = User.find(id);
+		user.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
 		uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-		return "redirect:/users";
+		return "redirect:/admin/user";
 	}
 
 	void populateEditForm(Model uiModel, UserBacking userBacking) {
 		uiModel.addAttribute("userBacking", userBacking);
-		uiModel.addAttribute("roles", Role.findAll());
-		uiModel.addAttribute("userstatuses", UserStatus.findAll());
+		uiModel.addAttribute("role", Role.findAll());
+		uiModel.addAttribute("userStatus", UserStatus.findAll());
 		addDateTimeFormatPatterns(uiModel);
 	}
 

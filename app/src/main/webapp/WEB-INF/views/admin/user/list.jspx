@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<page:list id="pl_rs_id_webzine_domain_User" items="${userBacking}">
+		<table:table data="${userBacking}" typeIdFieldName="backingId" id="l_rs_id_webzine_domain_User" path="/admin/user">
+			<table:column id="c_rs_id_webzine_domain_User_username" property="userName" />
+			<table:column id="c_rs_id_webzine_domain_Address_email" property="email" />
+			<table:column id="c_rs_id_webzine_domain_User_firstname" property="firstName" />
+			<table:column id="c_rs_id_webzine_domain_User_lastname" property="lastName" />
+			<table:column id="c_rs_id_webzine_domain_User_roleid" property="roleId" />
+			<table:column id="c_rs_id_webzine_domain_User_statusid" property="statusId" />
+		</table:table>
+	</page:list>
+</div>

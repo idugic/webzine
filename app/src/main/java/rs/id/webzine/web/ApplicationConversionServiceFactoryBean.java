@@ -9,7 +9,6 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
 import rs.id.webzine.domain.Ad;
-import rs.id.webzine.domain.Address;
 import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleBookmark;
 import rs.id.webzine.domain.ArticleCategory;
@@ -27,23 +26,159 @@ import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.Task;
 import rs.id.webzine.domain.TaskAttachment;
 import rs.id.webzine.domain.TaskComment;
+import rs.id.webzine.domain.User;
 import rs.id.webzine.domain.UserArticle;
 import rs.id.webzine.domain.UserStatus;
-import rs.id.webzine.domain.Users;
 import rs.id.webzine.web.backing.UserBacking;
 
-@Configurable
 /**
- * A central place to register application converters and formatters. 
+ * A central place to register application converters and formatters.
  */
+@Configurable
 public class ApplicationConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {
 
 	private static final Log log = LogFactory.getLog(ApplicationConversionServiceFactoryBean.class);
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void installFormatters(FormatterRegistry registry) {
 		super.installFormatters(registry);
-		// Register application converters and formatters
+	}
+
+	// role
+	public Converter<Role, String> getRoleToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Role, java.lang.String>() {
+			public String convert(Role role) {
+				return new StringBuilder().append(role.getName()).toString();
+			}
+		};
+	}
+
+	public Converter<Integer, Role> getIdToRoleConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Role>() {
+			public rs.id.webzine.domain.Role convert(java.lang.Integer id) {
+				return Role.find(id);
+			}
+		};
+	}
+
+	public Converter<String, Role> getStringToRoleConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Role>() {
+			public rs.id.webzine.domain.Role convert(String id) {
+				return getObject().convert(getObject().convert(id, Integer.class), Role.class);
+			}
+		};
+	}
+
+	// user status
+	public Converter<UserStatus, String> getUserStatusToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.UserStatus, java.lang.String>() {
+			public String convert(UserStatus userStatus) {
+				return new StringBuilder().append(userStatus.getName()).toString();
+			}
+		};
+	}
+
+	public Converter<Integer, UserStatus> getIdToUserStatusConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.UserStatus>() {
+			public rs.id.webzine.domain.UserStatus convert(java.lang.Integer id) {
+				return UserStatus.find(id);
+			}
+		};
+	}
+
+	public Converter<String, UserStatus> getStringToUserStatusConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.UserStatus>() {
+			public rs.id.webzine.domain.UserStatus convert(String id) {
+				return getObject().convert(getObject().convert(id, Integer.class), UserStatus.class);
+			}
+		};
+	}
+
+	// user
+	public Converter<User, String> getUserToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.User, java.lang.String>() {
+			public String convert(User user) {
+				return new StringBuilder().append(user.getUserName()).toString();
+			}
+		};
+	}
+
+	public Converter<Integer, User> getIdToUserConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.User>() {
+			public rs.id.webzine.domain.User convert(java.lang.Integer id) {
+				return User.find(id);
+			}
+		};
+	}
+
+	public Converter<String, UserBacking> getStringToUserConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.web.backing.UserBacking>() {
+			public rs.id.webzine.web.backing.UserBacking convert(String id) {
+				return getObject().convert(getObject().convert(id, Integer.class), UserBacking.class);
+			}
+		};
+	}
+
+	public Converter<UserBacking, String> getUserBackingToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.web.backing.UserBacking, java.lang.String>() {
+			public String convert(UserBacking userBacking) {
+				return new StringBuilder().append(userBacking.getUserName()).toString();
+			}
+		};
+	}
+
+	public Converter<Integer, UserBacking> getIdToUserBackingConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.web.backing.UserBacking>() {
+			public rs.id.webzine.web.backing.UserBacking convert(java.lang.Integer id) {
+				try {
+					UserBacking userBacking = new UserBacking();
+					User user = User.find(id);
+					PropertyUtils.copyProperties(userBacking, user);
+					userBacking.setBackingId(user.getId());
+					if (user.getAddressId() != null) {
+						PropertyUtils.copyProperties(userBacking, user.getAddressId());
+					}
+					return userBacking;
+				} catch (Exception e) {
+					log.error(e);
+					throw new RuntimeException(e);
+				}
+			}
+		};
+	}
+
+	public Converter<String, User> getStringToUserBackingConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.User>() {
+			public rs.id.webzine.domain.User convert(String id) {
+				return getObject().convert(getObject().convert(id, Integer.class), User.class);
+			}
+		};
+	}
+
+	// country
+	public Converter<Country, String> getCountryToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Country, java.lang.String>() {
+			public String convert(Country country) {
+				return new StringBuilder().append(country.getCd()).append(' ').append(country.getName()).toString();
+			}
+		};
+	}
+
+	public Converter<Integer, Country> getIdToCountryConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Country>() {
+			public rs.id.webzine.domain.Country convert(java.lang.Integer id) {
+				return Country.find(id);
+			}
+		};
+	}
+
+	public Converter<String, Country> getStringToCountryConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Country>() {
+			public rs.id.webzine.domain.Country convert(String id) {
+				return getObject().convert(getObject().convert(id, Integer.class), Country.class);
+			}
+		};
 	}
 
 	public Converter<Ad, String> getAdToStringConverter() {
@@ -67,31 +202,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Ad>() {
 			public rs.id.webzine.domain.Ad convert(String id) {
 				return getObject().convert(getObject().convert(id, Integer.class), Ad.class);
-			}
-		};
-	}
-
-	public Converter<Address, String> getAddressToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Address, java.lang.String>() {
-			public String convert(Address address) {
-				return new StringBuilder().append(address.getEmail()).append(' ').append(address.getPhone())
-				        .append(' ').append(address.getStreetLine()).append(' ').append(address.getCity()).toString();
-			}
-		};
-	}
-
-	public Converter<Integer, Address> getIdToAddressConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Address>() {
-			public rs.id.webzine.domain.Address convert(java.lang.Integer id) {
-				return Address.find(id);
-			}
-		};
-	}
-
-	public Converter<String, Address> getStringToAddressConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Address>() {
-			public rs.id.webzine.domain.Address convert(String id) {
-				return getObject().convert(getObject().convert(id, Integer.class), Address.class);
 			}
 		};
 	}
@@ -298,30 +408,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		};
 	}
 
-	public Converter<Country, String> getCountryToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Country, java.lang.String>() {
-			public String convert(Country country) {
-				return new StringBuilder().append(country.getCd()).append(' ').append(country.getName()).toString();
-			}
-		};
-	}
-
-	public Converter<Integer, Country> getIdToCountryConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Country>() {
-			public rs.id.webzine.domain.Country convert(java.lang.Integer id) {
-				return Country.find(id);
-			}
-		};
-	}
-
-	public Converter<String, Country> getStringToCountryConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Country>() {
-			public rs.id.webzine.domain.Country convert(String id) {
-				return getObject().convert(getObject().convert(id, Integer.class), Country.class);
-			}
-		};
-	}
-
 	public Converter<Customer, String> getCustomerToStringConverter() {
 		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Customer, java.lang.String>() {
 			public String convert(Customer customer) {
@@ -417,54 +503,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.ReaderType>() {
 			public rs.id.webzine.domain.ReaderType convert(String id) {
 				return getObject().convert(getObject().convert(id, Integer.class), ReaderType.class);
-			}
-		};
-	}
-
-	public Converter<Role, String> getRoleToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Role, java.lang.String>() {
-			public String convert(Role role) {
-				return new StringBuilder().append(role.getName()).toString();
-			}
-		};
-	}
-
-	public Converter<Integer, Role> getIdToRoleConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Role>() {
-			public rs.id.webzine.domain.Role convert(java.lang.Integer id) {
-				return Role.find(id);
-			}
-		};
-	}
-
-	public Converter<String, Role> getStringToRoleConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Role>() {
-			public rs.id.webzine.domain.Role convert(String id) {
-				return getObject().convert(getObject().convert(id, Integer.class), Role.class);
-			}
-		};
-	}
-
-	public Converter<UserStatus, String> getUserStatusToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.UserStatus, java.lang.String>() {
-			public String convert(UserStatus userStatus) {
-				return new StringBuilder().append(userStatus.getName()).toString();
-			}
-		};
-	}
-
-	public Converter<Integer, UserStatus> getIdToUserStatusConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.UserStatus>() {
-			public rs.id.webzine.domain.UserStatus convert(java.lang.Integer id) {
-				return UserStatus.find(id);
-			}
-		};
-	}
-
-	public Converter<String, UserStatus> getStringToUserStatusConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.UserStatus>() {
-			public rs.id.webzine.domain.UserStatus convert(String id) {
-				return getObject().convert(getObject().convert(id, Integer.class), UserStatus.class);
 			}
 		};
 	}
@@ -571,72 +609,33 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		};
 	}
 
-	public Converter<Users, String> getUsersToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Users, java.lang.String>() {
-			public String convert(Users users) {
-				return new StringBuilder().append(users.getUserName()).toString();
-			}
-		};
-	}
-
-	public Converter<Integer, Users> getIdToUsersConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Users>() {
-			public rs.id.webzine.domain.Users convert(java.lang.Integer id) {
-				return Users.find(id);
-			}
-		};
-	}
-
-	public Converter<String, UserBacking> getStringToUsersConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.web.backing.UserBacking>() {
-			public rs.id.webzine.web.backing.UserBacking convert(String id) {
-				return getObject().convert(getObject().convert(id, Integer.class), UserBacking.class);
-			}
-		};
-	}
-
-	public Converter<UserBacking, String> getUsersBackingToStringConverter() {
-		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.web.backing.UserBacking, java.lang.String>() {
-			public String convert(UserBacking users) {
-				return new StringBuilder().append(users.getUserName()).toString();
-			}
-		};
-	}
-
-	public Converter<Integer, UserBacking> getIdToUsersBackingConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.web.backing.UserBacking>() {
-			public rs.id.webzine.web.backing.UserBacking convert(java.lang.Integer id) {
-				try {
-					UserBacking userBacking = new UserBacking();
-					Users user = Users.find(id);
-					PropertyUtils.copyProperties(userBacking, user);
-					if (user.getAddressId() != null) {
-						PropertyUtils.copyProperties(userBacking, user.getAddressId());
-					}
-					return userBacking;
-				} catch (Exception e) {
-					log.error(e);
-					throw new RuntimeException(e);
-				}
-			}
-		};
-	}
-
-	public Converter<String, Users> getStringToUsersBackingConverter() {
-		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Users>() {
-			public rs.id.webzine.domain.Users convert(String id) {
-				return getObject().convert(getObject().convert(id, Integer.class), Users.class);
-			}
-		};
-	}
-
 	public void installLabelConverters(FormatterRegistry registry) {
+		// role
+		registry.addConverter(getRoleToStringConverter());
+		registry.addConverter(getIdToRoleConverter());
+		registry.addConverter(getStringToRoleConverter());
+
+		// user status
+		registry.addConverter(getUserStatusToStringConverter());
+		registry.addConverter(getIdToUserStatusConverter());
+		registry.addConverter(getStringToUserStatusConverter());
+
+		// user
+		registry.addConverter(getUserToStringConverter());
+		registry.addConverter(getIdToUserConverter());
+		registry.addConverter(getStringToUserConverter());
+		registry.addConverter(getUserBackingToStringConverter());
+		registry.addConverter(getIdToUserBackingConverter());
+		registry.addConverter(getStringToUserBackingConverter());
+
+		// country
+		registry.addConverter(getCountryToStringConverter());
+		registry.addConverter(getIdToCountryConverter());
+		registry.addConverter(getStringToCountryConverter());
+
 		registry.addConverter(getAdToStringConverter());
 		registry.addConverter(getIdToAdConverter());
 		registry.addConverter(getStringToAdConverter());
-		registry.addConverter(getAddressToStringConverter());
-		registry.addConverter(getIdToAddressConverter());
-		registry.addConverter(getStringToAddressConverter());
 		registry.addConverter(getArticleToStringConverter());
 		registry.addConverter(getIdToArticleConverter());
 		registry.addConverter(getStringToArticleConverter());
@@ -661,9 +660,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		registry.addConverter(getContentTypeToStringConverter());
 		registry.addConverter(getIdToContentTypeConverter());
 		registry.addConverter(getStringToContentTypeConverter());
-		registry.addConverter(getCountryToStringConverter());
-		registry.addConverter(getIdToCountryConverter());
-		registry.addConverter(getStringToCountryConverter());
 		registry.addConverter(getCustomerToStringConverter());
 		registry.addConverter(getIdToCustomerConverter());
 		registry.addConverter(getStringToCustomerConverter());
@@ -676,12 +672,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		registry.addConverter(getReaderTypeToStringConverter());
 		registry.addConverter(getIdToReaderTypeConverter());
 		registry.addConverter(getStringToReaderTypeConverter());
-		registry.addConverter(getRoleToStringConverter());
-		registry.addConverter(getUserStatusToStringConverter());
-		registry.addConverter(getIdToRoleConverter());
-		registry.addConverter(getIdToUserStatusConverter());
-		registry.addConverter(getStringToRoleConverter());
-		registry.addConverter(getStringToUserStatusConverter());
 		registry.addConverter(getTaskToStringConverter());
 		registry.addConverter(getIdToTaskConverter());
 		registry.addConverter(getStringToTaskConverter());
@@ -694,12 +684,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		registry.addConverter(getUserArticleToStringConverter());
 		registry.addConverter(getIdToUserArticleConverter());
 		registry.addConverter(getStringToUserArticleConverter());
-		registry.addConverter(getUsersToStringConverter());
-		registry.addConverter(getIdToUsersConverter());
-		registry.addConverter(getStringToUsersConverter());
-		registry.addConverter(getUsersBackingToStringConverter());
-		registry.addConverter(getIdToUsersBackingConverter());
-		registry.addConverter(getStringToUsersBackingConverter());
+
 	}
 
 	public void afterPropertiesSet() {

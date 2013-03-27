@@ -17,7 +17,7 @@ import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleCategory;
 import rs.id.webzine.domain.Category;
-import rs.id.webzine.domain.Users;
+import rs.id.webzine.domain.User;
 
 @RequestMapping("/articlecategorys")
 @Controller
@@ -129,7 +129,7 @@ public class ArticleCategoryController {
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAllArticles());
 		uiModel.addAttribute("categorys", Category.findAllCategorys());
-		uiModel.addAttribute("users", Users.findAll());
+		uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

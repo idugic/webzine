@@ -16,7 +16,7 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleRate;
-import rs.id.webzine.domain.Users;
+import rs.id.webzine.domain.User;
 
 @RequestMapping("/articlerates")
 @Controller
@@ -124,7 +124,7 @@ public class ArticleRateController {
 		uiModel.addAttribute("articleRate", articleRate);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAllArticles());
-		uiModel.addAttribute("users", Users.findAll());
+		uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

@@ -6,6 +6,8 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,24 @@ import rs.id.webzine.domain.Country;
 @Controller
 public class CountryController extends ModelController {
 
+	class CountryCreateValidator implements Validator {
+
+		@Override
+		public boolean supports(Class<?> clazz) {
+			return true;
+		}
+
+		@Override
+		public void validate(Object target, Errors errors) {
+			Country form = (Country) target;
+			Country country = Country.findForCd(form.getCd());
+			if (country != null) {
+				errors.rejectValue("cd", "validation.country.cd.duplicate");
+			}
+		}
+
+	}
+
 	@RequestMapping(params = "form", produces = "text/html")
 	public String createForm(Model uiModel) {
 		populateEditForm(uiModel, new Country());
@@ -26,15 +46,25 @@ public class CountryController extends ModelController {
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(@Valid Country country, BindingResult bindingResult, Model uiModel,
 	        HttpServletRequest httpServletRequest) {
+		// bind
 		if (bindingResult.hasErrors()) {
 			populateEditForm(uiModel, country);
 			return "admin/country/create";
 		}
 
-		// TODO Server side validation (check on duplicate CD)
+		// validate
+		CountryCreateValidator validator = new CountryCreateValidator();
+		validator.validate(country, bindingResult);
+		if (bindingResult.hasErrors()) {
+			populateEditForm(uiModel, country);
+			return "admin/country/create";
+		}
 
-		uiModel.asMap().clear();
+		// persist
 		country.persist();
+
+		// show
+		uiModel.asMap().clear();
 		return "redirect:/admin/country/" + encodeUrlPathSegment(country.getId().toString(), httpServletRequest);
 	}
 

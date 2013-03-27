@@ -68,19 +68,19 @@ public class Article {
 
 	@ManyToOne
 	@JoinColumn(name = "UM", referencedColumnName = "ID")
-	private Users um;
+	private User um;
 
 	@ManyToOne
 	@JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-	private Users uc;
+	private User uc;
 
 	@ManyToOne
 	@JoinColumn(name = "AUTHOR_USER_ID", referencedColumnName = "ID", nullable = false)
-	private Users authorUserId;
+	private User authorUserId;
 
 	@ManyToOne
 	@JoinColumn(name = "PUBLISHED_BY", referencedColumnName = "ID")
-	private Users publishedBy;
+	private User publishedBy;
 
 	@Column(name = "STATUS")
 	@NotNull
@@ -160,35 +160,35 @@ public class Article {
 		this.managedContentId = managedContentId;
 	}
 
-	public Users getUm() {
+	public User getUm() {
 		return um;
 	}
 
-	public void setUm(Users um) {
+	public void setUm(User um) {
 		this.um = um;
 	}
 
-	public Users getUc() {
+	public User getUc() {
 		return uc;
 	}
 
-	public void setUc(Users uc) {
+	public void setUc(User uc) {
 		this.uc = uc;
 	}
 
-	public Users getAuthorUserId() {
+	public User getAuthorUserId() {
 		return authorUserId;
 	}
 
-	public void setAuthorUserId(Users authorUserId) {
+	public void setAuthorUserId(User authorUserId) {
 		this.authorUserId = authorUserId;
 	}
 
-	public Users getPublishedBy() {
+	public User getPublishedBy() {
 		return publishedBy;
 	}
 
-	public void setPublishedBy(Users publishedBy) {
+	public void setPublishedBy(User publishedBy) {
 		this.publishedBy = publishedBy;
 	}
 

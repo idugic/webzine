@@ -32,11 +32,11 @@ public class ArticleBookmark {
 
 	@ManyToOne
 	@JoinColumn(name = "UM", referencedColumnName = "ID")
-	private Users um;
+	private User um;
 
 	@ManyToOne
 	@JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-	private Users uc;
+	private User uc;
 
 	@Column(name = "DC")
 	@NotNull
@@ -57,19 +57,19 @@ public class ArticleBookmark {
 		this.articleId = articleId;
 	}
 
-	public Users getUm() {
+	public User getUm() {
 		return um;
 	}
 
-	public void setUm(Users um) {
+	public void setUm(User um) {
 		this.um = um;
 	}
 
-	public Users getUc() {
+	public User getUc() {
 		return uc;
 	}
 
-	public void setUc(Users uc) {
+	public void setUc(User uc) {
 		this.uc = uc;
 	}
 
