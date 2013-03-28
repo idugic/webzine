@@ -2,6 +2,8 @@ package rs.id.webzine.web.backing;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.UserStatus;
 
@@ -21,6 +23,7 @@ public class UserBacking {
 
 	private String lastName;
 
+	@DateTimeFormat(style = "M-")
 	private Date birthday;
 
 	private byte[] image;

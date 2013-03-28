@@ -19,6 +19,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,15 +32,33 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.domain.Address;
 import rs.id.webzine.domain.Role;
-import rs.id.webzine.domain.UserStatus;
 import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.UserStatus;
 import rs.id.webzine.web.backing.UserBacking;
 
 @RequestMapping("admin/user")
 @Controller
 public class UserController extends ModelController {
 
+	// TODO min, max validation
+
 	private static final Log log = LogFactory.getLog(UserController.class);
+
+	class UserCreateValidator implements Validator {
+		@Override
+		public boolean supports(Class<?> clazz) {
+			return true;
+		}
+
+		@Override
+		public void validate(Object target, Errors errors) {
+			UserBacking form = (UserBacking) target;
+			User user = User.findForUserName(form.getUserName());
+			if (user != null) {
+				errors.rejectValue("userName", "validation.user.userName.duplicate");
+			}
+		}
+	}
 
 	@InitBinder
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
@@ -50,27 +70,52 @@ public class UserController extends ModelController {
 		        DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
 	}
 
+	@RequestMapping(params = "form", produces = "text/html")
+	public String createForm(Model uiModel) {
+		populateEditForm(uiModel, new UserBacking());
+		return "admin/user/create";
+	}
+
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
 	public String create(@Valid UserBacking userBacking, @RequestParam("image") MultipartFile image,
 	        BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
 		try {
+			/*
+			 * workaround (multipart forms are always sent using POST)
+			 */
+			if (httpServletRequest.getParameter("_method") != null
+			        && httpServletRequest.getParameter("_method").equals("PUT")) {
+				return this.update(userBacking, image, bindingResult, uiModel, httpServletRequest);
+			}
+
+			// bind
 			if (bindingResult.hasErrors()) {
 				populateEditForm(uiModel, userBacking);
 				return "admin/user/create";
 			}
-			uiModel.asMap().clear();
+
+			// validate
+			UserCreateValidator validator = new UserCreateValidator();
+			validator.validate(userBacking, bindingResult);
+			if (bindingResult.hasErrors()) {
+				populateEditForm(uiModel, userBacking);
+				return "admin/user/create";
+			}
 
 			// address
 			Address address = new Address();
 			PropertyUtils.copyProperties(address, userBacking);
 			address.persist();
 
+			// persist
 			User user = new User();
 			PropertyUtils.copyProperties(user, userBacking);
+			// TODO hash password
 			user.setImageContentType(image.getContentType());
 			user.setAddressId(address);
 			user.persist();
 
+			uiModel.asMap().clear();
 			return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
 		} catch (Exception e) {
 			log.error(e);
@@ -79,10 +124,75 @@ public class UserController extends ModelController {
 
 	}
 
-	@RequestMapping(params = "form", produces = "text/html")
-	public String createForm(Model uiModel) {
-		populateEditForm(uiModel, new UserBacking());
-		return "admin/user/create";
+	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+		try {
+			UserBacking userBacking = new UserBacking();
+			User user = User.find(id);
+			PropertyUtils.copyProperties(userBacking, user);
+			userBacking.setBackingId(user.getId());
+
+			if (user.getAddressId() != null) {
+				PropertyUtils.copyProperties(userBacking, user.getAddressId());
+			}
+
+			populateEditForm(uiModel, userBacking);
+			return "admin/user/update";
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
+	public String update(@Valid UserBacking userBacking, @RequestParam("image") MultipartFile image,
+	        BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+		try {
+			if (bindingResult.hasErrors()) {
+				populateEditForm(uiModel, userBacking);
+				return "admin/user/update";
+			}
+
+			User user = User.find(userBacking.getBackingId());
+
+			byte[] oldImage = null;
+			String oldImageContentType = null;
+			if (image == null || image.getBytes() == null || image.getBytes().length == 0) {
+				// get old image
+				oldImage = user.getImage().clone();
+				oldImageContentType = user.getImageContentType();
+			}
+
+			PropertyUtils.copyProperties(user, userBacking);
+			user.setId(userBacking.getBackingId());
+			// TODO hash password
+
+			if (image == null || image.getBytes() == null || image.getBytes().length == 0) {
+				user.setImage(oldImage);
+				user.setImageContentType(oldImageContentType);
+			} else {
+				user.setImage(image.getBytes());
+				user.setImageContentType(image.getContentType());
+			}
+
+			// address
+			if (user.getAddressId() != null) {
+				PropertyUtils.copyProperties(user.getAddressId(), userBacking);
+			} else {
+				Address address = new Address();
+				PropertyUtils.copyProperties(address, userBacking);
+				address.persist();
+
+				user.setAddressId(address);
+			}
+
+			uiModel.asMap().clear();
+			user.merge();
+			return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		}
 	}
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
@@ -98,7 +208,8 @@ public class UserController extends ModelController {
 			}
 			PropertyUtils.copyProperties(userBacking, user);
 
-			userBacking.setImageUrl("http://localhost:8080/webzine/admin/user/showimage/" + id); // TODO
+			// TODO relative path
+			userBacking.setImageUrl("http://localhost:8080/webzine/admin/user/showimage/" + id);
 
 			uiModel.addAttribute("userBacking", userBacking);
 			uiModel.addAttribute("itemId", id);
@@ -114,14 +225,15 @@ public class UserController extends ModelController {
 	@RequestMapping(value = "/showimage/{id}", method = RequestMethod.GET)
 	public String showImage(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
 		try {
-			response.setHeader("Content-Disposition", "inline;");
-
 			User user = User.find(id);
-			response.setContentType(user.getImageContentType());
+			if (user.getImage() != null && user.getImage().length > 0) {
+				response.setHeader("Content-Disposition", "inline;");
+				response.setContentType(user.getImageContentType());
 
-			OutputStream out = response.getOutputStream();
-			IOUtils.copy(new ByteArrayInputStream(user.getImage()), out);
-			out.flush();
+				OutputStream out = response.getOutputStream();
+				IOUtils.copy(new ByteArrayInputStream(user.getImage()), out);
+				out.flush();
+			}
 
 			return null;
 		} catch (Exception e) {
@@ -165,69 +277,6 @@ public class UserController extends ModelController {
 			uiModel.addAttribute("userBacking", userBackingList);
 
 			return "admin/user/list";
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
-
-	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-	public String update(@Valid UserBacking userBacking, @RequestParam("image") MultipartFile image,
-	        BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-		try {
-			if (bindingResult.hasErrors()) {
-				populateEditForm(uiModel, userBacking);
-				return "admin/user/update";
-			}
-
-			// user
-			User user = User.find(userBacking.getBackingId());
-			PropertyUtils.copyProperties(user, userBacking);
-			user.setId(userBacking.getBackingId());
-
-			// image
-			if (image == null || image.getBytes() == null || image.getBytes().length == 0) {
-				User oldUser = User.find(userBacking.getBackingId());
-				user.setImage(oldUser.getImage());
-				user.setImageContentType(oldUser.getImageContentType());
-			} else {
-				user.setImageContentType(image.getContentType());
-			}
-
-			// address
-			if (user.getAddressId() != null) {
-				PropertyUtils.copyProperties(user.getAddressId(), userBacking);
-			} else {
-				Address address = new Address();
-				PropertyUtils.copyProperties(address, userBacking);
-				address.persist();
-
-				user.setAddressId(address);
-			}
-
-			uiModel.asMap().clear();
-			user.merge();
-			return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
-
-	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
-	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		try {
-			UserBacking userBacking = new UserBacking();
-			User user = User.find(id);
-			PropertyUtils.copyProperties(userBacking, user);
-			userBacking.setBackingId(user.getId());
-
-			if (user.getAddressId() != null) {
-				PropertyUtils.copyProperties(userBacking, user.getAddressId());
-			}
-
-			populateEditForm(uiModel, userBacking);
-			return "admin/user/update";
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);

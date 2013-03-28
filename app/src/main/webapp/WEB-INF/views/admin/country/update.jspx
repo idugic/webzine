@@ -4,7 +4,7 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<form:update id="fu_rs_id_webzine_domain_Country" modelAttribute="country" path="/admin/country" versionField="none">
-		<field:input field="cd" id="c_rs_id_webzine_domain_Country_cd" required="true" readonly="true"/>
-		<field:input field="name" id="c_rs_id_webzine_domain_Country_name" required="true" />
+		<field:input field="cd" id="c_rs_id_webzine_domain_Country_cd" required="true" readonly="true" />
+		<field:input field="name" id="c_rs_id_webzine_domain_Country_name" required="true" max="50" />
 	</form:update>
 </div>

@@ -19,8 +19,9 @@ import rs.id.webzine.domain.Country;
 @Controller
 public class CountryController extends ModelController {
 
-	class CountryCreateValidator implements Validator {
+	// TODO min, max validation
 
+	class CountryCreateValidator implements Validator {
 		@Override
 		public boolean supports(Class<?> clazz) {
 			return true;
@@ -34,7 +35,6 @@ public class CountryController extends ModelController {
 				errors.rejectValue("cd", "validation.country.cd.duplicate");
 			}
 		}
-
 	}
 
 	@RequestMapping(params = "form", produces = "text/html")
@@ -98,8 +98,6 @@ public class CountryController extends ModelController {
 			populateEditForm(uiModel, country);
 			return "admin/country/update";
 		}
-
-		// TODO Server side validation (check on duplicate CD)
 
 		uiModel.asMap().clear();
 		country.merge();

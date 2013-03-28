@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NoResultException;
 import javax.persistence.Table;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
@@ -66,13 +65,13 @@ public class Country extends IdEntity {
 		Country country = null;
 
 		try {
-			if (cd == null) {
+			if (cd != null) {
 				TypedQuery<Country> query = entityManager().createQuery("SELECT o FROM Country o WHERE cd = :cd",
 				        Country.class);
 				query.setParameter("cd", cd);
 				country = query.getSingleResult();
 			}
-		} catch (NoResultException e) {
+		} catch (Exception e) {
 			log.debug(e);
 		}
 
