@@ -5,12 +5,12 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<page:show id="ps_rs_id_webzine_domain_User" object="${userBacking}" path="/admin/user">
 		<field:display field="userName" id="s_rs_id_webzine_domain_User_userName" object="${userBacking}" />
-		<field:display field="password" id="s_rs_id_webzine_domain_User_password" object="${userBacking}" />
+		<field:display field="password" id="s_rs_id_webzine_domain_User_password" object="${userBacking}" render="false"/>
 		<field:display field="roleId" id="s_rs_id_webzine_domain_User_roleId" object="${userBacking}" />
 		<field:display field="statusId" id="s_rs_id_webzine_domain_User_statusId" object="${userBacking}" />
 		<field:display field="firstName" id="s_rs_id_webzine_domain_User_firstName" object="${userBacking}" />
 		<field:display field="lastName" id="s_rs_id_webzine_domain_User_lastName" object="${userBacking}" />
-		<field:display date="true" dateTimePattern="${user_birthday_date_format}" field="birthday" id="s_rs_id_webzine_domain_User_birthday"
+		<field:display date="true" dateTimePattern="${user_birthdate_date_format}" field="birthdate" id="s_rs_id_webzine_domain_User_birthdate"
 			object="${userBacking}" />
 		<field:display field="email" id="s_rs_id_webzine_domain_Address_email" object="${userBacking}" />
 		<field:display field="phone" id="s_rs_id_webzine_domain_Address_phone" object="${userBacking}" />

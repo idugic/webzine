@@ -118,7 +118,7 @@
 <dataTypeSize>50</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="BIRTHDAY" id="B0CB621A-1F0C-E37C-C9C2-83C2C02A2115">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="BIRTHDATE" id="B0CB621A-1F0C-E37C-C9C2-83C2C02A2115">
 <createdBy>IvanD</createdBy>
 <createdTime>2013-03-22 20:36:36 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>

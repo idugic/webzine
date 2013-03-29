@@ -2,6 +2,8 @@ package rs.id.webzine.web.backing;
 
 import java.util.Date;
 
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import rs.id.webzine.domain.Role;
@@ -19,12 +21,14 @@ public class UserBacking {
 
 	private String password;
 
+	private String newPassword;
+
 	private String firstName;
 
 	private String lastName;
 
 	@DateTimeFormat(style = "M-")
-	private Date birthday;
+	private Date birthdate;
 
 	private byte[] image;
 
@@ -89,6 +93,14 @@ public class UserBacking {
 		this.password = password;
 	}
 
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -105,12 +117,12 @@ public class UserBacking {
 		this.lastName = lastName;
 	}
 
-	public Date getBirthday() {
-		return birthday;
+	public Date getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	public byte[] getImage() {

@@ -40,8 +40,6 @@ import rs.id.webzine.web.backing.UserBacking;
 @Controller
 public class UserController extends ModelController {
 
-	// TODO min, max validation
-
 	private static final Log log = LogFactory.getLog(UserController.class);
 
 	class UserCreateValidator implements Validator {
@@ -66,7 +64,7 @@ public class UserController extends ModelController {
 	}
 
 	void addDateTimeFormatPatterns(Model uiModel) {
-		uiModel.addAttribute("user_birthday_date_format",
+		uiModel.addAttribute("user_birthdate_date_format",
 		        DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
 	}
 
@@ -110,7 +108,9 @@ public class UserController extends ModelController {
 			// persist
 			User user = new User();
 			PropertyUtils.copyProperties(user, userBacking);
+
 			// TODO hash password
+
 			user.setImageContentType(image.getContentType());
 			user.setAddressId(address);
 			user.persist();
@@ -155,17 +155,25 @@ public class UserController extends ModelController {
 
 			User user = User.find(userBacking.getBackingId());
 
+			// collect OLD values
+			String oldPassword = user.getPassword();
 			byte[] oldImage = null;
-			String oldImageContentType = null;
-			if (image == null || image.getBytes() == null || image.getBytes().length == 0) {
-				// get old image
+			if (user.getImage() != null) {
 				oldImage = user.getImage().clone();
-				oldImageContentType = user.getImageContentType();
 			}
+			String oldImageContentType = user.getImageContentType();
 
 			PropertyUtils.copyProperties(user, userBacking);
+
 			user.setId(userBacking.getBackingId());
-			// TODO hash password
+
+			String newPassword = userBacking.getNewPassword();
+			if (newPassword != null && !newPassword.isEmpty()) {
+				// TODO hash password
+				user.setPassword(newPassword);
+			} else {
+				user.setPassword(oldPassword);
+			}
 
 			if (image == null || image.getBytes() == null || image.getBytes().length == 0) {
 				user.setImage(oldImage);
@@ -196,7 +204,7 @@ public class UserController extends ModelController {
 	}
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
-	public String show(@PathVariable("id") Integer id, Model uiModel) {
+	public String show(@PathVariable("id") Integer id, Model uiModel, HttpServletRequest httpServletRequest) {
 		try {
 			UserBacking userBacking = new UserBacking();
 
@@ -208,8 +216,9 @@ public class UserController extends ModelController {
 			}
 			PropertyUtils.copyProperties(userBacking, user);
 
-			// TODO relative path
-			userBacking.setImageUrl("http://localhost:8080/webzine/admin/user/showimage/" + id);
+			String imageUrl = httpServletRequest.getContextPath() + "/admin/user/showimage/"
+			        + encodeUrlPathSegment(id.toString(), httpServletRequest);
+			userBacking.setImageUrl(imageUrl);
 
 			uiModel.addAttribute("userBacking", userBacking);
 			uiModel.addAttribute("itemId", id);

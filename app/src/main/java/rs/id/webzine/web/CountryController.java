@@ -19,8 +19,6 @@ import rs.id.webzine.domain.Country;
 @Controller
 public class CountryController extends ModelController {
 
-	// TODO min, max validation
-
 	class CountryCreateValidator implements Validator {
 		@Override
 		public boolean supports(Class<?> clazz) {

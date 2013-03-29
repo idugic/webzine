@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
-	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<form:create id="fc_rs_id_webzine_domain_User" modelAttribute="userBacking" path="/admin/user" multipart="true" render="${empty dependencies}">
-		<field:input field="userName" id="c_rs_id_webzine_domain_User_userName" max="50" required="true" />
-		<field:input field="password" id="c_rs_id_webzine_domain_User_password" max="15" required="true" />
+		<field:input field="userName" id="c_rs_id_webzine_domain_User_userName" required="true" max="50" />
+		<field:input field="password" id="c_rs_id_webzine_domain_User_password" required="true" max="15" />
 		<field:select field="roleId" id="c_rs_id_webzine_domain_User_roleId" itemValue="id" items="${role}" path="/admin/role" />
 		<field:select field="statusId" id="c_rs_id_webzine_domain_User_statusId" itemValue="id" items="${userStatus}" path="/admin/user_status" />
 		<field:input field="firstName" id="c_rs_id_webzine_domain_User_firstName" max="50" />
 		<field:input field="lastName" id="c_rs_id_webzine_domain_User_lastName" max="50" />
-		<field:datetime dateTimePattern="${user_birthday_date_format}" field="birthday" id="c_rs_id_webzine_domain_User_birthday" />
+		<field:datetime dateTimePattern="${user_birthdate_date_format}" field="birthdate" id="c_rs_id_webzine_domain_User_birthdate" />
 		<field:file field="image" id="c_rs_id_webzine_domain_User_image" />
-		<field:input field="email" id="c_rs_id_webzine_domain_Address_email" max="100" validationRegex="^.+\@.+\..+$"
-			validationMessageCode="validation.user.email.invalid" />
+		<field:input field="email" id="c_rs_id_webzine_domain_Address_email" validationRegex="^.+\@.+\..+$" validationMessageCode="validation.user.email.invalid" max="100" />
 		<field:input field="phone" id="c_rs_id_webzine_domain_Address_phone" max="50" />
 		<field:input field="streetLine" id="c_rs_id_webzine_domain_Address_streetLine" max="100" />
 		<field:input field="city" id="c_rs_id_webzine_domain_Address_city" max="50" />

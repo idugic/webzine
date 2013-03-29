@@ -50,10 +50,10 @@ public class User extends IdEntity {
 	@Column(name = "LAST_NAME", length = 50)
 	private String lastName;
 
-	@Column(name = "BIRTHDAY")
+	@Column(name = "BIRTHDATE")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(style = "M-")
-	private Date birthday;
+	private Date birthdate;
 
 	@Column(name = "IMAGE")
 	@Lob
@@ -115,12 +115,12 @@ public class User extends IdEntity {
 		this.lastName = lastName;
 	}
 
-	public Date getBirthday() {
-		return birthday;
+	public Date getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	public byte[] getImage() {
