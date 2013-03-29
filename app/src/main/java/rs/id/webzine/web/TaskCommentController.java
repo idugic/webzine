@@ -123,7 +123,7 @@ public class TaskCommentController {
 	void populateEditForm(Model uiModel, TaskComment taskComment) {
 		uiModel.addAttribute("taskComment", taskComment);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("tasks", Task.findAllTasks());
+		uiModel.addAttribute("tasks", Task.findAll());
 		uiModel.addAttribute("users", User.findAll());
 	}
 

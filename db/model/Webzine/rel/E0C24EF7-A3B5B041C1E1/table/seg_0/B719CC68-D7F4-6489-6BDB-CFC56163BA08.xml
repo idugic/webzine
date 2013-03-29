@@ -49,25 +49,18 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS" id="F4AB2CF5-3DC8-BFFA-8829-0CB3C893EC63">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS_ID" id="F4AB2CF5-3DC8-BFFA-8829-0CB3C893EC63">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-07 14:19:47 UTC</createdTime>
-<comment>1-Submitted, 100-Completed</comment>
 <ownerDesignName>Webzine</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>F838A62A-36B1-F7BC-BE73-74CCC4699861</delegate>
 <autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="PRIORITY" id="FE8F52D5-0643-0FDB-6844-80A362810FB3">
-<createdBy>idugic</createdBy>
-<createdTime>2013-03-07 14:17:38 UTC</createdTime>
-<comment>0-Low, 1-Normal, 2-High</comment>
-<ownerDesignName>Webzine</ownerDesignName>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="5E6B3AE7-1D71-241F-3A66-73F315986B1E" referredColumn="F838A62A-36B1-F7BC-BE73-74CCC4699861"/>
+</associations>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="TITLE" id="1E6BFCFB-7C64-A0BA-4937-4C4EC4860AC1">
 <createdBy>idugic</createdBy>
@@ -78,6 +71,19 @@
 <logicalDatatype>LOGDT024</logicalDatatype>
 <dataTypeSize>250</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="PRIORITY_ID" id="FE8F52D5-0643-0FDB-6844-80A362810FB3">
+<createdBy>idugic</createdBy>
+<createdTime>2013-03-07 14:17:38 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>69AE66F0-2F82-C103-0AFD-31D4BCAEDC89</delegate>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="23DC2CCA-91F3-22FB-2E5D-2154CCCF61CD" referredColumn="69AE66F0-2F82-C103-0AFD-31D4BCAEDC89"/>
+</associations>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="DESCRIPTION" id="493520D9-DA80-BF03-CFC9-6C4209FF8A7E">
 <createdBy>idugic</createdBy>
@@ -212,19 +218,23 @@
 <colUsage columnID="2EE3720D-E1A8-26A1-4A88-11EFD716062F"/>
 </indexColumnUsage>
 </ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="C0C3B886-97AD-7591-3B64-49D4B73B50EE" name="TASK_TASK_STAT_FK_1">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-29 18:37:30 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="F4AB2CF5-3DC8-BFFA-8829-0CB3C893EC63"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="42CA7133-C7AC-7DDA-312D-AC213691CE52" name="TASK_TASK_PRIO_FK_1">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-29 18:39:26 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="FE8F52D5-0643-0FDB-6844-80A362810FB3"/>
+</indexColumnUsage>
+</ind_PK_UK>
 </indexes>
-<tableCheckConstraints>
-<tableCheckConstraint class="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint" name="TASK_CK_1" id="8244BFB2-EC8B-424B-FC65-FE730E2ADBDD" directorySegmentName="seg_0">
-<createdBy>idugic</createdBy>
-<createdTime>2013-03-07 14:28:46 UTC</createdTime>
-<ownerDesignName>Webzine</ownerDesignName>
-<rule>STATUS IN (1,100)</rule>
-</tableCheckConstraint>
-<tableCheckConstraint class="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint" name="TASK_CK_2" id="A03B4DCD-C279-3CCD-6275-CAB3A446FC28" directorySegmentName="seg_0">
-<createdBy>idugic</createdBy>
-<createdTime>2013-03-07 14:28:46 UTC</createdTime>
-<ownerDesignName>Webzine</ownerDesignName>
-<rule>PRIORITY IN (1,2,3)</rule>
-</tableCheckConstraint>
-</tableCheckConstraints>
 </Table>

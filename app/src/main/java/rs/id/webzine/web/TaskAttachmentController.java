@@ -125,7 +125,7 @@ public class TaskAttachmentController {
 	void populateEditForm(Model uiModel, TaskAttachment taskAttachment) {
 		uiModel.addAttribute("taskAttachment", taskAttachment);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("tasks", Task.findAllTasks());
+		uiModel.addAttribute("tasks", Task.findAll());
 		uiModel.addAttribute("users", User.findAll());
 	}
 

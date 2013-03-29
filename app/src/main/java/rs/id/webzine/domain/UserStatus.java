@@ -39,13 +39,11 @@ public class UserStatus extends IdEntity {
 	}
 
 	public static long count() {
-		return entityManager().createQuery("SELECT COUNT(o) FROM UserStatus o",
-				Long.class).getSingleResult();
+		return entityManager().createQuery("SELECT COUNT(o) FROM UserStatus o", Long.class).getSingleResult();
 	}
 
 	public static List<UserStatus> findAll() {
-		return entityManager().createQuery("SELECT o FROM UserStatus o",
-				UserStatus.class).getResultList();
+		return entityManager().createQuery("SELECT o FROM UserStatus o", UserStatus.class).getResultList();
 	}
 
 	public static UserStatus find(Integer id) {
@@ -55,9 +53,7 @@ public class UserStatus extends IdEntity {
 	}
 
 	public static List<UserStatus> findEntries(int firstResult, int maxResults) {
-		return entityManager()
-				.createQuery("SELECT o FROM UserStatus o", UserStatus.class)
-				.setFirstResult(firstResult).setMaxResults(maxResults)
-				.getResultList();
+		return entityManager().createQuery("SELECT o FROM UserStatus o", UserStatus.class).setFirstResult(firstResult)
+		        .setMaxResults(maxResults).getResultList();
 	}
 }

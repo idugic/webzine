@@ -32,28 +32,28 @@
 <Connector class="oracle.dbtools.crest.swingui.relational.TVFKRelation" oid="C0744002-2B9F-394D-8402-0B1092AB403A" otype="FKIndexAssociation" vid_source="93F77139-E948-5095-A9F2-BDDD2A770234" vid_target="FB968C9E-753E-5FB4-0AFD-B791ED28A04F">
 <lineWidth>1</lineWidth>
 <points>
-<point x="486" y="362"/>
-<point x="486" y="294"/>
-<point x="428" y="294"/>
-<point x="428" y="269"/>
+<point x="359" y="362"/>
+<point x="458" y="322"/>
+<point x="433" y="322"/>
+<point x="313" y="60"/>
 </points>
 </Connector>
 <Connector class="oracle.dbtools.crest.swingui.relational.TVFKRelation" oid="CC298D7C-4A1F-F2C5-5EF2-C818488FA71E" otype="FKIndexAssociation" vid_source="D8320BC8-B194-3217-8FA0-72BD271DB535" vid_target="FB968C9E-753E-5FB4-0AFD-B791ED28A04F">
 <lineWidth>1</lineWidth>
 <points>
-<point x="681" y="75"/>
-<point x="608" y="75"/>
-<point x="608" y="151"/>
-<point x="595" y="151"/>
+<point x="681" y="89"/>
+<point x="594" y="89"/>
+<point x="594" y="165"/>
+<point x="595" y="165"/>
 </points>
 </Connector>
 <Connector class="oracle.dbtools.crest.swingui.relational.TVFKRelation" oid="CECF21C3-6237-F1A8-7FFD-4E3DB204FC45" otype="FKIndexAssociation" vid_source="329A6FA0-941B-7FC6-CAFB-9520F92C8BFE" vid_target="FB968C9E-753E-5FB4-0AFD-B791ED28A04F">
 <lineWidth>1</lineWidth>
 <points>
-<point x="218" y="84"/>
-<point x="272" y="84"/>
-<point x="272" y="157"/>
-<point x="313" y="157"/>
+<point x="37" y="39"/>
+<point x="258" y="98"/>
+<point x="258" y="179"/>
+<point x="313" y="60"/>
 </points>
 </Connector>
 </connectors>

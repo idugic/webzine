@@ -2,8 +2,6 @@ package rs.id.webzine.web.backing;
 
 import java.util.Date;
 
-import javax.validation.constraints.Size;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import rs.id.webzine.domain.Role;

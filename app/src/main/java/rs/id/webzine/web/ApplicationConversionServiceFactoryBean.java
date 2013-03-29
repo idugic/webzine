@@ -26,6 +26,8 @@ import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.Task;
 import rs.id.webzine.domain.TaskAttachment;
 import rs.id.webzine.domain.TaskComment;
+import rs.id.webzine.domain.TaskPriority;
+import rs.id.webzine.domain.TaskStatus;
 import rs.id.webzine.domain.User;
 import rs.id.webzine.domain.UserArticle;
 import rs.id.webzine.domain.UserStatus;
@@ -177,6 +179,56 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Country>() {
 			public rs.id.webzine.domain.Country convert(String id) {
 				return getObject().convert(getObject().convert(id, Integer.class), Country.class);
+			}
+		};
+	}
+
+	// task status
+	public Converter<TaskStatus, String> getTaskStatusToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.TaskStatus, java.lang.String>() {
+			public String convert(TaskStatus taskStatus) {
+				return new StringBuilder().append(taskStatus.getName()).toString();
+			}
+		};
+	}
+
+	public Converter<Integer, TaskStatus> getIdToTaskStatusConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.TaskStatus>() {
+			public rs.id.webzine.domain.TaskStatus convert(java.lang.Integer id) {
+				return TaskStatus.find(id);
+			}
+		};
+	}
+
+	public Converter<String, TaskStatus> getStringToTaskStatusConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.TaskStatus>() {
+			public rs.id.webzine.domain.TaskStatus convert(String id) {
+				return getObject().convert(getObject().convert(id, Integer.class), TaskStatus.class);
+			}
+		};
+	}
+
+	// task priority
+	public Converter<TaskPriority, String> getTaskPriorityToStringConverter() {
+		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.TaskPriority, java.lang.String>() {
+			public String convert(TaskPriority taskPriority) {
+				return new StringBuilder().append(taskPriority.getName()).toString();
+			}
+		};
+	}
+
+	public Converter<Integer, TaskPriority> getIdToTaskPriorityConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.TaskPriority>() {
+			public rs.id.webzine.domain.TaskPriority convert(java.lang.Integer id) {
+				return TaskPriority.find(id);
+			}
+		};
+	}
+
+	public Converter<String, TaskPriority> getStringToTaskPriorityConverter() {
+		return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.TaskPriority>() {
+			public rs.id.webzine.domain.TaskPriority convert(String id) {
+				return getObject().convert(getObject().convert(id, Integer.class), TaskPriority.class);
 			}
 		};
 	}
@@ -510,8 +562,8 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 	public Converter<Task, String> getTaskToStringConverter() {
 		return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Task, java.lang.String>() {
 			public String convert(Task task) {
-				return new StringBuilder().append(task.getStatus()).append(' ').append(task.getPriority()).append(' ')
-				        .append(task.getTitle()).append(' ').append(task.getDescription()).toString();
+				return new StringBuilder().append(task.getStatusId()).append(' ').append(task.getPriorityId())
+				        .append(' ').append(task.getTitle()).append(' ').append(task.getDescription()).toString();
 			}
 		};
 	}
@@ -519,7 +571,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 	public Converter<Integer, Task> getIdToTaskConverter() {
 		return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Task>() {
 			public rs.id.webzine.domain.Task convert(java.lang.Integer id) {
-				return Task.findTask(id);
+				return Task.find(id);
 			}
 		};
 	}
@@ -632,6 +684,16 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 		registry.addConverter(getCountryToStringConverter());
 		registry.addConverter(getIdToCountryConverter());
 		registry.addConverter(getStringToCountryConverter());
+
+		// task status
+		registry.addConverter(getTaskStatusToStringConverter());
+		registry.addConverter(getIdToTaskStatusConverter());
+		registry.addConverter(getStringToTaskStatusConverter());
+
+		// task priority
+		registry.addConverter(getTaskPriorityToStringConverter());
+		registry.addConverter(getIdToTaskPriorityConverter());
+		registry.addConverter(getStringToTaskPriorityConverter());
 
 		registry.addConverter(getAdToStringConverter());
 		registry.addConverter(getIdToAdConverter());

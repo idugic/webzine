@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<page:show id="ps_rs_id_webzine_domain_Task" object="${task}" path="/admin/task">
+		<field:display field="statusId" id="s_rs_id_webzine_domain_Task_statusId" object="${task}" />
+		<field:display field="title" id="s_rs_id_webzine_domain_Task_title" object="${task}" />
+		<field:display field="priorityId" id="s_rs_id_webzine_domain_Task_priorityId" object="${task}" />
+		<field:display field="description" id="s_rs_id_webzine_domain_Task_description" object="${task}" />
+		<field:display field="ownerUserId" id="s_rs_id_webzine_domain_Task_ownerUserId" object="${task}" />
+		<field:display field="parentTaskId" id="s_rs_id_webzine_domain_Task_parentTaskId" object="${task}" z="uQB7SMEP6FFm7hoipJjZ/JZsCqQ=" />
+		<field:display field="uc" id="s_rs_id_webzine_domain_Task_uc" object="${task}" />
+		<field:display calendar="true" dateTimePattern="${task_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_Task_dc" object="${task}" />
+		<field:display field="um" id="s_rs_id_webzine_domain_Task_um" object="${task}" />
+		<field:display calendar="true" dateTimePattern="${task_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_Task_dm" object="${task}" />
+	</page:show>
+</div>
