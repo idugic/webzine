@@ -591,7 +591,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, TaskAttachment> getIdToTaskAttachmentConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.TaskAttachment>() {
       public rs.id.webzine.domain.TaskAttachment convert(java.lang.Integer id) {
-        return TaskAttachment.findTaskAttachment(id);
+        return TaskAttachment.find(id);
       }
     };
   }

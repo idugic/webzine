@@ -27,7 +27,7 @@
   </page:list>
   <BR />
   <!-- Attachment -->
-  <form:create id="fu_rs_id_webzine_domain_TaskAttachment" modelAttribute="taskAttachment" path="/admin/task/comment" multipart="true" list="false">
+  <form:create id="fu_rs_id_webzine_domain_TaskAttachment" modelAttribute="taskAttachment" path="/admin/task/attachment" multipart="true" list="false">
     <field:file field="content" id="c_rs_id_webzine_domain_TaskAttachment_content" />
   </form:create>
   <BR />

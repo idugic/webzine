@@ -47,7 +47,7 @@ public class TaskAttachmentController {
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("taskattachment",
-				TaskAttachment.findTaskAttachment(id));
+				TaskAttachment.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "taskattachments/show";
 	}
@@ -62,8 +62,8 @@ public class TaskAttachmentController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("taskattachments", TaskAttachment
-					.findTaskAttachmentEntries(firstResult, sizeNo));
-			float nrOfPages = (float) TaskAttachment.countTaskAttachments()
+					.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) TaskAttachment.count()
 					/ sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
@@ -71,7 +71,7 @@ public class TaskAttachmentController {
 							: nrOfPages));
 		} else {
 			uiModel.addAttribute("taskattachments",
-					TaskAttachment.findAllTaskAttachments());
+					TaskAttachment.findAll());
 		}
 		addDateTimeFormatPatterns(uiModel);
 		return "taskattachments/list";
@@ -94,7 +94,7 @@ public class TaskAttachmentController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, TaskAttachment.findTaskAttachment(id));
+		populateEditForm(uiModel, TaskAttachment.find(id));
 		return "taskattachments/update";
 	}
 
@@ -103,7 +103,7 @@ public class TaskAttachmentController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		TaskAttachment taskAttachment = TaskAttachment.findTaskAttachment(id);
+		TaskAttachment taskAttachment = TaskAttachment.find(id);
 		taskAttachment.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());

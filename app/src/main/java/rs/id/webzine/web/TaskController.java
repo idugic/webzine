@@ -2,18 +2,25 @@ package rs.id.webzine.web;
 
 import java.util.Calendar;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.domain.Task;
 import rs.id.webzine.domain.TaskAttachment;
@@ -25,6 +32,13 @@ import rs.id.webzine.domain.User;
 @RequestMapping("admin/task")
 @Controller
 public class TaskController extends ModelController {
+
+  private static final Log log = LogFactory.getLog(TaskController.class);
+
+  @InitBinder
+  protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
+    binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+  }
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
   public String create(@Valid Task task, BindingResult bindingResult, Model uiModel,
@@ -53,6 +67,7 @@ public class TaskController extends ModelController {
     addDateTimeFormatPatterns(uiModel);
     uiModel.addAttribute("task", Task.find(id));
     uiModel.addAttribute("taskCommentList", TaskComment.findForTask(id));
+    uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(id));
     uiModel.addAttribute("itemId", id);
     return "admin/task/show";
   }
@@ -80,6 +95,7 @@ public class TaskController extends ModelController {
     if (bindingResult.hasErrors()) {
       populateEditForm(uiModel, task);
       uiModel.addAttribute("taskComment", new TaskComment());
+      uiModel.addAttribute("taskAttachment", new TaskAttachment());
       return "admin/task/update";
     }
     Task oldTask = Task.find(task.getId());
@@ -126,15 +142,17 @@ public class TaskController extends ModelController {
     uiModel.addAttribute("taskPriority", TaskPriority.findAll());
     uiModel.addAttribute("user", User.findAll());
     uiModel.addAttribute("taskCommentList", TaskComment.findForTask(task.getId()));
+    uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(task.getId()));
   }
 
   @RequestMapping(value = "/comment/{taskId}", method = RequestMethod.POST, produces = "text/html")
-  public String create(@PathVariable("taskId") Integer taskId, @Valid TaskComment taskComment,
+  public String createComment(@PathVariable("taskId") Integer taskId, @Valid TaskComment taskComment,
       BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
     if (bindingResult.hasErrors()) {
       populateEditForm(uiModel, Task.find(taskId));
-      uiModel.addAttribute("taskComment", taskComment);
-      return "admin/task/create";
+      uiModel.addAttribute("taskComment", new TaskComment());
+      uiModel.addAttribute("taskAttachment", new TaskAttachment());
+      return "admin/task/update";
     }
     taskComment.setTaskId(Task.find(taskId));
     taskComment.setUc(getCurrentUser());
@@ -152,9 +170,53 @@ public class TaskController extends ModelController {
 
     populateEditForm(uiModel, Task.find(taskId));
     uiModel.addAttribute("taskCommentList", TaskComment.findForTask(taskId));
+    uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(taskId));
     uiModel.addAttribute("taskComment", new TaskComment());
     uiModel.addAttribute("taskAttachment", new TaskAttachment());
     return "admin/task/update";
   }
+
+  // TODO
+  @RequestMapping(value = "/attachment/{taskId}", method = RequestMethod.POST, produces = "text/html")
+  public String createAttachment(@PathVariable("taskId") Integer taskId, TaskAttachment taskAttachment,
+      @RequestParam("content") MultipartFile content, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    try {
+      // bind
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, Task.find(taskId));
+        uiModel.addAttribute("taskComment", new TaskComment());
+        uiModel.addAttribute("taskAttachment", new TaskAttachment());
+        return "admin/task/update";
+      }
+
+      taskAttachment.setName(content.getOriginalFilename());
+      taskAttachment.setContentType(content.getContentType());
+      taskAttachment.setContentSize(content.getSize());
+      taskAttachment.persist();
+
+      uiModel.asMap().clear();
+      return "redirect:/admin/task/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  // TODO
+  @RequestMapping(value = "/attachment/{taskId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String deleteAttachment(@PathVariable("taskId") Integer taskId, @PathVariable("id") Integer id, Model uiModel) {
+    TaskAttachment taskAttachment = TaskAttachment.find(id);
+    taskAttachment.remove();
+
+    populateEditForm(uiModel, Task.find(taskId));
+    uiModel.addAttribute("taskCommentList", TaskComment.findForTask(taskId));
+    uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(taskId));
+    uiModel.addAttribute("taskComment", new TaskComment());
+    uiModel.addAttribute("taskAttachment", new TaskAttachment());
+    return "admin/task/update";
+  }
+  
+  // TODO downloadDocument
 
 }
