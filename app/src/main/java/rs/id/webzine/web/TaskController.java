@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.domain.Task;
+import rs.id.webzine.domain.TaskAttachment;
+import rs.id.webzine.domain.TaskComment;
 import rs.id.webzine.domain.TaskPriority;
 import rs.id.webzine.domain.TaskStatus;
 import rs.id.webzine.domain.User;
@@ -50,6 +52,7 @@ public class TaskController extends ModelController {
   public String show(@PathVariable("id") Integer id, Model uiModel) {
     addDateTimeFormatPatterns(uiModel);
     uiModel.addAttribute("task", Task.find(id));
+    uiModel.addAttribute("taskCommentList", TaskComment.findForTask(id));
     uiModel.addAttribute("itemId", id);
     return "admin/task/show";
   }
@@ -76,6 +79,7 @@ public class TaskController extends ModelController {
       HttpServletRequest httpServletRequest) {
     if (bindingResult.hasErrors()) {
       populateEditForm(uiModel, task);
+      uiModel.addAttribute("taskComment", new TaskComment());
       return "admin/task/update";
     }
     Task oldTask = Task.find(task.getId());
@@ -93,6 +97,8 @@ public class TaskController extends ModelController {
   @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
   public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
     populateEditForm(uiModel, Task.find(id));
+    uiModel.addAttribute("taskComment", new TaskComment());
+    uiModel.addAttribute("taskAttachment", new TaskAttachment());
     return "admin/task/update";
   }
 
@@ -119,6 +125,36 @@ public class TaskController extends ModelController {
     uiModel.addAttribute("taskStatus", TaskStatus.findAll());
     uiModel.addAttribute("taskPriority", TaskPriority.findAll());
     uiModel.addAttribute("user", User.findAll());
+    uiModel.addAttribute("taskCommentList", TaskComment.findForTask(task.getId()));
+  }
+
+  @RequestMapping(value = "/comment/{taskId}", method = RequestMethod.POST, produces = "text/html")
+  public String create(@PathVariable("taskId") Integer taskId, @Valid TaskComment taskComment,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, Task.find(taskId));
+      uiModel.addAttribute("taskComment", taskComment);
+      return "admin/task/create";
+    }
+    taskComment.setTaskId(Task.find(taskId));
+    taskComment.setUc(getCurrentUser());
+    taskComment.setDc(Calendar.getInstance());
+    taskComment.persist();
+
+    uiModel.asMap().clear();
+    return "redirect:/admin/task/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/comment/{taskId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String deleteComment(@PathVariable("taskId") Integer taskId, @PathVariable("id") Integer id, Model uiModel) {
+    TaskComment taskComment = TaskComment.find(id);
+    taskComment.remove();
+
+    populateEditForm(uiModel, Task.find(taskId));
+    uiModel.addAttribute("taskCommentList", TaskComment.findForTask(taskId));
+    uiModel.addAttribute("taskComment", new TaskComment());
+    uiModel.addAttribute("taskAttachment", new TaskAttachment());
+    return "admin/task/update";
   }
 
 }

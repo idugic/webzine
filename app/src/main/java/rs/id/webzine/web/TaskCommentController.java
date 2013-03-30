@@ -46,7 +46,7 @@ public class TaskCommentController {
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("taskcomment", TaskComment.findTaskComment(id));
+		uiModel.addAttribute("taskcomment", TaskComment.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "taskcomments/show";
 	}
@@ -61,15 +61,15 @@ public class TaskCommentController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("taskcomments",
-					TaskComment.findTaskCommentEntries(firstResult, sizeNo));
-			float nrOfPages = (float) TaskComment.countTaskComments() / sizeNo;
+					TaskComment.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) TaskComment.count() / sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
 					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
 							: nrOfPages));
 		} else {
 			uiModel.addAttribute("taskcomments",
-					TaskComment.findAllTaskComments());
+					TaskComment.findAll());
 		}
 		addDateTimeFormatPatterns(uiModel);
 		return "taskcomments/list";
@@ -92,7 +92,7 @@ public class TaskCommentController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, TaskComment.findTaskComment(id));
+		populateEditForm(uiModel, TaskComment.find(id));
 		return "taskcomments/update";
 	}
 
@@ -101,7 +101,7 @@ public class TaskCommentController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		TaskComment taskComment = TaskComment.findTaskComment(id);
+		TaskComment taskComment = TaskComment.find(id);
 		taskComment.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());

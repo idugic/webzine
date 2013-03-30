@@ -616,7 +616,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, TaskComment> getIdToTaskCommentConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.TaskComment>() {
       public rs.id.webzine.domain.TaskComment convert(java.lang.Integer id) {
-        return TaskComment.findTaskComment(id);
+        return TaskComment.find(id);
       }
     };
   }
