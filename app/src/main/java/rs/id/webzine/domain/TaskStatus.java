@@ -16,65 +16,67 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Entity
 @Table(schema = "ADMIN", name = "TASK_STATUS")
 public class TaskStatus extends IdEntity {
-	private static Log log = LogFactory.getLog(TaskStatus.class);
+  private static Log log = LogFactory.getLog(TaskStatus.class);
 
-	@Column(name = "CD", length = 15, unique = true)
-	@NotNull
-	private String cd;
+  public static final String CD_ACTIVE = "1";
 
-	@Column(name = "NAME", length = 50)
-	@NotNull
-	private String name;
+  @Column(name = "CD", length = 15, unique = true)
+  @NotNull
+  private String cd;
 
-	public String getCd() {
-		return cd;
-	}
+  @Column(name = "NAME", length = 50)
+  @NotNull
+  private String name;
 
-	public void setCd(String cd) {
-		this.cd = cd;
-	}
+  public String getCd() {
+    return cd;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public void setCd(String cd) {
+    this.cd = cd;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public static long count() {
-		return entityManager().createQuery("SELECT COUNT(o) FROM TaskStatus o", Long.class).getSingleResult();
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public static List<TaskStatus> findAll() {
-		return entityManager().createQuery("SELECT o FROM TaskStatus o", TaskStatus.class).getResultList();
-	}
+  public static long count() {
+    return entityManager().createQuery("SELECT COUNT(o) FROM TaskStatus o", Long.class).getSingleResult();
+  }
 
-	public static TaskStatus find(Integer id) {
-		if (id == null)
-			return null;
-		return entityManager().find(TaskStatus.class, id);
-	}
+  public static List<TaskStatus> findAll() {
+    return entityManager().createQuery("SELECT o FROM TaskStatus o", TaskStatus.class).getResultList();
+  }
 
-	public static List<TaskStatus> findEntries(int firstResult, int maxResults) {
-		return entityManager().createQuery("SELECT o FROM TaskStatus o", TaskStatus.class).setFirstResult(firstResult)
-		        .setMaxResults(maxResults).getResultList();
-	}
+  public static TaskStatus find(Integer id) {
+    if (id == null)
+      return null;
+    return entityManager().find(TaskStatus.class, id);
+  }
 
-	public static TaskStatus findForCd(String cd) {
-		TaskStatus taskStatus = null;
+  public static List<TaskStatus> findEntries(int firstResult, int maxResults) {
+    return entityManager().createQuery("SELECT o FROM TaskStatus o", TaskStatus.class).setFirstResult(firstResult)
+        .setMaxResults(maxResults).getResultList();
+  }
 
-		try {
-			if (cd != null) {
-				TypedQuery<TaskStatus> query = entityManager().createQuery("SELECT o FROM TaskStatus o WHERE cd = :cd",
-				        TaskStatus.class);
-				query.setParameter("cd", cd);
-				taskStatus = query.getSingleResult();
-			}
-		} catch (Exception e) {
-			log.debug(e);
-		}
+  public static TaskStatus findForCd(String cd) {
+    TaskStatus taskStatus = null;
 
-		return taskStatus;
-	}
+    try {
+      if (cd != null) {
+        TypedQuery<TaskStatus> query = entityManager().createQuery("SELECT o FROM TaskStatus o WHERE cd = :cd",
+            TaskStatus.class);
+        query.setParameter("cd", cd);
+        taskStatus = query.getSingleResult();
+      }
+    } catch (Exception e) {
+      log.debug(e);
+    }
+
+    return taskStatus;
+  }
 }

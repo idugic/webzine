@@ -81,6 +81,27 @@
 <logicalDatatype>LOGDT029</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="CONTENT_TYPE" id="07310295-ABD8-D1C7-8080-B8994FAE9A04">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-30 06:59:55 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="CONTENT_SIZE" id="88995781-1547-F9A6-36AE-A28D3C0DFA85">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-03-30 07:01:50 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="UC" id="317643B1-A039-DAB4-4201-381042FBF898">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-15 07:55:08 UTC</createdTime>

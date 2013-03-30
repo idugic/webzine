@@ -43,7 +43,7 @@ public class TaskComment {
 	@JoinColumn(name = "UM", referencedColumnName = "ID")
 	private User um;
 
-	@Column(name = "TEXT", length = 250)
+	@Column(name = "TEXT", length = 500)
 	@NotNull
 	private String text;
 

@@ -6,5 +6,5 @@
    <object objectType="sub_view" objectID="4A7BA5F3-11B5-17EE-B23A-2654DFAE7E6A" name="Magazine" visible="false"/>
    <object objectType="sub_view" objectID="1EF7AA84-1D95-0C01-AF89-7C5AE3AFA3B2" name="Project Management" visible="true"/>
    <object objectType="sub_view" objectID="5B5D7E80-FA9A-5AED-FF7B-EA0F5839AA28" name="Social Networking" visible="false"/>
-   <object objectType="sub_view" objectID="7DA9F664-CB7C-7EB0-1F7B-924540C3D3C6" name="System" visible="false"/>
+   <object objectType="sub_view" objectID="7DA9F664-CB7C-7EB0-1F7B-924540C3D3C6" name="System" visible="true"/>
 </oracle.dbtools.crest.model.design.relational.RelationalDesign>

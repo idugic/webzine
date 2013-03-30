@@ -34,19 +34,16 @@ public class TaskAttachment {
 		EntityManager em = new TaskAttachment().entityManager;
 		if (em == null)
 			throw new IllegalStateException(
-					"Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+			        "Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
 		return em;
 	}
 
 	public static long countTaskAttachments() {
-		return entityManager().createQuery(
-				"SELECT COUNT(o) FROM TaskAttachment o", Long.class)
-				.getSingleResult();
+		return entityManager().createQuery("SELECT COUNT(o) FROM TaskAttachment o", Long.class).getSingleResult();
 	}
 
 	public static List<TaskAttachment> findAllTaskAttachments() {
-		return entityManager().createQuery("SELECT o FROM TaskAttachment o",
-				TaskAttachment.class).getResultList();
+		return entityManager().createQuery("SELECT o FROM TaskAttachment o", TaskAttachment.class).getResultList();
 	}
 
 	public static TaskAttachment findTaskAttachment(Integer id) {
@@ -55,12 +52,9 @@ public class TaskAttachment {
 		return entityManager().find(TaskAttachment.class, id);
 	}
 
-	public static List<TaskAttachment> findTaskAttachmentEntries(
-			int firstResult, int maxResults) {
-		return entityManager()
-				.createQuery("SELECT o FROM TaskAttachment o",
-						TaskAttachment.class).setFirstResult(firstResult)
-				.setMaxResults(maxResults).getResultList();
+	public static List<TaskAttachment> findTaskAttachmentEntries(int firstResult, int maxResults) {
+		return entityManager().createQuery("SELECT o FROM TaskAttachment o", TaskAttachment.class)
+		        .setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
 	}
 
 	@Transactional
@@ -77,8 +71,7 @@ public class TaskAttachment {
 		if (this.entityManager.contains(this)) {
 			this.entityManager.remove(this);
 		} else {
-			TaskAttachment attached = TaskAttachment
-					.findTaskAttachment(this.id);
+			TaskAttachment attached = TaskAttachment.findTaskAttachment(this.id);
 			this.entityManager.remove(attached);
 		}
 	}
@@ -107,8 +100,7 @@ public class TaskAttachment {
 	}
 
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
 	@ManyToOne
@@ -130,6 +122,14 @@ public class TaskAttachment {
 	@Column(name = "CONTENT")
 	@NotNull
 	private Blob content;
+
+	@Column(name = "CONTENT_TYPE")
+	@NotNull
+	private String contentType;
+
+	@Column(name = "CONTENT_SIZE")
+	@NotNull
+	private Long contentSize;
 
 	@Column(name = "DC")
 	@NotNull
@@ -210,4 +210,21 @@ public class TaskAttachment {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public Long getContentSize() {
+		return contentSize;
+	}
+
+	public void setContentSize(Long contentSize) {
+		this.contentSize = contentSize;
+	}
+
 }
