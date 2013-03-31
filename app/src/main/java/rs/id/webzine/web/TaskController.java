@@ -1,11 +1,15 @@
 package rs.id.webzine.web;
 
+import java.io.ByteArrayInputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.format.DateTimeFormat;
@@ -176,7 +180,6 @@ public class TaskController extends ModelController {
     return "admin/task/update";
   }
 
-  // TODO
   @RequestMapping(value = "/attachment/{taskId}", method = RequestMethod.POST, produces = "text/html")
   public String createAttachment(@PathVariable("taskId") Integer taskId, TaskAttachment taskAttachment,
       @RequestParam("content") MultipartFile content, BindingResult bindingResult, Model uiModel,
@@ -190,6 +193,9 @@ public class TaskController extends ModelController {
         return "admin/task/update";
       }
 
+      taskAttachment.setTaskId(Task.find(taskId));
+      taskAttachment.setUc(getCurrentUser());
+      taskAttachment.setDc(Calendar.getInstance());
       taskAttachment.setName(content.getOriginalFilename());
       taskAttachment.setContentType(content.getContentType());
       taskAttachment.setContentSize(content.getSize());
@@ -203,7 +209,6 @@ public class TaskController extends ModelController {
     }
   }
 
-  // TODO
   @RequestMapping(value = "/attachment/{taskId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String deleteAttachment(@PathVariable("taskId") Integer taskId, @PathVariable("id") Integer id, Model uiModel) {
     TaskAttachment taskAttachment = TaskAttachment.find(id);
@@ -216,7 +221,24 @@ public class TaskController extends ModelController {
     uiModel.addAttribute("taskAttachment", new TaskAttachment());
     return "admin/task/update";
   }
-  
-  // TODO downloadDocument
+
+  // TODO open download dialog
+  @RequestMapping(value = "/attachment/{id}", method = RequestMethod.GET)
+  public String downloadAttachment(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
+    try {
+      TaskAttachment taskAttachment = TaskAttachment.find(id);
+      response.setHeader("Content-Disposition", "inline;");
+      response.setContentType(taskAttachment.getContentType());
+
+      OutputStream out = response.getOutputStream();
+      IOUtils.copy(new ByteArrayInputStream(taskAttachment.getContent()), out);
+      out.flush();
+
+      return null;
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
 
 }

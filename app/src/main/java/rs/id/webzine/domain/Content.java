@@ -24,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Entity
 @Table(schema = "ADMIN", name = "CONTENT")
 public class Content {
+  
+  // TODO imageContentType, imageContentSize, flashContentType, flashContentSize, 
 
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this,

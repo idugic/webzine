@@ -27,16 +27,16 @@
   </page:list>
   <BR />
   <!-- Attachment -->
-  <form:create id="fu_rs_id_webzine_domain_TaskAttachment" modelAttribute="taskAttachment" path="/admin/task/attachment" multipart="true" list="false">
+  <form:create id="fu_rs_id_webzine_domain_TaskAttachment" modelAttribute="taskAttachment" path="/admin/task/attachment/${task.id}" multipart="true" list="false">
     <field:file field="content" id="c_rs_id_webzine_domain_TaskAttachment_content" />
   </form:create>
   <BR />
   <page:list id="pl_rs_id_webzine_domain_TaskAttachment" items="${taskAttachmentList}" create="false">
-    <table:table data="${taskAttachmentList}" id="l_rs_id_webzine_domain_TaskAttachment" path="/admin/task/attachment" create="false" update="false">
+    <table:table data="${taskAttachmentList}" id="l_rs_id_webzine_domain_TaskAttachment" path="/admin/task/attachment/${task.id}" create="false" update="false">
       <table:column calendar="true" dateTimePattern="${task_dc_date_format}" id="c_rs_id_webzine_domain_TaskAttachment_dc" property="dc" />
       <table:column id="c_rs_id_webzine_domain_TaskAttachment_name" property="name" />
       <table:column id="c_rs_id_webzine_domain_TaskAttachment_contentType" property="contentType" />
-      <table:column id="c_rs_id_webzine_domain_TaskAttachment_size" property="size" />
+      <table:column id="c_rs_id_webzine_domain_TaskAttachment_contentSize" property="contentSize" />
       <table:column id="c_rs_id_webzine_domain_TaskAttachment_uc" property="uc" />
     </table:table>
   </page:list>
