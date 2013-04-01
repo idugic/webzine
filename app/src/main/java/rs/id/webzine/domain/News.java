@@ -2,242 +2,162 @@ package rs.id.webzine.domain;
 
 import java.util.Calendar;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
 
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "NEWS")
-public class News {
+public class News extends IdEntity {
 
-	@PersistenceContext
-	transient EntityManager entityManager;
+  @ManyToOne
+  @JoinColumn(name = "PUBLISHED_BY", referencedColumnName = "ID")
+  private User publishedBy;
 
-	public static final EntityManager entityManager() {
-		EntityManager em = new News().entityManager;
-		if (em == null)
-			throw new IllegalStateException(
-					"Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-		return em;
-	}
+  @ManyToOne
+  @JoinColumn(name = "UM", referencedColumnName = "ID")
+  private User um;
 
-	public static long countNews() {
-		return entityManager().createQuery("SELECT COUNT(o) FROM News o",
-				Long.class).getSingleResult();
-	}
+  @ManyToOne
+  @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
+  private User uc;
 
-	public static List<News> findAllNews() {
-		return entityManager().createQuery("SELECT o FROM News o", News.class)
-				.getResultList();
-	}
+  @ManyToOne
+  @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
+  private NewsStatus statusId;
 
-	public static News findNews(Integer id) {
-		if (id == null)
-			return null;
-		return entityManager().find(News.class, id);
-	}
+  @Column(name = "TEXT", length = 100)
+  @NotNull
+  private String text;
 
-	public static List<News> findNewsEntries(int firstResult, int maxResults) {
-		return entityManager().createQuery("SELECT o FROM News o", News.class)
-				.setFirstResult(firstResult).setMaxResults(maxResults)
-				.getResultList();
-	}
+  @Column(name = "LINK", length = 250)
+  private String link;
 
-	@Transactional
-	public void persist() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.persist(this);
-	}
+  @Column(name = "LINK_TARGET", length = 15)
+  private String linkTarget;
 
-	@Transactional
-	public void remove() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		if (this.entityManager.contains(this)) {
-			this.entityManager.remove(this);
-		} else {
-			News attached = News.findNews(this.id);
-			this.entityManager.remove(attached);
-		}
-	}
+  @Column(name = "PUBLISHED_AT")
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar publishedAt;
 
-	@Transactional
-	public void flush() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.flush();
-	}
+  @Column(name = "DC")
+  @NotNull
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar dc;
 
-	@Transactional
-	public void clear() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.clear();
-	}
+  @Column(name = "DM")
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar dm;
 
-	@Transactional
-	public News merge() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		News merged = this.entityManager.merge(this);
-		this.entityManager.flush();
-		return merged;
-	}
+  public User getPublishedBy() {
+    return publishedBy;
+  }
 
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+  public void setPublishedBy(User publishedBy) {
+    this.publishedBy = publishedBy;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "PUBLISHED_BY", referencedColumnName = "ID")
-	private User publishedBy;
+  public User getUm() {
+    return um;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "UM", referencedColumnName = "ID")
-	private User um;
+  public void setUm(User um) {
+    this.um = um;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-	private User uc;
+  public User getUc() {
+    return uc;
+  }
 
-	@Column(name = "STATUS")
-	@NotNull
-	private Integer status;
+  public void setUc(User uc) {
+    this.uc = uc;
+  }
 
-	@Column(name = "TEXT", length = 100)
-	@NotNull
-	private String text;
+  public NewsStatus getStatusId() {
+    return statusId;
+  }
 
-	@Column(name = "LINK", length = 250)
-	private String link;
+  public void setStatusId(NewsStatus statusId) {
+    this.statusId = statusId;
+  }
 
-	@Column(name = "LINK_TARGET", length = 15)
-	private String linkTarget;
+  public void setText(String text) {
+    this.text = text;
+  }
 
-	@Column(name = "PUBLISHED_AT")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar publishedAt;
+  public String getText() {
+    return text;
+  }
 
-	@Column(name = "DC")
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar dc;
+  public String getLink() {
+    return link;
+  }
 
-	@Column(name = "DM")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar dm;
+  public void setLink(String link) {
+    this.link = link;
+  }
 
-	public User getPublishedBy() {
-		return publishedBy;
-	}
+  public String getLinkTarget() {
+    return linkTarget;
+  }
 
-	public void setPublishedBy(User publishedBy) {
-		this.publishedBy = publishedBy;
-	}
+  public void setLinkTarget(String linkTarget) {
+    this.linkTarget = linkTarget;
+  }
 
-	public User getUm() {
-		return um;
-	}
+  public Calendar getPublishedAt() {
+    return publishedAt;
+  }
 
-	public void setUm(User um) {
-		this.um = um;
-	}
+  public void setPublishedAt(Calendar publishedAt) {
+    this.publishedAt = publishedAt;
+  }
 
-	public User getUc() {
-		return uc;
-	}
+  public Calendar getDc() {
+    return dc;
+  }
 
-	public void setUc(User uc) {
-		this.uc = uc;
-	}
+  public void setDc(Calendar dc) {
+    this.dc = dc;
+  }
 
-	public Integer getStatus() {
-		return status;
-	}
+  public Calendar getDm() {
+    return dm;
+  }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+  public void setDm(Calendar dm) {
+    this.dm = dm;
+  }
 
-	public String getText() {
-		return text;
-	}
+  public static long count() {
+    return entityManager().createQuery("SELECT COUNT(o) FROM News o", Long.class).getSingleResult();
+  }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+  public static List<News> findAll() {
+    return entityManager().createQuery("SELECT o FROM News o", News.class).getResultList();
+  }
 
-	public String getLink() {
-		return link;
-	}
+  public static News find(Integer id) {
+    if (id == null)
+      return null;
+    return entityManager().find(News.class, id);
+  }
 
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	public String getLinkTarget() {
-		return linkTarget;
-	}
-
-	public void setLinkTarget(String linkTarget) {
-		this.linkTarget = linkTarget;
-	}
-
-	public Calendar getPublishedAt() {
-		return publishedAt;
-	}
-
-	public void setPublishedAt(Calendar publishedAt) {
-		this.publishedAt = publishedAt;
-	}
-
-	public Calendar getDc() {
-		return dc;
-	}
-
-	public void setDc(Calendar dc) {
-		this.dc = dc;
-	}
-
-	public Calendar getDm() {
-		return dm;
-	}
-
-	public void setDm(Calendar dm) {
-		this.dm = dm;
-	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
-	private Integer id;
-
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public static List<News> findEntries(int firstResult, int maxResults) {
+    return entityManager().createQuery("SELECT o FROM News o", News.class).setFirstResult(firstResult)
+        .setMaxResults(maxResults).getResultList();
+  }
 }

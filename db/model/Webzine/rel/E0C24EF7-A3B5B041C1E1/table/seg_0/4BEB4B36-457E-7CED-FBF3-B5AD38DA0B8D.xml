@@ -49,15 +49,18 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS" id="FAC12ACB-1DD6-E013-611D-1AC104950886">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS_ID" id="FAC12ACB-1DD6-E013-611D-1AC104950886">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-05 14:34:09 UTC</createdTime>
-<comment>0-Inactive, 1-Submitted, 2-Ready, 100-Published</comment>
 <ownerDesignName>Webzine</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>A801805D-43C6-AD75-21FE-084D8E90D012</delegate>
 <autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="904D2846-61C1-E1F1-42D1-07004EEE2855" referredColumn="A801805D-43C6-AD75-21FE-084D8E90D012"/>
+</associations>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="AUTHOR_USER_ID" id="4456B0A8-5FF1-DA93-5073-678A800E4750">
 <createdBy>idugic</createdBy>
@@ -114,6 +117,17 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT029</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ABSTRACT_IMAGE_CONTENT_TYPE" id="D07A588A-C5AB-F38E-A04C-9CE2DACFC07A">
+<createdBy>idugic</createdBy>
+<createdTime>2013-04-01 07:14:33 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="PUBLISHED_BY" id="A5FDA4EF-5DCD-B7A6-86BE-3A14D1E54D5C">
@@ -243,13 +257,14 @@
 <colUsage columnID="12AE458E-82D5-ADA2-6856-AD0E3ED71363"/>
 </indexColumnUsage>
 </ind_PK_UK>
-</indexes>
-<tableCheckConstraints>
-<tableCheckConstraint class="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint" name="ARTI_CK_1" id="34FC642A-326A-FB27-B05A-79189B79A067" directorySegmentName="seg_0">
-<createdBy>IvanD</createdBy>
-<createdTime>2013-03-06 21:08:14 UTC</createdTime>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="2180A40C-758B-CF65-CB03-D3DB0A700063" name="ARTI_ARTI_STAT_FK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-04-01 07:07:41 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
-<rule>STATUS IN (0,1,2,100)</rule>
-</tableCheckConstraint>
-</tableCheckConstraints>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="FAC12ACB-1DD6-E013-611D-1AC104950886"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
 </Table>

@@ -42,6 +42,8 @@ public class UserController extends ModelController {
 
 	private static final Log log = LogFactory.getLog(UserController.class);
 
+	// TODO model attribute user(s) -> userList (also for other entities)
+	
 	class UserCreateValidator implements Validator {
 		@Override
 		public boolean supports(Class<?> clazz) {

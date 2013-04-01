@@ -49,15 +49,18 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS" id="F562E9B3-590E-20CF-2543-8E40905CCF02">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS_ID" id="F562E9B3-590E-20CF-2543-8E40905CCF02">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-15 08:09:46 UTC</createdTime>
-<comment>1-Submitted, 100-Published</comment>
 <ownerDesignName>Webzine</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>480D9671-9898-520F-753B-8F95E2D6AB51</delegate>
 <autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="058DD40B-4648-CE7B-34F7-8455E8888443" referredColumn="480D9671-9898-520F-753B-8F95E2D6AB51"/>
+</associations>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="TEXT" id="BD2C26C7-6A2E-AE27-1E56-F3F11CB459EF">
 <createdBy>idugic</createdBy>
@@ -200,13 +203,14 @@
 <colUsage columnID="F7E60D23-61B5-37F3-EA86-D06E8473B21E"/>
 </indexColumnUsage>
 </ind_PK_UK>
-</indexes>
-<tableCheckConstraints>
-<tableCheckConstraint class="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint" name="NEWS_CK_1" id="BB2A2F4E-AE3A-FFD0-C6C6-62C4634B6085" directorySegmentName="seg_1">
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="580B3A40-63C0-169F-61DC-6B9EBCB227D6" name="NEWS_NEWS_STAT_FK_1">
 <createdBy>idugic</createdBy>
-<createdTime>2013-03-15 13:47:44 UTC</createdTime>
+<createdTime>2013-04-01 06:55:14 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
-<rule>STATUS IN (1,100)</rule>
-</tableCheckConstraint>
-</tableCheckConstraints>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="F562E9B3-590E-20CF-2543-8E40905CCF02"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
 </Table>

@@ -123,7 +123,7 @@ public class AdController {
 		uiModel.addAttribute("articles", Article.findAllArticles());
 		uiModel.addAttribute("customers", Customer.findAllCustomers());
 		uiModel.addAttribute("managedcontents",
-				ManagedContent.findAllManagedContents());
+				ManagedContent.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

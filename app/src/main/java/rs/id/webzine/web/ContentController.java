@@ -41,7 +41,7 @@ public class ContentController {
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
-		uiModel.addAttribute("content", Content.findContent(id));
+		uiModel.addAttribute("content", Content.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "contents/show";
 	}
@@ -56,14 +56,14 @@ public class ContentController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("contents",
-					Content.findContentEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Content.countContents() / sizeNo;
+					Content.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) Content.count() / sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
 					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
 							: nrOfPages));
 		} else {
-			uiModel.addAttribute("contents", Content.findAllContents());
+			uiModel.addAttribute("contents", Content.findAll());
 		}
 		return "contents/list";
 	}
@@ -84,7 +84,7 @@ public class ContentController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, Content.findContent(id));
+		populateEditForm(uiModel, Content.find(id));
 		return "contents/update";
 	}
 
@@ -93,7 +93,7 @@ public class ContentController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		Content content = Content.findContent(id);
+		Content content = Content.find(id);
 		content.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
@@ -103,8 +103,8 @@ public class ContentController {
 
 	void populateEditForm(Model uiModel, Content content) {
 		uiModel.addAttribute("content", content);
-		uiModel.addAttribute("contents", Content.findAllContents());
-		uiModel.addAttribute("contenttypes", ContentType.findAllContentTypes());
+		uiModel.addAttribute("contents", Content.findAll());
+		uiModel.addAttribute("contenttypes", ContentType.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

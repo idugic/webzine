@@ -22,9 +22,8 @@ CREATE TABLE CONTENT (
   ORDER_NO           INTEGER   NOT NULL,
   DESCRIPTION        VARCHAR (100),
   TEXT               VARCHAR (4000),
-  IMAGE              BLOB,
-  FLASH              BLOB,
-  HTML               VARCHAR (4000),
+  MEDIA              BLOB,
+  MEDIA_CONTENT_TYPE VARCHAR (100), 
   LINK               VARCHAR (500),
   LINK_TARGET        VARCHAR (15)
 );

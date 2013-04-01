@@ -44,7 +44,7 @@ public class ManagedContentController {
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
 		uiModel.addAttribute("managedcontent",
-				ManagedContent.findManagedContent(id));
+				ManagedContent.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "managedcontents/show";
 	}
@@ -59,8 +59,8 @@ public class ManagedContentController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("managedcontents", ManagedContent
-					.findManagedContentEntries(firstResult, sizeNo));
-			float nrOfPages = (float) ManagedContent.countManagedContents()
+					.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) ManagedContent.count()
 					/ sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
@@ -68,7 +68,7 @@ public class ManagedContentController {
 							: nrOfPages));
 		} else {
 			uiModel.addAttribute("managedcontents",
-					ManagedContent.findAllManagedContents());
+					ManagedContent.findAll());
 		}
 		return "managedcontents/list";
 	}
@@ -90,7 +90,7 @@ public class ManagedContentController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, ManagedContent.findManagedContent(id));
+		populateEditForm(uiModel, ManagedContent.find(id));
 		return "managedcontents/update";
 	}
 
@@ -99,7 +99,7 @@ public class ManagedContentController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		ManagedContent managedContent = ManagedContent.findManagedContent(id);
+		ManagedContent managedContent = ManagedContent.find(id);
 		managedContent.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());

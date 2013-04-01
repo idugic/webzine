@@ -138,7 +138,7 @@ public class ArticleController {
 				ArticleComment.findAllArticleComments());
 		uiModel.addAttribute("articlerates", ArticleRate.findAllArticleRates());
 		uiModel.addAttribute("managedcontents",
-				ManagedContent.findAllManagedContents());
+				ManagedContent.findAll());
 		uiModel.addAttribute("users", User.findAll());
 	}
 

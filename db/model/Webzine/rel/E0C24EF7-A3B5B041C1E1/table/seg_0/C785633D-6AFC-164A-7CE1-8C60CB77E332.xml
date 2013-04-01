@@ -106,7 +106,7 @@
 <dataTypeSize>4000</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="IMAGE" id="2446A906-A347-7E73-1592-6F3381DEF14C">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="MEDIA" id="2446A906-A347-7E73-1592-6F3381DEF14C">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-08 08:34:43 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
@@ -116,25 +116,15 @@
 <logicalDatatype>LOGDT029</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="FLASH" id="945FD57D-94A0-F107-4FD2-1D71D621B2EE">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="MEDIA_CONTENT_TYPE" id="945FD57D-94A0-F107-4FD2-1D71D621B2EE">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-08 08:34:57 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT029</logicalDatatype>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="HTML" id="9126911D-FCE1-93C8-F151-8B1E1B6256DA">
-<createdBy>idugic</createdBy>
-<createdTime>2013-03-18 12:41:27 UTC</createdTime>
-<ownerDesignName>Webzine</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>4000</dataTypeSize>
+<dataTypeSize>100</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="LINK" id="CBFCEF6A-F6F4-9937-F686-A1B58DDB3C74">
