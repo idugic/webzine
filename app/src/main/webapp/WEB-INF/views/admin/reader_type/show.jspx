@@ -2,8 +2,8 @@
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
-	<page:show id="ps_rs_id_webzine_domain_NewsStatus" object="${newsStatus}" path="/admin/news_status" create="false" update="false" delete="false">
-		<field:display field="cd" id="s_rs_id_webzine_domain_NewsStatus_cd" object="${newsStatus}" />
-		<field:display field="name" id="s_rs_id_webzine_domain_NewsStatus_name" object="${newsStatus}" />
+	<page:show id="ps_rs_id_webzine_domain_ReaderType" object="${readerType}" path="/admin/reader_type" create="false" update="false" delete="false">
+		<field:display field="cd" id="s_rs_id_webzine_domain_ReaderType_cd" object="${readerType}" />
+		<field:display field="name" id="s_rs_id_webzine_domain_ReaderType_name" object="${readerType}" />
 	</page:show>
 </div>

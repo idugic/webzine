@@ -18,7 +18,10 @@
 			<menu:item id="i_contenttype" url="/admin/content_type?page=1&amp;size=${empty param.size ? 10 : param.size}" />
 		</menu:category>
 		<menu:category id="c_magazine">
-			<menu:item id="i_newsstatus" url="/admin/news_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+			<menu:item id="i_readertype" url="/admin/reader_type?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+			<menu:item id="i_category" url="/admin/category?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+			<menu:item id="i_articlestatus" url="/admin/article_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+			<menu:item id="i_article" url="/admin/article?page=1&amp;size=${empty param.size ? 10 : param.size}" />
 		</menu:category>
 	</menu:menu>
 </div>

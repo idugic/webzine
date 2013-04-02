@@ -128,7 +128,7 @@ public class ArticleCategoryController {
 		uiModel.addAttribute("articleCategory", articleCategory);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAllArticles());
-		uiModel.addAttribute("categorys", Category.findAllCategorys());
+		uiModel.addAttribute("categorys", Category.findAll());
 		uiModel.addAttribute("users", User.findAll());
 	}
 

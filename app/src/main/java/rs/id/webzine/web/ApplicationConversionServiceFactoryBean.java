@@ -14,14 +14,13 @@ import rs.id.webzine.domain.ArticleBookmark;
 import rs.id.webzine.domain.ArticleCategory;
 import rs.id.webzine.domain.ArticleComment;
 import rs.id.webzine.domain.ArticleRate;
+import rs.id.webzine.domain.ArticleStatus;
 import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.Content;
 import rs.id.webzine.domain.ContentType;
 import rs.id.webzine.domain.Country;
 import rs.id.webzine.domain.Customer;
 import rs.id.webzine.domain.ManagedContent;
-import rs.id.webzine.domain.News;
-import rs.id.webzine.domain.NewsStatus;
 import rs.id.webzine.domain.ReaderType;
 import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.Task;
@@ -284,27 +283,77 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  // news status
-  public Converter<NewsStatus, String> getNewsStatusToStringConverter() {
-    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.NewsStatus, java.lang.String>() {
-      public String convert(NewsStatus newsStatus) {
-        return new StringBuilder().append(newsStatus.getName()).toString();
+  // reader type
+  public Converter<ReaderType, String> getReaderTypeToStringConverter() {
+    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.ReaderType, java.lang.String>() {
+      public String convert(ReaderType readerType) {
+        return new StringBuilder().append(readerType.getName()).toString();
       }
     };
   }
 
-  public Converter<Integer, NewsStatus> getIdToNewsStatusConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.NewsStatus>() {
-      public rs.id.webzine.domain.NewsStatus convert(java.lang.Integer id) {
-        return NewsStatus.find(id);
+  public Converter<Integer, ReaderType> getIdToReaderTypeConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.ReaderType>() {
+      public rs.id.webzine.domain.ReaderType convert(java.lang.Integer id) {
+        return ReaderType.find(id);
       }
     };
   }
 
-  public Converter<String, NewsStatus> getStringToNewsStatusConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.NewsStatus>() {
-      public rs.id.webzine.domain.NewsStatus convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), NewsStatus.class);
+  public Converter<String, ReaderType> getStringToReaderTypeConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.ReaderType>() {
+      public rs.id.webzine.domain.ReaderType convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), ReaderType.class);
+      }
+    };
+  }
+
+  // category
+  public Converter<Category, String> getCategoryToStringConverter() {
+    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Category, java.lang.String>() {
+      public String convert(Category category) {
+        return new StringBuilder().append(category.getName()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, Category> getIdToCategoryConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Category>() {
+      public rs.id.webzine.domain.Category convert(java.lang.Integer id) {
+        return Category.find(id);
+      }
+    };
+  }
+
+  public Converter<String, Category> getStringToCategoryConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Category>() {
+      public rs.id.webzine.domain.Category convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), Category.class);
+      }
+    };
+  }
+
+  // article status
+  public Converter<ArticleStatus, String> getArticleStatusToStringConverter() {
+    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.ArticleStatus, java.lang.String>() {
+      public String convert(ArticleStatus articleStatus) {
+        return new StringBuilder().append(articleStatus.getName()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, ArticleStatus> getIdToArticleStatusConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.ArticleStatus>() {
+      public rs.id.webzine.domain.ArticleStatus convert(java.lang.Integer id) {
+        return ArticleStatus.find(id);
+      }
+    };
+  }
+
+  public Converter<String, ArticleStatus> getStringToArticleStatusConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.ArticleStatus>() {
+      public rs.id.webzine.domain.ArticleStatus convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), ArticleStatus.class);
       }
     };
   }
@@ -458,31 +507,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  public Converter<Category, String> getCategoryToStringConverter() {
-    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Category, java.lang.String>() {
-      public String convert(Category category) {
-        return new StringBuilder().append(category.getName()).append(' ').append(category.getDc()).append(' ')
-            .append(category.getDm()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, Category> getIdToCategoryConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Category>() {
-      public rs.id.webzine.domain.Category convert(java.lang.Integer id) {
-        return Category.findCategory(id);
-      }
-    };
-  }
-
-  public Converter<String, Category> getStringToCategoryConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.Category>() {
-      public rs.id.webzine.domain.Category convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), Category.class);
-      }
-    };
-  }
-
   public Converter<Content, String> getContentToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Content, java.lang.String>() {
       public String convert(Content content) {
@@ -551,54 +575,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.ManagedContent>() {
       public rs.id.webzine.domain.ManagedContent convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ManagedContent.class);
-      }
-    };
-  }
-
-  public Converter<News, String> getNewsToStringConverter() {
-    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.News, java.lang.String>() {
-      public String convert(News news) {
-        return new StringBuilder().append("...").toString();
-      }
-    };
-  }
-
-  public Converter<Integer, News> getIdToNewsConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.News>() {
-      public rs.id.webzine.domain.News convert(java.lang.Integer id) {
-        return News.find(id);
-      }
-    };
-  }
-
-  public Converter<String, News> getStringToNewsConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.News>() {
-      public rs.id.webzine.domain.News convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), News.class);
-      }
-    };
-  }
-
-  public Converter<ReaderType, String> getReaderTypeToStringConverter() {
-    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.ReaderType, java.lang.String>() {
-      public String convert(ReaderType readerType) {
-        return new StringBuilder().append(readerType.getCd()).append(' ').append(readerType.getName()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, ReaderType> getIdToReaderTypeConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.ReaderType>() {
-      public rs.id.webzine.domain.ReaderType convert(java.lang.Integer id) {
-        return ReaderType.findReaderType(id);
-      }
-    };
-  }
-
-  public Converter<String, ReaderType> getStringToReaderTypeConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.ReaderType>() {
-      public rs.id.webzine.domain.ReaderType convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), ReaderType.class);
       }
     };
   }
@@ -722,10 +698,20 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getIdToContentTypeConverter());
     registry.addConverter(getStringToContentTypeConverter());
 
-    // news status
-    registry.addConverter(getNewsStatusToStringConverter());
-    registry.addConverter(getIdToNewsStatusConverter());
-    registry.addConverter(getStringToNewsStatusConverter());
+    // reader type
+    registry.addConverter(getReaderTypeToStringConverter());
+    registry.addConverter(getIdToReaderTypeConverter());
+    registry.addConverter(getStringToReaderTypeConverter());
+
+    // category
+    registry.addConverter(getCategoryToStringConverter());
+    registry.addConverter(getIdToCategoryConverter());
+    registry.addConverter(getStringToCategoryConverter());
+
+    // article status
+    registry.addConverter(getArticleStatusToStringConverter());
+    registry.addConverter(getIdToArticleStatusConverter());
+    registry.addConverter(getStringToArticleStatusConverter());
 
     registry.addConverter(getAdToStringConverter());
     registry.addConverter(getIdToAdConverter());
@@ -745,9 +731,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getArticleRateToStringConverter());
     registry.addConverter(getIdToArticleRateConverter());
     registry.addConverter(getStringToArticleRateConverter());
-    registry.addConverter(getCategoryToStringConverter());
-    registry.addConverter(getIdToCategoryConverter());
-    registry.addConverter(getStringToCategoryConverter());
     registry.addConverter(getContentToStringConverter());
     registry.addConverter(getIdToContentConverter());
     registry.addConverter(getStringToContentConverter());
@@ -758,9 +741,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getManagedContentToStringConverter());
     registry.addConverter(getIdToManagedContentConverter());
     registry.addConverter(getStringToManagedContentConverter());
-    registry.addConverter(getNewsToStringConverter());
-    registry.addConverter(getIdToNewsConverter());
-    registry.addConverter(getStringToNewsConverter());
+
     registry.addConverter(getReaderTypeToStringConverter());
     registry.addConverter(getIdToReaderTypeConverter());
     registry.addConverter(getStringToReaderTypeConverter());

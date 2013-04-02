@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<page:show id="ps_rs_id_webzine_domain_Category" object="${category}" path="/admin/category">
+		<field:display field="name" id="s_rs_id_webzine_domain_Category_name" object="${category}" />
+		<field:display field="readerTypeId" id="s_rs_id_webzine_domain_Category_readerTypeId" object="${category}" />
+		<field:display field="uc" id="s_rs_id_webzine_domain_Category_uc" object="${category}" />
+		<field:display calendar="true" dateTimePattern="${category_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_Category_dc" object="${category}" />
+		<field:display field="um" id="s_rs_id_webzine_domain_Category_um" object="${category}" />
+		<field:display calendar="true" dateTimePattern="${category_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_Category_dm" object="${category}" />
+	</page:show>
+</div>

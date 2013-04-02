@@ -1,8 +1,9 @@
 package rs.id.webzine.web;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,131 +13,106 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriUtils;
-import org.springframework.web.util.WebUtils;
-import rs.id.webzine.domain.ArticleCategory;
+
 import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.ReaderType;
-import rs.id.webzine.domain.User;
 
-@RequestMapping("/categorys")
+@RequestMapping("/admin/category")
 @Controller
-public class CategoryController {
+public class CategoryController extends ModelController {
 
-	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-	public String create(@Valid Category category, BindingResult bindingResult,
-			Model uiModel, HttpServletRequest httpServletRequest) {
-		if (bindingResult.hasErrors()) {
-			populateEditForm(uiModel, category);
-			return "categorys/create";
-		}
-		uiModel.asMap().clear();
-		category.persist();
-		return "redirect:/categorys/"
-				+ encodeUrlPathSegment(category.getId().toString(),
-						httpServletRequest);
-	}
+  @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+  public String create(Category category, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, category);
+      return "admin/category/create";
+    }
 
-	@RequestMapping(params = "form", produces = "text/html")
-	public String createForm(Model uiModel) {
-		populateEditForm(uiModel, new Category());
-		return "categorys/create";
-	}
+    uiModel.asMap().clear();
+    category.setUc(getCurrentUser());
+    category.setDc(Calendar.getInstance());
+    category.persist();
+    return "redirect:/admin/category/" + encodeUrlPathSegment(category.getId().toString(), httpServletRequest);
+  }
 
-	@RequestMapping(value = "/{id}", produces = "text/html")
-	public String show(@PathVariable("id") Integer id, Model uiModel) {
-		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("category", Category.findCategory(id));
-		uiModel.addAttribute("itemId", id);
-		return "categorys/show";
-	}
+  @RequestMapping(params = "form", produces = "text/html")
+  public String createForm(Model uiModel) {
+    populateEditForm(uiModel, new Category());
+    return "admin/category/create";
+  }
 
-	@RequestMapping(produces = "text/html")
-	public String list(
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			Model uiModel) {
-		if (page != null || size != null) {
-			int sizeNo = size == null ? 10 : size.intValue();
-			final int firstResult = page == null ? 0 : (page.intValue() - 1)
-					* sizeNo;
-			uiModel.addAttribute("categorys",
-					Category.findCategoryEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Category.countCategorys() / sizeNo;
-			uiModel.addAttribute(
-					"maxPages",
-					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-							: nrOfPages));
-		} else {
-			uiModel.addAttribute("categorys", Category.findAllCategorys());
-		}
-		addDateTimeFormatPatterns(uiModel);
-		return "categorys/list";
-	}
+  @RequestMapping(value = "/{id}", produces = "text/html")
+  public String show(@PathVariable("id") Integer id, Model uiModel) {
+    addDateTimeFormatPatterns(uiModel);
+    uiModel.addAttribute("category", Category.find(id));
+    uiModel.addAttribute("itemId", id);
+    return "admin/category/show";
+  }
 
-	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-	public String update(@Valid Category category, BindingResult bindingResult,
-			Model uiModel, HttpServletRequest httpServletRequest) {
-		if (bindingResult.hasErrors()) {
-			populateEditForm(uiModel, category);
-			return "categorys/update";
-		}
-		uiModel.asMap().clear();
-		category.merge();
-		return "redirect:/categorys/"
-				+ encodeUrlPathSegment(category.getId().toString(),
-						httpServletRequest);
-	}
+  @RequestMapping(produces = "text/html")
+  public String list(@RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    if (page != null || size != null) {
+      int sizeNo = size == null ? 10 : size.intValue();
+      final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+      uiModel.addAttribute("categoryList", Category.findEntries(firstResult, sizeNo));
+      float nrOfPages = (float) Category.count() / sizeNo;
+      uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
+          : nrOfPages));
+    } else {
+      uiModel.addAttribute("categoryList", Category.findAll());
+    }
+    addDateTimeFormatPatterns(uiModel);
+    return "admin/category/list";
+  }
 
-	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
-	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, Category.findCategory(id));
-		return "categorys/update";
-	}
+  @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
+  public String update(Category category, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, category);
+      return "admin/category/update";
+    }
+    uiModel.asMap().clear();
+    Category oldCategory = Category.find(category.getId());
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-	public String delete(@PathVariable("id") Integer id,
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			Model uiModel) {
-		Category category = Category.findCategory(id);
-		category.remove();
-		uiModel.asMap().clear();
-		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
-		uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-		return "redirect:/categorys";
-	}
+    category.setUc(oldCategory.getUc());
+    category.setDc(oldCategory.getDc());
+    category.setUm(getCurrentUser());
+    category.setDm(Calendar.getInstance());
+    category.merge();
+    return "redirect:/admin/category/" + encodeUrlPathSegment(category.getId().toString(), httpServletRequest);
+  }
 
-	void addDateTimeFormatPatterns(Model uiModel) {
-		uiModel.addAttribute(
-				"category_dc_date_format",
-				DateTimeFormat.patternForStyle("MM",
-						LocaleContextHolder.getLocale()));
-		uiModel.addAttribute(
-				"category_dm_date_format",
-				DateTimeFormat.patternForStyle("MM",
-						LocaleContextHolder.getLocale()));
-	}
+  @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+  public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+    populateEditForm(uiModel, Category.find(id));
+    return "admin/category/update";
+  }
 
-	void populateEditForm(Model uiModel, Category category) {
-		uiModel.addAttribute("category", category);
-		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("articlecategorys",
-				ArticleCategory.findAllArticleCategorys());
-		uiModel.addAttribute("readertypes", ReaderType.findAllReaderTypes());
-		uiModel.addAttribute("users", User.findAll());
-	}
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    Category category = Category.find(id);
+    category.remove();
+    uiModel.asMap().clear();
+    uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
+    uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
+    return "redirect:/admin/category";
+  }
 
-	String encodeUrlPathSegment(String pathSegment,
-			HttpServletRequest httpServletRequest) {
-		String enc = httpServletRequest.getCharacterEncoding();
-		if (enc == null) {
-			enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
-		}
-		try {
-			pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
-		} catch (UnsupportedEncodingException uee) {
-		}
-		return pathSegment;
-	}
+  void addDateTimeFormatPatterns(Model uiModel) {
+    uiModel.addAttribute("category_dc_date_format",
+        DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+    uiModel.addAttribute("category_dm_date_format",
+        DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+  }
+
+  void populateEditForm(Model uiModel, Category category) {
+    uiModel.addAttribute("category", category);
+    addDateTimeFormatPatterns(uiModel);
+    uiModel.addAttribute("readerTypeList", ReaderType.findAll());
+
+  }
 }
