@@ -262,7 +262,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<ContentType, String> getContentTypeToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.ContentType, java.lang.String>() {
       public String convert(ContentType contentType) {
-        return new StringBuilder().append(contentType.getCd()).append(' ').append(contentType.getName()).toString();
+        return new StringBuilder().append(contentType.getName()).toString();
       }
     };
   }

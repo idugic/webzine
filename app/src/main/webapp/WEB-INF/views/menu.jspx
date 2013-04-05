@@ -23,5 +23,12 @@
 			<menu:item id="i_articlestatus" url="/admin/article_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
 			<menu:item id="i_article" url="/admin/article?page=1&amp;size=${empty param.size ? 10 : param.size}" />
 		</menu:category>
+		<menu:category id="c_social_networking">
+			<menu:item id="i_articlecomment" url="/admin/article_comment?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+		</menu:category>
+		<menu:category id="c_customer_care">
+      <menu:item id="i_customer" url="/admin/customer?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+      <menu:item id="i_ad" url="/admin/ad?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+		</menu:category>
 	</menu:menu>
 </div>

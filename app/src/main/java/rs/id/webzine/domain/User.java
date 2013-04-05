@@ -26,7 +26,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(schema = "ADMIN", name = "USERS")
 public class User extends IdEntity {
   
-  // TODO DB security
+  // TODO DB auth
 
 	private static Log log = LogFactory.getLog(User.class);
 

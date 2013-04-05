@@ -1,5 +1,6 @@
 package rs.id.webzine.domain;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -123,6 +124,24 @@ public class Category extends IdEntity {
           "SELECT ac.categoryId FROM ArticleCategory ac JOIN ac.articleId a WHERE a.id = :articleId", Category.class);
       query.setParameter("articleId", articleId);
       return query.getResultList();
+    }
+  }
+
+  public static List<Category> findAvailableForArticle(Integer articleId) {
+    if (articleId == null) {
+      return null;
+    } else {
+      List<Category> list = new ArrayList<Category>();
+      List<Category> articleCategoryList = Category.findForArticle(articleId);
+      if (articleCategoryList.isEmpty()) {
+        list = findAll();
+      } else {
+        TypedQuery<Category> query = entityManager().createQuery(
+            "SELECT c FROM Category c WHERE c NOT IN :articleCategoryList", Category.class);
+        query.setParameter("articleCategoryList", articleCategoryList);
+        list = query.getResultList();
+      }
+      return list;
     }
   }
 }

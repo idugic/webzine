@@ -33,6 +33,7 @@ public class Content extends IdEntity {
   private Integer orderNo;
 
   @Column(name = "DESCRIPTION", length = 100)
+  @NotNull
   private String description;
 
   @Column(name = "TEXT")
@@ -143,16 +144,27 @@ public class Content extends IdEntity {
         .setMaxResults(maxResults).getResultList();
   }
 
-  public static List<Content> findForArticle(Integer articleId) {
-    if (articleId == null) {
+  public static List<Content> findForManagedContent(Integer managedContentId) {
+    if (managedContentId == null) {
       return null;
     } else {
-      TypedQuery<Content> query = entityManager()
-          .createQuery(
-              "SELECT c FROM Content c ... AND a.id = :articleId",
-              Content.class);
-      query.setParameter("articleId", articleId);
+      TypedQuery<Content> query = entityManager().createQuery(
+          "SELECT c FROM Content c JOIN c.managedContentId mc WHERE mc.id = :managedContentId ORDER BY c.orderNo", Content.class);
+      query.setParameter("managedContentId", managedContentId);
       return query.getResultList();
+    }
+  }
+
+  public static Integer getNextOrderNoForManagedContent(Integer managedContentId) {
+    if (findForManagedContent(managedContentId).isEmpty()) {
+      return 1;
+    } else {
+      TypedQuery<Integer> query = entityManager().createQuery(
+          "SELECT max(c.orderNo) FROM Content c  JOIN c.managedContentId mc WHERE mc.id = :managedContentId",
+          Integer.class);
+      query.setParameter("managedContentId", managedContentId);
+      Integer maxOrderNo = query.getSingleResult();
+      return ++maxOrderNo;
     }
   }
 }

@@ -26,9 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.domain.Article;
+import rs.id.webzine.domain.ArticleCategory;
 import rs.id.webzine.domain.ArticleStatus;
 import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.Content;
+import rs.id.webzine.domain.ContentType;
 import rs.id.webzine.domain.ManagedContent;
 import rs.id.webzine.domain.User;
 
@@ -36,6 +38,11 @@ import rs.id.webzine.domain.User;
 @Controller
 public class ArticleController extends ModelController {
   private static final Log log = LogFactory.getLog(ArticleController.class);
+
+  // TODO move content Up/Down in the content list
+
+  // TODO hide/unhide content text, media file based on type, or do it in 2
+  // forms: one for text, another for media
 
   @InitBinder
   protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
@@ -92,10 +99,10 @@ public class ArticleController extends ModelController {
     article.setAbstractMediaUrl(mediaUrl);
     uiModel.addAttribute("article", article);
     uiModel.addAttribute("articleStatusList", ArticleStatus.findAll());
-    uiModel.addAttribute("userList", User.findAll());
-    uiModel.addAttribute("categoryList", Category.findForArticle(article.getId()));
+    uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(article.getId()));
     uiModel.addAttribute("managedContent", article.getManagedContentId());
-    uiModel.addAttribute("contentList", Content.findForArticle(article.getId()));
+    uiModel.addAttribute("articleContentList", Content.findForManagedContent(article.getManagedContentId().getId()));
+    uiModel.addAttribute("userList", User.findAll());
     uiModel.addAttribute("itemId", id);
     return "admin/article/show";
   }
@@ -120,6 +127,9 @@ public class ArticleController extends ModelController {
   @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
   public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
     populateEditForm(uiModel, Article.find(id));
+    uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(id));
+    uiModel.addAttribute("articleCategory", new ArticleCategory());
+    uiModel.addAttribute("content", new Content());
     return "admin/article/update";
   }
 
@@ -129,6 +139,10 @@ public class ArticleController extends ModelController {
     try {
       if (bindingResult.hasErrors()) {
         populateEditForm(uiModel, article);
+        uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(article.getId()));
+        uiModel.addAttribute("articleCategory", new ArticleCategory());
+        uiModel.addAttribute("content", new Content());
+
         return "admin/article/update";
       }
 
@@ -162,6 +176,9 @@ public class ArticleController extends ModelController {
       HttpServletRequest httpServletRequest) {
     if (bindingResult.hasErrors()) {
       populateEditForm(uiModel, article);
+      uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(article.getId()));
+      uiModel.addAttribute("articleCategory", new ArticleCategory());
+      uiModel.addAttribute("content", new Content());
       return "admin/article/update";
     }
 
@@ -193,6 +210,11 @@ public class ArticleController extends ModelController {
     uiModel.addAttribute("article", article);
     addDateTimeFormatPatterns(uiModel);
     uiModel.addAttribute("articleStatusList", ArticleStatus.findAll());
+    uiModel.addAttribute("availableCategoryList", Category.findAvailableForArticle(article.getId()));
+    uiModel.addAttribute("articleCategoryList", Category.findForArticle(article.getId()));
+    uiModel.addAttribute("managedContent", article.getManagedContentId());
+    uiModel.addAttribute("contentTypeList", ContentType.findAll());
+    uiModel.addAttribute("articleContentList", Content.findForManagedContent(article.getManagedContentId().getId()));
   }
 
   @RequestMapping(value = "/abstractMedia/{id}", method = RequestMethod.GET)
@@ -214,4 +236,116 @@ public class ArticleController extends ModelController {
       throw new RuntimeException(e);
     }
   }
+
+  @RequestMapping(value = "/category/{articleId}", method = RequestMethod.POST, produces = "text/html")
+  public String createArticleCategory(@PathVariable("articleId") Integer articleId, ArticleCategory articleCategory,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, Article.find(articleId));
+      uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+      uiModel.addAttribute("articleCategory", new ArticleCategory());
+      uiModel.addAttribute("content", new Content());
+      return "admin/article/update";
+    }
+    articleCategory.setArticleId(Article.find(articleId));
+    articleCategory.setUc(getCurrentUser());
+    articleCategory.setDc(Calendar.getInstance());
+    articleCategory.persist();
+
+    uiModel.asMap().clear();
+    return "redirect:/admin/article/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/category/{articleId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String deleteCategory(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
+      Model uiModel) {
+    ArticleCategory articleCategory = ArticleCategory.find(id);
+    articleCategory.remove();
+
+    populateEditForm(uiModel, Article.find(articleId));
+    uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+    uiModel.addAttribute("articleCategory", new ArticleCategory());
+    uiModel.addAttribute("content", new Content());
+    return "admin/article/update";
+  }
+
+  @RequestMapping(value = "/managed_content/{articleId}", method = RequestMethod.PUT, produces = "text/html")
+  public String updateManagedContent(@PathVariable("articleId") Integer articleId, ManagedContent managedContent,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    try {
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, Article.find(articleId));
+        uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+        uiModel.addAttribute("articleCategory", new ArticleCategory());
+        uiModel.addAttribute("content", new Content());
+        return "admin/article/update";
+      }
+
+      Article article = Article.find(articleId);
+
+      ManagedContent articleManagedContent = article.getManagedContentId();
+      articleManagedContent.setCss(managedContent.getCss());
+
+      uiModel.asMap().clear();
+      articleManagedContent.merge();
+      return "redirect:/admin/article/" + encodeUrlPathSegment(article.getId().toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  @RequestMapping(value = "/content/{articleId}", method = RequestMethod.POST, produces = "text/html")
+  public String createContent(@PathVariable("articleId") Integer articleId, Content content,
+      @RequestParam("media") MultipartFile media, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    try {
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, Article.find(articleId));
+        uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+        uiModel.addAttribute("articleCategory", new ArticleCategory());
+        uiModel.addAttribute("content", new Content());
+        return "admin/article/update";
+      }
+
+      Article article = Article.find(articleId);
+      content.setManagedContentId(article.getManagedContentId());
+      // TODO synchronize
+      content.setOrderNo(Content.getNextOrderNoForManagedContent(article.getManagedContentId().getId()));
+      if (media != null && media.getBytes() != null && media.getBytes().length > 0) {
+        content.setMediaContentType(media.getContentType());
+      }
+
+      // description
+      if (content.getDescription() == null || content.getDescription().isEmpty()) {
+        if (content.getText() != null && !content.getText().isEmpty()) {
+          content.setDescription(content.getText());
+        } else {
+          content.setDescription(media.getOriginalFilename());
+        }
+      }
+
+      content.persist();
+
+      uiModel.asMap().clear();
+      return "redirect:/admin/article/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  @RequestMapping(value = "/content/{articleId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String deleteContent(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
+      Model uiModel) {
+    Content content = Content.find(id);
+    content.remove();
+
+    populateEditForm(uiModel, Article.find(articleId));
+    uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+    uiModel.addAttribute("articleCategory", new ArticleCategory());
+    uiModel.addAttribute("content", new Content());
+    return "admin/article/update";
+  }
+
 }

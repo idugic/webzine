@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<!-- Article -->
@@ -14,4 +14,36 @@
 		Publish
 		<form:update id="fu_rs_id_webzine_domain_Article" modelAttribute="article" path="/admin/article/publish" versionField="none" list="false" />
 	</div>
+	<!-- Categories -->
+	<form:create id="fc_rs_id_webzine_domain_ArticleCategory" modelAttribute="articleCategory" path="/admin/article/category/${article.id}" render="${empty dependencies}" list="false">
+		<field:select field="categoryId" id="c_rs_id_webzine_domain_ArticleCategory_categoryId" itemValue="id" items="${availableCategoryList}" path="/admin/category" />
+	</form:create>
+	<BR />
+	<page:list id="pl_rs_id_webzine_domain_ArticleCategory" items="${articleCategoryList}" create="false">
+		<table:table data="${articleCategoryList}" id="l_rs_id_webzine_domain_ArticleCategory" path="/admin/article/category/${article.id}" create="false" update="false" show="false">
+			<table:column id="c_rs_id_webzine_domain_ArticleCategory_categoryId" property="categoryId" />
+		</table:table>
+	</page:list>
+	<BR />
+	<!-- Managed Content -->
+	<form:update id="fu_rs_id_webzine_domain_ManagedContent" modelAttribute="managedContent" path="/admin/article/managed_content/${article.id}" versionField="none" list="false">
+		<field:textarea field="css" id="c_rs_id_webzine_domain_ManagedContent_css" />
+	</form:update>
+	<BR />
+	<!-- Contents -->
+	<form:create id="fc_rs_id_webzine_domain_Content" modelAttribute="content" path="/admin/article/content/${article.id}" render="${empty dependencies}" multipart="true" list="false">
+		<field:select field="contentTypeId" id="c_rs_id_webzine_domain_Content_contentTypeId" itemValue="id" items="${contentTypeList}" path="/admin/content_type" />
+		<field:input field="description" id="c_rs_id_webzine_domain_Content_description" />
+		<field:textarea field="text" id="c_rs_id_webzine_domain_Content_text" />
+		<field:file field="media" id="c_rs_id_webzine_domain_Content_media" />
+		<field:input field="link" id="c_rs_id_webzine_domain_Content_link" />
+		<field:input field="linkTarget" id="c_rs_id_webzine_domain_Content_linkTarget" />
+	</form:create>
+	<BR />
+	<page:list id="pl_rs_id_webzine_domain_Content" items="${articleContentList}" create="false">
+		<table:table data="${articleContentList}" id="l_rs_id_webzine_domain_Content" path="/admin/article/content/${article.id}" create="false" update="false" show="false">
+			<table:column id="c_rs_id_webzine_domain_Content_contentTypeId" property="contentTypeId" />
+			<table:column id="c_rs_id_webzine_domain_Content_description" property="description" />
+		</table:table>
+	</page:list>
 </div>
