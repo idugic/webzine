@@ -49,7 +49,7 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS" id="71C22543-AC3D-954C-AB60-6855FDF43342">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS_ID" id="71C22543-AC3D-954C-AB60-6855FDF43342">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-08 13:03:31 UTC</createdTime>
 <comment>1-Submitted, 3-Editorial</comment>
@@ -57,7 +57,11 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>1A1ED057-6BBC-622E-3483-4920D6417693</delegate>
 <autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3CE52722-383E-EF64-8609-0A36B7F81289" referredColumn="1A1ED057-6BBC-622E-3483-4920D6417693"/>
+</associations>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="TITLE" id="7321B7F4-93CB-3967-1205-11B6233915F3">
 <createdBy>idugic</createdBy>
@@ -69,7 +73,7 @@
 <dataTypeSize>200</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="BLOB" id="6FB7B840-954A-9239-FDC0-F03DB321FF22">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="TEXT" id="6FB7B840-954A-9239-FDC0-F03DB321FF22">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-08 13:03:31 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
@@ -80,7 +84,7 @@
 <dataTypeSize>4000</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="IMAGE" id="EF16E8AB-7076-D2B1-6B59-C5D137395526">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="MEDIA" id="EF16E8AB-7076-D2B1-6B59-C5D137395526">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-15 08:00:35 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
@@ -88,6 +92,17 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT029</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="MEDIA_CONTENT_TYPE" id="321138BB-55E5-5783-F373-D75463A4EA9B">
+<createdBy>idugic</createdBy>
+<createdTime>2013-04-03 07:21:55 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="UC" id="301CAAFC-CED5-36B3-F014-38EA5A3D0D7E">
@@ -166,13 +181,20 @@
 <colUsage columnID="7FA5CB0A-A52D-4C7E-3CBB-15346240D4E9"/>
 </indexColumnUsage>
 </ind_PK_UK>
-</indexes>
-<tableCheckConstraints>
-<tableCheckConstraint class="oracle.dbtools.crest.model.design.constraint.TableLevelConstraint" name="USER_ARTI_CK_1" id="714FDA50-414A-8BFF-D7BF-4E7551C9139F" directorySegmentName="seg_0">
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="B45F733C-B2A8-6112-C660-B14B0033B6B1" name="USER_ARTI_USER_FK_3">
 <createdBy>idugic</createdBy>
-<createdTime>2013-03-08 13:03:31 UTC</createdTime>
+<createdTime>2013-04-03 07:24:14 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
-<rule>STATUS IN (1,2)</rule>
-</tableCheckConstraint>
-</tableCheckConstraints>
+<indexState>Foreign Key</indexState>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="791BE47D-9AE7-E7A5-55A2-791D776095DC" name="USER_ARTI_USER_ARTI_STAT_FK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-04-03 07:27:05 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="71C22543-AC3D-954C-AB60-6855FDF43342"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
 </Table>

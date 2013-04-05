@@ -2,199 +2,116 @@ package rs.id.webzine.domain;
 
 import java.util.Calendar;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
 
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "ARTICLE_CATEGORY")
-public class ArticleCategory {
+public class ArticleCategory extends IdEntity {
 
-	@PersistenceContext
-	transient EntityManager entityManager;
+  @ManyToOne
+  @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ID", nullable = false)
+  private Article articleId;
 
-	public static final EntityManager entityManager() {
-		EntityManager em = new ArticleCategory().entityManager;
-		if (em == null)
-			throw new IllegalStateException(
-					"Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-		return em;
-	}
+  @ManyToOne
+  @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "ID", nullable = false)
+  private Category categoryId;
 
-	public static long countArticleCategorys() {
-		return entityManager().createQuery(
-				"SELECT COUNT(o) FROM ArticleCategory o", Long.class)
-				.getSingleResult();
-	}
+  @ManyToOne
+  @JoinColumn(name = "UM", referencedColumnName = "ID")
+  private User um;
 
-	public static List<ArticleCategory> findAllArticleCategorys() {
-		return entityManager().createQuery("SELECT o FROM ArticleCategory o",
-				ArticleCategory.class).getResultList();
-	}
+  @ManyToOne
+  @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
+  private User uc;
 
-	public static ArticleCategory findArticleCategory(Integer id) {
-		if (id == null)
-			return null;
-		return entityManager().find(ArticleCategory.class, id);
-	}
+  @Column(name = "DC")
+  @NotNull
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar dc;
 
-	public static List<ArticleCategory> findArticleCategoryEntries(
-			int firstResult, int maxResults) {
-		return entityManager()
-				.createQuery("SELECT o FROM ArticleCategory o",
-						ArticleCategory.class).setFirstResult(firstResult)
-				.setMaxResults(maxResults).getResultList();
-	}
+  @Column(name = "DM")
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar dm;
 
-	@Transactional
-	public void persist() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.persist(this);
-	}
+  public Article getArticleId() {
+    return articleId;
+  }
 
-	@Transactional
-	public void remove() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		if (this.entityManager.contains(this)) {
-			this.entityManager.remove(this);
-		} else {
-			ArticleCategory attached = ArticleCategory
-					.findArticleCategory(this.id);
-			this.entityManager.remove(attached);
-		}
-	}
+  public void setArticleId(Article articleId) {
+    this.articleId = articleId;
+  }
 
-	@Transactional
-	public void flush() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.flush();
-	}
+  public Category getCategoryId() {
+    return categoryId;
+  }
 
-	@Transactional
-	public void clear() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.clear();
-	}
+  public void setCategoryId(Category categoryId) {
+    this.categoryId = categoryId;
+  }
 
-	@Transactional
-	public ArticleCategory merge() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		ArticleCategory merged = this.entityManager.merge(this);
-		this.entityManager.flush();
-		return merged;
-	}
+  public User getUm() {
+    return um;
+  }
 
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+  public void setUm(User um) {
+    this.um = um;
+  }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
-	private Integer id;
+  public User getUc() {
+    return uc;
+  }
 
-	public Integer getId() {
-		return this.id;
-	}
+  public void setUc(User uc) {
+    this.uc = uc;
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public Calendar getDc() {
+    return dc;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ID", nullable = false)
-	private Article articleId;
+  public void setDc(Calendar dc) {
+    this.dc = dc;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "CATEGORY_ID", referencedColumnName = "ID", nullable = false)
-	private Category categoryId;
+  public Calendar getDm() {
+    return dm;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "UM", referencedColumnName = "ID")
-	private User um;
+  public void setDm(Calendar dm) {
+    this.dm = dm;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-	private User uc;
+  public static long count() {
+    return entityManager().createQuery("SELECT COUNT(o) FROM ArticleCategory o", Long.class).getSingleResult();
+  }
 
-	@Column(name = "DC")
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar dc;
+  public static List<ArticleCategory> findAll() {
+    return entityManager().createQuery("SELECT o FROM ArticleCategory o", ArticleCategory.class).getResultList();
+  }
 
-	@Column(name = "DM")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar dm;
+  public static ArticleCategory find(Integer id) {
+    if (id == null)
+      return null;
+    return entityManager().find(ArticleCategory.class, id);
+  }
 
-	public Article getArticleId() {
-		return articleId;
-	}
+  public static List<ArticleCategory> findEntries(int firstResult, int maxResults) {
+    return entityManager().createQuery("SELECT o FROM ArticleCategory o", ArticleCategory.class)
+        .setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+  }
 
-	public void setArticleId(Article articleId) {
-		this.articleId = articleId;
-	}
-
-	public Category getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Category categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public User getUm() {
-		return um;
-	}
-
-	public void setUm(User um) {
-		this.um = um;
-	}
-
-	public User getUc() {
-		return uc;
-	}
-
-	public void setUc(User uc) {
-		this.uc = uc;
-	}
-
-	public Calendar getDc() {
-		return dc;
-	}
-
-	public void setDc(Calendar dc) {
-		this.dc = dc;
-	}
-
-	public Calendar getDm() {
-		return dm;
-	}
-
-	public void setDm(Calendar dm) {
-		this.dm = dm;
-	}
 }

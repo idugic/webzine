@@ -123,7 +123,7 @@ public class ArticleRateController {
 	void populateEditForm(Model uiModel, ArticleRate articleRate) {
 		uiModel.addAttribute("articleRate", articleRate);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("articles", Article.findAllArticles());
+		uiModel.addAttribute("articles", Article.findAll());
 		uiModel.addAttribute("users", User.findAll());
 	}
 

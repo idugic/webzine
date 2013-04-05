@@ -5,14 +5,22 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Configurable;
 
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "ARTICLE_STATUS")
 public class ArticleStatus extends IdEntity {
+
+  private static Log log = LogFactory.getLog(ArticleStatus.class);
+
+  public static final String CD_SUBMITTED = "1";
+  public static final String CD_PUBLISHED = "100";
 
   @Column(name = "CD", length = 15, unique = true)
   @NotNull
@@ -55,5 +63,22 @@ public class ArticleStatus extends IdEntity {
   public static List<ArticleStatus> findEntries(int firstResult, int maxResults) {
     return entityManager().createQuery("SELECT o FROM ArticleStatus o", ArticleStatus.class)
         .setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+  }
+
+  public static ArticleStatus findForCd(String cd) {
+    ArticleStatus articleStatus = null;
+
+    try {
+      if (cd != null) {
+        TypedQuery<ArticleStatus> query = entityManager().createQuery("SELECT o FROM ArticleStatus o WHERE cd = :cd",
+            ArticleStatus.class);
+        query.setParameter("cd", cd);
+        articleStatus = query.getSingleResult();
+      }
+    } catch (Exception e) {
+      log.debug(e);
+    }
+
+    return articleStatus;
   }
 }

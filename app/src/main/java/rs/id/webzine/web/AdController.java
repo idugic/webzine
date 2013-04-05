@@ -120,7 +120,7 @@ public class AdController {
 	void populateEditForm(Model uiModel, Ad ad) {
 		uiModel.addAttribute("ad", ad);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("articles", Article.findAllArticles());
+		uiModel.addAttribute("articles", Article.findAll());
 		uiModel.addAttribute("customers", Customer.findAllCustomers());
 		uiModel.addAttribute("managedcontents",
 				ManagedContent.findAll());

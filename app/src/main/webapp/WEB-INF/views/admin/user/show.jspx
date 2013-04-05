@@ -20,6 +20,6 @@
 		<field:display field="country" id="s_rs_id_webzine_domain_Address_country" object="${userBacking}" />
 		<field:display field="countryCode" id="s_rs_id_webzine_domain_Address_countryCode" object="${userBacking}" />
 		<field:display field="www" id="s_rs_id_webzine_domain_Address_www" object="${userBacking}" />
-		<field:img field="imageUrl" id="s_rs_id_webzine_domain_User_image" object="${userBacking}" />
+		<field:media field="imageUrl" id="s_rs_id_webzine_domain_User_image" object="${userBacking}" />
 	</page:show>
 </div>

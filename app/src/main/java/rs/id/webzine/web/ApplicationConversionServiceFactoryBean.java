@@ -394,7 +394,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, Article> getIdToArticleConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Article>() {
       public rs.id.webzine.domain.Article convert(java.lang.Integer id) {
-        return Article.findArticle(id);
+        return Article.find(id);
       }
     };
   }
@@ -444,7 +444,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, ArticleCategory> getIdToArticleCategoryConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.ArticleCategory>() {
       public rs.id.webzine.domain.ArticleCategory convert(java.lang.Integer id) {
-        return ArticleCategory.findArticleCategory(id);
+        return ArticleCategory.find(id);
       }
     };
   }
@@ -460,8 +460,8 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<ArticleComment, String> getArticleCommentToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.ArticleComment, java.lang.String>() {
       public String convert(ArticleComment articleComment) {
-        return new StringBuilder().append(articleComment.getStatus()).append(' ').append(articleComment.getText())
-            .append(' ').append(articleComment.getPublishedAt()).append(' ').append(articleComment.getDc()).toString();
+        return new StringBuilder().append(articleComment.getText()).append(' ').append(articleComment.getPublishedAt())
+            .append(' ').append(articleComment.getDc()).toString();
       }
     };
   }
@@ -632,8 +632,8 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<UserArticle, String> getUserArticleToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.UserArticle, java.lang.String>() {
       public String convert(UserArticle userArticle) {
-        return new StringBuilder().append(userArticle.getStatus()).append(' ').append(userArticle.getTitle())
-            .append(' ').append(userArticle.getText()).append(' ').append(userArticle.getImage()).toString();
+        return new StringBuilder().append(userArticle.getTitle()).append(' ').append(userArticle.getText()).append(' ')
+            .toString();
       }
     };
   }

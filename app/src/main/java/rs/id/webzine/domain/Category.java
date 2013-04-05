@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
@@ -112,5 +113,16 @@ public class Category extends IdEntity {
 
   public void setDm(Calendar dm) {
     this.dm = dm;
+  }
+
+  public static List<Category> findForArticle(Integer articleId) {
+    if (articleId == null) {
+      return null;
+    } else {
+      TypedQuery<Category> query = entityManager().createQuery(
+          "SELECT ac.categoryId FROM ArticleCategory ac JOIN ac.articleId a WHERE a.id = :articleId", Category.class);
+      query.setParameter("articleId", articleId);
+      return query.getResultList();
+    }
   }
 }

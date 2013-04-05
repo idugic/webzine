@@ -3,13 +3,17 @@ package rs.id.webzine.domain;
 import java.sql.Blob;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
@@ -27,196 +31,204 @@ import org.springframework.transaction.annotation.Transactional;
 @Configurable
 public class UserArticle {
 
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+  // TODO change name, add relation to article table
 
-	@PersistenceContext
-	transient EntityManager entityManager;
+  public String toString() {
+    return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+  }
 
-	public static final EntityManager entityManager() {
-		EntityManager em = new UserArticle().entityManager;
-		if (em == null)
-			throw new IllegalStateException(
-					"Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-		return em;
-	}
+  @PersistenceContext
+  transient EntityManager entityManager;
 
-	public static long countUserArticles() {
-		return entityManager().createQuery(
-				"SELECT COUNT(o) FROM UserArticle o", Long.class)
-				.getSingleResult();
-	}
+  public static final EntityManager entityManager() {
+    EntityManager em = new UserArticle().entityManager;
+    if (em == null)
+      throw new IllegalStateException(
+          "Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+    return em;
+  }
 
-	public static List<UserArticle> findAllUserArticles() {
-		return entityManager().createQuery("SELECT o FROM UserArticle o",
-				UserArticle.class).getResultList();
-	}
+  public static long countUserArticles() {
+    return entityManager().createQuery("SELECT COUNT(o) FROM UserArticle o", Long.class).getSingleResult();
+  }
 
-	public static UserArticle findUserArticle(Integer id) {
-		if (id == null)
-			return null;
-		return entityManager().find(UserArticle.class, id);
-	}
+  public static List<UserArticle> findAllUserArticles() {
+    return entityManager().createQuery("SELECT o FROM UserArticle o", UserArticle.class).getResultList();
+  }
 
-	public static List<UserArticle> findUserArticleEntries(int firstResult,
-			int maxResults) {
-		return entityManager()
-				.createQuery("SELECT o FROM UserArticle o", UserArticle.class)
-				.setFirstResult(firstResult).setMaxResults(maxResults)
-				.getResultList();
-	}
+  public static UserArticle findUserArticle(Integer id) {
+    if (id == null)
+      return null;
+    return entityManager().find(UserArticle.class, id);
+  }
 
-	@Transactional
-	public void persist() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.persist(this);
-	}
+  public static List<UserArticle> findUserArticleEntries(int firstResult, int maxResults) {
+    return entityManager().createQuery("SELECT o FROM UserArticle o", UserArticle.class).setFirstResult(firstResult)
+        .setMaxResults(maxResults).getResultList();
+  }
 
-	@Transactional
-	public void remove() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		if (this.entityManager.contains(this)) {
-			this.entityManager.remove(this);
-		} else {
-			UserArticle attached = UserArticle.findUserArticle(this.id);
-			this.entityManager.remove(attached);
-		}
-	}
+  @Transactional
+  public void persist() {
+    if (this.entityManager == null)
+      this.entityManager = entityManager();
+    this.entityManager.persist(this);
+  }
 
-	@Transactional
-	public void flush() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.flush();
-	}
+  @Transactional
+  public void remove() {
+    if (this.entityManager == null)
+      this.entityManager = entityManager();
+    if (this.entityManager.contains(this)) {
+      this.entityManager.remove(this);
+    } else {
+      UserArticle attached = UserArticle.findUserArticle(this.id);
+      this.entityManager.remove(attached);
+    }
+  }
 
-	@Transactional
-	public void clear() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.clear();
-	}
+  @Transactional
+  public void flush() {
+    if (this.entityManager == null)
+      this.entityManager = entityManager();
+    this.entityManager.flush();
+  }
 
-	@Transactional
-	public UserArticle merge() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		UserArticle merged = this.entityManager.merge(this);
-		this.entityManager.flush();
-		return merged;
-	}
+  @Transactional
+  public void clear() {
+    if (this.entityManager == null)
+      this.entityManager = entityManager();
+    this.entityManager.clear();
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "UM", referencedColumnName = "ID")
-	private User um;
+  @Transactional
+  public UserArticle merge() {
+    if (this.entityManager == null)
+      this.entityManager = entityManager();
+    UserArticle merged = this.entityManager.merge(this);
+    this.entityManager.flush();
+    return merged;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-	private User uc;
+  @ManyToOne
+  @JoinColumn(name = "UM", referencedColumnName = "ID")
+  private User um;
 
-	@Column(name = "STATUS")
-	@NotNull
-	private Integer status;
+  @ManyToOne
+  @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
+  private User uc;
 
-	@Column(name = "TITLE", length = 200)
-	@NotNull
-	private String title;
+  @Column(name = "STATUS_ID")
+  @NotNull
+  private Integer statusId;
 
-	@Column(name = "TEXT")
-	private String text;
+  @Column(name = "TITLE", length = 200)
+  @NotNull
+  private String title;
 
-	@Column(name = "IMAGE")
-	private Blob image;
+  @Column(name = "TEXT")
+  private String text;
 
-	@Column(name = "DC")
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar dc;
+  @Column(name = "MEDIA")
+  @Lob
+  @Basic(fetch = FetchType.LAZY)
+  private byte[] media;
 
-	@Column(name = "DM")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar dm;
+  @Column(name = "MEDIA_CONTENT_TYPE")
+  private String mediaContentType;
 
-	public User getUm() {
-		return um;
-	}
+  @Column(name = "DC")
+  @NotNull
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar dc;
 
-	public void setUm(User um) {
-		this.um = um;
-	}
+  @Column(name = "DM")
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar dm;
 
-	public User getUc() {
-		return uc;
-	}
+  public User getUm() {
+    return um;
+  }
 
-	public void setUc(User uc) {
-		this.uc = uc;
-	}
+  public void setUm(User um) {
+    this.um = um;
+  }
 
-	public Integer getStatus() {
-		return status;
-	}
+  public User getUc() {
+    return uc;
+  }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+  public void setUc(User uc) {
+    this.uc = uc;
+  }
 
-	public String getTitle() {
-		return title;
-	}
+  public Integer getStatusId() {
+    return statusId;
+  }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+  public void setStatusId(Integer statusId) {
+    this.statusId = statusId;
+  }
 
-	public String getText() {
-		return text;
-	}
+  public String getTitle() {
+    return title;
+  }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-	public Blob getImage() {
-		return image;
-	}
+  public String getText() {
+    return text;
+  }
 
-	public void setImage(Blob image) {
-		this.image = image;
-	}
+  public void setText(String text) {
+    this.text = text;
+  }
 
-	public Calendar getDc() {
-		return dc;
-	}
+  public byte[] getMedia() {
+    return media;
+  }
 
-	public void setDc(Calendar dc) {
-		this.dc = dc;
-	}
+  public void setMedia(byte[] media) {
+    this.media = media;
+  }
 
-	public Calendar getDm() {
-		return dm;
-	}
+  public String getMediaContentType() {
+    return mediaContentType;
+  }
 
-	public void setDm(Calendar dm) {
-		this.dm = dm;
-	}
+  public void setMediaContentType(String mediaContentType) {
+    this.mediaContentType = mediaContentType;
+  }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
-	private Integer id;
+  public Calendar getDc() {
+    return dc;
+  }
 
-	public Integer getId() {
-		return this.id;
-	}
+  public void setDc(Calendar dc) {
+    this.dc = dc;
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public Calendar getDm() {
+    return dm;
+  }
+
+  public void setDm(Calendar dm) {
+    this.dm = dm;
+  }
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "ID")
+  private Integer id;
+
+  public Integer getId() {
+    return this.id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
 }

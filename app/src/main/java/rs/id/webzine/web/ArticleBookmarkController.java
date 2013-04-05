@@ -126,7 +126,7 @@ public class ArticleBookmarkController {
 	void populateEditForm(Model uiModel, ArticleBookmark articleBookmark) {
 		uiModel.addAttribute("articleBookmark", articleBookmark);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("articles", Article.findAllArticles());
+		uiModel.addAttribute("articles", Article.findAll());
 		uiModel.addAttribute("users", User.findAll());
 	}
 

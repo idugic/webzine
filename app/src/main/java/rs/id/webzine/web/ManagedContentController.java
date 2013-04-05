@@ -110,7 +110,7 @@ public class ManagedContentController {
 	void populateEditForm(Model uiModel, ManagedContent managedContent) {
 		uiModel.addAttribute("managedContent", managedContent);
 		uiModel.addAttribute("ads", Ad.findAllAds());
-		uiModel.addAttribute("articles", Article.findAllArticles());
+		uiModel.addAttribute("articles", Article.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

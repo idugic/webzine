@@ -1,104 +1,70 @@
 package rs.id.webzine.domain;
 
-import java.sql.Blob;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
+
+import rs.id.webzine.domain.util.Session;
 
 @Entity
 @Table(schema = "ADMIN", name = "ARTICLE")
 @Configurable
-public class Article {
+public class Article extends IdEntity {
 
-  public String toString() {
-    return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-  }
+  @Transient
+  String abstractMediaUrl;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "ID")
-  private Integer id;
+  @Column(name = "TITLE", length = 200)
+  @NotNull
+  private String title;
 
-  public Integer getId() {
-    return this.id;
-  }
+  @ManyToOne
+  @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
+  private ArticleStatus statusId;
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+  @Column(name = "ABSTRACT_TEXT", length = 500)
+  private String abstractText;
 
-  @OneToMany(mappedBy = "articleId")
-  private Set<Ad> ads;
+  @Column(name = "ABSTRACT_MEDIA")
+  @Lob
+  @Basic(fetch = FetchType.LAZY)
+  private byte[] abstractMedia;
 
-  @OneToMany(mappedBy = "articleId")
-  private Set<ArticleBookmark> articleBookmarks;
-
-  @OneToMany(mappedBy = "articleId")
-  private Set<ArticleCategory> articleCategories;
-
-  @OneToMany(mappedBy = "articleId")
-  private Set<ArticleComment> articleComments;
-
-  @OneToMany(mappedBy = "articleId")
-  private Set<ArticleRate> articleRates;
+  @Column(name = "ABSTRACT_MEDIA_CONTENT_TYPE", length = 200)
+  @NotNull
+  private String abstractMediaContentType;
 
   @ManyToOne
   @JoinColumn(name = "MANAGED_CONTENT_ID", referencedColumnName = "ID", nullable = false)
   private ManagedContent managedContentId;
 
   @ManyToOne
-  @JoinColumn(name = "UM", referencedColumnName = "ID")
-  private User um;
-
-  @ManyToOne
-  @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-  private User uc;
-
-  @ManyToOne
-  @JoinColumn(name = "AUTHOR_USER_ID", referencedColumnName = "ID", nullable = false)
-  private User authorUserId;
-
-  @ManyToOne
   @JoinColumn(name = "PUBLISHED_BY", referencedColumnName = "ID")
   private User publishedBy;
-
-  @ManyToOne
-  @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
-  private ArticleStatus statusId;
-
-  @Column(name = "TITLE", length = 200)
-  @NotNull
-  private String title;
-
-  @Column(name = "ABSTRACT_TEXT", length = 500)
-  private String abstractText;
-
-  @Column(name = "ABSTRACT_IMAGE")
-  private Blob abstractImage;
 
   @Column(name = "PUBLISHED_AT")
   @Temporal(TemporalType.TIMESTAMP)
   @DateTimeFormat(style = "MM")
   private Calendar publishedAt;
+
+  @ManyToOne
+  @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
+  private User uc;
 
   @Column(name = "DC")
   @NotNull
@@ -106,89 +72,21 @@ public class Article {
   @DateTimeFormat(style = "MM")
   private Calendar dc;
 
+  @ManyToOne
+  @JoinColumn(name = "UM", referencedColumnName = "ID")
+  private User um;
+
   @Column(name = "DM")
   @Temporal(TemporalType.TIMESTAMP)
   @DateTimeFormat(style = "MM")
   private Calendar dm;
 
-  public Set<Ad> getAds() {
-    return ads;
+  public String getTitle() {
+    return title;
   }
 
-  public void setAds(Set<Ad> ads) {
-    this.ads = ads;
-  }
-
-  public Set<ArticleBookmark> getArticleBookmarks() {
-    return articleBookmarks;
-  }
-
-  public void setArticleBookmarks(Set<ArticleBookmark> articleBookmarks) {
-    this.articleBookmarks = articleBookmarks;
-  }
-
-  public Set<ArticleCategory> getArticleCategories() {
-    return articleCategories;
-  }
-
-  public void setArticleCategories(Set<ArticleCategory> articleCategories) {
-    this.articleCategories = articleCategories;
-  }
-
-  public Set<ArticleComment> getArticleComments() {
-    return articleComments;
-  }
-
-  public void setArticleComments(Set<ArticleComment> articleComments) {
-    this.articleComments = articleComments;
-  }
-
-  public Set<ArticleRate> getArticleRates() {
-    return articleRates;
-  }
-
-  public void setArticleRates(Set<ArticleRate> articleRates) {
-    this.articleRates = articleRates;
-  }
-
-  public ManagedContent getManagedContentId() {
-    return managedContentId;
-  }
-
-  public void setManagedContentId(ManagedContent managedContentId) {
-    this.managedContentId = managedContentId;
-  }
-
-  public User getUm() {
-    return um;
-  }
-
-  public void setUm(User um) {
-    this.um = um;
-  }
-
-  public User getUc() {
-    return uc;
-  }
-
-  public void setUc(User uc) {
-    this.uc = uc;
-  }
-
-  public User getAuthorUserId() {
-    return authorUserId;
-  }
-
-  public void setAuthorUserId(User authorUserId) {
-    this.authorUserId = authorUserId;
-  }
-
-  public User getPublishedBy() {
-    return publishedBy;
-  }
-
-  public void setPublishedBy(User publishedBy) {
-    this.publishedBy = publishedBy;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
   public ArticleStatus getStatusId() {
@@ -199,14 +97,6 @@ public class Article {
     this.statusId = statusId;
   }
 
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
   public String getAbstractText() {
     return abstractText;
   }
@@ -215,12 +105,36 @@ public class Article {
     this.abstractText = abstractText;
   }
 
-  public Blob getAbstractImage() {
-    return abstractImage;
+  public byte[] getAbstractMedia() {
+    return abstractMedia;
   }
 
-  public void setAbstractImage(Blob abstractImage) {
-    this.abstractImage = abstractImage;
+  public void setAbstractMedia(byte[] abstractMedia) {
+    this.abstractMedia = abstractMedia;
+  }
+
+  public String getAbstractMediaContentType() {
+    return abstractMediaContentType;
+  }
+
+  public void setAbstractMediaContentType(String abstractMediaContentType) {
+    this.abstractMediaContentType = abstractMediaContentType;
+  }
+
+  public ManagedContent getManagedContentId() {
+    return managedContentId;
+  }
+
+  public void setManagedContentId(ManagedContent managedContentId) {
+    this.managedContentId = managedContentId;
+  }
+
+  public User getPublishedBy() {
+    return publishedBy;
+  }
+
+  public void setPublishedBy(User publishedBy) {
+    this.publishedBy = publishedBy;
   }
 
   public Calendar getPublishedAt() {
@@ -231,12 +145,28 @@ public class Article {
     this.publishedAt = publishedAt;
   }
 
+  public User getUc() {
+    return uc;
+  }
+
+  public void setUc(User uc) {
+    this.uc = uc;
+  }
+
   public Calendar getDc() {
     return dc;
   }
 
   public void setDc(Calendar dc) {
     this.dc = dc;
+  }
+
+  public User getUm() {
+    return um;
+  }
+
+  public void setUm(User um) {
+    this.um = um;
   }
 
   public Calendar getDm() {
@@ -247,75 +177,39 @@ public class Article {
     this.dm = dm;
   }
 
-  @PersistenceContext
-  transient EntityManager entityManager;
-
-  public static final EntityManager entityManager() {
-    EntityManager em = new Article().entityManager;
-    if (em == null)
-      throw new IllegalStateException(
-          "Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-    return em;
+  public String getAbstractMediaUrl() {
+    return abstractMediaUrl;
   }
 
-  public static long countArticles() {
+  public void setAbstractMediaUrl(String abstractMediaUrl) {
+    this.abstractMediaUrl = abstractMediaUrl;
+  }
+
+  public static long count() {
     return entityManager().createQuery("SELECT COUNT(o) FROM Article o", Long.class).getSingleResult();
   }
 
-  public static List<Article> findAllArticles() {
+  public static List<Article> findAll() {
     return entityManager().createQuery("SELECT o FROM Article o", Article.class).getResultList();
   }
 
-  public static Article findArticle(Integer id) {
+  public static Article find(Integer id) {
     if (id == null)
       return null;
     return entityManager().find(Article.class, id);
   }
 
-  public static List<Article> findArticleEntries(int firstResult, int maxResults) {
+  public static void publish(Integer id) {
+    Article article = find(id);
+    article.setStatusId(ArticleStatus.findForCd(ArticleStatus.CD_PUBLISHED));
+    article.setPublishedBy(Session.getCurrentUser());
+    article.setPublishedAt(Calendar.getInstance());
+    article.merge();
+  }
+
+  public static List<Article> findEntries(int firstResult, int maxResults) {
     return entityManager().createQuery("SELECT o FROM Article o", Article.class).setFirstResult(firstResult)
         .setMaxResults(maxResults).getResultList();
   }
 
-  @Transactional
-  public void persist() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    this.entityManager.persist(this);
-  }
-
-  @Transactional
-  public void remove() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    if (this.entityManager.contains(this)) {
-      this.entityManager.remove(this);
-    } else {
-      Article attached = Article.findArticle(this.id);
-      this.entityManager.remove(attached);
-    }
-  }
-
-  @Transactional
-  public void flush() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    this.entityManager.flush();
-  }
-
-  @Transactional
-  public void clear() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    this.entityManager.clear();
-  }
-
-  @Transactional
-  public Article merge() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    Article merged = this.entityManager.merge(this);
-    this.entityManager.flush();
-    return merged;
-  }
 }

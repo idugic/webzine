@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" id="D68C300D-B622-60D3-2CBE-BC01D7632393" directorySegmentName="seg_0" name="ARTI_USER_FK_4">
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" id="D68C300D-B622-60D3-2CBE-BC01D7632393" directorySegmentName="seg_0" name="ARTI_USER_FK_3">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-15 08:17:13 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>

@@ -62,7 +62,7 @@
 <colAssociation fkAssociation="2095BFA1-6C55-9EAF-337A-7C9373195733" referredColumn="FBD5DC74-6027-B26F-E798-B445640A5670"/>
 </associations>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS" id="2996D702-A6F4-0697-C07B-DCDB4DCA1AFF">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="STATUS_ID" id="2996D702-A6F4-0697-C07B-DCDB4DCA1AFF">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-07 07:19:53 UTC</createdTime>
 <comment>1-Submitted, 100-Published</comment>
@@ -70,7 +70,11 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>DAA2B056-E86C-5B65-AF2F-A966B27E157F</delegate>
 <autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C65D42CE-3AC0-6CF8-352C-2CD6A1027F30" referredColumn="DAA2B056-E86C-5B65-AF2F-A966B27E157F"/>
+</associations>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="TEXT" id="BE6F043D-EE43-66A5-6705-826BAD6336C7">
 <createdBy>idugic</createdBy>
@@ -198,6 +202,15 @@
 <indexState>Foreign Key</indexState>
 <indexColumnUsage>
 <colUsage columnID="9411DA9A-C596-03DE-6B06-F89D05C0825E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="29A0D40C-7C4B-CB7D-8F79-E2B4B3AE67BC" name="ARTI_COMM_ARTI_COMM_STAT_FK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-04-03 07:29:23 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="2996D702-A6F4-0697-C07B-DCDB4DCA1AFF"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

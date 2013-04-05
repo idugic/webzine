@@ -139,9 +139,9 @@ public class ArticleComment {
 	@JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
 	private User uc;
 
-	@Column(name = "STATUS")
+	@Column(name = "STATUS_ID")
 	@NotNull
-	private Integer status;
+	private Integer statusId;
 
 	@Column(name = "TEXT", length = 250)
 	@NotNull
@@ -195,12 +195,12 @@ public class ArticleComment {
 		this.uc = uc;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public Integer getStatusId() {
+		return statusId;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
 	public String getText() {

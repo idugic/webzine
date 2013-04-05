@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
@@ -140,5 +141,18 @@ public class Content extends IdEntity {
   public static List<Content> findEntries(int firstResult, int maxResults) {
     return entityManager().createQuery("SELECT o FROM Content o", Content.class).setFirstResult(firstResult)
         .setMaxResults(maxResults).getResultList();
+  }
+
+  public static List<Content> findForArticle(Integer articleId) {
+    if (articleId == null) {
+      return null;
+    } else {
+      TypedQuery<Content> query = entityManager()
+          .createQuery(
+              "SELECT c FROM Content c ... AND a.id = :articleId",
+              Content.class);
+      query.setParameter("articleId", articleId);
+      return query.getResultList();
+    }
   }
 }

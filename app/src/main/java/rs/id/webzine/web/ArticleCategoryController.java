@@ -48,7 +48,7 @@ public class ArticleCategoryController {
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articlecategory",
-				ArticleCategory.findArticleCategory(id));
+				ArticleCategory.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "articlecategorys/show";
 	}
@@ -63,8 +63,8 @@ public class ArticleCategoryController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("articlecategorys", ArticleCategory
-					.findArticleCategoryEntries(firstResult, sizeNo));
-			float nrOfPages = (float) ArticleCategory.countArticleCategorys()
+					.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) ArticleCategory.count()
 					/ sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
@@ -72,7 +72,7 @@ public class ArticleCategoryController {
 							: nrOfPages));
 		} else {
 			uiModel.addAttribute("articlecategorys",
-					ArticleCategory.findAllArticleCategorys());
+					ArticleCategory.findAll());
 		}
 		addDateTimeFormatPatterns(uiModel);
 		return "articlecategorys/list";
@@ -95,7 +95,7 @@ public class ArticleCategoryController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, ArticleCategory.findArticleCategory(id));
+		populateEditForm(uiModel, ArticleCategory.find(id));
 		return "articlecategorys/update";
 	}
 
@@ -105,7 +105,7 @@ public class ArticleCategoryController {
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
 		ArticleCategory articleCategory = ArticleCategory
-				.findArticleCategory(id);
+				.find(id);
 		articleCategory.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
@@ -127,7 +127,7 @@ public class ArticleCategoryController {
 	void populateEditForm(Model uiModel, ArticleCategory articleCategory) {
 		uiModel.addAttribute("articleCategory", articleCategory);
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("articles", Article.findAllArticles());
+		uiModel.addAttribute("articles", Article.findAll());
 		uiModel.addAttribute("categorys", Category.findAll());
 		uiModel.addAttribute("users", User.findAll());
 	}

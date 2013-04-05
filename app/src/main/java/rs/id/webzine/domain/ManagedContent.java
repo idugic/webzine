@@ -42,5 +42,5 @@ public class ManagedContent extends IdEntity {
     return entityManager().createQuery("SELECT o FROM ManagedContent o", ManagedContent.class)
         .setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
   }
-
+  
 }

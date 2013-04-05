@@ -1,157 +1,217 @@
 package rs.id.webzine.web;
 
-import java.io.UnsupportedEncodingException;
+import java.io.ByteArrayInputStream;
+import java.io.OutputStream;
+import java.util.Calendar;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriUtils;
-import org.springframework.web.util.WebUtils;
-import rs.id.webzine.domain.Ad;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
+
 import rs.id.webzine.domain.Article;
-import rs.id.webzine.domain.ArticleBookmark;
-import rs.id.webzine.domain.ArticleCategory;
-import rs.id.webzine.domain.ArticleComment;
-import rs.id.webzine.domain.ArticleRate;
+import rs.id.webzine.domain.ArticleStatus;
+import rs.id.webzine.domain.Category;
+import rs.id.webzine.domain.Content;
 import rs.id.webzine.domain.ManagedContent;
 import rs.id.webzine.domain.User;
 
-@RequestMapping("/articles")
+@RequestMapping("/admin/article")
 @Controller
-public class ArticleController {
+public class ArticleController extends ModelController {
+  private static final Log log = LogFactory.getLog(ArticleController.class);
 
-	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-	public String create(@Valid Article article, BindingResult bindingResult,
-			Model uiModel, HttpServletRequest httpServletRequest) {
-		if (bindingResult.hasErrors()) {
-			populateEditForm(uiModel, article);
-			return "articles/create";
-		}
-		uiModel.asMap().clear();
-		article.persist();
-		return "redirect:/articles/"
-				+ encodeUrlPathSegment(article.getId().toString(),
-						httpServletRequest);
-	}
+  @InitBinder
+  protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
+    binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+  }
 
-	@RequestMapping(params = "form", produces = "text/html")
-	public String createForm(Model uiModel) {
-		populateEditForm(uiModel, new Article());
-		return "articles/create";
-	}
+  @RequestMapping(params = "form", produces = "text/html")
+  public String createForm(Model uiModel) {
+    populateEditForm(uiModel, new Article());
+    return "admin/article/create";
+  }
 
-	@RequestMapping(value = "/{id}", produces = "text/html")
-	public String show(@PathVariable("id") Integer id, Model uiModel) {
-		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("article", Article.findArticle(id));
-		uiModel.addAttribute("itemId", id);
-		return "articles/show";
-	}
+  @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+  public String create(Article article, @RequestParam("abstractMedia") MultipartFile abstractMedia,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    try {
+      /*
+       * workaround (multipart forms are always sent using POST)
+       */
+      if (httpServletRequest.getParameter("_method") != null
+          && httpServletRequest.getParameter("_method").equals("PUT")) {
+        return this.update(article, abstractMedia, bindingResult, uiModel, httpServletRequest);
+      }
 
-	@RequestMapping(produces = "text/html")
-	public String list(
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			Model uiModel) {
-		if (page != null || size != null) {
-			int sizeNo = size == null ? 10 : size.intValue();
-			final int firstResult = page == null ? 0 : (page.intValue() - 1)
-					* sizeNo;
-			uiModel.addAttribute("articles",
-					Article.findArticleEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Article.countArticles() / sizeNo;
-			uiModel.addAttribute(
-					"maxPages",
-					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-							: nrOfPages));
-		} else {
-			uiModel.addAttribute("articles", Article.findAllArticles());
-		}
-		addDateTimeFormatPatterns(uiModel);
-		return "articles/list";
-	}
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, article);
+        return "admin/article/create";
+      }
 
-	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-	public String update(@Valid Article article, BindingResult bindingResult,
-			Model uiModel, HttpServletRequest httpServletRequest) {
-		if (bindingResult.hasErrors()) {
-			populateEditForm(uiModel, article);
-			return "articles/update";
-		}
-		uiModel.asMap().clear();
-		article.merge();
-		return "redirect:/articles/"
-				+ encodeUrlPathSegment(article.getId().toString(),
-						httpServletRequest);
-	}
+      ManagedContent managedContent = new ManagedContent();
+      managedContent.persist();
 
-	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
-	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, Article.findArticle(id));
-		return "articles/update";
-	}
+      article.setManagedContentId(managedContent);
+      article.setStatusId(ArticleStatus.findForCd(ArticleStatus.CD_SUBMITTED));
+      article.setUc(getCurrentUser());
+      article.setDc(Calendar.getInstance());
+      article.setAbstractMedia(abstractMedia.getBytes());
+      article.setAbstractMediaContentType(abstractMedia.getContentType());
+      uiModel.asMap().clear();
+      article.persist();
+      return "redirect:/admin/article/" + encodeUrlPathSegment(article.getId().toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-	public String delete(@PathVariable("id") Integer id,
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			Model uiModel) {
-		Article article = Article.findArticle(id);
-		article.remove();
-		uiModel.asMap().clear();
-		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
-		uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-		return "redirect:/articles";
-	}
+  @RequestMapping(value = "/{id}", produces = "text/html")
+  public String show(@PathVariable("id") Integer id, Model uiModel, HttpServletRequest httpServletRequest) {
+    addDateTimeFormatPatterns(uiModel);
+    Article article = Article.find(id);
+    String mediaUrl = httpServletRequest.getContextPath() + "/admin/article/abstractMedia/"
+        + encodeUrlPathSegment(id.toString(), httpServletRequest);
+    article.setAbstractMediaUrl(mediaUrl);
+    uiModel.addAttribute("article", article);
+    uiModel.addAttribute("articleStatusList", ArticleStatus.findAll());
+    uiModel.addAttribute("userList", User.findAll());
+    uiModel.addAttribute("categoryList", Category.findForArticle(article.getId()));
+    uiModel.addAttribute("managedContent", article.getManagedContentId());
+    uiModel.addAttribute("contentList", Content.findForArticle(article.getId()));
+    uiModel.addAttribute("itemId", id);
+    return "admin/article/show";
+  }
 
-	void addDateTimeFormatPatterns(Model uiModel) {
-		uiModel.addAttribute(
-				"article_publishedat_date_format",
-				DateTimeFormat.patternForStyle("MM",
-						LocaleContextHolder.getLocale()));
-		uiModel.addAttribute(
-				"article_dc_date_format",
-				DateTimeFormat.patternForStyle("MM",
-						LocaleContextHolder.getLocale()));
-		uiModel.addAttribute(
-				"article_dm_date_format",
-				DateTimeFormat.patternForStyle("MM",
-						LocaleContextHolder.getLocale()));
-	}
+  @RequestMapping(produces = "text/html")
+  public String list(@RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    if (page != null || size != null) {
+      int sizeNo = size == null ? 10 : size.intValue();
+      final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+      uiModel.addAttribute("articleList", Article.findEntries(firstResult, sizeNo));
+      float nrOfPages = (float) Article.count() / sizeNo;
+      uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
+          : nrOfPages));
+    } else {
+      uiModel.addAttribute("articleList", Article.findAll());
+    }
+    addDateTimeFormatPatterns(uiModel);
+    return "admin/article/list";
+  }
 
-	void populateEditForm(Model uiModel, Article article) {
-		uiModel.addAttribute("article", article);
-		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("ads", Ad.findAllAds());
-		uiModel.addAttribute("articlebookmarks",
-				ArticleBookmark.findAllArticleBookmarks());
-		uiModel.addAttribute("articlecategorys",
-				ArticleCategory.findAllArticleCategorys());
-		uiModel.addAttribute("articlecomments",
-				ArticleComment.findAllArticleComments());
-		uiModel.addAttribute("articlerates", ArticleRate.findAllArticleRates());
-		uiModel.addAttribute("managedcontents",
-				ManagedContent.findAll());
-		uiModel.addAttribute("users", User.findAll());
-	}
+  @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+  public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+    populateEditForm(uiModel, Article.find(id));
+    return "admin/article/update";
+  }
 
-	String encodeUrlPathSegment(String pathSegment,
-			HttpServletRequest httpServletRequest) {
-		String enc = httpServletRequest.getCharacterEncoding();
-		if (enc == null) {
-			enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
-		}
-		try {
-			pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
-		} catch (UnsupportedEncodingException uee) {
-		}
-		return pathSegment;
-	}
+  @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
+  public String update(Article article, @RequestParam("abstractMedia") MultipartFile abstractMedia,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    try {
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, article);
+        return "admin/article/update";
+      }
+
+      Article oldArticle = Article.find(article.getId());
+
+      article.setManagedContentId(oldArticle.getManagedContentId());
+      article.setUc(oldArticle.getUc());
+      article.setDc(oldArticle.getDc());
+      article.setUm(getCurrentUser());
+      article.setDm(Calendar.getInstance());
+
+      if (abstractMedia == null || abstractMedia.getBytes() == null || abstractMedia.getBytes().length == 0) {
+        article.setAbstractMedia(oldArticle.getAbstractMedia());
+        article.setAbstractMediaContentType(oldArticle.getAbstractMediaContentType());
+      } else {
+        article.setAbstractMedia((abstractMedia.getBytes()));
+        article.setAbstractMediaContentType((abstractMedia.getContentType()));
+      }
+
+      uiModel.asMap().clear();
+      article.merge();
+      return "redirect:/admin/article/" + encodeUrlPathSegment(article.getId().toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  @RequestMapping(value = "/publish", method = RequestMethod.PUT, produces = "text/html")
+  public String publish(Article article, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, article);
+      return "admin/article/update";
+    }
+
+    Article.publish(article.getId());
+    return "redirect:/admin/article/" + encodeUrlPathSegment(article.getId().toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    Article article = Article.find(id);
+    article.remove();
+    uiModel.asMap().clear();
+    uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
+    uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
+    return "redirect:/admin/article";
+  }
+
+  void addDateTimeFormatPatterns(Model uiModel) {
+    uiModel.addAttribute("article_publishedat_date_format",
+        DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+    uiModel.addAttribute("article_dc_date_format",
+        DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+    uiModel.addAttribute("article_dm_date_format",
+        DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+  }
+
+  void populateEditForm(Model uiModel, Article article) {
+    uiModel.addAttribute("article", article);
+    addDateTimeFormatPatterns(uiModel);
+    uiModel.addAttribute("articleStatusList", ArticleStatus.findAll());
+  }
+
+  @RequestMapping(value = "/abstractMedia/{id}", method = RequestMethod.GET)
+  public String showImage(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
+    try {
+      Article article = Article.find(id);
+      if (article.getAbstractMedia() != null && article.getAbstractMedia().length > 0) {
+        response.setHeader("Content-Disposition", "inline;");
+        response.setContentType(article.getAbstractMediaContentType());
+
+        OutputStream out = response.getOutputStream();
+        IOUtils.copy(new ByteArrayInputStream(article.getAbstractMedia()), out);
+        out.flush();
+      }
+
+      return null;
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
 }

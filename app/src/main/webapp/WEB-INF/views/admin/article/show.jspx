@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<page:show id="ps_rs_id_webzine_domain_Article" object="${article}" path="/admin/article">
+		<field:display field="title" id="s_rs_id_webzine_domain_Article_title" object="${article}" />
+		<field:display field="statusId" id="s_rs_id_webzine_domain_Article_statusId" object="${article}" />
+		<field:display field="publishedBy" id="s_rs_id_webzine_domain_Article_publishedBy" object="${article}" />
+		<field:display calendar="true" dateTimePattern="${article_publishedat_date_format}" field="publishedAt" id="s_rs_id_webzine_domain_Article_publishedAt" object="${article}" />
+		<field:display field="abstractText" id="s_rs_id_webzine_domain_Article_abstractText" object="${article}" />
+		<field:media field="abstractMediaUrl" id="s_rs_id_webzine_domain_Article_abstractMedia" object="${article}" />
+		<field:display field="uc" id="s_rs_id_webzine_domain_Article_uc" object="${article}" />
+		<field:display calendar="true" dateTimePattern="${article_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_Article_dc" object="${article}" />
+		<field:display field="um" id="s_rs_id_webzine_domain_Article_um" object="${article}" z="F0bK0JmTjqaJuyR1tto0wnlyCCc=" />
+		<field:display calendar="true" dateTimePattern="${article_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_Article_dm" object="${article}" />
+		<field:display field="categories" id="s_rs_id_webzine_domain_Article_categories" object="${article}" />
+	</page:show>
+	<BR />
+	<!-- Categories -->
+	<page:list id="pl_rs_id_webzine_domain_ArticleCategory" items="${categoryList}" create="false">
+		<table:table data="${categoryList}" id="l_rs_id_webzine_domain_ArticleCategory" path="/admin/article/category" create="false" show="false" update="false" delete="false">
+			<table:column id="c_rs_id_webzine_domain_ArticleCategory_categoryId" property="categoryId" />
+		</table:table>
+	</page:list>
+	<BR />
+	<!-- Managed Content -->
+	<page:show id="ps_rs_id_webzine_domain_ManagedContent" object="${managedContent}" path="/admin/article/managed_content">
+		<field:display field="css" id="s_rs_id_webzine_domain_ManagedContent_css" object="${managedContent}" />
+	</page:show>
+	<BR />
+	<!-- Contents -->
+	<page:list id="pl_rs_id_webzine_domain_Content" items="${contentList}">
+		<table:table data="${contents}" id="l_rs_id_webzine_domain_Content" path="/admin/article/content">
+			<table:column id="c_rs_id_webzine_domain_Content_contentTypeId" property="contentTypeId" />
+			<table:column id="c_rs_id_webzine_domain_Content_description" property="description" />
+		</table:table>
+	</page:list>
+</div>

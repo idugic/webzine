@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" id="C65D42CE-3AC0-6CF8-352C-2CD6A1027F30" directorySegmentName="seg_0" name="ARTI_COMM_ARTI_COMM_STAT_FK_1">
+<createdBy>idugic</createdBy>
+<createdTime>2013-04-03 07:29:23 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<containerWithKeyObject>5CEED062-5976-2B85-5F76-5A10BB0208F2</containerWithKeyObject>
+<deleteRule>NO ACTION</deleteRule>
+<localFKIndex>29A0D40C-7C4B-CB7D-8F79-E2B4B3AE67BC</localFKIndex>
+<keyObject>60787E97-7233-0F5A-4643-CA4C961D6BBF</keyObject>
+<mandatory>true</mandatory>
+<transferable>true</transferable>
+</FKIndexAssociation>
