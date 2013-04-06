@@ -2,236 +2,176 @@ package rs.id.webzine.domain;
 
 import java.util.Calendar;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
+
+import rs.id.webzine.domain.util.Session;
 
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "ARTICLE_COMMENT")
-public class ArticleComment {
+public class ArticleComment extends IdEntity {
 
-	@PersistenceContext
-	transient EntityManager entityManager;
+  @ManyToOne
+  @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ID", nullable = false)
+  private Article articleId;
 
-	public static final EntityManager entityManager() {
-		EntityManager em = new ArticleComment().entityManager;
-		if (em == null)
-			throw new IllegalStateException(
-					"Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-		return em;
-	}
+  @ManyToOne
+  @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
+  private ArticleCommentStatus statusId;
 
-	public static long countArticleComments() {
-		return entityManager().createQuery(
-				"SELECT COUNT(o) FROM ArticleComment o", Long.class)
-				.getSingleResult();
-	}
+  @Column(name = "TEXT", length = 250)
+  @NotNull
+  private String text;
 
-	public static List<ArticleComment> findAllArticleComments() {
-		return entityManager().createQuery("SELECT o FROM ArticleComment o",
-				ArticleComment.class).getResultList();
-	}
+  @ManyToOne
+  @JoinColumn(name = "PUBLISHED_BY", referencedColumnName = "ID")
+  private User publishedBy;
 
-	public static ArticleComment findArticleComment(Integer id) {
-		if (id == null)
-			return null;
-		return entityManager().find(ArticleComment.class, id);
-	}
+  @Column(name = "PUBLISHED_AT")
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar publishedAt;
 
-	public static List<ArticleComment> findArticleCommentEntries(
-			int firstResult, int maxResults) {
-		return entityManager()
-				.createQuery("SELECT o FROM ArticleComment o",
-						ArticleComment.class).setFirstResult(firstResult)
-				.setMaxResults(maxResults).getResultList();
-	}
+  @ManyToOne
+  @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
+  private User uc;
 
-	@Transactional
-	public void persist() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.persist(this);
-	}
+  @Column(name = "DC")
+  @NotNull
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar dc;
 
-	@Transactional
-	public void remove() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		if (this.entityManager.contains(this)) {
-			this.entityManager.remove(this);
-		} else {
-			ArticleComment attached = ArticleComment
-					.findArticleComment(this.id);
-			this.entityManager.remove(attached);
-		}
-	}
+  @ManyToOne
+  @JoinColumn(name = "UM", referencedColumnName = "ID")
+  private User um;
 
-	@Transactional
-	public void flush() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.flush();
-	}
+  @Column(name = "DM")
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar dm;
 
-	@Transactional
-	public void clear() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		this.entityManager.clear();
-	}
+  public Article getArticleId() {
+    return articleId;
+  }
 
-	@Transactional
-	public ArticleComment merge() {
-		if (this.entityManager == null)
-			this.entityManager = entityManager();
-		ArticleComment merged = this.entityManager.merge(this);
-		this.entityManager.flush();
-		return merged;
-	}
+  public void setArticleId(Article articleId) {
+    this.articleId = articleId;
+  }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
-	private Integer id;
+  public ArticleCommentStatus getStatusId() {
+    return statusId;
+  }
 
-	public Integer getId() {
-		return this.id;
-	}
+  public void setStatusId(ArticleCommentStatus statusId) {
+    this.statusId = statusId;
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  public String getText() {
+    return text;
+  }
 
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+  public void setText(String text) {
+    this.text = text;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ID", nullable = false)
-	private Article articleId;
+  public User getPublishedBy() {
+    return publishedBy;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "PUBLISHED_BY", referencedColumnName = "ID")
-	private User publishedBy;
+  public void setPublishedBy(User publishedBy) {
+    this.publishedBy = publishedBy;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "UM", referencedColumnName = "ID")
-	private User um;
+  public Calendar getPublishedAt() {
+    return publishedAt;
+  }
 
-	@ManyToOne
-	@JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-	private User uc;
+  public void setPublishedAt(Calendar publishedAt) {
+    this.publishedAt = publishedAt;
+  }
 
-	@Column(name = "STATUS_ID")
-	@NotNull
-	private Integer statusId;
+  public User getUc() {
+    return uc;
+  }
 
-	@Column(name = "TEXT", length = 250)
-	@NotNull
-	private String text;
+  public void setUc(User uc) {
+    this.uc = uc;
+  }
 
-	@Column(name = "PUBLISHED_AT")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar publishedAt;
+  public Calendar getDc() {
+    return dc;
+  }
 
-	@Column(name = "DC")
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar dc;
+  public void setDc(Calendar dc) {
+    this.dc = dc;
+  }
 
-	@Column(name = "DM")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "MM")
-	private Calendar dm;
+  public User getUm() {
+    return um;
+  }
 
-	public Article getArticleId() {
-		return articleId;
-	}
+  public void setUm(User um) {
+    this.um = um;
+  }
 
-	public void setArticleId(Article articleId) {
-		this.articleId = articleId;
-	}
+  public Calendar getDm() {
+    return dm;
+  }
 
-	public User getPublishedBy() {
-		return publishedBy;
-	}
+  public void setDm(Calendar dm) {
+    this.dm = dm;
+  }
 
-	public void setPublishedBy(User publishedBy) {
-		this.publishedBy = publishedBy;
-	}
+  public static long count() {
+    return entityManager().createQuery("SELECT COUNT(o) FROM ArticleComment o", Long.class).getSingleResult();
+  }
 
-	public User getUm() {
-		return um;
-	}
+  public static List<ArticleComment> findAll() {
+    return entityManager().createQuery("SELECT o FROM ArticleComment o", ArticleComment.class).getResultList();
+  }
 
-	public void setUm(User um) {
-		this.um = um;
-	}
+  public static ArticleComment find(Integer id) {
+    if (id == null)
+      return null;
+    return entityManager().find(ArticleComment.class, id);
+  }
 
-	public User getUc() {
-		return uc;
-	}
+  public static List<ArticleComment> findEntries(int firstResult, int maxResults) {
+    return entityManager().createQuery("SELECT o FROM ArticleComment o", ArticleComment.class)
+        .setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+  }
 
-	public void setUc(User uc) {
-		this.uc = uc;
-	}
+  public static List<ArticleComment> findForArticle(Integer articleId) {
+    if (articleId == null) {
+      return null;
+    } else {
+      TypedQuery<ArticleComment> query = entityManager()
+          .createQuery(
+              "SELECT ac FROM ArticleComment ac JOIN ac.articleId a JOIN ac.statusId s WHERE s.cd <> '0' AND a.id = :articleId",
+              ArticleComment.class);
+      query.setParameter("articleId", articleId);
+      return query.getResultList();
+    }
+  }
 
-	public Integer getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(Integer statusId) {
-		this.statusId = statusId;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public Calendar getPublishedAt() {
-		return publishedAt;
-	}
-
-	public void setPublishedAt(Calendar publishedAt) {
-		this.publishedAt = publishedAt;
-	}
-
-	public Calendar getDc() {
-		return dc;
-	}
-
-	public void setDc(Calendar dc) {
-		this.dc = dc;
-	}
-
-	public Calendar getDm() {
-		return dm;
-	}
-
-	public void setDm(Calendar dm) {
-		this.dm = dm;
-	}
+  public static void publish(Integer id) {
+    ArticleComment articleComment = find(id);
+    articleComment.setStatusId(ArticleCommentStatus.findForCd(ArticleCommentStatus.CD_PUBLISHED));
+    articleComment.setPublishedBy(Session.getCurrentUser());
+    articleComment.setPublishedAt(Calendar.getInstance());
+    articleComment.merge();
+  }
 }

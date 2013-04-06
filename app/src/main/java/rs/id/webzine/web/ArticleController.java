@@ -27,6 +27,8 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleCategory;
+import rs.id.webzine.domain.ArticleComment;
+import rs.id.webzine.domain.ArticleCommentStatus;
 import rs.id.webzine.domain.ArticleStatus;
 import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.Content;
@@ -44,6 +46,13 @@ public class ArticleController extends ModelController {
   // TODO hide/unhide content text, media file based on type, or do it in 2
   // forms: one for text, another for media
 
+  // TODO all CDs as Strings!
+
+  // TODO universal date format!
+
+  // TODO no publish status in update
+
+  // TODO no changes to published comment
   @InitBinder
   protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
     binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
@@ -100,6 +109,7 @@ public class ArticleController extends ModelController {
     uiModel.addAttribute("article", article);
     uiModel.addAttribute("articleStatusList", ArticleStatus.findAll());
     uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(article.getId()));
+    uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(article.getId()));
     uiModel.addAttribute("managedContent", article.getManagedContentId());
     uiModel.addAttribute("articleContentList", Content.findForManagedContent(article.getManagedContentId().getId()));
     uiModel.addAttribute("userList", User.findAll());
@@ -128,7 +138,10 @@ public class ArticleController extends ModelController {
   public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
     populateEditForm(uiModel, Article.find(id));
     uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(id));
+    uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(id));
     uiModel.addAttribute("articleCategory", new ArticleCategory());
+    uiModel.addAttribute("managedContent", new ManagedContent());
+    uiModel.addAttribute("articleComment", new ArticleComment());
     uiModel.addAttribute("content", new Content());
     return "admin/article/update";
   }
@@ -140,7 +153,11 @@ public class ArticleController extends ModelController {
       if (bindingResult.hasErrors()) {
         populateEditForm(uiModel, article);
         uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(article.getId()));
+        uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(article.getId()));
         uiModel.addAttribute("articleCategory", new ArticleCategory());
+        uiModel.addAttribute("managedContent", new ManagedContent());
+        uiModel.addAttribute("articleComment", new ArticleComment());
+
         uiModel.addAttribute("content", new Content());
 
         return "admin/article/update";
@@ -177,7 +194,10 @@ public class ArticleController extends ModelController {
     if (bindingResult.hasErrors()) {
       populateEditForm(uiModel, article);
       uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(article.getId()));
+      uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(article.getId()));
       uiModel.addAttribute("articleCategory", new ArticleCategory());
+      uiModel.addAttribute("managedContent", new ManagedContent());
+      uiModel.addAttribute("articleComment", new ArticleComment());
       uiModel.addAttribute("content", new Content());
       return "admin/article/update";
     }
@@ -243,7 +263,10 @@ public class ArticleController extends ModelController {
     if (bindingResult.hasErrors()) {
       populateEditForm(uiModel, Article.find(articleId));
       uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+      uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(articleId));
       uiModel.addAttribute("articleCategory", new ArticleCategory());
+      uiModel.addAttribute("managedContent", new ManagedContent());
+      uiModel.addAttribute("articleComment", new ArticleComment());
       uiModel.addAttribute("content", new Content());
       return "admin/article/update";
     }
@@ -251,6 +274,31 @@ public class ArticleController extends ModelController {
     articleCategory.setUc(getCurrentUser());
     articleCategory.setDc(Calendar.getInstance());
     articleCategory.persist();
+
+    uiModel.asMap().clear();
+    return "redirect:/admin/article/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/comment/{articleId}", method = RequestMethod.POST, produces = "text/html")
+  public String createArticleComment(@PathVariable("articleId") Integer articleId, ArticleComment articleComment,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, Article.find(articleId));
+      uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+      uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(articleId));
+      uiModel.addAttribute("articleCategory", new ArticleCategory());
+      uiModel.addAttribute("managedContent", new ManagedContent());
+      uiModel.addAttribute("articleComment", new ArticleComment());
+      uiModel.addAttribute("content", new Content());
+      return "admin/article/update";
+    }
+    articleComment.setStatusId(ArticleCommentStatus.findForCd(ArticleCommentStatus.CD_SUBMITTED));
+    articleComment.setArticleId(Article.find(articleId));
+    articleComment.setUc(getCurrentUser());
+    articleComment.setDc(Calendar.getInstance());
+    articleComment.persist();
+
+    ArticleComment.publish(articleComment.getId());
 
     uiModel.asMap().clear();
     return "redirect:/admin/article/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
@@ -264,7 +312,30 @@ public class ArticleController extends ModelController {
 
     populateEditForm(uiModel, Article.find(articleId));
     uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+    uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(articleId));
     uiModel.addAttribute("articleCategory", new ArticleCategory());
+    uiModel.addAttribute("managedContent", new ManagedContent());
+    uiModel.addAttribute("articleComment", new ArticleComment());
+    uiModel.addAttribute("content", new Content());
+    return "admin/article/update";
+  }
+
+  @RequestMapping(value = "/comment/{articleId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String deleteComment(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
+      Model uiModel) {
+    ArticleComment articleComment = ArticleComment.find(id);
+    // logically delete article
+    articleComment.setStatusId(ArticleCommentStatus.findForCd(ArticleCommentStatus.CD_DELETED));
+    articleComment.setUm(getCurrentUser());
+    articleComment.setDm(Calendar.getInstance());
+    articleComment.merge();
+
+    populateEditForm(uiModel, Article.find(articleId));
+    uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+    uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(articleId));
+    uiModel.addAttribute("articleCategory", new ArticleCategory());
+    uiModel.addAttribute("managedContent", new ManagedContent());
+    uiModel.addAttribute("articleComment", new ArticleComment());
     uiModel.addAttribute("content", new Content());
     return "admin/article/update";
   }
@@ -276,7 +347,10 @@ public class ArticleController extends ModelController {
       if (bindingResult.hasErrors()) {
         populateEditForm(uiModel, Article.find(articleId));
         uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+        uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(articleId));
         uiModel.addAttribute("articleCategory", new ArticleCategory());
+        uiModel.addAttribute("managedContent", new ManagedContent());
+        uiModel.addAttribute("articleComment", new ArticleComment());
         uiModel.addAttribute("content", new Content());
         return "admin/article/update";
       }
@@ -303,7 +377,10 @@ public class ArticleController extends ModelController {
       if (bindingResult.hasErrors()) {
         populateEditForm(uiModel, Article.find(articleId));
         uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+        uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(articleId));
         uiModel.addAttribute("articleCategory", new ArticleCategory());
+        uiModel.addAttribute("managedContent", new ManagedContent());
+        uiModel.addAttribute("articleComment", new ArticleComment());
         uiModel.addAttribute("content", new Content());
         return "admin/article/update";
       }
@@ -343,7 +420,10 @@ public class ArticleController extends ModelController {
 
     populateEditForm(uiModel, Article.find(articleId));
     uiModel.addAttribute("articleCategoryList", ArticleCategory.findForArticle(articleId));
+    uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(articleId));
     uiModel.addAttribute("articleCategory", new ArticleCategory());
+    uiModel.addAttribute("managedContent", new ManagedContent());
+    uiModel.addAttribute("articleComment", new ArticleComment());
     uiModel.addAttribute("content", new Content());
     return "admin/article/update";
   }

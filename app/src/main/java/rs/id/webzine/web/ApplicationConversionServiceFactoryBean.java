@@ -13,6 +13,7 @@ import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleBookmark;
 import rs.id.webzine.domain.ArticleCategory;
 import rs.id.webzine.domain.ArticleComment;
+import rs.id.webzine.domain.ArticleCommentStatus;
 import rs.id.webzine.domain.ArticleRate;
 import rs.id.webzine.domain.ArticleStatus;
 import rs.id.webzine.domain.Category;
@@ -358,6 +359,31 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
+  // article status
+  public Converter<ArticleCommentStatus, String> getArticleCommentStatusToStringConverter() {
+    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.ArticleCommentStatus, java.lang.String>() {
+      public String convert(ArticleCommentStatus articleStatus) {
+        return new StringBuilder().append(articleStatus.getName()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, ArticleCommentStatus> getIdToArticleCommentStatusConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.ArticleCommentStatus>() {
+      public rs.id.webzine.domain.ArticleCommentStatus convert(java.lang.Integer id) {
+        return ArticleCommentStatus.find(id);
+      }
+    };
+  }
+
+  public Converter<String, ArticleCommentStatus> getStringToArticleCommentStatusConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.ArticleCommentStatus>() {
+      public rs.id.webzine.domain.ArticleCommentStatus convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), ArticleCommentStatus.class);
+      }
+    };
+  }
+
   public Converter<Ad, String> getAdToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Ad, java.lang.String>() {
       public String convert(Ad ad) {
@@ -386,7 +412,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Article, String> getArticleToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Article, java.lang.String>() {
       public String convert(Article article) {
-        return new StringBuilder().append("...").toString();
+        return new StringBuilder().append(article.getId()).toString();
       }
     };
   }
@@ -469,7 +495,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, ArticleComment> getIdToArticleCommentConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.ArticleComment>() {
       public rs.id.webzine.domain.ArticleComment convert(java.lang.Integer id) {
-        return ArticleComment.findArticleComment(id);
+        return ArticleComment.find(id);
       }
     };
   }
@@ -712,6 +738,11 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getArticleStatusToStringConverter());
     registry.addConverter(getIdToArticleStatusConverter());
     registry.addConverter(getStringToArticleStatusConverter());
+
+    // article comment status
+    registry.addConverter(getArticleCommentStatusToStringConverter());
+    registry.addConverter(getIdToArticleCommentStatusConverter());
+    registry.addConverter(getStringToArticleCommentStatusConverter());
 
     registry.addConverter(getAdToStringConverter());
     registry.addConverter(getIdToAdConverter());

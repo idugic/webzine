@@ -1,8 +1,9 @@
 package rs.id.webzine.web;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,137 +13,130 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriUtils;
-import org.springframework.web.util.WebUtils;
+
 import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleComment;
+import rs.id.webzine.domain.ArticleCommentStatus;
 import rs.id.webzine.domain.User;
 
-@RequestMapping("/articlecomments")
+@RequestMapping("/admin/article_comment")
 @Controller
-public class ArticleCommentController {
+public class ArticleCommentController extends ModelController {
 
-	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-	public String create(@Valid ArticleComment articleComment,
-			BindingResult bindingResult, Model uiModel,
-			HttpServletRequest httpServletRequest) {
-		if (bindingResult.hasErrors()) {
-			populateEditForm(uiModel, articleComment);
-			return "articlecomments/create";
-		}
-		uiModel.asMap().clear();
-		articleComment.persist();
-		return "redirect:/articlecomments/"
-				+ encodeUrlPathSegment(articleComment.getId().toString(),
-						httpServletRequest);
-	}
+  // TODO no publish status in update
+  
+  // TODO no changes to published comment
 
-	@RequestMapping(params = "form", produces = "text/html")
-	public String createForm(Model uiModel) {
-		populateEditForm(uiModel, new ArticleComment());
-		return "articlecomments/create";
-	}
+  @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+  public String create(ArticleComment articleComment, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, articleComment);
+      return "admin/article_comment/create";
+    }
+    uiModel.asMap().clear();
+    articleComment.setUc(getCurrentUser());
+    articleComment.setDc(Calendar.getInstance());
+    articleComment.setStatusId(ArticleCommentStatus.findForCd(ArticleCommentStatus.CD_SUBMITTED));
+    articleComment.persist();
+    return "redirect:/admin/article_comment/"
+        + encodeUrlPathSegment(articleComment.getId().toString(), httpServletRequest);
+  }
 
-	@RequestMapping(value = "/{id}", produces = "text/html")
-	public String show(@PathVariable("id") Integer id, Model uiModel) {
-		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("articlecomment",
-				ArticleComment.findArticleComment(id));
-		uiModel.addAttribute("itemId", id);
-		return "articlecomments/show";
-	}
+  @RequestMapping(params = "form", produces = "text/html")
+  public String createForm(Model uiModel) {
+    populateEditForm(uiModel, new ArticleComment());
+    return "admin/article_comment/create";
+  }
 
-	@RequestMapping(produces = "text/html")
-	public String list(
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			Model uiModel) {
-		if (page != null || size != null) {
-			int sizeNo = size == null ? 10 : size.intValue();
-			final int firstResult = page == null ? 0 : (page.intValue() - 1)
-					* sizeNo;
-			uiModel.addAttribute("articlecomments", ArticleComment
-					.findArticleCommentEntries(firstResult, sizeNo));
-			float nrOfPages = (float) ArticleComment.countArticleComments()
-					/ sizeNo;
-			uiModel.addAttribute(
-					"maxPages",
-					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-							: nrOfPages));
-		} else {
-			uiModel.addAttribute("articlecomments",
-					ArticleComment.findAllArticleComments());
-		}
-		addDateTimeFormatPatterns(uiModel);
-		return "articlecomments/list";
-	}
+  @RequestMapping(value = "/{id}", produces = "text/html")
+  public String show(@PathVariable("id") Integer id, Model uiModel) {
+    addDateTimeFormatPatterns(uiModel);
+    uiModel.addAttribute("articleComment", ArticleComment.find(id));
+    uiModel.addAttribute("itemId", id);
+    return "admin/article_comment/show";
+  }
 
-	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-	public String update(@Valid ArticleComment articleComment,
-			BindingResult bindingResult, Model uiModel,
-			HttpServletRequest httpServletRequest) {
-		if (bindingResult.hasErrors()) {
-			populateEditForm(uiModel, articleComment);
-			return "articlecomments/update";
-		}
-		uiModel.asMap().clear();
-		articleComment.merge();
-		return "redirect:/articlecomments/"
-				+ encodeUrlPathSegment(articleComment.getId().toString(),
-						httpServletRequest);
-	}
+  @RequestMapping(produces = "text/html")
+  public String list(@RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    if (page != null || size != null) {
+      int sizeNo = size == null ? 10 : size.intValue();
+      final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+      uiModel.addAttribute("articleCommentList", ArticleComment.findEntries(firstResult, sizeNo));
+      float nrOfPages = (float) ArticleComment.count() / sizeNo;
+      uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
+          : nrOfPages));
+    } else {
+      uiModel.addAttribute("articleCommentList", ArticleComment.findAll());
+    }
+    addDateTimeFormatPatterns(uiModel);
+    return "admin/article_comment/list";
+  }
 
-	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
-	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, ArticleComment.findArticleComment(id));
-		return "articlecomments/update";
-	}
+  @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
+  public String update(ArticleComment articleComment, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, articleComment);
+      return "admin/article_comment/update";
+    }
+    uiModel.asMap().clear();
+    ArticleComment oldComment = ArticleComment.find(articleComment.getId());
+    articleComment.setUc(oldComment.getUc());
+    articleComment.setDc(oldComment.getDc());
+    articleComment.setUm(getCurrentUser());
+    articleComment.setDm(Calendar.getInstance());
+    articleComment.merge();
+    return "redirect:/admin/article_comment/"
+        + encodeUrlPathSegment(articleComment.getId().toString(), httpServletRequest);
+  }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-	public String delete(@PathVariable("id") Integer id,
-			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "size", required = false) Integer size,
-			Model uiModel) {
-		ArticleComment articleComment = ArticleComment.findArticleComment(id);
-		articleComment.remove();
-		uiModel.asMap().clear();
-		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
-		uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-		return "redirect:/articlecomments";
-	}
+  @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+  public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+    populateEditForm(uiModel, ArticleComment.find(id));
+    return "admin/article_comment/update";
+  }
 
-	void addDateTimeFormatPatterns(Model uiModel) {
-		uiModel.addAttribute(
-				"articleComment_publishedat_date_format",
-				DateTimeFormat.patternForStyle("MM",
-						LocaleContextHolder.getLocale()));
-		uiModel.addAttribute(
-				"articleComment_dc_date_format",
-				DateTimeFormat.patternForStyle("MM",
-						LocaleContextHolder.getLocale()));
-		uiModel.addAttribute(
-				"articleComment_dm_date_format",
-				DateTimeFormat.patternForStyle("MM",
-						LocaleContextHolder.getLocale()));
-	}
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    ArticleComment articleComment = ArticleComment.find(id);
+    articleComment.remove();
+    uiModel.asMap().clear();
+    uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
+    uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
+    return "redirect:/admin/article_comment";
+  }
 
-	void populateEditForm(Model uiModel, ArticleComment articleComment) {
-		uiModel.addAttribute("articleComment", articleComment);
-		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("articles", Article.findAll());
-		uiModel.addAttribute("users", User.findAll());
-	}
+  void addDateTimeFormatPatterns(Model uiModel) {
+    uiModel.addAttribute("articleComment_publishedat_date_format",
+        DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+    uiModel.addAttribute("articleComment_dc_date_format",
+        DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+    uiModel.addAttribute("articleComment_dm_date_format",
+        DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+  }
 
-	String encodeUrlPathSegment(String pathSegment,
-			HttpServletRequest httpServletRequest) {
-		String enc = httpServletRequest.getCharacterEncoding();
-		if (enc == null) {
-			enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
-		}
-		try {
-			pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
-		} catch (UnsupportedEncodingException uee) {
-		}
-		return pathSegment;
-	}
+  void populateEditForm(Model uiModel, ArticleComment articleComment) {
+    uiModel.addAttribute("articleComment", articleComment);
+    addDateTimeFormatPatterns(uiModel);
+    uiModel.addAttribute("articleCommentStatusList", ArticleCommentStatus.findAll());
+    uiModel.addAttribute("articleList", Article.findAll());
+    uiModel.addAttribute("userList", User.findAll());
+  }
+
+  @RequestMapping(value = "/publish", method = RequestMethod.PUT, produces = "text/html")
+  public String publish(ArticleComment articleComment, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, articleComment);
+      return "admin/article_comment/update";
+    }
+
+    ArticleComment.publish(articleComment.getId());
+    return "redirect:/admin/article_comment/"
+        + encodeUrlPathSegment(articleComment.getId().toString(), httpServletRequest);
+  }
+
 }
