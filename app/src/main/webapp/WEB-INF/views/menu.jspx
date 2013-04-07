@@ -27,11 +27,10 @@
       <menu:item id="i_userarticlestatus" url="/admin/user_article_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
       <menu:item id="i_userarticle" url="/admin/user_article?page=1&amp;size=${empty param.size ? 10 : param.size}" />
     </menu:category>
-    <!-- 
     <menu:category id="c_customer_care">
       <menu:item id="i_customer" url="/admin/customer?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+      <menu:item id="i_adstatus" url="/admin/ad_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
       <menu:item id="i_ad" url="/admin/ad?page=1&amp;size=${empty param.size ? 10 : param.size}" />
     </menu:category>
-     -->
   </menu:menu>
 </div>

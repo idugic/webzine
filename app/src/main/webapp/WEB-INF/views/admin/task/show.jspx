@@ -10,7 +10,7 @@
     <field:display field="priorityId" id="s_rs_id_webzine_domain_Task_priorityId" object="${task}" />
     <field:display field="description" id="s_rs_id_webzine_domain_Task_description" object="${task}" />
     <field:display field="ownerUserId" id="s_rs_id_webzine_domain_Task_ownerUserId" object="${task}" />
-    <field:display field="parentTaskId" id="s_rs_id_webzine_domain_Task_parentTaskId" object="${task}" z="uQB7SMEP6FFm7hoipJjZ/JZsCqQ=" />
+    <field:display field="parentTaskId" id="s_rs_id_webzine_domain_Task_parentTaskId" object="${task}" />
     <field:display field="uc" id="s_rs_id_webzine_domain_Task_uc" object="${task}" />
     <field:display calendar="true" dateTimePattern="${task_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_Task_dc" object="${task}" />
     <field:display field="um" id="s_rs_id_webzine_domain_Task_um" object="${task}" />

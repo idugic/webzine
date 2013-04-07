@@ -46,7 +46,7 @@ public class AdController {
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
 		addDateTimeFormatPatterns(uiModel);
-		uiModel.addAttribute("ad", Ad.findAd(id));
+		uiModel.addAttribute("ad", Ad.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "ads/show";
 	}
@@ -60,14 +60,14 @@ public class AdController {
 			int sizeNo = size == null ? 10 : size.intValue();
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
-			uiModel.addAttribute("ads", Ad.findAdEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Ad.countAds() / sizeNo;
+			uiModel.addAttribute("ads", Ad.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) Ad.count() / sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
 					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
 							: nrOfPages));
 		} else {
-			uiModel.addAttribute("ads", Ad.findAllAds());
+			uiModel.addAttribute("ads", Ad.findAll());
 		}
 		addDateTimeFormatPatterns(uiModel);
 		return "ads/list";
@@ -89,7 +89,7 @@ public class AdController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, Ad.findAd(id));
+		populateEditForm(uiModel, Ad.find(id));
 		return "ads/update";
 	}
 
@@ -98,7 +98,7 @@ public class AdController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		Ad ad = Ad.findAd(id);
+		Ad ad = Ad.find(id);
 		ad.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
@@ -121,7 +121,7 @@ public class AdController {
 		uiModel.addAttribute("ad", ad);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("articles", Article.findAll());
-		uiModel.addAttribute("customers", Customer.findAllCustomers());
+		uiModel.addAttribute("customers", Customer.findAll());
 		uiModel.addAttribute("managedcontents",
 				ManagedContent.findAll());
 	}

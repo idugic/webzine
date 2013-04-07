@@ -11,7 +11,7 @@
     <field:media field="abstractMediaUrl" id="s_rs_id_webzine_domain_Article_abstractMedia" object="${article}" />
     <field:display field="uc" id="s_rs_id_webzine_domain_Article_uc" object="${article}" />
     <field:display calendar="true" dateTimePattern="${article_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_Article_dc" object="${article}" />
-    <field:display field="um" id="s_rs_id_webzine_domain_Article_um" object="${article}" z="F0bK0JmTjqaJuyR1tto0wnlyCCc=" />
+    <field:display field="um" id="s_rs_id_webzine_domain_Article_um" object="${article}" />
     <field:display calendar="true" dateTimePattern="${article_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_Article_dm" object="${article}" />
   </page:show>
   <BR />
@@ -26,7 +26,7 @@
   <page:list id="pl_rs_id_webzine_domain_ArticleComment" items="${articleCommentList}" create="false">
     <table:table data="${articleCommentList}" id="l_rs_id_webzine_domain_ArticleComment" path="/admin/article/comment" create="false" show="false" update="false" delete="false">
       <table:column calendar="true" dateTimePattern="${article_dm_date_format}" id="c_rs_id_webzine_domain_ArticleComment_dc" property="dc" />
-       <table:column id="c_rs_id_webzine_domain_ArticleComment_text" property="text" />
+      <table:column id="c_rs_id_webzine_domain_ArticleComment_text" property="text" />
       <table:column id="c_rs_id_webzine_domain_ArticleComment_uc" property="uc" />
     </table:table>
   </page:list>

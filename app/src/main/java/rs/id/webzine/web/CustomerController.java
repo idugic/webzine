@@ -42,7 +42,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
 	public String show(@PathVariable("id") Integer id, Model uiModel) {
-		uiModel.addAttribute("customer", Customer.findCustomer(id));
+		uiModel.addAttribute("customer", Customer.find(id));
 		uiModel.addAttribute("itemId", id);
 		return "customers/show";
 	}
@@ -57,14 +57,14 @@ public class CustomerController {
 			final int firstResult = page == null ? 0 : (page.intValue() - 1)
 					* sizeNo;
 			uiModel.addAttribute("customers",
-					Customer.findCustomerEntries(firstResult, sizeNo));
-			float nrOfPages = (float) Customer.countCustomers() / sizeNo;
+					Customer.findEntries(firstResult, sizeNo));
+			float nrOfPages = (float) Customer.count() / sizeNo;
 			uiModel.addAttribute(
 					"maxPages",
 					(int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
 							: nrOfPages));
 		} else {
-			uiModel.addAttribute("customers", Customer.findAllCustomers());
+			uiModel.addAttribute("customers", Customer.findAll());
 		}
 		return "customers/list";
 	}
@@ -85,7 +85,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
 	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		populateEditForm(uiModel, Customer.findCustomer(id));
+		populateEditForm(uiModel, Customer.find(id));
 		return "customers/update";
 	}
 
@@ -94,7 +94,7 @@ public class CustomerController {
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "size", required = false) Integer size,
 			Model uiModel) {
-		Customer customer = Customer.findCustomer(id);
+		Customer customer = Customer.find(id);
 		customer.remove();
 		uiModel.asMap().clear();
 		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
@@ -104,7 +104,7 @@ public class CustomerController {
 
 	void populateEditForm(Model uiModel, Customer customer) {
 		uiModel.addAttribute("customer", customer);
-		uiModel.addAttribute("ads", Ad.findAllAds());
+		uiModel.addAttribute("ads", Ad.findAll());
 		uiModel.addAttribute("addresses", Address.findAll());
 	}
 

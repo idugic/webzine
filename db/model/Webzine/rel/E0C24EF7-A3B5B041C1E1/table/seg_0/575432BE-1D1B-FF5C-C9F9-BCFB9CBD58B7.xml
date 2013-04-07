@@ -181,12 +181,6 @@
 <colUsage columnID="7FA5CB0A-A52D-4C7E-3CBB-15346240D4E9"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="B45F733C-B2A8-6112-C660-B14B0033B6B1" name="USER_ARTI_USER_FK_3">
-<createdBy>idugic</createdBy>
-<createdTime>2013-04-03 07:24:14 UTC</createdTime>
-<ownerDesignName>Webzine</ownerDesignName>
-<indexState>Foreign Key</indexState>
-</ind_PK_UK>
 <ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="791BE47D-9AE7-E7A5-55A2-791D776095DC" name="USER_ARTI_USER_ARTI_STAT_FK_1">
 <createdBy>idugic</createdBy>
 <createdTime>2013-04-03 07:27:05 UTC</createdTime>

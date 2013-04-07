@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <page:show id="ps_rs_id_webzine_domain_UserArticle" object="${userArticle}" path="/admin/user_article">
+    <field:display field="title" id="s_rs_id_webzine_domain_UserArticle_title" object="${userArticle}" />
+    <field:display field="statusId" id="s_rs_id_webzine_domain_UserArticle_statusId" object="${userArticle}" />
+    <field:display field="text" id="s_rs_id_webzine_domain_UserArticle_text" object="${userArticle}" />
+    <field:media field="mediaUrl" id="s_rs_id_webzine_domain_UserArticle_media" object="${userArticle}" />
+    <field:display field="uc" id="s_rs_id_webzine_domain_UserArticle_uc" object="${userArticle}" />
+    <field:display calendar="true" dateTimePattern="${userArticle_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_UserArticle_dc" object="${userArticle}" />
+    <field:display field="um" id="s_rs_id_webzine_domain_UserArticle_um" object="${userArticle}" />
+    <field:display calendar="true" dateTimePattern="${userArticle_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_UserArticle_dm" object="${userArticle}" />
+  </page:show>
+</div>

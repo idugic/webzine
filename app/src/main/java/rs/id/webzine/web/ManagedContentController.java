@@ -109,7 +109,7 @@ public class ManagedContentController {
 
 	void populateEditForm(Model uiModel, ManagedContent managedContent) {
 		uiModel.addAttribute("managedContent", managedContent);
-		uiModel.addAttribute("ads", Ad.findAllAds());
+		uiModel.addAttribute("ads", Ad.findAll());
 		uiModel.addAttribute("articles", Article.findAll());
 	}
 

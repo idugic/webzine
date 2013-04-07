@@ -31,6 +31,7 @@ import rs.id.webzine.domain.TaskPriority;
 import rs.id.webzine.domain.TaskStatus;
 import rs.id.webzine.domain.User;
 import rs.id.webzine.domain.UserArticle;
+import rs.id.webzine.domain.UserArticleStatus;
 import rs.id.webzine.domain.UserStatus;
 import rs.id.webzine.web.backing.UserBacking;
 
@@ -359,7 +360,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  // article status
+  // article comment
   public Converter<ArticleCommentStatus, String> getArticleCommentStatusToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.ArticleCommentStatus, java.lang.String>() {
       public String convert(ArticleCommentStatus articleStatus) {
@@ -384,11 +385,36 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
+  // user article status
+  public Converter<UserArticleStatus, String> getUserArticleStatusToStringConverter() {
+    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.UserArticleStatus, java.lang.String>() {
+      public String convert(UserArticleStatus articleStatus) {
+        return new StringBuilder().append(articleStatus.getName()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, UserArticleStatus> getIdToUserArticleStatusConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.UserArticleStatus>() {
+      public rs.id.webzine.domain.UserArticleStatus convert(java.lang.Integer id) {
+        return UserArticleStatus.find(id);
+      }
+    };
+  }
+
+  public Converter<String, UserArticleStatus> getStringToUserArticleStatusConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.UserArticleStatus>() {
+      public rs.id.webzine.domain.UserArticleStatus convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), UserArticleStatus.class);
+      }
+    };
+  }
+
   public Converter<Ad, String> getAdToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Ad, java.lang.String>() {
       public String convert(Ad ad) {
-        return new StringBuilder().append(ad.getStatus()).append(' ').append(ad.getDescription()).append(' ')
-            .append(ad.getValidFrom()).append(' ').append(ad.getValidTo()).toString();
+        return new StringBuilder().append(ad.getDescription()).append(' ').append(ad.getValidFrom()).append(' ')
+            .append(ad.getValidTo()).toString();
       }
     };
   }
@@ -396,7 +422,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, Ad> getIdToAdConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Ad>() {
       public rs.id.webzine.domain.Ad convert(java.lang.Integer id) {
-        return Ad.findAd(id);
+        return Ad.find(id);
       }
     };
   }
@@ -568,7 +594,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, Customer> getIdToCustomerConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.Customer>() {
       public rs.id.webzine.domain.Customer convert(java.lang.Integer id) {
-        return Customer.findCustomer(id);
+        return Customer.find(id);
       }
     };
   }
@@ -667,7 +693,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, UserArticle> getIdToUserArticleConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.UserArticle>() {
       public rs.id.webzine.domain.UserArticle convert(java.lang.Integer id) {
-        return UserArticle.findUserArticle(id);
+        return UserArticle.find(id);
       }
     };
   }
@@ -744,6 +770,16 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getIdToArticleCommentStatusConverter());
     registry.addConverter(getStringToArticleCommentStatusConverter());
 
+    // user article status
+    registry.addConverter(getUserArticleStatusToStringConverter());
+    registry.addConverter(getIdToUserArticleStatusConverter());
+    registry.addConverter(getStringToUserArticleStatusConverter());
+
+    // user article
+    registry.addConverter(getUserArticleToStringConverter());
+    registry.addConverter(getIdToUserArticleConverter());
+    registry.addConverter(getStringToUserArticleConverter());
+
     registry.addConverter(getAdToStringConverter());
     registry.addConverter(getIdToAdConverter());
     registry.addConverter(getStringToAdConverter());
@@ -782,9 +818,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getTaskCommentToStringConverter());
     registry.addConverter(getIdToTaskCommentConverter());
     registry.addConverter(getStringToTaskCommentConverter());
-    registry.addConverter(getUserArticleToStringConverter());
-    registry.addConverter(getIdToUserArticleConverter());
-    registry.addConverter(getStringToUserArticleConverter());
 
   }
 

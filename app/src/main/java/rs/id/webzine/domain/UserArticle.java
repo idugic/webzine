@@ -1,125 +1,35 @@
 package rs.id.webzine.domain;
 
-import java.sql.Blob;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Table(schema = "ADMIN", name = "USER_ARTICLE")
 @Configurable
-public class UserArticle {
+public class UserArticle extends IdEntity {
 
-  // TODO change name, add relation to article table
-
-  public String toString() {
-    return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-  }
-
-  @PersistenceContext
-  transient EntityManager entityManager;
-
-  public static final EntityManager entityManager() {
-    EntityManager em = new UserArticle().entityManager;
-    if (em == null)
-      throw new IllegalStateException(
-          "Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-    return em;
-  }
-
-  public static long countUserArticles() {
-    return entityManager().createQuery("SELECT COUNT(o) FROM UserArticle o", Long.class).getSingleResult();
-  }
-
-  public static List<UserArticle> findAllUserArticles() {
-    return entityManager().createQuery("SELECT o FROM UserArticle o", UserArticle.class).getResultList();
-  }
-
-  public static UserArticle findUserArticle(Integer id) {
-    if (id == null)
-      return null;
-    return entityManager().find(UserArticle.class, id);
-  }
-
-  public static List<UserArticle> findUserArticleEntries(int firstResult, int maxResults) {
-    return entityManager().createQuery("SELECT o FROM UserArticle o", UserArticle.class).setFirstResult(firstResult)
-        .setMaxResults(maxResults).getResultList();
-  }
-
-  @Transactional
-  public void persist() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    this.entityManager.persist(this);
-  }
-
-  @Transactional
-  public void remove() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    if (this.entityManager.contains(this)) {
-      this.entityManager.remove(this);
-    } else {
-      UserArticle attached = UserArticle.findUserArticle(this.id);
-      this.entityManager.remove(attached);
-    }
-  }
-
-  @Transactional
-  public void flush() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    this.entityManager.flush();
-  }
-
-  @Transactional
-  public void clear() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    this.entityManager.clear();
-  }
-
-  @Transactional
-  public UserArticle merge() {
-    if (this.entityManager == null)
-      this.entityManager = entityManager();
-    UserArticle merged = this.entityManager.merge(this);
-    this.entityManager.flush();
-    return merged;
-  }
+  @Transient
+  String mediaUrl;
 
   @ManyToOne
-  @JoinColumn(name = "UM", referencedColumnName = "ID")
-  private User um;
-
-  @ManyToOne
-  @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
-  private User uc;
-
-  @Column(name = "STATUS_ID")
-  @NotNull
-  private Integer statusId;
+  @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
+  private UserArticleStatus statusId;
 
   @Column(name = "TITLE", length = 200)
   @NotNull
@@ -136,38 +46,49 @@ public class UserArticle {
   @Column(name = "MEDIA_CONTENT_TYPE")
   private String mediaContentType;
 
+  @ManyToOne
+  @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
+  private User uc;
+
   @Column(name = "DC")
   @NotNull
   @Temporal(TemporalType.TIMESTAMP)
   @DateTimeFormat(style = "MM")
   private Calendar dc;
 
+  @ManyToOne
+  @JoinColumn(name = "UM", referencedColumnName = "ID")
+  private User um;
+
   @Column(name = "DM")
   @Temporal(TemporalType.TIMESTAMP)
   @DateTimeFormat(style = "MM")
   private Calendar dm;
 
-  public User getUm() {
-    return um;
+  public static long count() {
+    return entityManager().createQuery("SELECT COUNT(o) FROM UserArticle o", Long.class).getSingleResult();
   }
 
-  public void setUm(User um) {
-    this.um = um;
+  public static List<UserArticle> findAll() {
+    return entityManager().createQuery("SELECT o FROM UserArticle o", UserArticle.class).getResultList();
   }
 
-  public User getUc() {
-    return uc;
+  public static UserArticle find(Integer id) {
+    if (id == null)
+      return null;
+    return entityManager().find(UserArticle.class, id);
   }
 
-  public void setUc(User uc) {
-    this.uc = uc;
+  public static List<UserArticle> findEntries(int firstResult, int maxResults) {
+    return entityManager().createQuery("SELECT o FROM UserArticle o", UserArticle.class).setFirstResult(firstResult)
+        .setMaxResults(maxResults).getResultList();
   }
 
-  public Integer getStatusId() {
+  public UserArticleStatus getStatusId() {
     return statusId;
   }
 
-  public void setStatusId(Integer statusId) {
+  public void setStatusId(UserArticleStatus statusId) {
     this.statusId = statusId;
   }
 
@@ -203,12 +124,28 @@ public class UserArticle {
     this.mediaContentType = mediaContentType;
   }
 
+  public User getUc() {
+    return uc;
+  }
+
+  public void setUc(User uc) {
+    this.uc = uc;
+  }
+
   public Calendar getDc() {
     return dc;
   }
 
   public void setDc(Calendar dc) {
     this.dc = dc;
+  }
+
+  public User getUm() {
+    return um;
+  }
+
+  public void setUm(User um) {
+    this.um = um;
   }
 
   public Calendar getDm() {
@@ -219,16 +156,12 @@ public class UserArticle {
     this.dm = dm;
   }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "ID")
-  private Integer id;
-
-  public Integer getId() {
-    return this.id;
+  public String getMediaUrl() {
+    return mediaUrl;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
+  public void setMediaUrl(String mediaUrl) {
+    this.mediaUrl = mediaUrl;
   }
+
 }
