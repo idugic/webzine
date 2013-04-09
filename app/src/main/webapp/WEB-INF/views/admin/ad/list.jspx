@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <page:list id="pl_rs_id_webzine_domain_Ad" items="${adList}">
+    <table:table data="${adList}" id="l_rs_id_webzine_domain_Ad" path="/admin/ad">
+      <table:column id="c_rs_id_webzine_domain_Ad_name" property="name" />
+      <table:column id="c_rs_id_webzine_domain_Ad_customerId" property="customerId" />
+      <table:column id="c_rs_id_webzine_domain_Ad_statusId" property="statusId" />
+      <table:column id="c_rs_id_webzine_domain_Ad_validFrom" property="validFrom" />
+      <table:column id="c_rs_id_webzine_domain_Ad_validUntil" property="validUntil" />
+    </table:table>
+  </page:list>
+</div>

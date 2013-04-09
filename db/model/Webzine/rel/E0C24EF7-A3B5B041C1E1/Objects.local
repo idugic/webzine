@@ -2,6 +2,7 @@
 <oracle.dbtools.crest.model.design.relational.RelationalDesign>
    <object objectType="Table" objectID="1DE4D883-9FC4-D75D-7A88-B8E0B4C30750" name="AD" seqName="seg_0"/>
    <object objectType="Table" objectID="F6124BD9-8AE0-3468-8F7E-39A62A23E915" name="ADDRESS" seqName="seg_0"/>
+   <object objectType="Table" objectID="8981833A-5F03-7C02-254B-49759ED92894" name="AD_ARTICLE" seqName="seg_0"/>
    <object objectType="Table" objectID="13003708-9CCE-C5A1-538D-3C09F7E005E7" name="AD_STATUS" seqName="seg_0"/>
    <object objectType="Table" objectID="4BEB4B36-457E-7CED-FBF3-B5AD38DA0B8D" name="ARTICLE" seqName="seg_0"/>
    <object objectType="Table" objectID="E0AE2E95-B3F1-F763-5E87-DA580C58A51E" name="ARTICLE_BOOKMARK" seqName="seg_0"/>
@@ -28,10 +29,14 @@
    <object objectType="Table" objectID="8D156953-C754-AA81-BE0A-F88D5A93E309" name="USER_ARTICLE_STATUS" seqName="seg_0"/>
    <object objectType="Table" objectID="394A95CE-5F14-AFEB-909B-328E4E44C29F" name="USER_STATUS" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="57A7B522-7B45-F2CB-4886-9B648F40C881" name="AD_AD_STAT_FK_1" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="B8BA1C0F-0CE7-825A-67C1-711F5741FB04" name="AD_ARTI_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="E1DB61D3-6FE3-694B-1EC9-66E64A9F2578" name="AD_ARTI_AD_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="07DEF696-4E23-088D-AC11-8246953DDA3A" name="AD_ARTI_ARTI_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="253D010A-492C-04FA-A803-50291D63797C" name="AD_ARTI_USER_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="88F64F7B-1136-60EF-58B3-796A32B809E4" name="AD_ARTI_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="2EA5129B-A48D-BD55-1A58-AC43B5782A73" name="AD_CUST_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="45954ECA-5173-0D24-F43D-1C0289FBCF9C" name="AD_MANA_CONT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="A5A61B7C-285E-27F9-5759-74A3A92B5D66" name="AD_USER_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="2A5A5ACB-F759-19A2-E133-1E340B94E95D" name="AD_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="904D2846-61C1-E1F1-42D1-07004EEE2855" name="ARTI_ARTI_STAT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="2CE4D668-DCB9-E510-300E-59BCB19F9BD4" name="ARTI_BOOK_ARTI_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="A5FD3C4E-335F-5F5A-976C-D066C8AA4EA2" name="ARTI_BOOK_USER_FK_1" seqName="seg_0"/>
@@ -58,7 +63,6 @@
    <object objectType="FKIndexAssociation" objectID="DC096D11-BD8A-D2D0-6350-2CAC9FC19A50" name="CONT_CONT_TYPE_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="143AE3AC-8EDF-2F32-98D9-E80E24CFA400" name="CONT_MANA_CONT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="2D257986-6242-935B-9D63-F8738E1A2D3A" name="CUST_ADDR_FK_1" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="2A5A5ACB-F759-19A2-E133-1E340B94E95D" name="AD_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="86061FE0-0B46-6AB4-B433-CAD7000BFF9C" name="TASK_ATTA_TASK_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="22673115-FB80-E22B-899A-FC13BF36C253" name="TASK_ATTA_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="95C4B199-5597-3C06-D2E7-A981152A3495" name="TASK_ATTA_USER_FK_2" seqName="seg_0"/>

@@ -9,6 +9,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
 import rs.id.webzine.domain.Ad;
+import rs.id.webzine.domain.AdStatus;
 import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleBookmark;
 import rs.id.webzine.domain.ArticleCategory;
@@ -410,11 +411,35 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
+  // ad status
+  public Converter<AdStatus, String> getAdStatusToStringConverter() {
+    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.AdStatus, java.lang.String>() {
+      public String convert(AdStatus adStatus) {
+        return new StringBuilder().append(adStatus.getName()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, AdStatus> getIdToAdStatusConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.domain.AdStatus>() {
+      public rs.id.webzine.domain.AdStatus convert(java.lang.Integer id) {
+        return AdStatus.find(id);
+      }
+    };
+  }
+
+  public Converter<String, AdStatus> getStringToAdStatusConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.domain.AdStatus>() {
+      public rs.id.webzine.domain.AdStatus convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), AdStatus.class);
+      }
+    };
+  }
+
   public Converter<Ad, String> getAdToStringConverter() {
     return new org.springframework.core.convert.converter.Converter<rs.id.webzine.domain.Ad, java.lang.String>() {
       public String convert(Ad ad) {
-        return new StringBuilder().append(ad.getDescription()).append(' ').append(ad.getValidFrom()).append(' ')
-            .append(ad.getValidTo()).toString();
+        return new StringBuilder().append(ad.getName()).toString();
       }
     };
   }
@@ -779,6 +804,11 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getUserArticleToStringConverter());
     registry.addConverter(getIdToUserArticleConverter());
     registry.addConverter(getStringToUserArticleConverter());
+
+    // ad status
+    registry.addConverter(getAdStatusToStringConverter());
+    registry.addConverter(getIdToAdStatusConverter());
+    registry.addConverter(getStringToAdStatusConverter());
 
     registry.addConverter(getAdToStringConverter());
     registry.addConverter(getIdToAdConverter());

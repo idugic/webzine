@@ -209,6 +209,8 @@ public class ArticleController extends ModelController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    
+    // TODO delete related entities first
     Article article = Article.find(id);
     article.remove();
     uiModel.asMap().clear();

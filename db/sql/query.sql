@@ -1,0 +1,1 @@
+select * from MANAGED_CONTENT;

@@ -89,19 +89,15 @@
 <colAssociation fkAssociation="45954ECA-5173-0D24-F43D-1C0289FBCF9C" referredColumn="2C292350-375A-81F8-E768-BFC6542CE109"/>
 </associations>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="ARTICLE_ID" id="CC01B188-3D19-5E26-2C41-D8DC23FC2873">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="NAME" id="FC323D83-A4E8-4982-C732-FD00334F18C4">
 <createdBy>idugic</createdBy>
-<createdTime>2013-03-08 14:31:39 UTC</createdTime>
+<createdTime>2013-04-08 09:50:08 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<delegate>FBD5DC74-6027-B26F-E798-B445640A5670</delegate>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
-<associations>
-<colAssociation fkAssociation="B8BA1C0F-0CE7-825A-67C1-711F5741FB04" referredColumn="FBD5DC74-6027-B26F-E798-B445640A5670"/>
-</associations>
 </Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="DESCRIPTION" id="DA7CB5D1-E9B7-948B-DD85-81116EFBCD5A">
 <createdBy>IvanD</createdBy>
@@ -123,7 +119,7 @@
 <logicalDatatype>LOGDT007</logicalDatatype>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="VALID_TO" id="A7426E6D-C08D-A4D5-6F2C-6F328AFF7879">
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="VALID_UNTIL" id="A7426E6D-C08D-A4D5-6F2C-6F328AFF7879">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-08 14:32:02 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
@@ -198,15 +194,6 @@
 <indexState>Foreign Key</indexState>
 <indexColumnUsage>
 <colUsage columnID="95A19988-08D3-3346-0208-70E8F85C83FF"/>
-</indexColumnUsage>
-</ind_PK_UK>
-<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="A873020E-1F3F-7F8A-49A7-190EBC3E93B8" name="AD_ARTI_FK_1">
-<createdBy>idugic</createdBy>
-<createdTime>2013-03-08 14:39:57 UTC</createdTime>
-<ownerDesignName>Webzine</ownerDesignName>
-<indexState>Foreign Key</indexState>
-<indexColumnUsage>
-<colUsage columnID="CC01B188-3D19-5E26-2C41-D8DC23FC2873"/>
 </indexColumnUsage>
 </ind_PK_UK>
 <ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="35C744B0-B01E-B0C4-3F4D-65D204F3C2F9" name="AD_MANA_CONT_FK_1">

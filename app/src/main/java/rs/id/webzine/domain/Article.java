@@ -1,5 +1,6 @@
 package rs.id.webzine.domain;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
@@ -210,6 +212,35 @@ public class Article extends IdEntity {
   public static List<Article> findEntries(int firstResult, int maxResults) {
     return entityManager().createQuery("SELECT o FROM Article o", Article.class).setFirstResult(firstResult)
         .setMaxResults(maxResults).getResultList();
+  }
+
+  public static List<Article> findForAd(Integer adId) {
+    if (adId == null) {
+      return null;
+    } else {
+      TypedQuery<Article> query = entityManager().createQuery(
+          "SELECT aa.articleId FROM AdArticle aa JOIN aa.adId a WHERE a.id = :adId", Article.class);
+      query.setParameter("adId", adId);
+      return query.getResultList();
+    }
+  }
+
+  public static List<Article> findAvailableForAd(Integer adId) {
+    if (adId == null) {
+      return null;
+    } else {
+      List<Article> list = new ArrayList<Article>();
+      List<Article> adArticleList = Article.findForAd(adId);
+      if (adArticleList.isEmpty()) {
+        list = findAll();
+      } else {
+        TypedQuery<Article> query = entityManager().createQuery(
+            "SELECT a FROM Article a WHERE a NOT IN :adArticleList", Article.class);
+        query.setParameter("adArticleList", adArticleList);
+        list = query.getResultList();
+      }
+      return list;
+    }
   }
 
 }

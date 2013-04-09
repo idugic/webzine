@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <page:show id="ps_rs_id_webzine_domain_Ad" object="${ad}" path="/admin/ad">
+    <field:display field="name" id="s_rs_id_webzine_domain_Ad_name" object="${ad}" />
+    <field:display field="description" id="s_rs_id_webzine_domain_Ad_description" object="${ad}" />
+    <field:display field="statusId" id="s_rs_id_webzine_domain_Ad_statusId" object="${ad}" />
+    <field:display field="customerId" id="s_rs_id_webzine_domain_Ad_customerId" object="${ad}" />
+    <field:display calendar="true" dateTimePattern="${date_format}" field="validFrom" id="s_rs_id_webzine_domain_Ad_validFrom" object="${ad}" />
+    <field:display calendar="true" dateTimePattern="${date_format}" field="validUntil" id="s_rs_id_webzine_domain_Ad_validUntil" object="${ad}" />
+    <field:display field="uc" id="s_rs_id_webzine_domain_Ad_uc" object="${ad}" />
+    <field:display calendar="true" dateTimePattern="${ad_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_Ad_dc" object="${ad}" />
+    <field:display field="um" id="s_rs_id_webzine_domain_Ad_um" object="${ad}" />
+    <field:display calendar="true" dateTimePattern="${ad_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_Ad_dm" object="${ad}" />
+  </page:show>
+  <BR />
+  <!-- Articles -->
+  <page:list id="pl_rs_id_webzine_domain_AdArticle" items="${adArticleList}" create="false">
+    <table:table data="${adArticleList}" id="l_rs_id_webzine_domain_AdArticle" path="/admin/ad/article" create="false" show="false" update="false" delete="false">
+      <table:column id="c_rs_id_webzine_domain_AdArticle_articleId" property="articleId" />
+    </table:table>
+  </page:list>
+  <BR />
+  <!-- Managed Content -->
+  <page:show id="ps_rs_id_webzine_domain_ManagedContent" object="${managedContent}" path="/admin/ad/managed_content" list="false" create="false" update="false" delete="false">
+    <field:display field="css" id="s_rs_id_webzine_domain_ManagedContent_css" object="${managedContent}" />
+  </page:show>
+  <BR />
+  <!-- Contents -->
+  <page:list id="pl_rs_id_webzine_domain_Content" items="${adContentList}" create="false">
+    <table:table data="${adContentList}" id="l_rs_id_webzine_domain_Content" path="/admin/ad/content" create="false" update="false" show="false" delete="false">
+      <table:column id="c_rs_id_webzine_domain_Content_contentTypeId" property="contentTypeId" />
+      <table:column id="c_rs_id_webzine_domain_Content_description" property="description" />
+    </table:table>
+  </page:list>
+</div>

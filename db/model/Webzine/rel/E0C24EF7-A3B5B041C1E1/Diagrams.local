@@ -1,6 +1,6 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <oracle.dbtools.crest.model.design.relational.RelationalDesign>
-   <object objectType="main_view" objectID="95CD60AC-BB90-40C6-FA11-7D646F2D93E3" name="Webzine Relational" visible="false"/>
+   <object objectType="main_view" objectID="95CD60AC-BB90-40C6-FA11-7D646F2D93E3" name="Webzine Relational" visible="true"/>
    <object objectType="sub_view" objectID="E7DCF4DA-70CE-A0A3-B38D-D06B9ABB7210" name="Content Management" visible="false"/>
    <object objectType="sub_view" objectID="367266D6-79A0-F867-E07A-4EF256E63750" name="Customer Care" visible="true"/>
    <object objectType="sub_view" objectID="4A7BA5F3-11B5-17EE-B23A-2654DFAE7E6A" name="Magazine I" visible="false"/>

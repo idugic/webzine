@@ -28,16 +28,16 @@ public class Ad extends IdEntity {
   @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ID", nullable = false)
   private Customer customerId;
 
-  @ManyToOne
-  @JoinColumn(name = "MANAGED_CONTENT_ID", referencedColumnName = "ID", nullable = false)
-  private ManagedContent managedContentId;
-
-  @ManyToOne
-  @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ID")
-  private Article articleId;
+  @Column(name = "NAME", length = 100)
+  @NotNull
+  private String name;
 
   @Column(name = "DESCRIPTION", length = 500)
   private String description;
+
+  @ManyToOne
+  @JoinColumn(name = "MANAGED_CONTENT_ID", referencedColumnName = "ID", nullable = false)
+  private ManagedContent managedContentId;
 
   @Column(name = "VALID_FROM")
   @NotNull
@@ -45,10 +45,10 @@ public class Ad extends IdEntity {
   @DateTimeFormat(style = "MM")
   private Calendar validFrom;
 
-  @Column(name = "VALID_TO")
+  @Column(name = "VALID_UNTIL")
   @Temporal(TemporalType.TIMESTAMP)
   @DateTimeFormat(style = "MM")
-  private Calendar validTo;
+  private Calendar validUntil;
 
   @ManyToOne
   @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
@@ -93,20 +93,20 @@ public class Ad extends IdEntity {
     this.managedContentId = managedContentId;
   }
 
-  public Article getArticleId() {
-    return articleId;
-  }
-
-  public void setArticleId(Article articleId) {
-    this.articleId = articleId;
-  }
-
   public String getDescription() {
     return description;
   }
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Calendar getValidFrom() {
@@ -117,12 +117,12 @@ public class Ad extends IdEntity {
     this.validFrom = validFrom;
   }
 
-  public Calendar getValidTo() {
-    return validTo;
+  public Calendar getValidUntil() {
+    return validUntil;
   }
 
-  public void setValidTo(Calendar validTo) {
-    this.validTo = validTo;
+  public void setValidUntil(Calendar validUntil) {
+    this.validUntil = validUntil;
   }
 
   public User getUc() {
