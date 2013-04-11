@@ -18,13 +18,14 @@ import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleComment;
 import rs.id.webzine.domain.ArticleCommentStatus;
 import rs.id.webzine.domain.User;
+import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/article_comment")
 @Controller
-public class ArticleCommentController extends ModelController {
+public class ArticleCommentController extends WebController {
 
   // TODO no publish status in update
-  
+
   // TODO no changes to published comment
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
@@ -35,7 +36,7 @@ public class ArticleCommentController extends ModelController {
       return "admin/article_comment/create";
     }
     uiModel.asMap().clear();
-    articleComment.setUc(getCurrentUser());
+    articleComment.setUc(Service.getCurrentUser());
     articleComment.setDc(Calendar.getInstance());
     articleComment.setStatusId(ArticleCommentStatus.findForCd(ArticleCommentStatus.CD_SUBMITTED));
     articleComment.persist();
@@ -85,7 +86,7 @@ public class ArticleCommentController extends ModelController {
     ArticleComment oldComment = ArticleComment.find(articleComment.getId());
     articleComment.setUc(oldComment.getUc());
     articleComment.setDc(oldComment.getDc());
-    articleComment.setUm(getCurrentUser());
+    articleComment.setUm(Service.getCurrentUser());
     articleComment.setDm(Calendar.getInstance());
     articleComment.merge();
     return "redirect:/admin/article_comment/"

@@ -32,10 +32,11 @@ import rs.id.webzine.domain.TaskComment;
 import rs.id.webzine.domain.TaskPriority;
 import rs.id.webzine.domain.TaskStatus;
 import rs.id.webzine.domain.User;
+import rs.id.webzine.service.Service;
 
 @RequestMapping("admin/task")
 @Controller
-public class TaskController extends ModelController {
+public class TaskController extends WebController {
 
   private static final Log log = LogFactory.getLog(TaskController.class);
 
@@ -54,7 +55,7 @@ public class TaskController extends ModelController {
     uiModel.asMap().clear();
 
     task.setStatusId(TaskStatus.findForCd(TaskStatus.CD_ACTIVE));
-    task.setUc(getCurrentUser());
+    task.setUc(Service.getCurrentUser());
     task.setDc(Calendar.getInstance());
     task.persist();
     return "redirect:/admin/task/" + encodeUrlPathSegment(task.getId().toString(), httpServletRequest);
@@ -106,7 +107,7 @@ public class TaskController extends ModelController {
 
     task.setUc(oldTask.getUc());
     task.setDc(oldTask.getDc());
-    task.setUm(getCurrentUser());
+    task.setUm(Service.getCurrentUser());
     task.setDm(Calendar.getInstance());
     task.merge();
 
@@ -159,7 +160,7 @@ public class TaskController extends ModelController {
       return "admin/task/update";
     }
     taskComment.setTaskId(Task.find(taskId));
-    taskComment.setUc(getCurrentUser());
+    taskComment.setUc(Service.getCurrentUser());
     taskComment.setDc(Calendar.getInstance());
     taskComment.persist();
 
@@ -194,7 +195,7 @@ public class TaskController extends ModelController {
       }
 
       taskAttachment.setTaskId(Task.find(taskId));
-      taskAttachment.setUc(getCurrentUser());
+      taskAttachment.setUc(Service.getCurrentUser());
       taskAttachment.setDc(Calendar.getInstance());
       taskAttachment.setName(content.getOriginalFilename());
       taskAttachment.setContentType(content.getContentType());

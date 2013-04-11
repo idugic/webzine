@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import rs.id.webzine.domain.User;
 
 public class Session {
+  // TODO move into Service
   public static User getCurrentUser() {
     User user = null;
 

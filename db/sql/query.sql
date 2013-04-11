@@ -1,1 +1,1 @@
-select * from MANAGED_CONTENT;
+insert into country (cd, name) values ('ok', 'ok');

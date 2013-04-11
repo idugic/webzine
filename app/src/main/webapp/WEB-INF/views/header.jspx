@@ -2,10 +2,38 @@
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
 
+  <table id="headerTable">
+    <tr>
+      <td id="headerTitle">
+        <spring:url value="/" var="home" />
+        <a href="${home}">
+          <spring:message code="header_title" />
+        </a>
+      </td>
+      <td id="headerButtons">
+        <span>
+          <a href="${home}">
+            <spring:message code="button_home" />
+          </a>
+        </span>
+        <c:if test="${pageContext['request'].userPrincipal != null}">
+          <span>
+            <c:out value=" | " />
+            <spring:url value="/resources/j_spring_security_logout" var="logout" />
+            <a href="${logout}">
+              <spring:message code="security_logout" />
+            </a>
+          </span>
+        </c:if>
+      </td>
+    </tr>
+  </table>
+
+  <!-- 
   <spring:url var="banner" value="/resources/images/banner-graphic.png" />
   <spring:url var="home" value="/" />
   <spring:message code="button_home" var="home_label" htmlEscape="false" />
-  <a href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">
-    <img src="${banner}" />
+  <a href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}"> <img src="${banner}" />
   </a>
-</div> 
+   -->
+</div>

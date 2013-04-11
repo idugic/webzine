@@ -31,10 +31,11 @@ import rs.id.webzine.domain.ContentType;
 import rs.id.webzine.domain.Customer;
 import rs.id.webzine.domain.ManagedContent;
 import rs.id.webzine.domain.User;
+import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/ad")
 @Controller
-public class AdController extends ModelController {
+public class AdController extends WebController {
   private static final Log log = LogFactory.getLog(AdController.class);
 
   // TODO move content Up/Down in the content list
@@ -66,7 +67,7 @@ public class AdController extends ModelController {
 
       ad.setManagedContentId(managedContent);
       ad.setStatusId(AdStatus.findForCd(AdStatus.CD_SUBMITTED));
-      ad.setUc(getCurrentUser());
+      ad.setUc(Service.getCurrentUser());
       ad.setDc(Calendar.getInstance());
       uiModel.asMap().clear();
       ad.persist();
@@ -137,7 +138,7 @@ public class AdController extends ModelController {
       ad.setManagedContentId(oldAd.getManagedContentId());
       ad.setUc(oldAd.getUc());
       ad.setDc(oldAd.getDc());
-      ad.setUm(getCurrentUser());
+      ad.setUm(Service.getCurrentUser());
       ad.setDm(Calendar.getInstance());
 
       uiModel.asMap().clear();
@@ -152,7 +153,7 @@ public class AdController extends ModelController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    
+
     // TODO delete in service layer
     List<AdArticle> adArticleList = AdArticle.findForAd(id);
     for (AdArticle adArticle : adArticleList) {
@@ -160,13 +161,11 @@ public class AdController extends ModelController {
     }
 
     Ad ad = Ad.find(id);
-    
+
     ManagedContent managedContent = ad.getManagedContentId();
-    
-    
+
     ad.remove();
-    
-    
+
     List<Content> contentList = Content.findForManagedContent(managedContent.getId());
     for (Content content : contentList) {
       content.remove();
@@ -209,7 +208,7 @@ public class AdController extends ModelController {
       return "admin/ad/update";
     }
     adArticle.setAdId(Ad.find(adId));
-    adArticle.setUc(getCurrentUser());
+    adArticle.setUc(Service.getCurrentUser());
     adArticle.setDc(Calendar.getInstance());
     adArticle.persist();
 

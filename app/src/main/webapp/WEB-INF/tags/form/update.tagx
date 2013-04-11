@@ -1,4 +1,5 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags"
+  version="2.0">
   <jsp:output omit-xml-declaration="yes" />
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
@@ -11,26 +12,25 @@
   <jsp:directive.attribute name="versionField" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the field name of the version field (default 'version'). If specified 'none' the version field will not be inlcuded (versionField='none')." />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane is opened or closed by default (default: true)" />
-  <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
   <c:if test="${empty render or render}">
     <c:if test="${empty list}">
       <c:set var="list" value="true" />
     </c:if>
     <c:if test="${empty label}">
-      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
+      <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
     </c:if>
-    <spring:message var="typeNamePlural" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_list_label" htmlEscape="false" />
-    
+    <spring:message var="typeNamePlural" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_list" htmlEscape="false" />
+
     <c:if test="${empty idField}">
       <c:set value="id" var="idField" />
     </c:if>
     <c:if test="${empty versionField}">
       <c:set value="version" var="versionField" />
     </c:if>
-    <c:set var="enctype" value="application/x-www-form-urlencoded"/>
+    <c:set var="enctype" value="application/x-www-form-urlencoded" />
     <c:if test="${multipart}">
-      <c:set var="enctype" value="multipart/form-data"/>
+      <c:set var="enctype" value="multipart/form-data" />
     </c:if>
     <spring:message arguments="${label}" code="entity_update" var="title_msg" htmlEscape="false" />
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
@@ -40,7 +40,14 @@
         <jsp:doBody />
         <div class="submit" id="${fn:escapeXml(id)}_submit">
           <spring:message code="button_save" var="save_button" htmlEscape="false" />
-          <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
+          <script type="text/javascript">
+											Spring
+													.addDecoration(new Spring.ValidateAllDecoration(
+															{
+																elementId : 'proceed',
+																event : 'onclick'
+															}));
+										</script>
           <input id="proceed" type="submit" value="${fn:escapeXml(save_button)}" />
         </div>
         <div class="quicklinks">

@@ -9,6 +9,6 @@
   </form:update>
   <BR />
   <!-- Publish Comment -->
-  <form:update id="fu_rs_id_webzine_domain_ArticleCommentPublish" label="label_rs_id_webzine_domain_article__comment_publish" modelAttribute="articleComment" path="/admin/article_comment/publish" versionField="none" list="false" />
+  <form:update id="fu_rs_id_webzine_domain_ArticleCommentPublish" label="rs_id_webzine_domain_article__comment_publish" modelAttribute="articleComment" path="/admin/article_comment/publish" versionField="none" list="false" />
 
 </div>

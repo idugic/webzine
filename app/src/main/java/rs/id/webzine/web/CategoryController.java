@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.ReaderType;
+import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/category")
 @Controller
-public class CategoryController extends ModelController {
+public class CategoryController extends WebController {
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
   public String create(Category category, BindingResult bindingResult, Model uiModel,
@@ -30,7 +31,7 @@ public class CategoryController extends ModelController {
     }
 
     uiModel.asMap().clear();
-    category.setUc(getCurrentUser());
+    category.setUc(Service.getCurrentUser());
     category.setDc(Calendar.getInstance());
     category.persist();
     return "redirect:/admin/category/" + encodeUrlPathSegment(category.getId().toString(), httpServletRequest);
@@ -79,7 +80,7 @@ public class CategoryController extends ModelController {
 
     category.setUc(oldCategory.getUc());
     category.setDc(oldCategory.getDc());
-    category.setUm(getCurrentUser());
+    category.setUm(Service.getCurrentUser());
     category.setDm(Calendar.getInstance());
     category.merge();
     return "redirect:/admin/category/" + encodeUrlPathSegment(category.getId().toString(), httpServletRequest);

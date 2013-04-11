@@ -10,7 +10,7 @@ import rs.id.webzine.domain.ReaderType;
 
 @RequestMapping("admin/reader_type")
 @Controller
-public class ReaderTypeController extends ModelController {
+public class ReaderTypeController extends WebController {
 
   @RequestMapping(value = "/{id}", produces = "text/html")
   public String show(@PathVariable("id") Integer id, Model uiModel) {

@@ -11,7 +11,7 @@
   </form:update>
    <BR />
   <!-- Publish Article -->
-    <form:update id="fu_rs_id_webzine_domain_ArticlePublish" label="label_rs_id_webzine_domain_article_publish" modelAttribute="article" path="/admin/article/publish" versionField="none" list="false" />
+    <form:update id="fu_rs_id_webzine_domain_ArticlePublish" label="rs_id_webzine_domain_article_publish" modelAttribute="article" path="/admin/article/publish" versionField="none" list="false" />
   <!-- Categories -->
   <form:create id="fc_rs_id_webzine_domain_ArticleCategory" modelAttribute="articleCategory" path="/admin/article/category/${article.id}" render="${empty dependencies}" list="false">
     <field:select field="categoryId" id="c_rs_id_webzine_domain_ArticleCategory_categoryId" itemValue="id" items="${availableCategoryList}" path="/admin/category" />

@@ -17,7 +17,7 @@ import rs.id.webzine.domain.TaskPriority;
 
 @RequestMapping("admin/task_priority")
 @Controller
-public class TaskPriorityController extends ModelController {
+public class TaskPriorityController extends WebController {
 
 	class TaskPriorityCreateValidator implements Validator {
 		@Override

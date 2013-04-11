@@ -1,4 +1,5 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+  xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.tag import="java.util.ArrayList" />
   <jsp:output omit-xml-declaration="yes" />
 
@@ -11,7 +12,6 @@
   <jsp:directive.attribute name="update" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Include 'update' link into table (default true)" />
   <jsp:directive.attribute name="delete" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Include 'delete' link into table (default true)" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
-  <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
   <c:if test="${empty render or render}">
 
@@ -27,6 +27,10 @@
       <c:set var="typeIdFieldName" value="id" />
     </c:if>
 
+    <c:if test="${empty create}">
+      <c:set var="create" value="true" />
+    </c:if>
+
     <c:if test="${empty show}">
       <c:set var="show" value="true" />
     </c:if>
@@ -39,18 +43,18 @@
       <c:set var="delete" value="true" />
     </c:if>
 
-    <spring:message var="typeName" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_new_label" htmlEscape="false" />
+    <spring:message var="typeName" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_new" htmlEscape="false" />
     <c:set var="lengths" value="${fn:split(columnMaxLengths, '&#9999;')}" scope="request" />
     <c:set var="types" value="${fn:split(columnTypes, '&#9999;')}" scope="request" />
     <c:set var="patterns" value="${fn:split(columnDatePatterns, '&#9999;')}" scope="request" />
 
     <spring:eval var="colCounter" expression="1" />
 
-    <table>
+    <table id="${id}">
       <thead>
         <tr>
           <c:forTokens items="${columnLabels}" delims="${'&#9999;'}" var="columnHeading">
-            <th>
+            <th id="${fn:toLowerCase(id)}_${fn:toLowerCase(columnHeading)}">
               <c:out value="${columnHeading}" />
               <spring:eval var="colCounter" expression="colCounter  + 1" />
             </th>
@@ -75,7 +79,7 @@
             <c:set var="columnMaxLength" value="${lengths[num.count-1]}" />
             <c:set var="columnType" value="${types[num.count-1]}" />
             <c:set var="columnDatePattern" value="${patterns[num.count-1]}" />
-            <td>
+            <td id="${id}_${column}">
               <c:choose>
                 <c:when test="${columnType eq 'date'}">
                   <spring:escapeBody>
@@ -84,7 +88,7 @@
                 </c:when>
                 <c:when test="${columnType eq 'calendar'}">
                   <spring:escapeBody>
-                    <fmt:formatDate value="${item[column].time}" pattern="${fn:escapeXml(columnDatePattern)}" var="colTxt"/>
+                    <fmt:formatDate value="${item[column].time}" pattern="${fn:escapeXml(columnDatePattern)}" var="colTxt" />
                   </spring:escapeBody>
                 </c:when>
                 <c:otherwise>
@@ -99,7 +103,9 @@
               <c:out value="${colTxt}" />
             </td>
           </c:forTokens>
-          <c:set var="itemId"><spring:eval expression="item[typeIdFieldName]"/></c:set>
+          <c:set var="itemId">
+            <spring:eval expression="item[typeIdFieldName]" />
+          </c:set>
           <c:if test="${show}">
             <td class="utilbox">
               <spring:url value="${path}/${itemId}" var="show_form_url" />
@@ -145,30 +151,28 @@
           </c:if>
         </tr>
       </c:forEach>
-      <c:if test="${empty create or create or not empty maxPages}">
-	      <tr class="footer">
-	        <td colspan="${colCounter}">
-	          <c:if test="${empty create or create}">
-	            <span class="new">
-	              <spring:url value="${path}" var="create_url">
-	                <spring:param name="form" />
-	              </spring:url>
-	              <a href="${create_url}">
-	                <spring:url value="/resources/images/add.png" var="create_img_url" />
-	                <spring:message arguments="${typeName}" code="global_menu_new" var="add_message" htmlEscape="false" />
-	                <img alt="${fn:escapeXml(add_message)}" src="${create_img_url}" title="${fn:escapeXml(add_message)}" />
-	              </a>
-	            </span>
-	            <c:out value=" " />
-	          </c:if>
-	          <c:if test="${not empty maxPages}">
-	            <util:pagination maxPages="${maxPages}" page="${param.page}" size="${param.size}" />
-	          </c:if>
-	        </td>
-	      </tr>
+      <c:if test="${create or not empty maxPages}">
+        <tr class="footer">
+          <td colspan="${colCounter}">
+            <c:if test="${create}">
+              <span class="new">
+                <spring:url value="${path}" var="create_url">
+                  <spring:param name="form" />
+                </spring:url>
+                <a href="${create_url}">
+                  <spring:url value="/resources/images/add.png" var="create_img_url" />
+                  <spring:message arguments="${typeName}" code="global_menu_new" var="add_message" htmlEscape="false" />
+                  <img alt="${fn:escapeXml(add_message)}" src="${create_img_url}" title="${fn:escapeXml(add_message)}" />
+                </a>
+              </span>
+              <c:out value=" " />
+            </c:if>
+            <c:if test="${not empty maxPages}">
+              <util:pagination maxPages="${maxPages}" page="${param.page}" size="${param.size}" />
+            </c:if>
+          </td>
+        </tr>
       </c:if>
     </table>
-
   </c:if>
-
 </jsp:root>

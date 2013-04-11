@@ -23,7 +23,7 @@ import rs.id.webzine.web.backing.CustomerBacking;
 
 @RequestMapping("admin/customer")
 @Controller
-public class CustomerController extends ModelController {
+public class CustomerController extends WebController {
 
   private static final Log log = LogFactory.getLog(CustomerController.class);
 

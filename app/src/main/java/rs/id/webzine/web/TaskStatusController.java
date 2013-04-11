@@ -17,7 +17,7 @@ import rs.id.webzine.domain.TaskStatus;
 
 @RequestMapping("admin/task_status")
 @Controller
-public class TaskStatusController extends ModelController {
+public class TaskStatusController extends WebController {
 
 	class TaskStatusCreateValidator implements Validator {
 		@Override

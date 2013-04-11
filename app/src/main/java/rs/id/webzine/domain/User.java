@@ -21,6 +21,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import rs.id.webzine.domain.system.Role;
+import rs.id.webzine.domain.system.UserStatus;
+
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "USERS")

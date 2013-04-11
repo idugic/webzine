@@ -28,10 +28,11 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import rs.id.webzine.domain.User;
 import rs.id.webzine.domain.UserArticle;
 import rs.id.webzine.domain.UserArticleStatus;
+import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/user_article")
 @Controller
-public class UserArticleController extends ModelController {
+public class UserArticleController extends WebController {
   private static final Log log = LogFactory.getLog(UserArticleController.class);
 
   @InitBinder
@@ -63,7 +64,7 @@ public class UserArticleController extends ModelController {
       }
 
       userArticle.setStatusId(UserArticleStatus.findForCd(UserArticleStatus.CD_SUBMITTED));
-      userArticle.setUc(getCurrentUser());
+      userArticle.setUc(Service.getCurrentUser());
       userArticle.setDc(Calendar.getInstance());
       userArticle.setMedia(media.getBytes());
       userArticle.setMediaContentType(media.getContentType());
@@ -126,7 +127,7 @@ public class UserArticleController extends ModelController {
 
       userArticle.setUc(oldUserArticle.getUc());
       userArticle.setDc(oldUserArticle.getDc());
-      userArticle.setUm(getCurrentUser());
+      userArticle.setUm(Service.getCurrentUser());
       userArticle.setDm(Calendar.getInstance());
 
       if (media == null || media.getBytes() == null || media.getBytes().length == 0) {

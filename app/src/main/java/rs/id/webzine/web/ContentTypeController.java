@@ -10,7 +10,7 @@ import rs.id.webzine.domain.ContentType;
 
 @RequestMapping("admin/content_type")
 @Controller
-public class ContentTypeController extends ModelController {
+public class ContentTypeController extends WebController {
 
   @RequestMapping(value = "/{id}", produces = "text/html")
   public String show(@PathVariable("id") Integer id, Model uiModel) {

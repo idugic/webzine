@@ -10,7 +10,7 @@ import rs.id.webzine.domain.UserArticleStatus;
 
 @RequestMapping("admin/user_article_status")
 @Controller
-public class UserArticleStatusController extends ModelController {
+public class UserArticleStatusController extends WebController {
   
   // TODO create article from user article
 

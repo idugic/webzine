@@ -15,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,285 +32,291 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.domain.Address;
-import rs.id.webzine.domain.Role;
 import rs.id.webzine.domain.User;
-import rs.id.webzine.domain.UserStatus;
+import rs.id.webzine.service.system.RoleService;
+import rs.id.webzine.service.system.UserStatusService;
 import rs.id.webzine.web.backing.UserBacking;
 
 @RequestMapping("admin/user")
 @Controller
-public class UserController extends ModelController {
+public class UserController extends WebController {
 
-	private static final Log log = LogFactory.getLog(UserController.class);
+  private static final Log log = LogFactory.getLog(UserController.class);
 
-	// TODO model attribute user(s) -> userList (also for other entities)
-	
-	class UserCreateValidator implements Validator {
-		@Override
-		public boolean supports(Class<?> clazz) {
-			return true;
-		}
+  @Autowired
+  RoleService roleService;
 
-		@Override
-		public void validate(Object target, Errors errors) {
-			UserBacking form = (UserBacking) target;
-			User user = User.findForUserName(form.getUserName());
-			if (user != null) {
-				errors.rejectValue("userName", "validation.user.userName.duplicate");
-			}
-		}
-	}
+  @Autowired
+  UserStatusService userStatusService;
 
-	@InitBinder
-	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
-		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-	}
+  // TODO model attribute user(s) -> userList (also for other entities)
 
-	void addDateTimeFormatPatterns(Model uiModel) {
-		uiModel.addAttribute("user_birthdate_date_format",
-		        DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
-	}
+  class UserCreateValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> clazz) {
+      return true;
+    }
 
-	@RequestMapping(params = "form", produces = "text/html")
-	public String createForm(Model uiModel) {
-		populateEditForm(uiModel, new UserBacking());
-		return "admin/user/create";
-	}
+    @Override
+    public void validate(Object target, Errors errors) {
+      UserBacking form = (UserBacking) target;
+      User user = User.findForUserName(form.getUserName());
+      if (user != null) {
+        errors.rejectValue("userName", "validation.user.userName.duplicate");
+      }
+    }
+  }
 
-	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-	public String create(@Valid UserBacking userBacking, @RequestParam("image") MultipartFile image,
-	        BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-		try {
-			/*
-			 * workaround (multipart forms are always sent using POST)
-			 */
-			if (httpServletRequest.getParameter("_method") != null
-			        && httpServletRequest.getParameter("_method").equals("PUT")) {
-				return this.update(userBacking, image, bindingResult, uiModel, httpServletRequest);
-			}
+  @InitBinder
+  protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
+    binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+  }
 
-			// bind
-			if (bindingResult.hasErrors()) {
-				populateEditForm(uiModel, userBacking);
-				return "admin/user/create";
-			}
+  void addDateTimeFormatPatterns(Model uiModel) {
+    uiModel.addAttribute("user_birthdate_date_format",
+        DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
+  }
 
-			// validate
-			UserCreateValidator validator = new UserCreateValidator();
-			validator.validate(userBacking, bindingResult);
-			if (bindingResult.hasErrors()) {
-				populateEditForm(uiModel, userBacking);
-				return "admin/user/create";
-			}
+  @RequestMapping(params = "form", produces = "text/html")
+  public String createForm(Model uiModel) {
+    populateEditForm(uiModel, new UserBacking());
+    return "admin/user/create";
+  }
 
-			// address
-			Address address = new Address();
-			PropertyUtils.copyProperties(address, userBacking);
-			address.persist();
+  @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+  public String create(@Valid UserBacking userBacking, @RequestParam("image") MultipartFile image,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    try {
+      /*
+       * workaround (multipart forms are always sent using POST)
+       */
+      if (httpServletRequest.getParameter("_method") != null
+          && httpServletRequest.getParameter("_method").equals("PUT")) {
+        return this.update(userBacking, image, bindingResult, uiModel, httpServletRequest);
+      }
 
-			// persist
-			User user = new User();
-			PropertyUtils.copyProperties(user, userBacking);
+      // bind
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, userBacking);
+        return "admin/user/create";
+      }
 
-			// TODO hash password
+      // validate
+      UserCreateValidator validator = new UserCreateValidator();
+      validator.validate(userBacking, bindingResult);
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, userBacking);
+        return "admin/user/create";
+      }
 
-			user.setImageContentType(image.getContentType());
-			user.setAddressId(address);
-			user.persist();
+      // address
+      Address address = new Address();
+      PropertyUtils.copyProperties(address, userBacking);
+      address.persist();
 
-			uiModel.asMap().clear();
-			return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
+      // persist
+      User user = new User();
+      PropertyUtils.copyProperties(user, userBacking);
 
-	}
+      // TODO hash password
 
-	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
-	public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-		try {
-			UserBacking userBacking = new UserBacking();
-			User user = User.find(id);
-			PropertyUtils.copyProperties(userBacking, user);
-			userBacking.setBackingId(user.getId());
+      user.setImageContentType(image.getContentType());
+      user.setAddressId(address);
+      user.persist();
 
-			if (user.getAddressId() != null) {
-				PropertyUtils.copyProperties(userBacking, user.getAddressId());
-			}
+      uiModel.asMap().clear();
+      return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
 
-			populateEditForm(uiModel, userBacking);
-			return "admin/user/update";
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
+  }
 
-	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-	public String update(@Valid UserBacking userBacking, @RequestParam("image") MultipartFile image,
-	        BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-		try {
-			if (bindingResult.hasErrors()) {
-				populateEditForm(uiModel, userBacking);
-				return "admin/user/update";
-			}
+  @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+  public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+    try {
+      UserBacking userBacking = new UserBacking();
+      User user = User.find(id);
+      PropertyUtils.copyProperties(userBacking, user);
+      userBacking.setBackingId(user.getId());
 
-			User user = User.find(userBacking.getBackingId());
+      if (user.getAddressId() != null) {
+        PropertyUtils.copyProperties(userBacking, user.getAddressId());
+      }
 
-			// collect OLD values
-			String oldPassword = user.getPassword();
-			byte[] oldImage = null;
-			if (user.getImage() != null) {
-				oldImage = user.getImage().clone();
-			}
-			String oldImageContentType = user.getImageContentType();
+      populateEditForm(uiModel, userBacking);
+      return "admin/user/update";
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
 
-			PropertyUtils.copyProperties(user, userBacking);
+  @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
+  public String update(@Valid UserBacking userBacking, @RequestParam("image") MultipartFile image,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    try {
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, userBacking);
+        return "admin/user/update";
+      }
 
-			user.setId(userBacking.getBackingId());
+      User user = User.find(userBacking.getBackingId());
 
-			String newPassword = userBacking.getNewPassword();
-			if (newPassword != null && !newPassword.isEmpty()) {
-				// TODO hash password
-				user.setPassword(newPassword);
-			} else {
-				user.setPassword(oldPassword);
-			}
+      // collect OLD values
+      String oldPassword = user.getPassword();
+      byte[] oldImage = null;
+      if (user.getImage() != null) {
+        oldImage = user.getImage().clone();
+      }
+      String oldImageContentType = user.getImageContentType();
 
-			if (image == null || image.getBytes() == null || image.getBytes().length == 0) {
-				user.setImage(oldImage);
-				user.setImageContentType(oldImageContentType);
-			} else {
-				user.setImage(image.getBytes());
-				user.setImageContentType(image.getContentType());
-			}
+      PropertyUtils.copyProperties(user, userBacking);
 
-			// address
-			if (user.getAddressId() != null) {
-				PropertyUtils.copyProperties(user.getAddressId(), userBacking);
-			} else {
-				Address address = new Address();
-				PropertyUtils.copyProperties(address, userBacking);
-				address.persist();
+      user.setId(userBacking.getBackingId());
 
-				user.setAddressId(address);
-			}
+      String newPassword = userBacking.getNewPassword();
+      if (newPassword != null && !newPassword.isEmpty()) {
+        // TODO hash password
+        user.setPassword(newPassword);
+      } else {
+        user.setPassword(oldPassword);
+      }
 
-			uiModel.asMap().clear();
-			user.merge();
-			return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
+      if (image == null || image.getBytes() == null || image.getBytes().length == 0) {
+        user.setImage(oldImage);
+        user.setImageContentType(oldImageContentType);
+      } else {
+        user.setImage(image.getBytes());
+        user.setImageContentType(image.getContentType());
+      }
 
-	@RequestMapping(value = "/{id}", produces = "text/html")
-	public String show(@PathVariable("id") Integer id, Model uiModel, HttpServletRequest httpServletRequest) {
-		try {
-			UserBacking userBacking = new UserBacking();
+      // address
+      if (user.getAddressId() != null) {
+        PropertyUtils.copyProperties(user.getAddressId(), userBacking);
+      } else {
+        Address address = new Address();
+        PropertyUtils.copyProperties(address, userBacking);
+        address.persist();
 
-			User user = User.find(id);
+        user.setAddressId(address);
+      }
 
-			if (user.getAddressId() != null) {
-				PropertyUtils.copyProperties(userBacking, user.getAddressId());
-				userBacking.setBackingId(id);
-			}
-			PropertyUtils.copyProperties(userBacking, user);
+      uiModel.asMap().clear();
+      user.merge();
+      return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
 
-			String imageUrl = httpServletRequest.getContextPath() + "/admin/user/showimage/"
-			        + encodeUrlPathSegment(id.toString(), httpServletRequest);
-			userBacking.setImageUrl(imageUrl);
+  @RequestMapping(value = "/{id}", produces = "text/html")
+  public String show(@PathVariable("id") Integer id, Model uiModel, HttpServletRequest httpServletRequest) {
+    try {
+      UserBacking userBacking = new UserBacking();
 
-			uiModel.addAttribute("userBacking", userBacking);
-			uiModel.addAttribute("itemId", id);
-			addDateTimeFormatPatterns(uiModel);
-			return "admin/user/show";
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
+      User user = User.find(id);
 
-	}
+      if (user.getAddressId() != null) {
+        PropertyUtils.copyProperties(userBacking, user.getAddressId());
+        userBacking.setBackingId(id);
+      }
+      PropertyUtils.copyProperties(userBacking, user);
 
-	@RequestMapping(value = "/showimage/{id}", method = RequestMethod.GET)
-	public String showImage(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
-		try {
-			User user = User.find(id);
-			if (user.getImage() != null && user.getImage().length > 0) {
-				response.setHeader("Content-Disposition", "inline;");
-				response.setContentType(user.getImageContentType());
+      String imageUrl = httpServletRequest.getContextPath() + "/admin/user/showimage/"
+          + encodeUrlPathSegment(id.toString(), httpServletRequest);
+      userBacking.setImageUrl(imageUrl);
 
-				OutputStream out = response.getOutputStream();
-				IOUtils.copy(new ByteArrayInputStream(user.getImage()), out);
-				out.flush();
-			}
+      uiModel.addAttribute("userBacking", userBacking);
+      uiModel.addAttribute("itemId", id);
+      addDateTimeFormatPatterns(uiModel);
+      return "admin/user/show";
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
 
-			return null;
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
+  }
 
-	@RequestMapping(produces = "text/html")
-	public String list(@RequestParam(value = "page", required = false) Integer page,
-	        @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-		try {
-			List<User> userList = new ArrayList<User>();
-			if (page != null || size != null) {
-				int sizeNo = size == null ? 10 : size.intValue();
-				final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+  @RequestMapping(value = "/showimage/{id}", method = RequestMethod.GET)
+  public String showImage(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
+    try {
+      User user = User.find(id);
+      if (user.getImage() != null && user.getImage().length > 0) {
+        response.setHeader("Content-Disposition", "inline;");
+        response.setContentType(user.getImageContentType());
 
-				userList = User.findEntries(firstResult, sizeNo);
-				float nrOfPages = (float) User.count() / sizeNo;
-				uiModel.addAttribute("maxPages",
-				        (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
-			} else {
-				userList = User.findAll();
-			}
-			addDateTimeFormatPatterns(uiModel);
+        OutputStream out = response.getOutputStream();
+        IOUtils.copy(new ByteArrayInputStream(user.getImage()), out);
+        out.flush();
+      }
 
-			List<UserBacking> userBackingList = new ArrayList<UserBacking>();
-			for (User user : userList) {
-				UserBacking userBacking = new UserBacking();
-				PropertyUtils.copyProperties(userBacking, user);
-				userBacking.setBackingId(user.getId());
+      return null;
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
 
-				Address address = user.getAddressId();
-				if (address != null) {
-					PropertyUtils.copyProperties(userBacking, address);
-				}
+  @RequestMapping(produces = "text/html")
+  public String list(@RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    try {
+      List<User> userList = new ArrayList<User>();
+      if (page != null || size != null) {
+        int sizeNo = size == null ? 10 : size.intValue();
+        final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
 
-				userBackingList.add(userBacking);
-			}
+        userList = User.findEntries(firstResult, sizeNo);
+        float nrOfPages = (float) User.count() / sizeNo;
+        uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
+            : nrOfPages));
+      } else {
+        userList = User.findAll();
+      }
+      addDateTimeFormatPatterns(uiModel);
 
-			uiModel.addAttribute("userBacking", userBackingList);
+      List<UserBacking> userBackingList = new ArrayList<UserBacking>();
+      for (User user : userList) {
+        UserBacking userBacking = new UserBacking();
+        PropertyUtils.copyProperties(userBacking, user);
+        userBacking.setBackingId(user.getId());
 
-			return "admin/user/list";
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		}
-	}
+        Address address = user.getAddressId();
+        if (address != null) {
+          PropertyUtils.copyProperties(userBacking, address);
+        }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-	public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
-	        @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-		User user = User.find(id);
-		user.remove();
-		uiModel.asMap().clear();
-		uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
-		uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-		return "redirect:/admin/user";
-	}
+        userBackingList.add(userBacking);
+      }
 
-	void populateEditForm(Model uiModel, UserBacking userBacking) {
-		uiModel.addAttribute("userBacking", userBacking);
-		uiModel.addAttribute("role", Role.findAll());
-		uiModel.addAttribute("userStatus", UserStatus.findAll());
-		addDateTimeFormatPatterns(uiModel);
-	}
+      uiModel.addAttribute("userBacking", userBackingList);
+
+      return "admin/user/list";
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    User user = User.find(id);
+    user.remove();
+    uiModel.asMap().clear();
+    uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
+    uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
+    return "redirect:/admin/user";
+  }
+
+  void populateEditForm(Model uiModel, UserBacking userBacking) {
+    uiModel.addAttribute("userBacking", userBacking);
+    uiModel.addAttribute("role", roleService.findAll());
+    uiModel.addAttribute("userStatus", userStatusService.findAll());
+    addDateTimeFormatPatterns(uiModel);
+  }
 
 }

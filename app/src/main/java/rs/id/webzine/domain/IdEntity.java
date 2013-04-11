@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @MappedSuperclass
 public class IdEntity {
 
+  // TODO remove
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")

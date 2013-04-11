@@ -35,13 +35,20 @@ import rs.id.webzine.domain.Content;
 import rs.id.webzine.domain.ContentType;
 import rs.id.webzine.domain.ManagedContent;
 import rs.id.webzine.domain.User;
+import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/article")
 @Controller
-public class ArticleController extends ModelController {
+public class ArticleController extends WebController {
   private static final Log log = LogFactory.getLog(ArticleController.class);
 
   // TODO move content Up/Down in the content list
+
+  // TODO add Article script
+
+  // TODO update content text feature
+
+  // TODO edit text with editor?
 
   // TODO hide/unhide content text, media file based on type, or do it in 2
   // forms: one for text, another for media
@@ -86,7 +93,7 @@ public class ArticleController extends ModelController {
 
       article.setManagedContentId(managedContent);
       article.setStatusId(ArticleStatus.findForCd(ArticleStatus.CD_SUBMITTED));
-      article.setUc(getCurrentUser());
+      article.setUc(Service.getCurrentUser());
       article.setDc(Calendar.getInstance());
       article.setAbstractMedia(abstractMedia.getBytes());
       article.setAbstractMediaContentType(abstractMedia.getContentType());
@@ -168,7 +175,7 @@ public class ArticleController extends ModelController {
       article.setManagedContentId(oldArticle.getManagedContentId());
       article.setUc(oldArticle.getUc());
       article.setDc(oldArticle.getDc());
-      article.setUm(getCurrentUser());
+      article.setUm(Service.getCurrentUser());
       article.setDm(Calendar.getInstance());
 
       if (abstractMedia == null || abstractMedia.getBytes() == null || abstractMedia.getBytes().length == 0) {
@@ -209,7 +216,7 @@ public class ArticleController extends ModelController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    
+
     // TODO delete related entities first
     Article article = Article.find(id);
     article.remove();
@@ -273,7 +280,7 @@ public class ArticleController extends ModelController {
       return "admin/article/update";
     }
     articleCategory.setArticleId(Article.find(articleId));
-    articleCategory.setUc(getCurrentUser());
+    articleCategory.setUc(Service.getCurrentUser());
     articleCategory.setDc(Calendar.getInstance());
     articleCategory.persist();
 
@@ -296,7 +303,7 @@ public class ArticleController extends ModelController {
     }
     articleComment.setStatusId(ArticleCommentStatus.findForCd(ArticleCommentStatus.CD_SUBMITTED));
     articleComment.setArticleId(Article.find(articleId));
-    articleComment.setUc(getCurrentUser());
+    articleComment.setUc(Service.getCurrentUser());
     articleComment.setDc(Calendar.getInstance());
     articleComment.persist();
 
@@ -328,7 +335,7 @@ public class ArticleController extends ModelController {
     ArticleComment articleComment = ArticleComment.find(id);
     // logically delete article
     articleComment.setStatusId(ArticleCommentStatus.findForCd(ArticleCommentStatus.CD_DELETED));
-    articleComment.setUm(getCurrentUser());
+    articleComment.setUm(Service.getCurrentUser());
     articleComment.setDm(Calendar.getInstance());
     articleComment.merge();
 

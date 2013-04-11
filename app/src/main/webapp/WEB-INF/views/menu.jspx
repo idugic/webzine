@@ -4,10 +4,10 @@
   <jsp:output omit-xml-declaration="yes" />
   <menu:menu id="_menu">
     <menu:category id="c_system">
-      <menu:item id="i_role" url="/admin/role?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-      <menu:item id="i_userstatus" url="/admin/user_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+      <menu:item id="i_role" url="/admin/system/role" />
+      <menu:item id="i_userstatus" url="/admin/system/user_status" />
       <menu:item id="i_user" url="/admin/user?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-      <menu:item id="i_country" url="/admin/country?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+      <menu:item id="i_country" url="/admin/system/country?page=1&amp;size=${empty param.size ? 10 : param.size}" />
     </menu:category>
     <menu:category id="c_project_management">
       <menu:item id="i_taskstatus" url="/admin/task_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />

@@ -10,7 +10,7 @@ import rs.id.webzine.domain.ArticleStatus;
 
 @RequestMapping("admin/article_status")
 @Controller
-public class ArticleStatusController extends ModelController {
+public class ArticleStatusController extends WebController {
 
   @RequestMapping(value = "/{id}", produces = "text/html")
   public String show(@PathVariable("id") Integer id, Model uiModel) {

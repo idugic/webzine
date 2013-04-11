@@ -10,7 +10,7 @@ import rs.id.webzine.domain.ArticleCommentStatus;
 
 @RequestMapping("admin/article_comment_status")
 @Controller
-public class ArticleCommentStatusController extends ModelController {
+public class ArticleCommentStatusController extends WebController {
 
   @RequestMapping(value = "/{id}", produces = "text/html")
   public String show(@PathVariable("id") Integer id, Model uiModel) {
