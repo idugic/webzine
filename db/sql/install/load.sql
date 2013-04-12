@@ -22,9 +22,8 @@ INSERT INTO USERS (
   'admin',
   '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
   (SELECT ID FROM USER_STATUS WHERE CD = '1'),
-  (SELECT ID FROM ROLES WHERE CD = 'ADMINISTRATOR')
+  (SELECT ID FROM ROLES WHERE CD = 'administrator')
 );
--- TODO: add other users for other roles
 
 -- PROJECT MANAGEMENT
 -- TASK_STATUS
