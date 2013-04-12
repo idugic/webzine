@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.domain.Customer;
 import rs.id.webzine.domain.system.Address;
-import rs.id.webzine.web.backing.CustomerBacking;
+import rs.id.webzine.web.form.CustomerBacking;
 
 @RequestMapping("admin/customer")
 @Controller

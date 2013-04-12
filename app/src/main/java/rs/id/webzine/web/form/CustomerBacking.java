@@ -1,4 +1,4 @@
-package rs.id.webzine.web.backing;
+package rs.id.webzine.web.form;
 
 public class CustomerBacking {
 

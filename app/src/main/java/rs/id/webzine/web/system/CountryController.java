@@ -18,7 +18,7 @@ import rs.id.webzine.domain.system.Country;
 import rs.id.webzine.service.system.CountryService;
 import rs.id.webzine.web.WebController;
 
-@RequestMapping("admin/system/country")
+@RequestMapping(CountryController.PATH)
 @Controller
 public class CountryController extends WebController {
 
@@ -32,17 +32,7 @@ public class CountryController extends WebController {
   @RequestMapping(produces = "text/html")
   public String list(@RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    if (page != null || size != null) {
-      int sizeNo = size == null ? 10 : size.intValue();
-      final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-      uiModel.addAttribute("countryList", countryService.findForList(firstResult, sizeNo));
-      float nrOfPages = (float) countryService.count() / sizeNo;
-      uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-          : nrOfPages));
-    } else {
-      uiModel.addAttribute("countryList", countryService.findAll());
-    }
-
+    prepareList(countryService, "countryList", page, size, uiModel);
     return PATH + "/" + LIST;
   }
 
@@ -53,7 +43,7 @@ public class CountryController extends WebController {
   }
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-  public String createAction(@Valid Country country, BindingResult bindingResult, Model uiModel,
+  public String create(@Valid Country country, BindingResult bindingResult, Model uiModel,
       HttpServletRequest httpServletRequest) {
 
     // validate...
@@ -103,8 +93,6 @@ public class CountryController extends WebController {
     countryService.remove(id);
 
     uiModel.asMap().clear();
-    uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
-    uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
     return REDIRECT + PATH;
   }
 

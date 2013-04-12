@@ -1,6 +1,7 @@
 package rs.id.webzine.web;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
+
+import rs.id.webzine.service.GenericService;
 
 @Component
 public class WebController {
@@ -24,6 +27,29 @@ public class WebController {
 
   public static final String UPDATE = "update";
 
+  public static final String IMAGE = "image";
+
+  public <E> List<E> prepareList(GenericService<E> service, String listName, Integer page, Integer size, Model uiModel) {
+    List<E> list;
+
+    if (page != null || size != null) {
+      int sizeNo = size == null ? 10 : size.intValue();
+      final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+
+      list = service.findForList(firstResult, sizeNo);
+
+      float nrOfPages = (float) service.count() / sizeNo;
+      uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
+          : nrOfPages));
+    } else {
+      list = service.findAll();
+    }
+
+    uiModel.addAttribute(listName, service.findAll());
+
+    return list;
+  }
+
   public String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
     String enc = httpServletRequest.getCharacterEncoding();
     if (enc == null) {
@@ -36,7 +62,7 @@ public class WebController {
     return pathSegment;
   }
 
-  void addDateFormatPattern(Model uiModel) {
+  public void addDateFormatPattern(Model uiModel) {
     uiModel.addAttribute("date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
   }
 }

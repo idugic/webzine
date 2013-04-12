@@ -39,7 +39,7 @@ import rs.id.webzine.service.system.CountryService;
 import rs.id.webzine.service.system.RoleService;
 import rs.id.webzine.service.system.UserService;
 import rs.id.webzine.service.system.UserStatusService;
-import rs.id.webzine.web.backing.UserBacking;
+import rs.id.webzine.web.form.UserForm;
 
 /**
  * A central place to register application converters and formatters.
@@ -128,34 +128,34 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  public Converter<String, UserBacking> getStringToUserConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.web.backing.UserBacking>() {
-      public rs.id.webzine.web.backing.UserBacking convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), UserBacking.class);
+  public Converter<String, UserForm> getStringToUserConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.String, rs.id.webzine.web.form.UserForm>() {
+      public rs.id.webzine.web.form.UserForm convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), UserForm.class);
       }
     };
   }
 
-  public Converter<UserBacking, String> getUserBackingToStringConverter() {
-    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.web.backing.UserBacking, java.lang.String>() {
-      public String convert(UserBacking userBacking) {
-        return new StringBuilder().append(userBacking.getUserName()).toString();
+  public Converter<UserForm, String> getUserFormToStringConverter() {
+    return new org.springframework.core.convert.converter.Converter<rs.id.webzine.web.form.UserForm, java.lang.String>() {
+      public String convert(UserForm userForm) {
+        return new StringBuilder().append(userForm.getUserName()).toString();
       }
     };
   }
 
-  public Converter<Integer, UserBacking> getIdToUserBackingConverter() {
-    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.web.backing.UserBacking>() {
-      public rs.id.webzine.web.backing.UserBacking convert(java.lang.Integer id) {
+  public Converter<Integer, UserForm> getIdToUserFormConverter() {
+    return new org.springframework.core.convert.converter.Converter<java.lang.Integer, rs.id.webzine.web.form.UserForm>() {
+      public rs.id.webzine.web.form.UserForm convert(java.lang.Integer id) {
         try {
-          UserBacking userBacking = new UserBacking();
+          UserForm userForm = new UserForm();
           User user = userService.find(id);
-          PropertyUtils.copyProperties(userBacking, user);
-          userBacking.setBackingId(user.getId());
+          PropertyUtils.copyProperties(userForm, user);
+          userForm.setUserId(user.getId());
           if (user.getAddress() != null) {
-            PropertyUtils.copyProperties(userBacking, user.getAddress());
+            PropertyUtils.copyProperties(userForm, user.getAddress());
           }
-          return userBacking;
+          return userForm;
         } catch (Exception e) {
           log.error(e);
           throw new RuntimeException(e);
@@ -164,7 +164,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  public Converter<String, User> getStringToUserBackingConverter() {
+  public Converter<String, User> getStringToUserFormConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.String, User>() {
       public User convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), User.class);
@@ -758,9 +758,9 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getIdToUserConverter());
     registry.addConverter(getStringToUserConverter());
 
-    registry.addConverter(getUserBackingToStringConverter());
-    registry.addConverter(getIdToUserBackingConverter());
-    registry.addConverter(getStringToUserBackingConverter());
+    registry.addConverter(getUserFormToStringConverter());
+    registry.addConverter(getIdToUserFormConverter());
+    registry.addConverter(getStringToUserFormConverter());
 
     // country
     registry.addConverter(getCountryToStringConverter());

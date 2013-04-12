@@ -452,3 +452,20 @@ fieldset th {
 #_title_fu_country_id #widget__name_id {
   width: 30em !important;
 }
+
+#_title_pl_user_id {
+  width: 535px;
+}
+
+#_title_ps_user_id {
+  width: 535px;
+}
+
+#_title_fc_user_id {
+  width: 535px;
+}
+
+#_title_fu_user_id {
+  width: 535px;
+}
+
