@@ -22,7 +22,7 @@ import rs.id.webzine.web.WebController;
 @Controller
 public class CountryController extends WebController {
 
-  // TODO pagination
+  // TODO filter, pagination, sort
 
   public static final String PATH = "admin/system/country";
 
@@ -36,7 +36,7 @@ public class CountryController extends WebController {
       int sizeNo = size == null ? 10 : size.intValue();
       final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
       uiModel.addAttribute("countryList", countryService.findForList(firstResult, sizeNo));
-      float nrOfPages = (float) CountryService.count() / sizeNo;
+      float nrOfPages = (float) countryService.count() / sizeNo;
       uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
           : nrOfPages));
     } else {
@@ -100,9 +100,7 @@ public class CountryController extends WebController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    Country country = countryService.find(id);
-
-    countryService.remove(country);
+    countryService.remove(id);
 
     uiModel.asMap().clear();
     uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
