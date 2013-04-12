@@ -3,7 +3,7 @@
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <form:create id="fc_country" modelAttribute="country" path="/admin/system/country">
-    <field:input field="cd" id="c_country_cd" required="true" />
-    <field:input field="name" id="c_country_name" required="true" />
+    <field:input field="cd" id="c_country_cd" required="true" max="15" />
+    <field:input field="name" id="c_country_name" required="true" max="50" />
   </form:create>
 </div>

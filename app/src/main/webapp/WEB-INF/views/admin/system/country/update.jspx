@@ -4,6 +4,6 @@
   <jsp:output omit-xml-declaration="yes" />
   <form:update id="fu_country" modelAttribute="country" path="/admin/system/country" versionField="none">
     <field:input field="cd" id="c_country_cd" required="true" readonly="true" />
-    <field:input field="name" id="c_country_name" required="true" />
+    <field:input field="name" id="c_country_name" required="true" max="50" />
   </form:update>
 </div>

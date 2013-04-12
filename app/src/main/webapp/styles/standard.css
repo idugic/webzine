@@ -137,11 +137,20 @@ label {
 }
 
 #displayLabel {
+  font-weight: bold;
+  color: #7db223;
+  display: block;
+  float: left;
+  width: 95px;
+}
+
+#inputLabel {
 	font-weight: bold;
 	color: #7db223;
 	display: block;
 	float: left;
 	width: 95px;
+	padding-top: 4px;
 }
 
 input {
@@ -405,35 +414,43 @@ fieldset th {
 	width: 16px;
 }
 
-/* panels */
+/* panels and elements */
 #_title_pl_role_id {
-	width: 450px;
+	width: 600px;
 }
 
 #_title_ps_role_id {
-	width: 450px;
+	width: 600px;
 }
 
 #_title_pl_userstatus_id {
-	width: 450px;
+	width: 600px;
 }
 
 #_title_ps_userstatus_id {
-	width: 450px;
+	width: 600px;
 }
 
 #_title_pl_country_id {
-	width: 450px;
+	width: 600px;
 }
 
 #_title_ps_country_id {
-	width: 450px;
-}
-
-#_title_fu_country_id {
-	width: 450px;
+	width: 600px;
 }
 
 #_title_fc_country_id {
-  width: 450px;
+  width: 600px;
+}
+
+#_title_fc_country_id #widget__name_id {
+  width: 30em !important;
+}
+
+#_title_fu_country_id {
+	width: 600px;
+}
+
+#_title_fu_country_id #widget__name_id {
+  width: 30em !important;
 }

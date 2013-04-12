@@ -22,12 +22,12 @@ import rs.id.webzine.web.WebController;
 @Controller
 public class CountryController extends WebController {
 
-  @Autowired
-  CountryService countryService;
-
-  // TODO pagination, size, type, max of input fields
+  // TODO pagination
 
   public static final String PATH = "admin/system/country";
+
+  @Autowired
+  CountryService countryService;
 
   @RequestMapping(produces = "text/html")
   public String list(@RequestParam(value = "page", required = false) Integer page,
