@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.system.User;
 
 @Configurable
 public class Service {
@@ -55,7 +55,7 @@ public class Service {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String userName = authentication.getName();
     if (userName != null) {
-      user = User.findForUserName(userName);
+      // user = User.findForUserName(userName);
     }
 
     return user;

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.ArticleComment;
 import rs.id.webzine.domain.ArticleCommentStatus;
-import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/article_comment")
@@ -124,7 +124,7 @@ public class ArticleCommentController extends WebController {
     addDateTimeFormatPatterns(uiModel);
     uiModel.addAttribute("articleCommentStatusList", ArticleCommentStatus.findAll());
     uiModel.addAttribute("articleList", Article.findAll());
-    uiModel.addAttribute("userList", User.findAll());
+    // uiModel.addAttribute("userList", User.findAll());
   }
 
   @RequestMapping(value = "/publish", method = RequestMethod.PUT, produces = "text/html")

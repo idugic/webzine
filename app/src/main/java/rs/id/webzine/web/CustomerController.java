@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import rs.id.webzine.domain.Address;
 import rs.id.webzine.domain.Customer;
+import rs.id.webzine.domain.system.Address;
 import rs.id.webzine.web.backing.CustomerBacking;
 
 @RequestMapping("admin/customer")
@@ -46,7 +46,7 @@ public class CustomerController extends WebController {
       // address
       Address address = new Address();
       PropertyUtils.copyProperties(address, customerBacking);
-      address.persist();
+      // address.persist();
 
       // persist
       Customer customer = new Customer();
@@ -104,7 +104,7 @@ public class CustomerController extends WebController {
       } else {
         Address address = new Address();
         PropertyUtils.copyProperties(address, customerBacking);
-        address.persist();
+        // address.persist();
 
         customer.setAddressId(address);
       }

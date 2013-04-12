@@ -16,7 +16,7 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.Task;
 import rs.id.webzine.domain.TaskAttachment;
-import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.system.User;
 
 @RequestMapping("/taskattachments")
 @Controller
@@ -126,7 +126,7 @@ public class TaskAttachmentController {
 		uiModel.addAttribute("taskAttachment", taskAttachment);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("tasks", Task.findAll());
-		uiModel.addAttribute("users", User.findAll());
+		// uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

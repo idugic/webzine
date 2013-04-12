@@ -29,14 +29,15 @@ import rs.id.webzine.domain.TaskAttachment;
 import rs.id.webzine.domain.TaskComment;
 import rs.id.webzine.domain.TaskPriority;
 import rs.id.webzine.domain.TaskStatus;
-import rs.id.webzine.domain.User;
 import rs.id.webzine.domain.UserArticle;
 import rs.id.webzine.domain.UserArticleStatus;
 import rs.id.webzine.domain.system.Country;
 import rs.id.webzine.domain.system.Role;
+import rs.id.webzine.domain.system.User;
 import rs.id.webzine.domain.system.UserStatus;
 import rs.id.webzine.service.system.CountryService;
 import rs.id.webzine.service.system.RoleService;
+import rs.id.webzine.service.system.UserService;
 import rs.id.webzine.service.system.UserStatusService;
 import rs.id.webzine.web.backing.UserBacking;
 
@@ -56,6 +57,9 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   @Autowired
   UserStatusService userStatusService;
+
+  @Autowired
+  UserService userService;
 
   // role
   public Converter<Role, String> getRoleToStringConverter() {
@@ -119,7 +123,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, User> getIdToUserConverter() {
     return new org.springframework.core.convert.converter.Converter<java.lang.Integer, User>() {
       public User convert(java.lang.Integer id) {
-        return User.find(id);
+        return userService.find(id);
       }
     };
   }
@@ -145,11 +149,11 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
       public rs.id.webzine.web.backing.UserBacking convert(java.lang.Integer id) {
         try {
           UserBacking userBacking = new UserBacking();
-          User user = User.find(id);
+          User user = userService.find(id);
           PropertyUtils.copyProperties(userBacking, user);
           userBacking.setBackingId(user.getId());
-          if (user.getAddressId() != null) {
-            PropertyUtils.copyProperties(userBacking, user.getAddressId());
+          if (user.getAddress() != null) {
+            PropertyUtils.copyProperties(userBacking, user.getAddress());
           }
           return userBacking;
         } catch (Exception e) {
@@ -753,6 +757,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getUserToStringConverter());
     registry.addConverter(getIdToUserConverter());
     registry.addConverter(getStringToUserConverter());
+
     registry.addConverter(getUserBackingToStringConverter());
     registry.addConverter(getIdToUserBackingConverter());
     registry.addConverter(getStringToUserBackingConverter());

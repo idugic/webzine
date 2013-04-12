@@ -30,7 +30,7 @@ import rs.id.webzine.domain.Content;
 import rs.id.webzine.domain.ContentType;
 import rs.id.webzine.domain.Customer;
 import rs.id.webzine.domain.ManagedContent;
-import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/ad")
@@ -88,7 +88,7 @@ public class AdController extends WebController {
     uiModel.addAttribute("adArticleList", AdArticle.findForAd(ad.getId()));
     uiModel.addAttribute("managedContent", ad.getManagedContentId());
     uiModel.addAttribute("adContentList", Content.findForManagedContent(ad.getManagedContentId().getId()));
-    uiModel.addAttribute("userList", User.findAll());
+    // uiModel.addAttribute("userList", User.findAll());
     uiModel.addAttribute("itemId", id);
     return "admin/ad/show";
   }

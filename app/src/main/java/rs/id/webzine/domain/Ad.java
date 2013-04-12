@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import rs.id.webzine.domain.system.User;
+
 @Entity
 @Table(schema = "ADMIN", name = "AD")
 @Configurable

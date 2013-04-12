@@ -16,7 +16,7 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 import rs.id.webzine.domain.Task;
 import rs.id.webzine.domain.TaskComment;
-import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.system.User;
 
 @RequestMapping("/taskcomments")
 @Controller
@@ -124,7 +124,7 @@ public class TaskCommentController {
 		uiModel.addAttribute("taskComment", taskComment);
 		addDateTimeFormatPatterns(uiModel);
 		uiModel.addAttribute("tasks", Task.findAll());
-		uiModel.addAttribute("users", User.findAll());
+		// uiModel.addAttribute("users", User.findAll());
 	}
 
 	String encodeUrlPathSegment(String pathSegment,

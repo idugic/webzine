@@ -31,7 +31,7 @@ import rs.id.webzine.domain.TaskAttachment;
 import rs.id.webzine.domain.TaskComment;
 import rs.id.webzine.domain.TaskPriority;
 import rs.id.webzine.domain.TaskStatus;
-import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.Service;
 
 @RequestMapping("admin/task")
@@ -145,7 +145,7 @@ public class TaskController extends WebController {
     uiModel.addAttribute("parentTask", Task.findAvailableAsParent(task.getId()));
     uiModel.addAttribute("taskStatus", TaskStatus.findAll());
     uiModel.addAttribute("taskPriority", TaskPriority.findAll());
-    uiModel.addAttribute("user", User.findAll());
+    // uiModel.addAttribute("user", User.findAll());
     uiModel.addAttribute("taskCommentList", TaskComment.findForTask(task.getId()));
     uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(task.getId()));
   }

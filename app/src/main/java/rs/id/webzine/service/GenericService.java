@@ -10,7 +10,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
+
+import rs.id.webzine.domain.system.User;
 
 @Configurable
 public class GenericService<E> {
@@ -75,6 +79,26 @@ public class GenericService<E> {
         .setFirstResult(firstResult).setMaxResults(maxResults);
     list = query.getResultList();
     return list;
+  }
+
+  public User currentUser() {
+    User user = null;
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String userName = authentication.getName();
+
+    if (userName != null) {
+      TypedQuery<User> query = entityManager().createQuery("SELECT o FROM User o WHERE userName = :userName",
+          User.class);
+      query.setParameter("userName", userName);
+
+      List<User> userList = query.getResultList();
+      if (!userList.isEmpty()) {
+        user = userList.get(0);
+      }
+    }
+
+    return user;
   }
 
 }

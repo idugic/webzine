@@ -34,7 +34,7 @@ import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.Content;
 import rs.id.webzine.domain.ContentType;
 import rs.id.webzine.domain.ManagedContent;
-import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/article")
@@ -119,7 +119,7 @@ public class ArticleController extends WebController {
     uiModel.addAttribute("articleCommentList", ArticleComment.findForArticle(article.getId()));
     uiModel.addAttribute("managedContent", article.getManagedContentId());
     uiModel.addAttribute("articleContentList", Content.findForManagedContent(article.getManagedContentId().getId()));
-    uiModel.addAttribute("userList", User.findAll());
+    // uiModel.addAttribute("userList", User.findAll());
     uiModel.addAttribute("itemId", id);
     return "admin/article/show";
   }

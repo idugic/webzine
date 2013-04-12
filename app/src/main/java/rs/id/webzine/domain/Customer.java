@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
+import rs.id.webzine.domain.system.Address;
+
 @Entity
 @Table(schema = "ADMIN", name = "CUSTOMER")
 @Configurable

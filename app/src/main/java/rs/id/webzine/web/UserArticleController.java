@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-import rs.id.webzine.domain.User;
 import rs.id.webzine.domain.UserArticle;
 import rs.id.webzine.domain.UserArticleStatus;
+import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.Service;
 
 @RequestMapping("/admin/user_article")
@@ -86,7 +86,7 @@ public class UserArticleController extends WebController {
     userArticle.setMediaUrl(mediaUrl);
     uiModel.addAttribute("userArticle", userArticle);
     uiModel.addAttribute("userArticleStatusList", UserArticleStatus.findAll());
-    uiModel.addAttribute("userList", User.findAll());
+    // uiModel.addAttribute("userList", User.findAll());
     uiModel.addAttribute("itemId", id);
     return "admin/user_article/show";
   }

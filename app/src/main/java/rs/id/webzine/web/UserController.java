@@ -14,9 +14,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,9 +29,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-import rs.id.webzine.domain.Address;
-import rs.id.webzine.domain.User;
+import rs.id.webzine.domain.system.Address;
+import rs.id.webzine.domain.system.User;
+import rs.id.webzine.service.system.AddressService;
 import rs.id.webzine.service.system.RoleService;
+import rs.id.webzine.service.system.UserService;
 import rs.id.webzine.service.system.UserStatusService;
 import rs.id.webzine.web.backing.UserBacking;
 
@@ -49,32 +49,15 @@ public class UserController extends WebController {
   @Autowired
   UserStatusService userStatusService;
 
-  // TODO model attribute user(s) -> userList (also for other entities)
+  @Autowired
+  UserService userService;
 
-  class UserCreateValidator implements Validator {
-    @Override
-    public boolean supports(Class<?> clazz) {
-      return true;
-    }
-
-    @Override
-    public void validate(Object target, Errors errors) {
-      UserBacking form = (UserBacking) target;
-      User user = User.findForUserName(form.getUserName());
-      if (user != null) {
-        errors.rejectValue("userName", "validation.user.userName.duplicate");
-      }
-    }
-  }
+  @Autowired
+  AddressService addressService;
 
   @InitBinder
   protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
     binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-  }
-
-  void addDateTimeFormatPatterns(Model uiModel) {
-    uiModel.addAttribute("user_birthdate_date_format",
-        DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
   }
 
   @RequestMapping(params = "form", produces = "text/html")
@@ -112,7 +95,7 @@ public class UserController extends WebController {
       // address
       Address address = new Address();
       PropertyUtils.copyProperties(address, userBacking);
-      address.persist();
+      addressService.persist(address);
 
       // persist
       User user = new User();
@@ -121,8 +104,8 @@ public class UserController extends WebController {
       // TODO hash password
 
       user.setImageContentType(image.getContentType());
-      user.setAddressId(address);
-      user.persist();
+      user.setAddress(address);
+      userService.persist(user);
 
       uiModel.asMap().clear();
       return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
@@ -137,12 +120,12 @@ public class UserController extends WebController {
   public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
     try {
       UserBacking userBacking = new UserBacking();
-      User user = User.find(id);
+      User user = userService.find(id);
       PropertyUtils.copyProperties(userBacking, user);
       userBacking.setBackingId(user.getId());
 
-      if (user.getAddressId() != null) {
-        PropertyUtils.copyProperties(userBacking, user.getAddressId());
+      if (user.getAddress() != null) {
+        PropertyUtils.copyProperties(userBacking, user.getAddress());
       }
 
       populateEditForm(uiModel, userBacking);
@@ -162,7 +145,7 @@ public class UserController extends WebController {
         return "admin/user/update";
       }
 
-      User user = User.find(userBacking.getBackingId());
+      User user = userService.find(userBacking.getBackingId());
 
       // collect OLD values
       String oldPassword = user.getPassword();
@@ -193,18 +176,18 @@ public class UserController extends WebController {
       }
 
       // address
-      if (user.getAddressId() != null) {
-        PropertyUtils.copyProperties(user.getAddressId(), userBacking);
+      if (user.getAddress() != null) {
+        PropertyUtils.copyProperties(user.getAddress(), userBacking);
       } else {
         Address address = new Address();
         PropertyUtils.copyProperties(address, userBacking);
-        address.persist();
+        addressService.persist(address);
 
-        user.setAddressId(address);
+        user.setAddress(address);
       }
 
       uiModel.asMap().clear();
-      user.merge();
+      userService.merge(user);
       return "redirect:/admin/user/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
     } catch (Exception e) {
       log.error(e);
@@ -217,10 +200,10 @@ public class UserController extends WebController {
     try {
       UserBacking userBacking = new UserBacking();
 
-      User user = User.find(id);
+      User user = userService.find(id);
 
-      if (user.getAddressId() != null) {
-        PropertyUtils.copyProperties(userBacking, user.getAddressId());
+      if (user.getAddress() != null) {
+        PropertyUtils.copyProperties(userBacking, user.getAddress());
         userBacking.setBackingId(id);
       }
       PropertyUtils.copyProperties(userBacking, user);
@@ -231,7 +214,7 @@ public class UserController extends WebController {
 
       uiModel.addAttribute("userBacking", userBacking);
       uiModel.addAttribute("itemId", id);
-      addDateTimeFormatPatterns(uiModel);
+      addDateFormatPattern(uiModel);
       return "admin/user/show";
     } catch (Exception e) {
       log.error(e);
@@ -243,7 +226,7 @@ public class UserController extends WebController {
   @RequestMapping(value = "/showimage/{id}", method = RequestMethod.GET)
   public String showImage(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
     try {
-      User user = User.find(id);
+      User user = userService.find(id);
       if (user.getImage() != null && user.getImage().length > 0) {
         response.setHeader("Content-Disposition", "inline;");
         response.setContentType(user.getImageContentType());
@@ -269,14 +252,14 @@ public class UserController extends WebController {
         int sizeNo = size == null ? 10 : size.intValue();
         final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
 
-        userList = User.findEntries(firstResult, sizeNo);
-        float nrOfPages = (float) User.count() / sizeNo;
+        userList = userService.findForList(firstResult, sizeNo);
+        float nrOfPages = (float) userService.count() / sizeNo;
         uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
             : nrOfPages));
       } else {
-        userList = User.findAll();
+        userList = userService.findAll();
       }
-      addDateTimeFormatPatterns(uiModel);
+      addDateFormatPattern(uiModel);
 
       List<UserBacking> userBackingList = new ArrayList<UserBacking>();
       for (User user : userList) {
@@ -284,7 +267,7 @@ public class UserController extends WebController {
         PropertyUtils.copyProperties(userBacking, user);
         userBacking.setBackingId(user.getId());
 
-        Address address = user.getAddressId();
+        Address address = user.getAddress();
         if (address != null) {
           PropertyUtils.copyProperties(userBacking, address);
         }
@@ -304,8 +287,7 @@ public class UserController extends WebController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    User user = User.find(id);
-    user.remove();
+    userService.remove(id);
     uiModel.asMap().clear();
     uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
     uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
@@ -316,7 +298,22 @@ public class UserController extends WebController {
     uiModel.addAttribute("userBacking", userBacking);
     uiModel.addAttribute("role", roleService.findAll());
     uiModel.addAttribute("userStatus", userStatusService.findAll());
-    addDateTimeFormatPatterns(uiModel);
+    addDateFormatPattern(uiModel);
   }
 
+  private class UserCreateValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> clazz) {
+      return true;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+      UserBacking form = (UserBacking) target;
+      User user = userService.findForUserName(form.getUserName());
+      if (user != null) {
+        errors.rejectValue("userName", "validation.user.userName.duplicate");
+      }
+    }
+  }
 }

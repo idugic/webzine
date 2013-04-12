@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 
+import rs.id.webzine.domain.system.User;
+
 @Entity
 @Table(schema = "ADMIN", name = "ARTICLE_RATE")
 @Configurable
