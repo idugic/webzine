@@ -136,7 +136,7 @@ public class UserController extends WebController {
       user.setImage(image.getBytes());
       user.setImageContentType(image.getContentType());
 
-      userService.persist(user, address);
+      userService.create(user, address);
 
       uiModel.asMap().clear();
       return REDIRECT + PATH + "/" + encodeUrlPathSegment(user.getId().toString(), httpServletRequest);
@@ -160,7 +160,7 @@ public class UserController extends WebController {
         PropertyUtils.copyProperties(userForm, user.getAddress());
       }
 
-      String imageUrl = httpServletRequest.getContextPath() + PATH + "/" + IMAGE + "/"
+      String imageUrl = httpServletRequest.getContextPath() + "/" + PATH + "/" + IMAGE + "/"
           + encodeUrlPathSegment(id.toString(), httpServletRequest);
       userForm.setImageUrl(imageUrl);
 
@@ -208,11 +208,13 @@ public class UserController extends WebController {
 
       User user = new User();
       PropertyUtils.copyProperties(user, userForm);
+      user.setImage(image.getBytes());
+      user.setImageContentType(image.getContentType());
 
       Address address = new Address();
       PropertyUtils.copyProperties(address, userForm);
 
-      userService.merge(userForm.getUserId(), user, address);
+      userService.update(userForm.getUserId(), user, address);
 
       uiModel.asMap().clear();
       return REDIRECT + PATH + "/" + encodeUrlPathSegment(userForm.getUserId().toString(), httpServletRequest);
@@ -246,7 +248,7 @@ public class UserController extends WebController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    userService.remove(id);
+    userService.delete(id);
 
     uiModel.asMap().clear();
     return REDIRECT + PATH;

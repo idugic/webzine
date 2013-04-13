@@ -5,10 +5,12 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import rs.id.webzine.domain.system.Address;
+import rs.id.webzine.domain.system.Role;
 import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.GenericService;
 
@@ -23,23 +25,24 @@ public class UserService extends GenericService<User> {
   AddressService addressService;
 
   @Transactional
-  public void persist(User user, Address address) {
-    addressService.persist(address);
+  public void create(User user, Address address) {
+    addressService.create(address);
     user.setAddress(address);
-    persist(user);
+    create(user);
   }
 
   @Transactional
-  public void merge(Integer userId, User user, Address address) {
+  public void update(Integer userId, User user, Address address) {
 
     User targetUser = find(userId);
 
     targetUser.setStatus(user.getStatus());
-    targetUser.setRole(user.getRole());
+
+    // role can't be changed (administrator only)
 
     // userName can't be changed
 
-    // password can't be changed
+    // password can't be changed (administrator only)
 
     targetUser.setFirstName(user.getFirstName());
     targetUser.setLastName(user.getLastName());
@@ -62,11 +65,29 @@ public class UserService extends GenericService<User> {
       targetAddress.setCountryCode(address.getCountryCode());
       targetAddress.setWww(address.getWww());
     } else {
-      addressService.persist(address);
+      addressService.create(address);
       targetUser.setAddress(address);
     }
 
-    merge(targetUser);
+    update(targetUser);
+  }
+
+  @Transactional
+  @PreAuthorize("hasRole('administrator')")
+  public void updateRole(Integer userId, Role role) {
+    User targetUser = find(userId);
+    targetUser.setRole(role);
+
+    update(targetUser);
+  }
+
+  @Transactional
+  @PreAuthorize("hasRole('administrator')")
+  public void updatePassword(Integer userId, String password) {
+    User targetUser = find(userId);
+    targetUser.setPassword(password);
+
+    update(targetUser);
   }
 
   public User findForUserName(String userName) {

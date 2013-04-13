@@ -6,8 +6,10 @@
     <tr>
       <td id="headerTitle">
         <spring:url value="/" var="home" />
+
+        <spring:message code="application_name" var="app_name" htmlEscape="false" />
         <a href="${home}">
-          <spring:message code="header_title" />
+          <spring:message arguments="${app_name}" code="header_title" />
         </a>
       </td>
       <td id="headerButtons">

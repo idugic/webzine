@@ -1,1 +1,1 @@
-insert into country (cd, name) values ('ok', 'ok');
+select * from users;

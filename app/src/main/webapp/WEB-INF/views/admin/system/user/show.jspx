@@ -11,7 +11,7 @@
     <field:display field="lastName" id="s_user_lastName" object="${userForm}" />
     <field:display field="birthdate" id="s_user_birthdate" object="${userForm}" date="true" dateTimePattern="${date_format}" />
 
-    <field:media field="imageUrl" id="s_user_image" object="${userForm}" />
+    <field:media field="imageUrl" contentType="imageContentType" id="s_user_image" object="${userForm}" />
 
     <field:display field="email" id="s_address_email" object="${userForm}" />
     <field:display field="phone" id="s_address_phone" object="${userForm}" />

@@ -36,28 +36,28 @@ public class GenericService<E> {
   }
 
   @Transactional
-  public void persist(E entity) {
+  public void create(E entity) {
     entityManager().persist(entity);
   }
 
   @Transactional
-  public void merge(E entity) {
+  public void update(E entity) {
     entityManager().merge(entity);
     entityManager().flush();
   }
 
   @Transactional
-  public void remove(Integer id) {
+  public void delete(Integer id) {
     entityManager().remove(find(id));
   }
 
   @Transactional
-  public void flush() {
+  protected void flushEntityManager() {
     entityManager().flush();
   }
 
   @Transactional
-  public void clear() {
+  protected void clearEntityManager() {
     entityManager().clear();
   }
 

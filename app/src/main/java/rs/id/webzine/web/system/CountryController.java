@@ -54,7 +54,7 @@ public class CountryController extends WebController {
       return PATH + "/" + CREATE;
     }
 
-    countryService.persist(country);
+    countryService.create(country);
 
     uiModel.asMap().clear();
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(country.getId().toString(), httpServletRequest);
@@ -81,7 +81,7 @@ public class CountryController extends WebController {
       return PATH + "/" + UPDATE;
     }
 
-    countryService.merge(country);
+    countryService.update(country);
 
     uiModel.asMap().clear();
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(country.getId().toString(), httpServletRequest);
@@ -90,7 +90,7 @@ public class CountryController extends WebController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    countryService.remove(id);
+    countryService.delete(id);
 
     uiModel.asMap().clear();
     return REDIRECT + PATH;
