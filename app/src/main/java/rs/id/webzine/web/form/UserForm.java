@@ -21,8 +21,6 @@ public class UserForm {
 
   private String password;
 
-  private String newPassword;
-
   private String firstName;
 
   private String lastName;
@@ -52,6 +50,12 @@ public class UserForm {
   private String countryCode;
 
   private String www;
+
+  // change role
+  private Role newRole;
+
+  // change password
+  private String newPassword;
 
   public Integer getUserId() {
     return userId;
@@ -91,14 +95,6 @@ public class UserForm {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public String getNewPassword() {
-    return newPassword;
-  }
-
-  public void setNewPassword(String newPassword) {
-    this.newPassword = newPassword;
   }
 
   public String getFirstName() {
@@ -211,6 +207,22 @@ public class UserForm {
 
   public void setWww(String www) {
     this.www = www;
+  }
+
+  public Role getNewRole() {
+    return newRole;
+  }
+
+  public void setNewRole(Role newRole) {
+    this.newRole = newRole;
+  }
+
+  public String getNewPassword() {
+    return newPassword;
+  }
+
+  public void setNewPassword(String newPassword) {
+    this.newPassword = newPassword;
   }
 
 }

@@ -1,9 +1,9 @@
 -- SYSTEM
 -- ROLES
-INSERT INTO ROLES (CD, NAME) VALUES ('0', 'Administrator');
-INSERT INTO ROLES (CD, NAME) VALUES ('1', 'Editor in Chief');
-INSERT INTO ROLES (CD, NAME) VALUES ('2', 'Associate Editor');
-INSERT INTO ROLES (CD, NAME) VALUES ('100', 'Visitor');
+INSERT INTO ROLES (CD, NAME) VALUES ('administrator', 'Administrator');
+INSERT INTO ROLES (CD, NAME) VALUES ('editor-00', 'Editor in Chief');
+INSERT INTO ROLES (CD, NAME) VALUES ('editor-01', 'Associate Editor');
+INSERT INTO ROLES (CD, NAME) VALUES ('visitor', 'Visitor');
 
 -- USER_STATUS
 INSERT INTO USER_STATUS (CD, NAME) VALUES ('inactive', 'Inactive');
@@ -20,9 +20,48 @@ INSERT INTO USERS (
   ROLE_ID
 ) VALUES (
   'admin',
-  '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
-  (SELECT ID FROM USER_STATUS WHERE CD = '1'),
+  'admin',
+  (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
   (SELECT ID FROM ROLES WHERE CD = 'administrator')
+);
+
+-- USERS
+INSERT INTO USERS (
+  USER_NAME,
+  PASSWORD,
+  STATUS_ID,
+  ROLE_ID
+) VALUES (
+  'editor',
+  'editor',
+  (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
+  (SELECT ID FROM ROLES WHERE CD = 'editor-00')
+);
+
+-- USERS
+INSERT INTO USERS (
+  USER_NAME,
+  PASSWORD,
+  STATUS_ID,
+  ROLE_ID
+) VALUES (
+  'user',
+  'user',
+  (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
+  (SELECT ID FROM ROLES WHERE CD = 'editor-01')
+);
+
+-- USERS
+INSERT INTO USERS (
+  USER_NAME,
+  PASSWORD,
+  STATUS_ID,
+  ROLE_ID
+) VALUES (
+  'visitor',
+  'visitor',
+  (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
+  (SELECT ID FROM ROLES WHERE CD = 'visitor')
 );
 
 -- PROJECT MANAGEMENT

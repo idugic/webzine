@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +15,10 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class UserService extends GenericService<User> {
 
-  // TODO DB based authentication, authorization
+  // TODO DB based authentication, authorization, hash passwords, security is not working, update screen, css file button and update screen, re-install DB
 
-  // TODO hash password
+  @Autowired
+  RoleService roleService;
 
   @Autowired
   AddressService addressService;
@@ -31,51 +31,61 @@ public class UserService extends GenericService<User> {
   }
 
   @Transactional
-  public void update(Integer userId, User user, Address address) {
+  public void update(Integer userId, User userValues, Address addressValues) {
 
     User targetUser = find(userId);
 
-    targetUser.setStatus(user.getStatus());
+    targetUser.setStatus(userValues.getStatus());
 
-    // role can't be changed
+    // role can't be changed (administrator only)
 
-    // userName can't be changed
+    // userName can't be changed (unique key)
 
-    // password can't be changed
+    // password can't be changed (administrator only)
 
-    targetUser.setFirstName(user.getFirstName());
-    targetUser.setLastName(user.getLastName());
-    targetUser.setBirthdate(user.getBirthdate());
+    targetUser.setFirstName(userValues.getFirstName());
+    targetUser.setLastName(userValues.getLastName());
+    targetUser.setBirthdate(userValues.getBirthdate());
 
     // change image only if provided
-    if (user.getImage() != null && user.getImage() != null && user.getImage().length != 0) {
-      targetUser.setImage(user.getImage());
-      targetUser.setImageContentType(user.getImageContentType());
+    if (userValues.getImage() != null && userValues.getImage() != null && userValues.getImage().length != 0) {
+      targetUser.setImage(userValues.getImage());
+      targetUser.setImageContentType(userValues.getImageContentType());
     }
 
-    if (targetUser.getAddress() != null) {
-      Address targetAddress = targetUser.getAddress();
-      targetAddress.setEmail(address.getEmail());
-      targetAddress.setPhone(address.getPhone());
-      targetAddress.setStreetLine(address.getStreetLine());
-      targetAddress.setCity(address.getCity());
-      targetAddress.setPostalCode(address.getPostalCode());
-      targetAddress.setCountry(address.getCountry());
-      targetAddress.setCountryCode(address.getCountryCode());
-      targetAddress.setWww(address.getWww());
-    } else {
-      addressService.create(address);
-      targetUser.setAddress(address);
+    // change address only if provided
+    if (addressValues != null) {
+      if (targetUser.getAddress() != null) {
+        Address targetAddress = targetUser.getAddress();
+        targetAddress.setEmail(addressValues.getEmail());
+        targetAddress.setPhone(addressValues.getPhone());
+        targetAddress.setStreetLine(addressValues.getStreetLine());
+        targetAddress.setCity(addressValues.getCity());
+        targetAddress.setPostalCode(addressValues.getPostalCode());
+        targetAddress.setCountry(addressValues.getCountry());
+        targetAddress.setCountryCode(addressValues.getCountryCode());
+        targetAddress.setWww(addressValues.getWww());
+      } else {
+        addressService.create(addressValues);
+        targetUser.setAddress(addressValues);
+      }
     }
 
     update(targetUser);
   }
 
   @Transactional
-  @PreAuthorize("hasRole('administrator')")
   public void updatePassword(Integer userId, String password) {
     User targetUser = find(userId);
     targetUser.setPassword(password);
+
+    update(targetUser);
+  }
+
+  @Transactional
+  public void updateRole(Integer userId, String roleCd) {
+    User targetUser = find(userId);
+    targetUser.setRole(roleService.findForCd(roleCd));
 
     update(targetUser);
   }
@@ -84,7 +94,7 @@ public class UserService extends GenericService<User> {
     User user = null;
 
     if (userName != null) {
-      TypedQuery<User> query = entityManager().createQuery("SELECT o FROM User o WHERE userName = :userName",
+      TypedQuery<User> query = entityManager().createQuery("SELECT o FROM User o WHERE o.userName = :userName",
           User.class);
       query.setParameter("userName", userName);
       List<User> userList = query.getResultList();

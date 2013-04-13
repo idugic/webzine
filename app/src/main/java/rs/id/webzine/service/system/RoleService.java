@@ -13,18 +13,43 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class RoleService extends GenericService<Role> {
 
-  public static String ADMINISTRATOR = "0";
+  public static String CD_ADMINISTRATOR = "administrator";
 
-  public static String EDITOR_IN_CHIEF = "1";
+  public static String CD_EDITOR_IN_CHIEF = "editor-00";
 
-  public static String ASSOCIATE_EDITOR = "2";
+  public static String CD_ASSOCIATE_EDITOR = "editor-01";
 
-  public static String VISITOR = "100";
+  public static String CD_VISITOR = "visitor";
 
-  public List<Role> findAllAvailableForUser() {
+  public Role findForCd(String cd) {
+    Role role = null;
+
+    if (cd != null) {
+      TypedQuery<Role> query = entityManager().createQuery("SELECT o FROM Role o WHERE o.cd = :cd", Role.class);
+      query.setParameter("cd", cd);
+      List<Role> roleList = query.getResultList();
+      if (!roleList.isEmpty()) {
+        role = roleList.get(0);
+      }
+    }
+
+    return role;
+  }
+
+  public List<Role> findListForUserCreate() {
     List<Role> roleList = null;
 
-    List<String> cdList = getAvailableRoleCdList();
+    // available roles based on user role
+    List<String> cdList = new ArrayList<String>();
+    if (currentUser().getRole().getCd().equals(CD_ADMINISTRATOR)) {
+      cdList.add(CD_ADMINISTRATOR);
+      cdList.add(CD_EDITOR_IN_CHIEF);
+      cdList.add(CD_ASSOCIATE_EDITOR);
+      cdList.add(CD_VISITOR);
+    }
+    if (currentUser().getRole().getCd().equals(CD_EDITOR_IN_CHIEF)) {
+      cdList.add(CD_ASSOCIATE_EDITOR);
+    }
 
     TypedQuery<Role> query = entityManager().createQuery("SELECT o FROM Role o WHERE o.cd IN :cdList", Role.class);
     query.setParameter("cdList", cdList);
@@ -34,17 +59,4 @@ public class RoleService extends GenericService<Role> {
     return roleList;
   }
 
-  public List<String> getAvailableRoleCdList() {
-    List<String> cdList = new ArrayList<String>();
-
-    if (currentUser().getRole().getCd().equals(ADMINISTRATOR)) {
-      cdList.add(ADMINISTRATOR);
-      cdList.add(EDITOR_IN_CHIEF);
-    }
-
-    cdList.add(ASSOCIATE_EDITOR);
-    cdList.add(VISITOR);
-
-    return cdList;
-  }
 }

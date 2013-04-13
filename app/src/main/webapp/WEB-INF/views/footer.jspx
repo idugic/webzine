@@ -4,15 +4,32 @@
   <jsp:output omit-xml-declaration="yes" />
 
   <spring:url value="/" var="home" />
-  <span> <a href="${home}"> <spring:message code="button_home" />
-  </a>
-  </span>
-  <c:if test="${pageContext['request'].userPrincipal != null}">
-    <c:out value=" | " />
-    <span> <spring:url value="/resources/j_spring_security_logout" var="logout" /> <a href="${logout}"> <spring:message code="security_logout" />
+  <span>
+    <a href="${home}">
+      <spring:message code="button_home" />
     </a>
-    </span>
-  </c:if>
+  </span>
+  <c:choose>
+    <c:when test="${pageContext['request'].userPrincipal != null}">
+      <span>
+        <c:out value=" | " />
+        <spring:url value="/resources/j_spring_security_logout" var="logout" />
+        <a href="${logout}">
+          <spring:message code="security_logout" />
+        </a>
+      </span>
+    </c:when>
+    <c:otherwise>
+      <span>
+        <c:out value=" | " />
+        <spring:url value="/login" var="login" />
+        <a href="${login}">
+          <spring:message code="security_login" />
+        </a>
+      </span>
+    </c:otherwise>
+  </c:choose>
+
 
   <!-- 
   <span id="language">

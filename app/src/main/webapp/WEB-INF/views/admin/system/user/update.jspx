@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:sec="http://www.springframework.org/security/tags" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <form:update id="fu_user" modelAttribute="userForm" idField="userId" path="/admin/system/user" multipart="true" versionField="none">
-    <field:select field="role" id="c_user_role" itemValue="id" items="${roleList}" path="/admin/system/role" disabled="true"/>
-    <field:select field="status" id="c_user_status" itemValue="id" items="${userStatusList}" path="/admin/system/user_status" />
-    <field:input field="userName" id="c_user_userName" required="true" max="50" readonly="true" />
-    <field:input field="password" id="c_user_password" render="false" />
-    <field:input field="firstName" id="c_user_firstName" max="50" />
-    <field:input field="lastName" id="c_user_lastName" max="50" />
-    <field:datetime field="birthdate" id="c_user_birthdate" dateTimePattern="${date_format}" />
 
-    <field:file field="image" id="c_user_image" />
+  <table class="inputGridTable">
+    <tr>
+      <td>
+        <!-- Update user -->
+        <form:update id="fu_user" modelAttribute="userForm" idField="userId" path="/admin/system/user" multipart="true" versionField="none">
+          <field:select field="role" id="c_user_role" itemValue="id" items="${roleList}" path="/admin/system/role" disabled="true" />
+          <field:select field="status" id="c_user_status" itemValue="id" items="${userStatusList}" path="/admin/system/user_status" />
+          <field:input field="userName" id="c_user_userName" required="true" max="50" readonly="true" />
+          <field:input field="password" id="c_user_password" render="false" />
+          <field:input field="firstName" id="c_user_firstName" max="50" />
+          <field:input field="lastName" id="c_user_lastName" max="50" />
+          <field:datetime field="birthdate" id="c_user_birthdate" dateTimePattern="${date_format}" />
 
-    <field:input field="email" id="c_address_email" validationRegex="^.+\@.+\..+$" validationMessageCode="validation.address.email.invalid" max="100" />
-    <field:input field="phone" id="c_address_phone" max="50" />
-    <field:input field="streetLine" id="c_address_streetLine" max="100" />
-    <field:input field="city" id="c_address_city" max="50" />
-    <field:input field="postalCode" id="c_address_postalCode" max="15" />
-    <field:input field="country" id="c_address_country" max="50" />
-    <field:input field="countryCode" id="c_address_countryCode" max="15" />
-    <field:input field="www" id="c_address_www" max="250" />
-  </form:update>
+          <field:file field="image" id="c_user_image" />
+
+          <field:input field="email" id="c_address_email" validationRegex="^.+\@.+\..+$" validationMessageCode="validation.address.email.invalid" max="100" />
+          <field:input field="phone" id="c_address_phone" max="50" />
+          <field:input field="streetLine" id="c_address_streetLine" max="100" />
+          <field:input field="city" id="c_address_city" max="50" />
+          <field:input field="postalCode" id="c_address_postalCode" max="15" />
+          <field:input field="country" id="c_address_country" max="50" />
+          <field:input field="countryCode" id="c_address_countryCode" max="15" />
+          <field:input field="www" id="c_address_www" max="250" />
+        </form:update>
+      </td>
+      <sec:authorize access="hasRole('administrator')">
+        <td>
+          <!-- Update role -->
+          <form:update id="fu-change-role_user" modelAttribute="userForm" idField="userId" path="/admin/system/user/role" versionField="none" label="user_change_role" list="false" openPane="false">
+            <field:select field="newRole" id="c_user_newRole" itemValue="id" items="${roleList}" path="/admin/system/role" />
+          </form:update>
+          <br />
+          <form:update id="fu-change-password_user" modelAttribute="userForm" idField="userId" path="/admin/system/user/role" versionField="none" label="user_change_password" list="false" openPane="false">
+            <field:input field="newPassword" id="c_user_newPassword" />
+          </form:update>
+        </td>
+      </sec:authorize>
+    </tr>
+  </table>
 </div>

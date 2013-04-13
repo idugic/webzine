@@ -444,6 +444,18 @@ fieldset th {
 
 /* panels and elements */
 
+.inputGridTable {
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.inputGridTable td {
+  border: 0px;
+  vertical-align: top;
+  padding: 0px !important;
+}
+
 /* role */
 #_title_pl_role_id {
   width: 535px;

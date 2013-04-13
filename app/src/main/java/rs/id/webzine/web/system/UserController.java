@@ -103,7 +103,7 @@ public class UserController extends WebController {
 
     if (create) {
       // restrict available roles for user
-      uiModel.addAttribute("roleList", roleService.findAllAvailableForUser());
+      uiModel.addAttribute("roleList", roleService.findListForUserCreate());
     } else {
       uiModel.addAttribute("roleList", roleService.findAll());
     }
@@ -190,6 +190,7 @@ public class UserController extends WebController {
       User user = userService.find(id);
       PropertyUtils.copyProperties(userForm, user);
       userForm.setUserId(user.getId());
+      userForm.setNewRole(user.getRole());
 
       if (user.getAddress() != null) {
         PropertyUtils.copyProperties(userForm, user.getAddress());

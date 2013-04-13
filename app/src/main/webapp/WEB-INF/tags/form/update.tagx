@@ -17,9 +17,6 @@
     <c:if test="${empty list}">
       <c:set var="list" value="true" />
     </c:if>
-    <c:if test="${empty label}">
-      <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
-    </c:if>
     <spring:message var="typeNamePlural" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_list" htmlEscape="false" />
 
     <c:if test="${empty idField}">
@@ -32,7 +29,17 @@
     <c:if test="${multipart}">
       <c:set var="enctype" value="multipart/form-data" />
     </c:if>
-    <spring:message arguments="${label}" code="entity_update" var="title_msg" htmlEscape="false" />
+
+    <c:choose>
+      <c:when test="${empty label}">
+        <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
+        <spring:message arguments="${label}" code="entity_update" var="title_msg" htmlEscape="false" />
+      </c:when>
+      <c:otherwise>
+        <spring:message code="${label}" var="title_msg" htmlEscape="false" />
+      </c:otherwise>
+    </c:choose>
+
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <spring:url value="${path}" var="form_url" />
       <form:form action="${form_url}" method="PUT" modelAttribute="${modelAttribute}" enctype="${enctype}">
