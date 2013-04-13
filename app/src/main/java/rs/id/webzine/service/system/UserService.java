@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import rs.id.webzine.domain.system.Address;
-import rs.id.webzine.domain.system.Role;
 import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.GenericService;
 
@@ -38,11 +37,11 @@ public class UserService extends GenericService<User> {
 
     targetUser.setStatus(user.getStatus());
 
-    // role can't be changed (administrator only)
+    // role can't be changed
 
     // userName can't be changed
 
-    // password can't be changed (administrator only)
+    // password can't be changed
 
     targetUser.setFirstName(user.getFirstName());
     targetUser.setLastName(user.getLastName());
@@ -68,15 +67,6 @@ public class UserService extends GenericService<User> {
       addressService.create(address);
       targetUser.setAddress(address);
     }
-
-    update(targetUser);
-  }
-
-  @Transactional
-  @PreAuthorize("hasRole('administrator')")
-  public void updateRole(Integer userId, Role role) {
-    User targetUser = find(userId);
-    targetUser.setRole(role);
 
     update(targetUser);
   }

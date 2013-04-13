@@ -94,13 +94,19 @@ public class UserController extends WebController {
 
   @RequestMapping(params = "form", produces = "text/html")
   public String createForm(Model uiModel) {
-    populateEditForm(uiModel, new UserForm());
+    populateEditForm(uiModel, new UserForm(), true);
     return PATH + "/" + CREATE;
   }
 
-  void populateEditForm(Model uiModel, UserForm userForm) {
+  void populateEditForm(Model uiModel, UserForm userForm, boolean create) {
     uiModel.addAttribute("userForm", userForm);
-    uiModel.addAttribute("roleList", roleService.findAll());
+
+    if (create) {
+      // restrict available roles for user
+      uiModel.addAttribute("roleList", roleService.findAllAvailableForUser());
+    } else {
+      uiModel.addAttribute("roleList", roleService.findAll());
+    }
     uiModel.addAttribute("userStatusList", userStatusService.findAll());
     addDateFormatPattern(uiModel);
   }
@@ -122,7 +128,7 @@ public class UserController extends WebController {
       UserCreateValidator validator = new UserCreateValidator();
       validator.validate(userForm, bindingResult);
       if (bindingResult.hasErrors()) {
-        populateEditForm(uiModel, userForm);
+        populateEditForm(uiModel, userForm, true);
         return PATH + "/" + CREATE;
       }
 
@@ -189,7 +195,7 @@ public class UserController extends WebController {
         PropertyUtils.copyProperties(userForm, user.getAddress());
       }
 
-      populateEditForm(uiModel, userForm);
+      populateEditForm(uiModel, userForm, false);
       return PATH + "/" + UPDATE;
     } catch (Exception e) {
       log.error(e);
@@ -202,7 +208,7 @@ public class UserController extends WebController {
       Model uiModel, HttpServletRequest httpServletRequest) {
     try {
       if (bindingResult.hasErrors()) {
-        populateEditForm(uiModel, userForm);
+        populateEditForm(uiModel, userForm, false);
         return PATH + "/" + UPDATE;
       }
 

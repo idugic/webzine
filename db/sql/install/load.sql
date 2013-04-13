@@ -1,9 +1,9 @@
 -- SYSTEM
 -- ROLES
-INSERT INTO ROLES (CD, NAME) VALUES ('visitor', 'Visitor');
-INSERT INTO ROLES (CD, NAME) VALUES ('contributor', 'Contributor');
-INSERT INTO ROLES (CD, NAME) VALUES ('editor', 'Editor');
-INSERT INTO ROLES (CD, NAME) VALUES ('administrator', 'Administrator');
+INSERT INTO ROLES (CD, NAME) VALUES ('0', 'Administrator');
+INSERT INTO ROLES (CD, NAME) VALUES ('1', 'Editor in Chief');
+INSERT INTO ROLES (CD, NAME) VALUES ('2', 'Associate Editor');
+INSERT INTO ROLES (CD, NAME) VALUES ('100', 'Visitor');
 
 -- USER_STATUS
 INSERT INTO USER_STATUS (CD, NAME) VALUES ('inactive', 'Inactive');

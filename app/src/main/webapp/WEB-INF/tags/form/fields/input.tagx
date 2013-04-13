@@ -57,7 +57,7 @@
     </c:set>
 
     <div id="_${fn:escapeXml(id)}_id">
-      <label id="inputLabel" for="_${sec_field}_id">
+      <label class="labelInput" for="_${sec_field}_id">
         <c:out value="${fn:escapeXml(label)}" />
       </label>
       <c:choose>

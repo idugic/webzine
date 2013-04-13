@@ -2,8 +2,8 @@
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <form:update id="fc_user" modelAttribute="userForm" idField="userId" path="/admin/system/user" multipart="true" versionField="none">
-    <field:select field="role" id="c_user_role" itemValue="id" items="${roleList}" path="/admin/system/role" />
+  <form:update id="fu_user" modelAttribute="userForm" idField="userId" path="/admin/system/user" multipart="true" versionField="none">
+    <field:select field="role" id="c_user_role" itemValue="id" items="${roleList}" path="/admin/system/role" disabled="true"/>
     <field:select field="status" id="c_user_status" itemValue="id" items="${userStatusList}" path="/admin/system/user_status" />
     <field:input field="userName" id="c_user_userName" required="true" max="50" readonly="true" />
     <field:input field="password" id="c_user_password" render="false" />
