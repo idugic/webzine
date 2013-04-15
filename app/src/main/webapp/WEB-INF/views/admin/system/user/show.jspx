@@ -2,24 +2,34 @@
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <page:show id="ps_user" object="${userForm}" path="/admin/system/user">
-    <field:display field="role" id="s_user_role" object="${userForm}" />
-    <field:display field="status" id="s_user_status" object="${userForm}" />
-    <field:display field="userName" id="s_user_userName" object="${userForm}" />
-    <field:display field="password" id="s_user_password" object="${userForm}" render="false" />
-    <field:display field="firstName" id="s_user_firstName" object="${userForm}" />
-    <field:display field="lastName" id="s_user_lastName" object="${userForm}" />
-    <field:display field="birthdate" id="s_user_birthdate" object="${userForm}" date="true" dateTimePattern="${date_format}" />
 
-    <field:media field="imageUrl" contentType="imageContentType" id="s_user_image" object="${userForm}" />
+  <table class="inputGridTable">
+    <tr>
+      <td id="ps_user_column_1">
+        <page:show id="ps_user" object="${userForm}" path="/admin/system/user">
+          <field:display field="role" id="s_user_role" object="${userForm}" />
+          <field:display field="status" id="s_user_status" object="${userForm}" />
+          <field:display field="userName" id="s_user_userName" object="${userForm}" />
+          <field:display field="password" id="s_user_password" object="${userForm}" render="false" />
+          <field:display field="firstName" id="s_user_firstName" object="${userForm}" />
+          <field:display field="lastName" id="s_user_lastName" object="${userForm}" />
+          <field:display field="birthdate" id="s_user_birthdate" object="${userForm}" date="true" dateTimePattern="${date_format}" />
 
-    <field:display field="email" id="s_address_email" object="${userForm}" />
-    <field:display field="phone" id="s_address_phone" object="${userForm}" />
-    <field:display field="streetLine" id="s_address_streetLine" object="${userForm}" />
-    <field:display field="city" id="s_address_city" object="${userForm}" />
-    <field:display field="postalCode" id="s_address_postalCode" object="${userForm}" />
-    <field:display field="country" id="s_address_country" object="${userForm}" />
-    <field:display field="countryCode" id="s_address_countryCode" object="${userForm}" />
-    <field:display field="www" id="s_address_www" object="${userForm}" />
-  </page:show>
+          <field:display field="email" id="s_address_email" object="${userForm}" />
+          <field:display field="phone" id="s_address_phone" object="${userForm}" />
+          <field:display field="streetLine" id="s_address_streetLine" object="${userForm}" />
+          <field:display field="city" id="s_address_city" object="${userForm}" />
+          <field:display field="postalCode" id="s_address_postalCode" object="${userForm}" />
+          <field:display field="country" id="s_address_country" object="${userForm}" />
+          <field:display field="countryCode" id="s_address_countryCode" object="${userForm}" />
+          <field:display field="www" id="s_address_www" object="${userForm}" />
+        </page:show>
+      </td>
+      <td id="ps_user_column_2">
+        <page:show id="ps_userimage" object="${userForm}" path="/admin/system/user" label="user_show_user_image" list="false" create="false" update="false" delete="false" render="${not empty userForm['imageUrl']}">
+          <field:media field="imageUrl" contentType="imageContentType" id="s_user_image" object="${userForm}" />
+        </page:show>
+      </td>
+    </tr>
+  </table>
 </div>

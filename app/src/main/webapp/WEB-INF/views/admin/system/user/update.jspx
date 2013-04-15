@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:sec="http://www.springframework.org/security/tags" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:sec="http://www.springframework.org/security/tags" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form"
+  version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
 
   <table class="inputGridTable">
     <tr>
-      <td>
+      <td id="fu_user_column_1">
         <!-- Update user -->
         <form:update id="fu_user" modelAttribute="userForm" idField="userId" path="/admin/system/user" multipart="true" versionField="none">
           <field:select field="role" id="c_user_role" itemValue="id" items="${roleList}" path="/admin/system/role" disabled="true" />
@@ -28,18 +29,26 @@
           <field:input field="www" id="c_address_www" max="250" />
         </form:update>
       </td>
-      <sec:authorize access="hasRole('administrator')">
-        <td>
+      <td id="fu_user_column_2">
+        <page:show id="pu-image_userimage" object="${userImageForm}" path="/admin/system/user/image" label="user_show_user_image" list="false" create="false" update="false" delete="true" render="${not empty userImageForm['imageUrl']}">
+          <field:media field="imageUrl" contentType="imageContentType" id="s_user_image" object="${userForm}" />
+        </page:show>
+
+        <c:if test="${not empty userImageForm['imageUrl']}">
+          <br />
+        </c:if>
+
+        <sec:authorize access="hasRole('administrator')">
           <!-- Update role -->
-          <form:update id="fu-change-role_user" modelAttribute="userForm" idField="userId" path="/admin/system/user/role" versionField="none" label="user_change_role" list="false" openPane="false">
-            <field:select field="newRole" id="c_user_newRole" itemValue="id" items="${roleList}" path="/admin/system/role" />
+          <form:update id="fu-role_user" modelAttribute="userRoleForm" idField="userId" path="/admin/system/user/role" versionField="none" label="user_change_role" list="false" openPane="false">
+            <field:select field="newRole" id="c_user_newRole" itemValue="id" items="${roleList}" path="/admin/system/role" required="true" />
           </form:update>
           <br />
-          <form:update id="fu-change-password_user" modelAttribute="userForm" idField="userId" path="/admin/system/user/role" versionField="none" label="user_change_password" list="false" openPane="false">
-            <field:input field="newPassword" id="c_user_newPassword" />
+          <form:update id="fu-password_user" modelAttribute="userPasswordForm" idField="userId" path="/admin/system/user/password" versionField="none" label="user_change_password" list="false" openPane="false">
+            <field:input field="newPassword" id="c_user_newPassword" max="15" required="true" />
           </form:update>
-        </td>
-      </sec:authorize>
+        </sec:authorize>
+      </td>
     </tr>
   </table>
 </div>

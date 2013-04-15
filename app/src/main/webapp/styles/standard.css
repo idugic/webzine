@@ -508,6 +508,10 @@ fieldset th {
   width: 535px;
 }
 
+#ps_user_column_2 {
+	 width: 535px;
+}
+
 #_s_user_image_imageUrl_id {
   max-width: 250px;
   margin-left: 50px;
@@ -527,6 +531,10 @@ fieldset th {
 
 #_title_fc_user_id #widget__www_id {
   width: 30em !important;
+}
+
+#fu_user_column_2 {
+	width: 535px;
 }
 
 #_title_fu_user_id {

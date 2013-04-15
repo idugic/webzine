@@ -109,6 +109,7 @@ public class CountryController extends WebController {
     @Override
     public void validate(Object target, Errors errors) {
       Country form = (Country) target;
+
       Country country = countryService.findForCd(form.getCd());
       if (country != null) {
         errors.rejectValue("cd", "validation.country.cd.duplicate");

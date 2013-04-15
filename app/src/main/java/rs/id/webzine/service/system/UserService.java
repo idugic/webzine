@@ -15,7 +15,7 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class UserService extends GenericService<User> {
 
-  // TODO DB based authentication, authorization, hash passwords, security is not working, update screen, css file button and update screen, re-install DB
+  // TODO DB based authentication, authorization, hash passwords
 
   @Autowired
   RoleService roleService;

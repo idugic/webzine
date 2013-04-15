@@ -93,19 +93,36 @@ public class UserController extends WebController {
   }
 
   @RequestMapping(params = "form", produces = "text/html")
-  public String createForm(Model uiModel) {
-    populateEditForm(uiModel, new UserForm(), true);
+  public String createForm(Model uiModel, HttpServletRequest httpServletRequest) {
+    populateEditForm(uiModel, new UserForm(), httpServletRequest, true);
     return PATH + "/" + CREATE;
   }
 
-  void populateEditForm(Model uiModel, UserForm userForm, boolean create) {
+  void populateEditForm(Model uiModel, UserForm userForm, HttpServletRequest httpServletRequest, boolean create) {
     uiModel.addAttribute("userForm", userForm);
 
     if (create) {
       // restrict available roles for user
       uiModel.addAttribute("roleList", roleService.findListForUserCreate());
     } else {
+      // update (all available roles)
       uiModel.addAttribute("roleList", roleService.findAll());
+
+      // role
+      uiModel.addAttribute("userRoleForm", userForm);
+
+      // password
+      uiModel.addAttribute("userPasswordForm", userForm);
+
+      // image
+      if (userForm.getImage() != null && userForm.getImage().length != 0) {
+        String imageUrl = httpServletRequest.getContextPath() + "/" + PATH + "/" + IMAGE + "/"
+            + encodeUrlPathSegment(userForm.getUserId().toString(), httpServletRequest);
+        userForm.setImageUrl(imageUrl);
+        uiModel.addAttribute("itemId", userForm.getUserId());
+      }
+
+      uiModel.addAttribute("userImageForm", userForm);
     }
     uiModel.addAttribute("userStatusList", userStatusService.findAll());
     addDateFormatPattern(uiModel);
@@ -128,7 +145,7 @@ public class UserController extends WebController {
       UserCreateValidator validator = new UserCreateValidator();
       validator.validate(userForm, bindingResult);
       if (bindingResult.hasErrors()) {
-        populateEditForm(uiModel, userForm, true);
+        populateEditForm(uiModel, userForm, httpServletRequest, true);
         return PATH + "/" + CREATE;
       }
 
@@ -166,9 +183,11 @@ public class UserController extends WebController {
         PropertyUtils.copyProperties(userForm, user.getAddress());
       }
 
-      String imageUrl = httpServletRequest.getContextPath() + "/" + PATH + "/" + IMAGE + "/"
-          + encodeUrlPathSegment(id.toString(), httpServletRequest);
-      userForm.setImageUrl(imageUrl);
+      if (user.getImage() != null && user.getImage().length != 0) {
+        String imageUrl = httpServletRequest.getContextPath() + "/" + PATH + "/" + IMAGE + "/"
+            + encodeUrlPathSegment(id.toString(), httpServletRequest);
+        userForm.setImageUrl(imageUrl);
+      }
 
       uiModel.addAttribute("userForm", userForm);
       uiModel.addAttribute("itemId", id);
@@ -183,7 +202,7 @@ public class UserController extends WebController {
   }
 
   @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
-  public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+  public String updateForm(@PathVariable("id") Integer id, Model uiModel, HttpServletRequest httpServletRequest) {
     try {
       UserForm userForm = new UserForm();
 
@@ -196,7 +215,7 @@ public class UserController extends WebController {
         PropertyUtils.copyProperties(userForm, user.getAddress());
       }
 
-      populateEditForm(uiModel, userForm, false);
+      populateEditForm(uiModel, userForm, httpServletRequest, false);
       return PATH + "/" + UPDATE;
     } catch (Exception e) {
       log.error(e);
@@ -209,7 +228,7 @@ public class UserController extends WebController {
       Model uiModel, HttpServletRequest httpServletRequest) {
     try {
       if (bindingResult.hasErrors()) {
-        populateEditForm(uiModel, userForm, false);
+        populateEditForm(uiModel, userForm, httpServletRequest, false);
         return PATH + "/" + UPDATE;
       }
 
@@ -225,6 +244,46 @@ public class UserController extends WebController {
 
       uiModel.asMap().clear();
       return REDIRECT + PATH + "/" + encodeUrlPathSegment(userForm.getUserId().toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  @RequestMapping(value = "/role", method = RequestMethod.PUT, produces = "text/html")
+  public String changeRole(UserForm userChangeRoleForm, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    try {
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, userChangeRoleForm, httpServletRequest, false);
+        return PATH + "/" + UPDATE;
+      }
+
+      userService.updateRole(userChangeRoleForm.getUserId(), userChangeRoleForm.getNewRole().getCd());
+
+      uiModel.asMap().clear();
+      return REDIRECT + PATH + "/"
+          + encodeUrlPathSegment(userChangeRoleForm.getUserId().toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  @RequestMapping(value = "/password", method = RequestMethod.PUT, produces = "text/html")
+  public String changePassword(UserForm userChangePasswordForm, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    try {
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, userChangePasswordForm, httpServletRequest, false);
+        return PATH + "/" + UPDATE;
+      }
+
+      userService.updatePassword(userChangePasswordForm.getUserId(), userChangePasswordForm.getNewPassword());
+
+      uiModel.asMap().clear();
+      return REDIRECT + PATH + "/"
+          + encodeUrlPathSegment(userChangePasswordForm.getUserId().toString(), httpServletRequest);
     } catch (Exception e) {
       log.error(e);
       throw new RuntimeException(e);
@@ -259,6 +318,20 @@ public class UserController extends WebController {
 
     uiModel.asMap().clear();
     return REDIRECT + PATH;
+  }
+
+  @RequestMapping(value = "/image/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String deleteImage(@PathVariable("id") Integer id,
+      @RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel, HttpServletRequest httpServletRequest) {
+    User user = userService.find(id);
+    user.setImage(null);
+    user.setImageContentType(null);
+
+    userService.update(user);
+
+    uiModel.asMap().clear();
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(id.toString(), httpServletRequest);
   }
 
   private class UserCreateValidator implements Validator {
