@@ -119,6 +119,7 @@ public class UserController extends WebController {
         String imageUrl = httpServletRequest.getContextPath() + "/" + PATH + "/" + IMAGE + "/"
             + encodeUrlPathSegment(userForm.getUserId().toString(), httpServletRequest);
         userForm.setImageUrl(imageUrl);
+        userForm.setImage(null); // this prevents image content to be fetched in file value field
         uiModel.addAttribute("itemId", userForm.getUserId());
       }
 

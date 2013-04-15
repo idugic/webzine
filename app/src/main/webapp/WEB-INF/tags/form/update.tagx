@@ -48,28 +48,28 @@
         <div class="submit" id="${fn:escapeXml(id)}_submit">
           <spring:message code="button_save" var="save_button" htmlEscape="false" />
           <script type="text/javascript">
-											Spring.addDecoration();
+                      Spring.addDecoration();
 
-											<![CDATA[
-											function validateForm(myForm) {
-												var valid = true;
+                      <![CDATA[
+                      function validateForm(myForm) {
+                        var valid = true;
 
-												for (i = 0; i < myForm.elements.length; i++) {
-													var elementId = myForm.elements[i].id;
-													if (Spring.decorations[elementId]) {
-														for ( var x = 0; x < Spring.decorations[elementId].length; x++) {
-															if (Spring.decorations[elementId][x].widget
-																	&& !Spring.decorations[elementId][x]
-																			.validate()) {
-																valid = false;
-															}
-														}
-													}
-												}
-												return valid;
-											}
-											]]>
-										</script>
+                        for (i = 0; i < myForm.elements.length; i++) {
+                          var elementId = myForm.elements[i].id;
+                          if (Spring.decorations[elementId]) {
+                            for ( var x = 0; x < Spring.decorations[elementId].length; x++) {
+                              if (Spring.decorations[elementId][x].widget
+                                  && !Spring.decorations[elementId][x]
+                                      .validate()) {
+                                valid = false;
+                              }
+                            }
+                          }
+                        }
+                        return valid;
+                      }
+                      ]]>
+                    </script>
 
           <input id="proceed" type="submit" value="${fn:escapeXml(save_button)}" onclick="return validateForm(this.form)" />
         </div>

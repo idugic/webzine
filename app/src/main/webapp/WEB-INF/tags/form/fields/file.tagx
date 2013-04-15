@@ -39,7 +39,17 @@
         </c:when>
         <c:otherwise>
           <div class="inputFileWrapper">
-            <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" type="file" class="inputFile" />
+            <script type="text/javascript">
+                          function showVal() {
+                            var inputSrc = document
+                                .getElementById('_${sec_field}_id');
+                            var inputVal = document
+                                .getElementById('_${sec_field}_id_val');
+                            inputVal.value = inputSrc.value;
+                          }
+                        </script>
+            <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" type="file" class="inputFile" onchange="showVal();" />
+            <form:input type="text" id="_${sec_field}_id_val" path="${sec_field}" disabled="true" />
           </div>
           <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
         </c:otherwise>

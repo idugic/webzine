@@ -17,8 +17,9 @@ body {
   margin-right: auto;
   margin-left: auto;
   /* fix max-width incompatibility in IE6 */
-  width: expression(document.body.clientWidth >       800 ?       "800px" :     
-     "auto");
+  width: expression(document.body.clientWidth >         800 ?         "800px" :
+         
+      "auto");
   overflow: hidden;
   display: block;
 }
@@ -182,17 +183,21 @@ input.image {
 
 .inputFileWrapper {
   margin-left: 96px;
-  width: 55px;
+  width: 32em;
   height: 24px;
   background: url('/webzine/resources/images/file.png') 0 0 no-repeat;
   overflow: hidden;
 }
 
 .inputFile {
-  margin-left: -145px;
+  margin-left: -158px;
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+
+.inputFileWrapper input[type="text"] {
+  width: 296px !important;
 }
 
 submit {
@@ -257,6 +262,11 @@ a img {
   border: 0 none;
   vertical-align: middle;
 }
+
+tr {
+  background-color: #FFFFFF;
+}
+
 
 tr:nth-child(odd) {
   background-color: #FFFFFF;
@@ -443,7 +453,6 @@ fieldset th {
 }
 
 /* panels and elements */
-
 .inputGridTable {
   border: 0px;
   padding: 0px;
@@ -509,7 +518,7 @@ fieldset th {
 }
 
 #ps_user_column_2 {
-	 width: 535px;
+  width: 535px;
 }
 
 #_s_user_image_imageUrl_id {
@@ -534,7 +543,7 @@ fieldset th {
 }
 
 #fu_user_column_2 {
-	width: 535px;
+  width: 535px;
 }
 
 #_title_fu_user_id {
