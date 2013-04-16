@@ -16,8 +16,6 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class UserService extends GenericService<User> {
 
-  // TODO hash passwords
-
   @Autowired
   RoleService roleService;
 
