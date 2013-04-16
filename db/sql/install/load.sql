@@ -20,7 +20,7 @@ INSERT INTO USERS (
   ROLE_ID
 ) VALUES (
   'admin',
-  'admin',
+  '21893ed8828f762a0d93c4e98b877857', -- admin (md5)
   (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
   (SELECT ID FROM ROLES WHERE CD = 'administrator')
 );
@@ -33,7 +33,7 @@ INSERT INTO USERS (
   ROLE_ID
 ) VALUES (
   'editor',
-  'editor',
+  '1e624427b1feb296a3974e82d19c5ac2', -- editor (md5)
   (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
   (SELECT ID FROM ROLES WHERE CD = 'editor-00')
 );
@@ -45,8 +45,8 @@ INSERT INTO USERS (
   STATUS_ID,
   ROLE_ID
 ) VALUES (
-  'user',
-  'user',
+  'associate',
+  '2cfa2d89ef465d5463b96a34ff1030d6', -- associate (md5)
   (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
   (SELECT ID FROM ROLES WHERE CD = 'editor-01')
 );
@@ -59,7 +59,7 @@ INSERT INTO USERS (
   ROLE_ID
 ) VALUES (
   'visitor',
-  'visitor',
+  '24d36ccee928073eb9f673c0635e9f34', -- visitor (md5)
   (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
   (SELECT ID FROM ROLES WHERE CD = 'visitor')
 );
