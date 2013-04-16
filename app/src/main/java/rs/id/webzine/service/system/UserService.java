@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,7 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class UserService extends GenericService<User> {
 
-  // TODO DB based authentication, authorization, hash passwords
+  // TODO hash passwords
 
   @Autowired
   RoleService roleService;
@@ -23,10 +24,20 @@ public class UserService extends GenericService<User> {
   @Autowired
   AddressService addressService;
 
+  @Autowired
+  PasswordEncoder passwordEncoder;
+
+  private static final String ENCODER_SALT = "myVerySpecialSalt";
+
   @Transactional
   public void create(User user, Address address) {
     addressService.create(address);
     user.setAddress(address);
+
+    String encodedPassword = passwordEncoder.encodePassword(user.getPassword(), ENCODER_SALT);
+
+    user.setPassword(encodedPassword);
+
     create(user);
   }
 
@@ -77,7 +88,10 @@ public class UserService extends GenericService<User> {
   @Transactional
   public void updatePassword(Integer userId, String password) {
     User targetUser = find(userId);
-    targetUser.setPassword(password);
+
+    String encodedPassword = passwordEncoder.encodePassword(password, ENCODER_SALT);
+
+    targetUser.setPassword(encodedPassword);
 
     update(targetUser);
   }

@@ -22,14 +22,32 @@
   <authentication-manager alias="authenticationManager">
     <!-- SHA-256 values can be produced using 'echo -n your_desired_password | sha256sum' (using normal *nix environments) -->
     <authentication-provider>
-      <!-- <password-encoder hash="sha-256" /> -->
-      <user-service>
-        <!-- <user name="admin" password="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" authorities="R0" /> -->
-        <user name="admin" password="admin" authorities="administrator" />
-        <user name="editor" password="editor" authorities="editor-00" />
-        <user name="user" password="user" authorities="editor-01" />
-        <user name="visitor" password="visitor" authorities="visitor" />
-      </user-service>
+       <password-encoder hash="md5"> <salt-source system-wide="myVerySpecialSalt" /> </password-encoder> 
+      <jdbc-user-service data-source-ref="dataSource"
+        users-by-username-query="
+        SELECT
+          u.user_name,
+          u.password,
+          CASE 
+            WHEN us.cd = 'active' THEN 1
+            ELSE 0
+          END enabled
+        FROM
+          users u,
+          user_status us
+        WHERE
+          u.status_id = us.id
+          AND u.user_name = ?"
+        authorities-by-username-query="
+        SELECT
+          u.user_name,
+          r.cd
+        FROM
+          users u,
+          roles r
+        WHERE
+          u.role_id = r.id
+          AND u.user_name = ?" />
     </authentication-provider>
   </authentication-manager>
 </beans:beans>
