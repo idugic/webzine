@@ -1,4 +1,4 @@
-package rs.id.webzine.web.system;
+package rs.id.webzine.web.project_management;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -14,93 +14,92 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import rs.id.webzine.domain.system.Country;
-import rs.id.webzine.service.system.CountryService;
+import rs.id.webzine.domain.project_management.TaskPriority;
+import rs.id.webzine.service.project_management.TaskPriorityService;
 import rs.id.webzine.web.WebController;
 
-@RequestMapping(CountryController.PATH)
+@RequestMapping(TaskPriorityController.PATH)
 @Controller
-public class CountryController extends WebController {
+public class TaskPriorityController extends WebController {
 
-  // TODO filter, pagination, sort
-
-  public static final String PATH = "admin/system/country";
+  public static final String PATH = "admin/project_management/task_priority";
 
   @Autowired
-  CountryService countryService;
+  TaskPriorityService taskPriorityService;
 
   @RequestMapping(produces = "text/html")
   public String list(@RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    prepareList(countryService, "countryList", page, size, uiModel);
+    prepareList(taskPriorityService, "taskPriorityList", page, size, uiModel);
     return PATH + "/" + LIST;
+
   }
 
   @RequestMapping(params = "form", produces = "text/html")
   public String createForm(Model uiModel) {
-    populateEditForm(uiModel, new Country());
+    populateEditForm(uiModel, new TaskPriority());
     return PATH + "/" + CREATE;
   }
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-  public String create(@Valid Country country, BindingResult bindingResult, Model uiModel,
+  public String create(@Valid TaskPriority taskPriority, BindingResult bindingResult, Model uiModel,
       HttpServletRequest httpServletRequest) {
 
-    // validate...
-    CountryCreateValidator validator = new CountryCreateValidator();
-    validator.validate(country, bindingResult);
+    // validate
+    TaskPriorityCreateValidator validator = new TaskPriorityCreateValidator();
+    validator.validate(taskPriority, bindingResult);
     if (bindingResult.hasErrors()) {
-      populateEditForm(uiModel, country);
+      populateEditForm(uiModel, taskPriority);
       return PATH + "/" + CREATE;
     }
 
-    countryService.create(country);
+    taskPriorityService.create(taskPriority);
 
     uiModel.asMap().clear();
-    return REDIRECT + PATH + "/" + encodeUrlPathSegment(country.getId().toString(), httpServletRequest);
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(taskPriority.getId().toString(), httpServletRequest);
   }
 
   @RequestMapping(value = "/{id}", produces = "text/html")
   public String show(@PathVariable("id") Integer id, Model uiModel) {
-    uiModel.addAttribute("country", countryService.find(id));
+    uiModel.addAttribute("taskPriority", taskPriorityService.find(id));
     uiModel.addAttribute("itemId", id);
     return PATH + "/" + SHOW;
   }
 
   @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
   public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-    populateEditForm(uiModel, countryService.find(id));
+    populateEditForm(uiModel, taskPriorityService.find(id));
     return PATH + "/" + UPDATE;
   }
 
   @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-  public String update(@Valid Country country, BindingResult bindingResult, Model uiModel,
+  public String update(@Valid TaskPriority taskPriority, BindingResult bindingResult, Model uiModel,
       HttpServletRequest httpServletRequest) {
     if (bindingResult.hasErrors()) {
-      populateEditForm(uiModel, country);
+      populateEditForm(uiModel, taskPriority);
       return PATH + "/" + UPDATE;
     }
 
-    countryService.update(country);
+    taskPriorityService.update(taskPriority);
 
     uiModel.asMap().clear();
-    return REDIRECT + PATH + "/" + encodeUrlPathSegment(country.getId().toString(), httpServletRequest);
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(taskPriority.getId().toString(), httpServletRequest);
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    countryService.delete(id);
+    taskPriorityService.delete(id);
 
     uiModel.asMap().clear();
     return REDIRECT + PATH;
   }
 
-  void populateEditForm(Model uiModel, Country country) {
-    uiModel.addAttribute("country", country);
+  void populateEditForm(Model uiModel, TaskPriority taskPriority) {
+    uiModel.addAttribute("taskPriority", taskPriority);
   }
 
-  private class CountryCreateValidator implements Validator {
+  private class TaskPriorityCreateValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
       return true;
@@ -108,13 +107,12 @@ public class CountryController extends WebController {
 
     @Override
     public void validate(Object target, Errors errors) {
-      Country form = (Country) target;
+      TaskPriority form = (TaskPriority) target;
 
-      Country country = countryService.findForCd(form.getCd());
-      if (country != null) {
+      TaskPriority taskPriority = taskPriorityService.findForCd(form.getCd());
+      if (taskPriority != null) {
         errors.rejectValue("cd", "validation_code_already_exists");
       }
     }
   }
-
 }

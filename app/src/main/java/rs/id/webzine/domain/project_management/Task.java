@@ -1,16 +1,17 @@
-package rs.id.webzine.domain;
+package rs.id.webzine.domain.project_management;
 
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
@@ -21,15 +22,22 @@ import rs.id.webzine.domain.system.User;
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "TASK")
-public class Task extends IdEntity {
+public class Task {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "ID")
+  private Integer id;
 
   @ManyToOne
   @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID", nullable = false)
-  private TaskStatus statusId;
+  @NotNull
+  private TaskStatus status;
 
   @ManyToOne
   @JoinColumn(name = "PRIORITY_ID", referencedColumnName = "ID", nullable = false)
-  private TaskPriority priorityId;
+  @NotNull
+  private TaskPriority priority;
 
   @Column(name = "TITLE", length = 250)
   @NotNull
@@ -40,19 +48,21 @@ public class Task extends IdEntity {
 
   @ManyToOne
   @JoinColumn(name = "OWNER_USER_ID", referencedColumnName = "ID")
-  private User ownerUserId;
+  private User ownerUser;
 
   @ManyToOne
   @JoinColumn(name = "PARENT_TASK_ID", referencedColumnName = "ID")
-  private Task parentTaskId;
+  private Task parentTask;
 
   @ManyToOne
   @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
+  @NotNull
   private User uc;
 
   @Column(name = "DC")
   @Temporal(TemporalType.TIMESTAMP)
   @DateTimeFormat(style = "MM")
+  @NotNull
   private Calendar dc;
 
   @ManyToOne
@@ -64,20 +74,28 @@ public class Task extends IdEntity {
   @DateTimeFormat(style = "MM")
   private Calendar dm;
 
-  public TaskStatus getStatusId() {
-    return statusId;
+  public Integer getId() {
+    return id;
   }
 
-  public void setStatusId(TaskStatus statusId) {
-    this.statusId = statusId;
+  public void setId(Integer id) {
+    this.id = id;
   }
 
-  public TaskPriority getPriorityId() {
-    return priorityId;
+  public TaskStatus getStatus() {
+    return status;
   }
 
-  public void setPriorityId(TaskPriority priorityId) {
-    this.priorityId = priorityId;
+  public void setStatus(TaskStatus status) {
+    this.status = status;
+  }
+
+  public TaskPriority getPriority() {
+    return priority;
+  }
+
+  public void setPriority(TaskPriority priority) {
+    this.priority = priority;
   }
 
   public String getTitle() {
@@ -96,20 +114,20 @@ public class Task extends IdEntity {
     this.description = description;
   }
 
-  public User getOwnerUserId() {
-    return ownerUserId;
+  public User getOwnerUser() {
+    return ownerUser;
   }
 
-  public void setOwnerUserId(User ownerUserId) {
-    this.ownerUserId = ownerUserId;
+  public void setOwnerUser(User ownerUser) {
+    this.ownerUser = ownerUser;
   }
 
-  public Task getParentTaskId() {
-    return parentTaskId;
+  public Task getParentTask() {
+    return parentTask;
   }
 
-  public void setParentTaskId(Task parentTaskId) {
-    this.parentTaskId = parentTaskId;
+  public void setParentTask(Task parentTask) {
+    this.parentTask = parentTask;
   }
 
   public User getUc() {
@@ -142,35 +160,6 @@ public class Task extends IdEntity {
 
   public void setDm(Calendar dm) {
     this.dm = dm;
-  }
-
-  public static long count() {
-    return entityManager().createQuery("SELECT COUNT(o) FROM Task o", Long.class).getSingleResult();
-  }
-
-  public static List<Task> findAll() {
-    return entityManager().createQuery("SELECT o FROM Task o", Task.class).getResultList();
-  }
-
-  public static List<Task> findAvailableAsParent(Integer id) {
-    if (id == null) {
-      return Task.findAll();
-    } else {
-      TypedQuery<Task> query = entityManager().createQuery("SELECT o FROM Task o WHERE id != :id", Task.class);
-      query.setParameter("id", id);
-      return query.getResultList();
-    }
-  }
-
-  public static Task find(Integer id) {
-    if (id == null)
-      return null;
-    return entityManager().find(Task.class, id);
-  }
-
-  public static List<Task> findEntries(int firstResult, int maxResults) {
-    return entityManager().createQuery("SELECT o FROM Task o", Task.class).setFirstResult(firstResult)
-        .setMaxResults(maxResults).getResultList();
   }
 
 }

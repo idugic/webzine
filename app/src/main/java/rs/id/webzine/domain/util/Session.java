@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import rs.id.webzine.domain.system.User;
 
 public class Session {
-  // TODO move into Service
+  // TODO remove
   public static User getCurrentUser() {
     User user = null;
 

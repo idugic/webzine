@@ -15,13 +15,17 @@
         </menu:category>
       </sec:authorize>
       <menu:category id="c_project_management">
-        <menu:item id="i_taskstatus" url="/admin/task_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-        <menu:item id="i_taskpriority" url="/admin/task_priority?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-        <menu:item id="i_task" url="/admin/task?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+        <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
+          <menu:item id="i_taskstatus" url="/admin/project_management/task_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+          <menu:item id="i_taskpriority" url="/admin/project_management/task_priority?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+        </sec:authorize>
+        <menu:item id="i_task" url="/admin/project_management/task?page=1&amp;size=${empty param.size ? 10 : param.size}" />
       </menu:category>
-      <menu:category id="c_content_management">
-        <menu:item id="i_contenttype" url="/admin/content_type?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-      </menu:category>
+      <sec:authorize access="hasRole('administrator')">
+        <menu:category id="c_content_management">
+          <menu:item id="i_contenttype" url="/admin/content_type?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+        </menu:category>
+      </sec:authorize>
       <menu:category id="c_magazine">
         <menu:item id="i_readertype" url="/admin/reader_type?page=1&amp;size=${empty param.size ? 10 : param.size}" />
         <menu:item id="i_category" url="/admin/category?page=1&amp;size=${empty param.size ? 10 : param.size}" />

@@ -1,4 +1,4 @@
-package rs.id.webzine.web.form;
+package rs.id.webzine.web.system;
 
 import java.util.Date;
 

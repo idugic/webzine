@@ -561,3 +561,53 @@ fieldset th {
 #_title_fu_user_id #widget__www_id {
   width: 30em !important;
 }
+
+/* task status */
+#_title_pl_taskstatus_id {
+  width: 535px;
+}
+
+#_title_ps_taskstatus_id {
+  width: 535px;
+}
+
+#_title_fc_taskstatus_id {
+  width: 535px;
+}
+
+#_title_fc_taskstatus_id #widget__name_id {
+  width: 30em !important;
+}
+
+#_title_fu_taskstatus_id {
+  width: 535px;
+}
+
+#_title_fu_taskstatus_id #widget__name_id {
+  width: 30em !important;
+}
+
+/* task priority */
+#_title_pl_taskpriority_id {
+  width: 535px;
+}
+
+#_title_ps_taskpriority_id {
+  width: 535px;
+}
+
+#_title_fc_taskpriority_id {
+  width: 535px;
+}
+
+#_title_fc_taskpriority_id #widget__name_id {
+  width: 30em !important;
+}
+
+#_title_fu_taskpriority_id {
+  width: 535px;
+}
+
+#_title_fu_taskpriority_id #widget__name_id {
+  width: 30em !important;
+}

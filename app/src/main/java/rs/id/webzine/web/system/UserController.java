@@ -35,7 +35,6 @@ import rs.id.webzine.service.system.RoleService;
 import rs.id.webzine.service.system.UserService;
 import rs.id.webzine.service.system.UserStatusService;
 import rs.id.webzine.web.WebController;
-import rs.id.webzine.web.form.UserForm;
 
 @RequestMapping(UserController.PATH)
 @Controller
@@ -346,7 +345,7 @@ public class UserController extends WebController {
       UserForm form = (UserForm) target;
       User user = userService.findForUserName(form.getUserName());
       if (user != null) {
-        errors.rejectValue("userName", "validation.user.userName.duplicate");
+        errors.rejectValue("userName", "validation_username_already_exists");
       }
     }
   }

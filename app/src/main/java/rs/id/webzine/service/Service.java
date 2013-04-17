@@ -12,6 +12,8 @@ import rs.id.webzine.domain.system.User;
 
 @Configurable
 public class Service {
+  
+  // TODO remove
 
   @PersistenceContext
   transient EntityManager entityManager;
