@@ -5,7 +5,7 @@
 
   <table class="inputGridTable">
     <tr>
-      <td id="ps_user_column_1">
+      <td id="ps_user_col_1">
         <page:show id="ps_user" object="${userForm}" path="/admin/system/user">
           <field:display field="role" id="s_user_role" object="${userForm}" />
           <field:display field="status" id="s_user_status" object="${userForm}" />
@@ -25,7 +25,7 @@
           <field:display field="www" id="s_address_www" object="${userForm}" />
         </page:show>
       </td>
-      <td id="ps_user_column_2">
+      <td id="ps_user_col_2">
         <page:show id="ps_userimage" object="${userForm}" path="/admin/system/user" label="user_show_user_image" list="false" create="false" update="false" delete="false" render="${not empty userForm['imageUrl']}">
           <field:media field="imageUrl" contentType="imageContentType" id="s_user_image" object="${userForm}" />
         </page:show>

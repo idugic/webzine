@@ -48,9 +48,7 @@
         <div class="submit" id="${fn:escapeXml(id)}_submit">
           <spring:message code="button_save" var="save_button" htmlEscape="false" />
           <script type="text/javascript">
-                      Spring.addDecoration();
-
-                      <![CDATA[
+                     <![CDATA[
                       function validateForm(myForm) {
                         var valid = true;
 

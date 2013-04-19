@@ -183,7 +183,6 @@ input.image {
 
 .inputFileWrapper {
   margin-left: 96px;
-  width: 32em;
   height: 24px;
   background: url('/webzine/resources/images/file.png') 0 0 no-repeat;
   overflow: hidden;
@@ -197,7 +196,7 @@ input.image {
 }
 
 .inputFileWrapper input[type="text"] {
-  width: 296px !important;
+  width: 304px;
 }
 
 submit {
@@ -517,7 +516,7 @@ fieldset th {
   width: 535px;
 }
 
-#ps_user_column_2 {
+#ps_user_col_2 {
   width: 535px;
 }
 
@@ -542,7 +541,7 @@ fieldset th {
   width: 30em !important;
 }
 
-#fu_user_column_2 {
+#fu_user_col_2 {
   width: 535px;
 }
 
@@ -610,4 +609,97 @@ fieldset th {
 
 #_title_fu_taskpriority_id #widget__name_id {
   width: 30em !important;
+}
+
+/* task */
+#l_task_id {
+	text-align: right;
+	font-weight: bold;
+}
+
+#l_task_title {
+  width: 550px;
+}
+
+#_title_fc_task_id {
+  width: 635px;
+}
+
+#_title_fc_task_id #widget__title_id {
+  width: 40em !important;
+}
+
+#_title_fc_task_id #_description_id {
+	width: 475px;
+  max-width: 475px;
+  height: 300px;
+}
+
+#_title_fc_task_id #widget__parentTask_id {
+  width: 40em !important;
+}
+
+#_title_ps_task_id {
+  width: 635px;
+}
+
+#_title_pss_task_id {
+  width: 635px;
+}
+
+#_title_fc_taskcomment_id {
+  width: 635px;
+}
+
+#_title_fc_taskcomment_id #_text_id {
+  width: 475px;
+  max-width: 475px;
+  height: 75px;
+}
+
+#_title_pl_taskcomment_id {
+  width: 635px;
+}
+
+#l_taskcomment_text {
+	width: 400px;
+	white-space: pre;
+}
+
+#_title_fc_taskattachment_id {
+   width: 435px;
+}
+
+#_title_fc_taskattachment_id #_content_id_val {
+	 width: 235px !important;
+}
+
+#ps_task_col_2 {
+  width: 435px;
+}
+
+#ps_task_col_3 {
+  background-color: #fff;
+}
+
+#ps_task_col_4 {
+  background-color: #fff;
+}
+
+#_title_fu_task_id {
+  width: 635px;
+}
+
+#_title_fu_task_id #widget__title_id {
+  width: 40em !important;
+}
+
+#_title_fu_task_id #_description_id {
+  width: 475px;
+  max-width: 475px;
+  height: 300px;
+}
+
+#_title_fu_task_id #widget__parentTask_id {
+  width: 40em !important;
 }

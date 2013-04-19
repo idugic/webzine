@@ -2,12 +2,13 @@
 <div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <page:list id="pl_rs_id_webzine_domain_Task" items="${task}">
-    <table:table data="${task}" id="l_rs_id_webzine_domain_Task" path="/admin/task">
-      <table:column id="c_rs_id_webzine_domain_Task_id" property="id" />
-      <table:column id="c_rs_id_webzine_domain_Task_title" property="title" />
-      <table:column id="c_rs_id_webzine_domain_Task_priorityid" property="priorityId" />
-      <table:column id="c_rs_id_webzine_domain_Task_ownerUserId" property="ownerUserId" />
+  <page:list id="pl_task" items="${taskList}">
+    <table:table data="${taskList}" id="l_task" path="/admin/project_management/task">
+      <table:column id="c_task_id" property="id" />
+      <table:column id="c_task_title" property="title" />
+      <table:column id="c_task_status" property="status" />
+      <table:column id="c_task_priority" property="priority" />
+      <table:column id="c_task_owneruser" property="ownerUser" />
     </table:table>
   </page:list>
 </div>

@@ -88,8 +88,7 @@ public class CountryController extends WebController {
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-  public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
-      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+  public String delete(@PathVariable("id") Integer id, Model uiModel) {
     countryService.delete(id);
 
     uiModel.asMap().clear();

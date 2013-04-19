@@ -62,7 +62,11 @@ public class WebController {
     return pathSegment;
   }
 
-  public void addDateFormatPattern(Model uiModel) {
+  public void addDateFormat(Model uiModel) {
     uiModel.addAttribute("date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
+  }
+
+  public void addDateTimeFormat(Model uiModel) {
+    uiModel.addAttribute("date_time_format", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
   }
 }

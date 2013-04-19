@@ -46,11 +46,11 @@ public class UserService extends GenericService<User> {
 
     targetUser.setStatus(userValues.getStatus());
 
-    // role can't be changed (administrator only)
+    // role can't be changed
 
     // userName can't be changed (unique key)
 
-    // password can't be changed (administrator only)
+    // password can't be changed
 
     targetUser.setFirstName(userValues.getFirstName());
     targetUser.setLastName(userValues.getLastName());
@@ -117,4 +117,22 @@ public class UserService extends GenericService<User> {
 
     return user;
   }
+
+  /**
+   * Find all users with the role different from Visitor.
+   */
+  public List<User> findForSystem() {
+    List<User> userList;
+    TypedQuery<User> query = entityManager().createQuery("SELECT u FROM User u JOIN u.role r WHERE r.cd != :cd",
+        User.class);
+    query.setParameter("cd", RoleService.CD_VISITOR);
+    userList = query.getResultList();
+
+    User emptyUser = new User();
+    emptyUser.setId(-1);
+    userList.add(0, emptyUser); // first one is empty user
+
+    return userList;
+  }
+
 }

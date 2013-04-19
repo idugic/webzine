@@ -85,7 +85,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Role, String> getRoleToStringConverter() {
     return new Converter<Role, java.lang.String>() {
       public String convert(Role role) {
-        return new StringBuilder().append(role.getName()).toString();
+        return role.getName();
       }
     };
   }
@@ -110,7 +110,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<UserStatus, String> getUserStatusToStringConverter() {
     return new Converter<UserStatus, java.lang.String>() {
       public String convert(UserStatus userStatus) {
-        return new StringBuilder().append(userStatus.getName()).toString();
+        return userStatus.getName();
       }
     };
   }
@@ -135,7 +135,11 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<User, String> getUserToStringConverter() {
     return new Converter<User, java.lang.String>() {
       public String convert(User user) {
-        return new StringBuilder().append(user.getUserName()).toString();
+        if (user.getId() != -1) {
+          return user.getUserName();
+        } else {
+          return "-";
+        }
       }
     };
   }
@@ -143,15 +147,21 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, User> getIdToUserConverter() {
     return new Converter<java.lang.Integer, User>() {
       public User convert(java.lang.Integer id) {
-        return userService.find(id);
+        if (id != -1) {
+          return userService.find(id);
+        } else {
+          User emptyUser = new User();
+          emptyUser.setId(-1);
+          return emptyUser;
+        }
       }
     };
   }
 
-  public Converter<String, UserForm> getStringToUserConverter() {
-    return new Converter<java.lang.String, UserForm>() {
-      public UserForm convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), UserForm.class);
+  public Converter<String, User> getStringToUserConverter() {
+    return new Converter<java.lang.String, User>() {
+      public User convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), User.class);
       }
     };
   }
@@ -159,7 +169,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<UserForm, String> getUserFormToStringConverter() {
     return new Converter<UserForm, java.lang.String>() {
       public String convert(UserForm userForm) {
-        return new StringBuilder().append(userForm.getUserName()).toString();
+        return userForm.getUserName();
       }
     };
   }
@@ -184,10 +194,10 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  public Converter<String, User> getStringToUserFormConverter() {
-    return new Converter<java.lang.String, User>() {
-      public User convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), User.class);
+  public Converter<String, UserForm> getStringToUserFormConverter() {
+    return new Converter<java.lang.String, UserForm>() {
+      public UserForm convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), UserForm.class);
       }
     };
   }
@@ -196,7 +206,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Country, String> getCountryToStringConverter() {
     return new Converter<Country, java.lang.String>() {
       public String convert(Country country) {
-        return new StringBuilder().append(country.getCd()).append(' ').append(country.getName()).toString();
+        return country.getName();
       }
     };
   }
@@ -221,7 +231,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<TaskStatus, String> getTaskStatusToStringConverter() {
     return new Converter<TaskStatus, java.lang.String>() {
       public String convert(TaskStatus taskStatus) {
-        return new StringBuilder().append(taskStatus.getName()).toString();
+        return taskStatus.getName();
       }
     };
   }
@@ -246,7 +256,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<TaskPriority, String> getTaskPriorityToStringConverter() {
     return new Converter<TaskPriority, java.lang.String>() {
       public String convert(TaskPriority taskPriority) {
-        return new StringBuilder().append(taskPriority.getName()).toString();
+        return taskPriority.getName();
       }
     };
   }
@@ -271,7 +281,11 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Task, String> getTaskToStringConverter() {
     return new Converter<Task, java.lang.String>() {
       public String convert(Task task) {
-        return new StringBuilder().append('#').append(task.getId()).append(" ").append(task.getTitle()).toString();
+        if (task.getId() != -1) {
+          return task.getId() + " " + task.getTitle();
+        } else {
+          return "-";
+        }
       }
     };
   }
@@ -279,7 +293,13 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, Task> getIdToTaskConverter() {
     return new Converter<java.lang.Integer, Task>() {
       public Task convert(java.lang.Integer id) {
-        return taskService.find(id);
+        if (id != -1) {
+          return taskService.find(id);
+        } else {
+          Task emptyTask = new Task();
+          emptyTask.setId(-1);
+          return emptyTask;
+        }
       }
     };
   }
@@ -287,7 +307,11 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<String, Task> getStringToTaskConverter() {
     return new Converter<java.lang.String, Task>() {
       public Task convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), Task.class);
+        if (id != null && !id.isEmpty()) {
+          return getObject().convert(getObject().convert(id, Integer.class), Task.class);
+        } else {
+          return new Task();
+        }
       }
     };
   }
@@ -296,7 +320,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<TaskComment, String> getTaskCommentToStringConverter() {
     return new Converter<TaskComment, java.lang.String>() {
       public String convert(TaskComment taskComment) {
-        return new StringBuilder().append(taskComment.getId()).toString();
+        return taskComment.getId().toString();
       }
     };
   }
@@ -320,7 +344,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<TaskAttachment, String> getTaskAttachmentToStringConverter() {
     return new Converter<TaskAttachment, java.lang.String>() {
       public String convert(TaskAttachment taskAttachment) {
-        return new StringBuilder().append(taskAttachment.getId()).toString();
+        return taskAttachment.getId().toString();
       }
     };
   }

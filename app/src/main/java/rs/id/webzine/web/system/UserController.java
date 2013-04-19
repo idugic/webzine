@@ -125,7 +125,7 @@ public class UserController extends WebController {
       uiModel.addAttribute("userImageForm", userForm);
     }
     uiModel.addAttribute("userStatusList", userStatusService.findAll());
-    addDateFormatPattern(uiModel);
+    addDateFormat(uiModel);
   }
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
@@ -191,7 +191,7 @@ public class UserController extends WebController {
 
       uiModel.addAttribute("userForm", userForm);
       uiModel.addAttribute("itemId", id);
-      addDateFormatPattern(uiModel);
+      addDateFormat(uiModel);
 
       return PATH + "/" + SHOW;
     } catch (Exception e) {

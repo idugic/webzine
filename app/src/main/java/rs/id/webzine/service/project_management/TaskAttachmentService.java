@@ -17,7 +17,7 @@ public class TaskAttachmentService extends GenericService<TaskAttachment> {
       return null;
     } else {
       TypedQuery<TaskAttachment> query = entityManager().createQuery(
-          "SELECT ta FROM TaskAttachment ta JOIN ta.taskId t WHERE t.id = :taskId", TaskAttachment.class);
+          "SELECT ta FROM TaskAttachment ta JOIN ta.task t WHERE t.id = :taskId", TaskAttachment.class);
       query.setParameter("taskId", taskId);
       return query.getResultList();
     }

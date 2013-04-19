@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
-	<jsp:directive.page contentType="text/html;charset=UTF-8" />
-	<jsp:output omit-xml-declaration="yes" />
-	<form:create id="fc_rs_id_webzine_domain_Task" modelAttribute="task" path="/admin/task" render="${empty dependencies}">
-		<field:input field="title" id="c_rs_id_webzine_domain_Task_title" required="true" />
-		<field:select field="priorityId" id="c_rs_id_webzine_domain_Task_priorityId" itemValue="id" items="${taskPriority}" path="/admin/task_priority" required="true" />
-		<field:textarea field="description" id="c_rs_id_webzine_domain_Task_description" />
-		<field:select field="ownerUserId" id="c_rs_id_webzine_domain_Task_ownerUserId" itemValue="id" items="${user}" path="/admin/user" required="false" />
-		<field:select field="parentTaskId" id="c_rs_id_webzine_domain_Task_parentTaskId" itemValue="id" items="${parentTask}" path="/admin/task" required="false" />
-	</form:create>
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <form:create id="fc_task" modelAttribute="task" path="/admin/project_management/task">
+    <field:input field="title" id="c_task_title" required="true" max="250" />
+    <field:textarea field="description" id="c_task_description" max="1000" />
+    <field:select field="priority" id="c_task_priority" itemValue="id" items="${taskPriorityList}" path="/admin/project_management/task_priority" required="true" />
+    <field:select field="ownerUser" id="c_task_owneruser" itemValue="id" items="${userList}" path="/admin/project_management/user" required="false" />
+    <field:select field="parentTask" id="c_task_parenttask" itemValue="id" items="${parentTaskList}" path="/admin/project_management/task" required="false" />
+  </form:create>
 </div>

@@ -2,18 +2,15 @@ package rs.id.webzine.web.project_management;
 
 import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
-import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.format.DateTimeFormat;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,218 +26,205 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import rs.id.webzine.domain.project_management.Task;
 import rs.id.webzine.domain.project_management.TaskAttachment;
 import rs.id.webzine.domain.project_management.TaskComment;
-import rs.id.webzine.domain.project_management.TaskPriority;
-import rs.id.webzine.domain.project_management.TaskStatus;
-import rs.id.webzine.domain.system.User;
-import rs.id.webzine.service.Service;
+import rs.id.webzine.service.project_management.TaskAttachmentService;
+import rs.id.webzine.service.project_management.TaskCommentService;
+import rs.id.webzine.service.project_management.TaskPriorityService;
+import rs.id.webzine.service.project_management.TaskService;
+import rs.id.webzine.service.project_management.TaskStatusService;
+import rs.id.webzine.service.system.UserService;
 import rs.id.webzine.web.WebController;
 
-@RequestMapping("admin/task")
+@RequestMapping(TaskController.PATH)
 @Controller
 public class TaskController extends WebController {
 
   private static final Log log = LogFactory.getLog(TaskController.class);
 
-//  @InitBinder
-//  protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
-//    binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-//  }
-//
-//  @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-//  public String create(@Valid Task task, BindingResult bindingResult, Model uiModel,
-//      HttpServletRequest httpServletRequest) {
-//    if (bindingResult.hasErrors()) {
-//      populateEditForm(uiModel, task);
-//      return "admin/task/create";
-//    }
-//    uiModel.asMap().clear();
-//
-//    task.setStatusId(TaskStatus.findForCd(TaskStatus.CD_ACTIVE));
-//    task.setUc(Service.getCurrentUser());
-//    task.setDc(Calendar.getInstance());
-//    task.persist();
-//    return "redirect:/admin/task/" + encodeUrlPathSegment(task.getId().toString(), httpServletRequest);
-//  }
-//
-//  @RequestMapping(params = "form", produces = "text/html")
-//  public String createForm(Model uiModel) {
-//    populateEditForm(uiModel, new Task());
-//    return "admin/task/create";
-//  }
-//
-//  @RequestMapping(value = "/{id}", produces = "text/html")
-//  public String show(@PathVariable("id") Integer id, Model uiModel) {
-//    addDateTimeFormatPatterns(uiModel);
-//    uiModel.addAttribute("task", Task.find(id));
-//    uiModel.addAttribute("taskCommentList", TaskComment.findForTask(id));
-//    uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(id));
-//    uiModel.addAttribute("itemId", id);
-//    return "admin/task/show";
-//  }
-//
-//  @RequestMapping(produces = "text/html")
-//  public String list(@RequestParam(value = "page", required = false) Integer page,
-//      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-//    if (page != null || size != null) {
-//      int sizeNo = size == null ? 10 : size.intValue();
-//      final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-//      uiModel.addAttribute("task", Task.findEntries(firstResult, sizeNo));
-//      float nrOfPages = (float) Task.count() / sizeNo;
-//      uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-//          : nrOfPages));
-//    } else {
-//      uiModel.addAttribute("task", Task.findAll());
-//    }
-//    addDateTimeFormatPatterns(uiModel);
-//    return "admin/task/list";
-//  }
-//
-//  @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-//  public String update(@Valid Task task, BindingResult bindingResult, Model uiModel,
-//      HttpServletRequest httpServletRequest) {
-//    if (bindingResult.hasErrors()) {
-//      populateEditForm(uiModel, task);
-//      uiModel.addAttribute("taskComment", new TaskComment());
-//      uiModel.addAttribute("taskAttachment", new TaskAttachment());
-//      return "admin/task/update";
-//    }
-//    Task oldTask = Task.find(task.getId());
-//
-//    task.setUc(oldTask.getUc());
-//    task.setDc(oldTask.getDc());
-//    task.setUm(Service.getCurrentUser());
-//    task.setDm(Calendar.getInstance());
-//    task.merge();
-//
-//    uiModel.asMap().clear();
-//    return "redirect:/admin/task/" + encodeUrlPathSegment(task.getId().toString(), httpServletRequest);
-//  }
-//
-//  @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
-//  public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-//    populateEditForm(uiModel, Task.find(id));
-//    uiModel.addAttribute("taskComment", new TaskComment());
-//    uiModel.addAttribute("taskAttachment", new TaskAttachment());
-//    return "admin/task/update";
-//  }
-//
-//  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
-//  public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
-//      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-//    Task task = Task.find(id);
-//    task.remove();
-//    uiModel.asMap().clear();
-//    uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
-//    uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-//    return "redirect:/admin/task";
-//  }
-//
-//  void addDateTimeFormatPatterns(Model uiModel) {
-//    uiModel.addAttribute("task_dc_date_format", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
-//    uiModel.addAttribute("task_dm_date_format", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
-//  }
-//
-//  void populateEditForm(Model uiModel, Task task) {
-//    uiModel.addAttribute("task", task);
-//    addDateTimeFormatPatterns(uiModel);
-//    uiModel.addAttribute("parentTask", Task.findAvailableAsParent(task.getId()));
-//    uiModel.addAttribute("taskStatus", TaskStatus.findAll());
-//    uiModel.addAttribute("taskPriority", TaskPriority.findAll());
-//    // uiModel.addAttribute("user", User.findAll());
-//    uiModel.addAttribute("taskCommentList", TaskComment.findForTask(task.getId()));
-//    uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(task.getId()));
-//  }
-//
-//  @RequestMapping(value = "/comment/{taskId}", method = RequestMethod.POST, produces = "text/html")
-//  public String createComment(@PathVariable("taskId") Integer taskId, @Valid TaskComment taskComment,
-//      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-//    if (bindingResult.hasErrors()) {
-//      populateEditForm(uiModel, Task.find(taskId));
-//      uiModel.addAttribute("taskComment", new TaskComment());
-//      uiModel.addAttribute("taskAttachment", new TaskAttachment());
-//      return "admin/task/update";
-//    }
-//    taskComment.setTaskId(Task.find(taskId));
-//    taskComment.setUc(Service.getCurrentUser());
-//    taskComment.setDc(Calendar.getInstance());
-//    taskComment.persist();
-//
-//    uiModel.asMap().clear();
-//    return "redirect:/admin/task/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
-//  }
-//
-//  @RequestMapping(value = "/comment/{taskId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
-//  public String deleteComment(@PathVariable("taskId") Integer taskId, @PathVariable("id") Integer id, Model uiModel) {
-//    TaskComment taskComment = TaskComment.find(id);
-//    taskComment.remove();
-//
-//    populateEditForm(uiModel, Task.find(taskId));
-//    uiModel.addAttribute("taskCommentList", TaskComment.findForTask(taskId));
-//    uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(taskId));
-//    uiModel.addAttribute("taskComment", new TaskComment());
-//    uiModel.addAttribute("taskAttachment", new TaskAttachment());
-//    return "admin/task/update";
-//  }
-//
-//  @RequestMapping(value = "/attachment/{taskId}", method = RequestMethod.POST, produces = "text/html")
-//  public String createAttachment(@PathVariable("taskId") Integer taskId, TaskAttachment taskAttachment,
-//      @RequestParam("content") MultipartFile content, BindingResult bindingResult, Model uiModel,
-//      HttpServletRequest httpServletRequest) {
-//    try {
-//      // bind
-//      if (bindingResult.hasErrors()) {
-//        populateEditForm(uiModel, Task.find(taskId));
-//        uiModel.addAttribute("taskComment", new TaskComment());
-//        uiModel.addAttribute("taskAttachment", new TaskAttachment());
-//        return "admin/task/update";
-//      }
-//
-//      taskAttachment.setTaskId(Task.find(taskId));
-//      taskAttachment.setUc(Service.getCurrentUser());
-//      taskAttachment.setDc(Calendar.getInstance());
-//      taskAttachment.setName(content.getOriginalFilename());
-//      taskAttachment.setContentType(content.getContentType());
-//      taskAttachment.setContentSize(content.getSize());
-//      taskAttachment.persist();
-//
-//      uiModel.asMap().clear();
-//      return "redirect:/admin/task/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
-//    } catch (Exception e) {
-//      log.error(e);
-//      throw new RuntimeException(e);
-//    }
-//  }
-//
-//  @RequestMapping(value = "/attachment/{taskId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
-//  public String deleteAttachment(@PathVariable("taskId") Integer taskId, @PathVariable("id") Integer id, Model uiModel) {
-//    TaskAttachment taskAttachment = TaskAttachment.find(id);
-//    taskAttachment.remove();
-//
-//    populateEditForm(uiModel, Task.find(taskId));
-//    uiModel.addAttribute("taskCommentList", TaskComment.findForTask(taskId));
-//    uiModel.addAttribute("taskAttachmentList", TaskAttachment.findForTask(taskId));
-//    uiModel.addAttribute("taskComment", new TaskComment());
-//    uiModel.addAttribute("taskAttachment", new TaskAttachment());
-//    return "admin/task/update";
-//  }
-//
-//  // TODO open download dialog
-//  @RequestMapping(value = "/attachment/{id}", method = RequestMethod.GET)
-//  public String downloadAttachment(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
-//    try {
-//      TaskAttachment taskAttachment = TaskAttachment.find(id);
-//      response.setHeader("Content-Disposition", "inline;");
-//      response.setContentType(taskAttachment.getContentType());
-//
-//      OutputStream out = response.getOutputStream();
-//      IOUtils.copy(new ByteArrayInputStream(taskAttachment.getContent()), out);
-//      out.flush();
-//
-//      return null;
-//    } catch (Exception e) {
-//      log.error(e);
-//      throw new RuntimeException(e);
-//    }
-//  }
+  public static final String PATH = "admin/project_management/task";
+
+  @Autowired
+  TaskStatusService taskStatusService;
+
+  @Autowired
+  TaskPriorityService taskPriorityService;
+
+  @Autowired
+  TaskService taskService;
+
+  @Autowired
+  UserService userService;
+
+  @Autowired
+  TaskCommentService taskCommentService;
+
+  @Autowired
+  TaskAttachmentService taskAttachmentService;
+
+  @InitBinder
+  protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
+    binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+  }
+
+  @RequestMapping(produces = "text/html")
+  public String list(@RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
+    prepareList(taskService, "taskList", page, size, uiModel);
+    return PATH + "/" + LIST;
+  }
+
+  @RequestMapping(params = "form", produces = "text/html")
+  public String createForm(Model uiModel) {
+    populateEditForm(uiModel, new Task());
+    return PATH + "/" + CREATE;
+  }
+
+  private void populateEditForm(Model uiModel, Task task) {
+    addDateTimeFormat(uiModel);
+
+    uiModel.addAttribute("task", task);
+    uiModel.addAttribute("parentTaskList", taskService.findForParent(task.getId()));
+    uiModel.addAttribute("taskStatusList", taskStatusService.findAll());
+    uiModel.addAttribute("taskPriorityList", taskPriorityService.findAll());
+    uiModel.addAttribute("userList", userService.findForSystem());
+  }
+
+  @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+  public String create(Task task, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, task);
+      return PATH + "/" + CREATE;
+    }
+
+    taskService.create(task);
+
+    uiModel.asMap().clear();
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(task.getId().toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/{id}", produces = "text/html")
+  public String show(@PathVariable("id") Integer id, Model uiModel) {
+    populateShowForm(uiModel, id);
+    return PATH + "/" + SHOW;
+  }
+
+  private void populateShowForm(Model uiModel, Integer taskId) {
+    addDateTimeFormat(uiModel);
+
+    uiModel.addAttribute("task", taskService.find(taskId));
+    uiModel.addAttribute("parentTaskList", taskService.findForParent(taskId));
+    uiModel.addAttribute("taskStatusList", taskStatusService.findAll());
+    uiModel.addAttribute("taskPriorityList", taskPriorityService.findAll());
+    uiModel.addAttribute("userList", userService.findForSystem());
+
+    uiModel.addAttribute("taskCommentList", taskCommentService.findForTask(taskId));
+    uiModel.addAttribute("taskAttachmentList", taskAttachmentService.findForTask(taskId));
+
+    uiModel.addAttribute("taskComment", new TaskComment());
+    uiModel.addAttribute("taskAttachment", new TaskAttachment());
+
+    uiModel.addAttribute("itemId", taskId);
+  }
+
+  @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+  public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+    populateEditForm(uiModel, taskService.find(id));
+    return PATH + "/" + UPDATE;
+  }
+
+  @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
+  public String update(Task task, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateEditForm(uiModel, task);
+      return PATH + "/" + UPDATE;
+    }
+
+    taskService.update(task);
+
+    uiModel.asMap().clear();
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(task.getId().toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String delete(@PathVariable("id") Integer id, Model uiModel) {
+    taskService.delete(id);
+
+    uiModel.asMap().clear();
+    return REDIRECT + PATH;
+  }
+
+  @RequestMapping(value = "/comment/{taskId}", method = RequestMethod.POST, produces = "text/html")
+  public String createComment(@PathVariable("taskId") Integer taskId, TaskComment taskComment,
+      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    if (bindingResult.hasErrors()) {
+      populateShowForm(uiModel, taskId);
+      return PATH + "/" + SHOW;
+    }
+
+    taskService.createComment(taskId, taskComment);
+
+    uiModel.asMap().clear();
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/comment/{taskId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String deleteComment(@PathVariable("taskId") Integer taskId, @PathVariable("id") Integer id, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    taskCommentService.delete(id);
+
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/attachment/{taskId}", method = RequestMethod.POST, produces = "text/html")
+  public String createAttachment(@PathVariable("taskId") Integer taskId, TaskAttachment taskAttachment,
+      @RequestParam("content") MultipartFile content, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    try {
+      // bind
+      if (bindingResult.hasErrors()) {
+        populateShowForm(uiModel, taskId);
+        return PATH + "/" + SHOW;
+      }
+
+      taskAttachment.setName(content.getOriginalFilename());
+      taskAttachment.setContentType(content.getContentType());
+      taskAttachment.setContentSize(content.getSize());
+
+      taskService.createAttachment(taskId, taskAttachment);
+
+      uiModel.asMap().clear();
+      return REDIRECT + PATH + "/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
+
+  @RequestMapping(value = "/attachment/{taskId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String deleteAttachment(@PathVariable("taskId") Integer taskId, @PathVariable("id") Integer id, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    taskAttachmentService.delete(id);
+
+    uiModel.asMap().clear();
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
+  }
+
+  @RequestMapping(value = "/attachment/{id}", method = RequestMethod.GET)
+  public String downloadAttachment(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
+    try {
+      TaskAttachment taskAttachment = taskAttachmentService.find(id);
+
+      response.setHeader("Content-Disposition", "attachment; filename=\"" + taskAttachment.getName() + "\"");
+      response.setContentType(taskAttachment.getContentType());
+
+      OutputStream out = response.getOutputStream();
+      IOUtils.copy(new ByteArrayInputStream(taskAttachment.getContent()), out);
+      out.flush();
+
+      return null;
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+  }
 
 }

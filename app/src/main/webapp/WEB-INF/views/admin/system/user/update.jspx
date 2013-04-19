@@ -29,7 +29,7 @@
           <field:input field="www" id="c_address_www" max="250" />
         </form:update>
       </td>
-      <td id="fu_user_column_2">
+      <td id="fu_user_col_2">
         <page:show id="pu-image_userimage" object="${userImageForm}" path="/admin/system/user/image" label="user_show_user_image" entityName="user_image" entityNamePlural="user_images" list="false" create="false" update="false" delete="true" render="${not empty userImageForm['imageUrl']}">
           <field:media field="imageUrl" contentType="imageContentType" id="s_user_image" object="${userForm}" />
         </page:show>
