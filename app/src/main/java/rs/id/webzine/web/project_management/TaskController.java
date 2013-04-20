@@ -208,8 +208,9 @@ public class TaskController extends WebController {
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(taskId.toString(), httpServletRequest);
   }
 
-  @RequestMapping(value = "/attachment/{id}", method = RequestMethod.GET)
-  public String downloadAttachment(@PathVariable("id") Integer id, HttpServletResponse response, Model model) {
+  @RequestMapping(value = "/attachment/{taskId}/{id}", method = RequestMethod.GET)
+  public String downloadAttachment(@PathVariable("taskId") Integer taskId, @PathVariable("id") Integer id,
+      HttpServletResponse response, Model model) {
     try {
       TaskAttachment taskAttachment = taskAttachmentService.find(id);
 
