@@ -19,13 +19,13 @@ import rs.id.webzine.domain.ArticleCommentStatus;
 import rs.id.webzine.domain.ArticleRate;
 import rs.id.webzine.domain.ArticleStatus;
 import rs.id.webzine.domain.Category;
-import rs.id.webzine.domain.Content;
-import rs.id.webzine.domain.ContentType;
 import rs.id.webzine.domain.Customer;
-import rs.id.webzine.domain.ManagedContent;
 import rs.id.webzine.domain.ReaderType;
 import rs.id.webzine.domain.UserArticle;
 import rs.id.webzine.domain.UserArticleStatus;
+import rs.id.webzine.domain.content_management.Content;
+import rs.id.webzine.domain.content_management.ContentType;
+import rs.id.webzine.domain.content_management.ManagedContent;
 import rs.id.webzine.domain.project_management.Task;
 import rs.id.webzine.domain.project_management.TaskAttachment;
 import rs.id.webzine.domain.project_management.TaskComment;
@@ -35,6 +35,9 @@ import rs.id.webzine.domain.system.Country;
 import rs.id.webzine.domain.system.Role;
 import rs.id.webzine.domain.system.User;
 import rs.id.webzine.domain.system.UserStatus;
+import rs.id.webzine.service.content_management.ContentService;
+import rs.id.webzine.service.content_management.ContentTypeService;
+import rs.id.webzine.service.content_management.ManagedContentService;
 import rs.id.webzine.service.project_management.TaskAttachmentService;
 import rs.id.webzine.service.project_management.TaskCommentService;
 import rs.id.webzine.service.project_management.TaskPriorityService;
@@ -81,9 +84,18 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   @Autowired
   TaskAttachmentService taskAttachmentService;
 
+  @Autowired
+  ManagedContentService managedContentService;
+
+  @Autowired
+  ContentTypeService contentTypeService;
+
+  @Autowired
+  ContentService contentService;
+
   // role
   public Converter<Role, String> getRoleToStringConverter() {
-    return new Converter<Role, java.lang.String>() {
+    return new Converter<Role, String>() {
       public String convert(Role role) {
         return role.getName();
       }
@@ -91,15 +103,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, Role> getIdToRoleConverter() {
-    return new Converter<java.lang.Integer, Role>() {
-      public Role convert(java.lang.Integer id) {
+    return new Converter<Integer, Role>() {
+      public Role convert(Integer id) {
         return roleService.find(id);
       }
     };
   }
 
   public Converter<String, Role> getStringToRoleConverter() {
-    return new Converter<java.lang.String, Role>() {
+    return new Converter<String, Role>() {
       public Role convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), Role.class);
       }
@@ -108,7 +120,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // user status
   public Converter<UserStatus, String> getUserStatusToStringConverter() {
-    return new Converter<UserStatus, java.lang.String>() {
+    return new Converter<UserStatus, String>() {
       public String convert(UserStatus userStatus) {
         return userStatus.getName();
       }
@@ -116,15 +128,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, UserStatus> getIdToUserStatusConverter() {
-    return new Converter<java.lang.Integer, UserStatus>() {
-      public UserStatus convert(java.lang.Integer id) {
+    return new Converter<Integer, UserStatus>() {
+      public UserStatus convert(Integer id) {
         return userStatusService.find(id);
       }
     };
   }
 
   public Converter<String, UserStatus> getStringToUserStatusConverter() {
-    return new Converter<java.lang.String, UserStatus>() {
+    return new Converter<String, UserStatus>() {
       public UserStatus convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), UserStatus.class);
       }
@@ -133,7 +145,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // user
   public Converter<User, String> getUserToStringConverter() {
-    return new Converter<User, java.lang.String>() {
+    return new Converter<User, String>() {
       public String convert(User user) {
         if (user.getId() != -1) {
           return user.getUserName();
@@ -145,8 +157,8 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, User> getIdToUserConverter() {
-    return new Converter<java.lang.Integer, User>() {
-      public User convert(java.lang.Integer id) {
+    return new Converter<Integer, User>() {
+      public User convert(Integer id) {
         if (id != -1) {
           return userService.find(id);
         } else {
@@ -159,7 +171,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<String, User> getStringToUserConverter() {
-    return new Converter<java.lang.String, User>() {
+    return new Converter<String, User>() {
       public User convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), User.class);
       }
@@ -167,7 +179,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<UserForm, String> getUserFormToStringConverter() {
-    return new Converter<UserForm, java.lang.String>() {
+    return new Converter<UserForm, String>() {
       public String convert(UserForm userForm) {
         return userForm.getUserName();
       }
@@ -175,8 +187,8 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, UserForm> getIdToUserFormConverter() {
-    return new Converter<java.lang.Integer, UserForm>() {
-      public UserForm convert(java.lang.Integer id) {
+    return new Converter<Integer, UserForm>() {
+      public UserForm convert(Integer id) {
         try {
           UserForm userForm = new UserForm();
           User user = userService.find(id);
@@ -195,7 +207,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<String, UserForm> getStringToUserFormConverter() {
-    return new Converter<java.lang.String, UserForm>() {
+    return new Converter<String, UserForm>() {
       public UserForm convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), UserForm.class);
       }
@@ -204,7 +216,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // country
   public Converter<Country, String> getCountryToStringConverter() {
-    return new Converter<Country, java.lang.String>() {
+    return new Converter<Country, String>() {
       public String convert(Country country) {
         return country.getName();
       }
@@ -212,15 +224,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, Country> getIdToCountryConverter() {
-    return new Converter<java.lang.Integer, Country>() {
-      public Country convert(java.lang.Integer id) {
+    return new Converter<Integer, Country>() {
+      public Country convert(Integer id) {
         return countryService.find(id);
       }
     };
   }
 
   public Converter<String, Country> getStringToCountryConverter() {
-    return new Converter<java.lang.String, Country>() {
+    return new Converter<String, Country>() {
       public Country convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), Country.class);
       }
@@ -229,7 +241,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // task status
   public Converter<TaskStatus, String> getTaskStatusToStringConverter() {
-    return new Converter<TaskStatus, java.lang.String>() {
+    return new Converter<TaskStatus, String>() {
       public String convert(TaskStatus taskStatus) {
         return taskStatus.getName();
       }
@@ -237,15 +249,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, TaskStatus> getIdToTaskStatusConverter() {
-    return new Converter<java.lang.Integer, TaskStatus>() {
-      public TaskStatus convert(java.lang.Integer id) {
+    return new Converter<Integer, TaskStatus>() {
+      public TaskStatus convert(Integer id) {
         return taskStatusService.find(id);
       }
     };
   }
 
   public Converter<String, TaskStatus> getStringToTaskStatusConverter() {
-    return new Converter<java.lang.String, TaskStatus>() {
+    return new Converter<String, TaskStatus>() {
       public TaskStatus convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), TaskStatus.class);
       }
@@ -254,7 +266,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // task priority
   public Converter<TaskPriority, String> getTaskPriorityToStringConverter() {
-    return new Converter<TaskPriority, java.lang.String>() {
+    return new Converter<TaskPriority, String>() {
       public String convert(TaskPriority taskPriority) {
         return taskPriority.getName();
       }
@@ -262,15 +274,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, TaskPriority> getIdToTaskPriorityConverter() {
-    return new Converter<java.lang.Integer, TaskPriority>() {
-      public TaskPriority convert(java.lang.Integer id) {
+    return new Converter<Integer, TaskPriority>() {
+      public TaskPriority convert(Integer id) {
         return taskPriorityService.find(id);
       }
     };
   }
 
   public Converter<String, TaskPriority> getStringToTaskPriorityConverter() {
-    return new Converter<java.lang.String, TaskPriority>() {
+    return new Converter<String, TaskPriority>() {
       public TaskPriority convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), TaskPriority.class);
       }
@@ -279,7 +291,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // task
   public Converter<Task, String> getTaskToStringConverter() {
-    return new Converter<Task, java.lang.String>() {
+    return new Converter<Task, String>() {
       public String convert(Task task) {
         if (task.getId() != -1) {
           return task.getId() + " " + task.getTitle();
@@ -291,8 +303,8 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, Task> getIdToTaskConverter() {
-    return new Converter<java.lang.Integer, Task>() {
-      public Task convert(java.lang.Integer id) {
+    return new Converter<Integer, Task>() {
+      public Task convert(Integer id) {
         if (id != -1) {
           return taskService.find(id);
         } else {
@@ -305,7 +317,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<String, Task> getStringToTaskConverter() {
-    return new Converter<java.lang.String, Task>() {
+    return new Converter<String, Task>() {
       public Task convert(String id) {
         if (id != null && !id.isEmpty()) {
           return getObject().convert(getObject().convert(id, Integer.class), Task.class);
@@ -318,7 +330,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // task comment
   public Converter<TaskComment, String> getTaskCommentToStringConverter() {
-    return new Converter<TaskComment, java.lang.String>() {
+    return new Converter<TaskComment, String>() {
       public String convert(TaskComment taskComment) {
         return taskComment.getId().toString();
       }
@@ -326,23 +338,24 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, TaskComment> getIdToTaskCommentConverter() {
-    return new Converter<java.lang.Integer, TaskComment>() {
-      public TaskComment convert(java.lang.Integer id) {
+    return new Converter<Integer, TaskComment>() {
+      public TaskComment convert(Integer id) {
         return taskCommentService.find(id);
       }
     };
   }
 
   public Converter<String, TaskComment> getStringToTaskCommentConverter() {
-    return new Converter<java.lang.String, TaskComment>() {
+    return new Converter<String, TaskComment>() {
       public TaskComment convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), TaskComment.class);
       }
     };
   }
 
+  // task attachment
   public Converter<TaskAttachment, String> getTaskAttachmentToStringConverter() {
-    return new Converter<TaskAttachment, java.lang.String>() {
+    return new Converter<TaskAttachment, String>() {
       public String convert(TaskAttachment taskAttachment) {
         return taskAttachment.getId().toString();
       }
@@ -350,49 +363,99 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, TaskAttachment> getIdToTaskAttachmentConverter() {
-    return new Converter<java.lang.Integer, TaskAttachment>() {
-      public TaskAttachment convert(java.lang.Integer id) {
+    return new Converter<Integer, TaskAttachment>() {
+      public TaskAttachment convert(Integer id) {
         return taskAttachmentService.find(id);
       }
     };
   }
 
   public Converter<String, TaskAttachment> getStringToTaskAttachmentConverter() {
-    return new Converter<java.lang.String, TaskAttachment>() {
+    return new Converter<String, TaskAttachment>() {
       public TaskAttachment convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), TaskAttachment.class);
       }
     };
   }
 
+  // managed content
+  public Converter<ManagedContent, String> getManagedContentToStringConverter() {
+    return new Converter<ManagedContent, String>() {
+      public String convert(ManagedContent managedContent) {
+        return managedContent.getId().toString();
+      }
+    };
+  }
+
+  public Converter<Integer, ManagedContent> getIdToManagedContentConverter() {
+    return new Converter<Integer, ManagedContent>() {
+      public ManagedContent convert(Integer id) {
+        return managedContentService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, ManagedContent> getStringToManagedContentConverter() {
+    return new Converter<String, ManagedContent>() {
+      public ManagedContent convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), ManagedContent.class);
+      }
+    };
+  }
+
   // content type
   public Converter<ContentType, String> getContentTypeToStringConverter() {
-    return new Converter<ContentType, java.lang.String>() {
+    return new Converter<ContentType, String>() {
       public String convert(ContentType contentType) {
-        return new StringBuilder().append(contentType.getName()).toString();
+        return contentType.getName();
       }
     };
   }
 
   public Converter<Integer, ContentType> getIdToContentTypeConverter() {
-    return new Converter<java.lang.Integer, ContentType>() {
-      public ContentType convert(java.lang.Integer id) {
-        return ContentType.find(id);
+    return new Converter<Integer, ContentType>() {
+      public ContentType convert(Integer id) {
+        return contentTypeService.find(id);
       }
     };
   }
 
   public Converter<String, ContentType> getStringToContentTypeConverter() {
-    return new Converter<java.lang.String, ContentType>() {
+    return new Converter<String, ContentType>() {
       public ContentType convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ContentType.class);
       }
     };
   }
 
+  // content
+  public Converter<Content, String> getContentToStringConverter() {
+    return new Converter<Content, String>() {
+      public String convert(Content content) {
+        return content.getId().toString();
+      }
+    };
+  }
+
+  public Converter<Integer, Content> getIdToContentConverter() {
+    return new Converter<Integer, Content>() {
+      public Content convert(Integer id) {
+        return contentService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, Content> getStringToContentConverter() {
+    return new Converter<String, Content>() {
+      public Content convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), Content.class);
+      }
+    };
+  }
+
   // reader type
   public Converter<ReaderType, String> getReaderTypeToStringConverter() {
-    return new Converter<ReaderType, java.lang.String>() {
+    return new Converter<ReaderType, String>() {
       public String convert(ReaderType readerType) {
         return new StringBuilder().append(readerType.getName()).toString();
       }
@@ -400,15 +463,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, ReaderType> getIdToReaderTypeConverter() {
-    return new Converter<java.lang.Integer, ReaderType>() {
-      public ReaderType convert(java.lang.Integer id) {
+    return new Converter<Integer, ReaderType>() {
+      public ReaderType convert(Integer id) {
         return ReaderType.find(id);
       }
     };
   }
 
   public Converter<String, ReaderType> getStringToReaderTypeConverter() {
-    return new Converter<java.lang.String, ReaderType>() {
+    return new Converter<String, ReaderType>() {
       public ReaderType convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ReaderType.class);
       }
@@ -417,7 +480,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // category
   public Converter<Category, String> getCategoryToStringConverter() {
-    return new Converter<Category, java.lang.String>() {
+    return new Converter<Category, String>() {
       public String convert(Category category) {
         return new StringBuilder().append(category.getName()).toString();
       }
@@ -425,15 +488,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, Category> getIdToCategoryConverter() {
-    return new Converter<java.lang.Integer, Category>() {
-      public Category convert(java.lang.Integer id) {
+    return new Converter<Integer, Category>() {
+      public Category convert(Integer id) {
         return Category.find(id);
       }
     };
   }
 
   public Converter<String, Category> getStringToCategoryConverter() {
-    return new Converter<java.lang.String, Category>() {
+    return new Converter<String, Category>() {
       public Category convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), Category.class);
       }
@@ -442,7 +505,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // article status
   public Converter<ArticleStatus, String> getArticleStatusToStringConverter() {
-    return new Converter<ArticleStatus, java.lang.String>() {
+    return new Converter<ArticleStatus, String>() {
       public String convert(ArticleStatus articleStatus) {
         return new StringBuilder().append(articleStatus.getName()).toString();
       }
@@ -450,15 +513,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, ArticleStatus> getIdToArticleStatusConverter() {
-    return new Converter<java.lang.Integer, ArticleStatus>() {
-      public ArticleStatus convert(java.lang.Integer id) {
+    return new Converter<Integer, ArticleStatus>() {
+      public ArticleStatus convert(Integer id) {
         return ArticleStatus.find(id);
       }
     };
   }
 
   public Converter<String, ArticleStatus> getStringToArticleStatusConverter() {
-    return new Converter<java.lang.String, ArticleStatus>() {
+    return new Converter<String, ArticleStatus>() {
       public ArticleStatus convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ArticleStatus.class);
       }
@@ -467,7 +530,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // article comment
   public Converter<ArticleCommentStatus, String> getArticleCommentStatusToStringConverter() {
-    return new Converter<ArticleCommentStatus, java.lang.String>() {
+    return new Converter<ArticleCommentStatus, String>() {
       public String convert(ArticleCommentStatus articleStatus) {
         return new StringBuilder().append(articleStatus.getName()).toString();
       }
@@ -475,15 +538,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, ArticleCommentStatus> getIdToArticleCommentStatusConverter() {
-    return new Converter<java.lang.Integer, ArticleCommentStatus>() {
-      public ArticleCommentStatus convert(java.lang.Integer id) {
+    return new Converter<Integer, ArticleCommentStatus>() {
+      public ArticleCommentStatus convert(Integer id) {
         return ArticleCommentStatus.find(id);
       }
     };
   }
 
   public Converter<String, ArticleCommentStatus> getStringToArticleCommentStatusConverter() {
-    return new Converter<java.lang.String, ArticleCommentStatus>() {
+    return new Converter<String, ArticleCommentStatus>() {
       public ArticleCommentStatus convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ArticleCommentStatus.class);
       }
@@ -492,7 +555,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // user article status
   public Converter<UserArticleStatus, String> getUserArticleStatusToStringConverter() {
-    return new Converter<UserArticleStatus, java.lang.String>() {
+    return new Converter<UserArticleStatus, String>() {
       public String convert(UserArticleStatus articleStatus) {
         return new StringBuilder().append(articleStatus.getName()).toString();
       }
@@ -500,15 +563,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, UserArticleStatus> getIdToUserArticleStatusConverter() {
-    return new Converter<java.lang.Integer, UserArticleStatus>() {
-      public UserArticleStatus convert(java.lang.Integer id) {
+    return new Converter<Integer, UserArticleStatus>() {
+      public UserArticleStatus convert(Integer id) {
         return UserArticleStatus.find(id);
       }
     };
   }
 
   public Converter<String, UserArticleStatus> getStringToUserArticleStatusConverter() {
-    return new Converter<java.lang.String, UserArticleStatus>() {
+    return new Converter<String, UserArticleStatus>() {
       public UserArticleStatus convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), UserArticleStatus.class);
       }
@@ -517,7 +580,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   // ad status
   public Converter<AdStatus, String> getAdStatusToStringConverter() {
-    return new Converter<AdStatus, java.lang.String>() {
+    return new Converter<AdStatus, String>() {
       public String convert(AdStatus adStatus) {
         return new StringBuilder().append(adStatus.getName()).toString();
       }
@@ -525,15 +588,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, AdStatus> getIdToAdStatusConverter() {
-    return new Converter<java.lang.Integer, AdStatus>() {
-      public AdStatus convert(java.lang.Integer id) {
+    return new Converter<Integer, AdStatus>() {
+      public AdStatus convert(Integer id) {
         return AdStatus.find(id);
       }
     };
   }
 
   public Converter<String, AdStatus> getStringToAdStatusConverter() {
-    return new Converter<java.lang.String, AdStatus>() {
+    return new Converter<String, AdStatus>() {
       public AdStatus convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), AdStatus.class);
       }
@@ -541,7 +604,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Ad, String> getAdToStringConverter() {
-    return new Converter<Ad, java.lang.String>() {
+    return new Converter<Ad, String>() {
       public String convert(Ad ad) {
         return new StringBuilder().append(ad.getName()).toString();
       }
@@ -549,15 +612,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, Ad> getIdToAdConverter() {
-    return new Converter<java.lang.Integer, Ad>() {
-      public Ad convert(java.lang.Integer id) {
+    return new Converter<Integer, Ad>() {
+      public Ad convert(Integer id) {
         return Ad.find(id);
       }
     };
   }
 
   public Converter<String, Ad> getStringToAdConverter() {
-    return new Converter<java.lang.String, Ad>() {
+    return new Converter<String, Ad>() {
       public Ad convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), Ad.class);
       }
@@ -565,7 +628,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Article, String> getArticleToStringConverter() {
-    return new Converter<Article, java.lang.String>() {
+    return new Converter<Article, String>() {
       public String convert(Article article) {
         return new StringBuilder().append(article.getId()).toString();
       }
@@ -573,15 +636,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, Article> getIdToArticleConverter() {
-    return new Converter<java.lang.Integer, Article>() {
-      public Article convert(java.lang.Integer id) {
+    return new Converter<Integer, Article>() {
+      public Article convert(Integer id) {
         return Article.find(id);
       }
     };
   }
 
   public Converter<String, Article> getStringToArticleConverter() {
-    return new Converter<java.lang.String, Article>() {
+    return new Converter<String, Article>() {
       public Article convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), Article.class);
       }
@@ -589,7 +652,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<ArticleBookmark, String> getArticleBookmarkToStringConverter() {
-    return new Converter<ArticleBookmark, java.lang.String>() {
+    return new Converter<ArticleBookmark, String>() {
       public String convert(ArticleBookmark articleBookmark) {
         return new StringBuilder().append(articleBookmark.getDc()).append(' ').append(articleBookmark.getDm())
             .toString();
@@ -598,15 +661,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, ArticleBookmark> getIdToArticleBookmarkConverter() {
-    return new Converter<java.lang.Integer, ArticleBookmark>() {
-      public ArticleBookmark convert(java.lang.Integer id) {
+    return new Converter<Integer, ArticleBookmark>() {
+      public ArticleBookmark convert(Integer id) {
         return ArticleBookmark.findArticleBookmark(id);
       }
     };
   }
 
   public Converter<String, ArticleBookmark> getStringToArticleBookmarkConverter() {
-    return new Converter<java.lang.String, ArticleBookmark>() {
+    return new Converter<String, ArticleBookmark>() {
       public ArticleBookmark convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ArticleBookmark.class);
       }
@@ -614,7 +677,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<ArticleCategory, String> getArticleCategoryToStringConverter() {
-    return new Converter<ArticleCategory, java.lang.String>() {
+    return new Converter<ArticleCategory, String>() {
       public String convert(ArticleCategory articleCategory) {
         return new StringBuilder().append(articleCategory.getDc()).append(' ').append(articleCategory.getDm())
             .toString();
@@ -623,15 +686,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, ArticleCategory> getIdToArticleCategoryConverter() {
-    return new Converter<java.lang.Integer, ArticleCategory>() {
-      public ArticleCategory convert(java.lang.Integer id) {
+    return new Converter<Integer, ArticleCategory>() {
+      public ArticleCategory convert(Integer id) {
         return ArticleCategory.find(id);
       }
     };
   }
 
   public Converter<String, ArticleCategory> getStringToArticleCategoryConverter() {
-    return new Converter<java.lang.String, ArticleCategory>() {
+    return new Converter<String, ArticleCategory>() {
       public ArticleCategory convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ArticleCategory.class);
       }
@@ -639,7 +702,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<ArticleComment, String> getArticleCommentToStringConverter() {
-    return new Converter<ArticleComment, java.lang.String>() {
+    return new Converter<ArticleComment, String>() {
       public String convert(ArticleComment articleComment) {
         return new StringBuilder().append(articleComment.getText()).append(' ').append(articleComment.getPublishedAt())
             .append(' ').append(articleComment.getDc()).toString();
@@ -648,15 +711,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, ArticleComment> getIdToArticleCommentConverter() {
-    return new Converter<java.lang.Integer, ArticleComment>() {
-      public ArticleComment convert(java.lang.Integer id) {
+    return new Converter<Integer, ArticleComment>() {
+      public ArticleComment convert(Integer id) {
         return ArticleComment.find(id);
       }
     };
   }
 
   public Converter<String, ArticleComment> getStringToArticleCommentConverter() {
-    return new Converter<java.lang.String, ArticleComment>() {
+    return new Converter<String, ArticleComment>() {
       public ArticleComment convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ArticleComment.class);
       }
@@ -664,7 +727,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<ArticleRate, String> getArticleRateToStringConverter() {
-    return new Converter<ArticleRate, java.lang.String>() {
+    return new Converter<ArticleRate, String>() {
       public String convert(ArticleRate articleRate) {
         return new StringBuilder().append(articleRate.getRate()).append(' ').append(articleRate.getDc()).append(' ')
             .append(articleRate.getDm()).toString();
@@ -673,47 +736,23 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, ArticleRate> getIdToArticleRateConverter() {
-    return new Converter<java.lang.Integer, ArticleRate>() {
-      public ArticleRate convert(java.lang.Integer id) {
+    return new Converter<Integer, ArticleRate>() {
+      public ArticleRate convert(Integer id) {
         return ArticleRate.findArticleRate(id);
       }
     };
   }
 
   public Converter<String, ArticleRate> getStringToArticleRateConverter() {
-    return new Converter<java.lang.String, ArticleRate>() {
+    return new Converter<String, ArticleRate>() {
       public ArticleRate convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ArticleRate.class);
       }
     };
   }
 
-  public Converter<Content, String> getContentToStringConverter() {
-    return new Converter<Content, java.lang.String>() {
-      public String convert(Content content) {
-        return new StringBuilder().append(content.getOrderNo()).append(' ').append(content.getDescription()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, Content> getIdToContentConverter() {
-    return new Converter<java.lang.Integer, Content>() {
-      public Content convert(java.lang.Integer id) {
-        return Content.find(id);
-      }
-    };
-  }
-
-  public Converter<String, Content> getStringToContentConverter() {
-    return new Converter<java.lang.String, Content>() {
-      public Content convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), Content.class);
-      }
-    };
-  }
-
   public Converter<Customer, String> getCustomerToStringConverter() {
-    return new Converter<Customer, java.lang.String>() {
+    return new Converter<Customer, String>() {
       public String convert(Customer customer) {
         return new StringBuilder().append(customer.getName()).append(' ').append(customer.getDescription()).toString();
       }
@@ -721,47 +760,23 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, Customer> getIdToCustomerConverter() {
-    return new Converter<java.lang.Integer, Customer>() {
-      public Customer convert(java.lang.Integer id) {
+    return new Converter<Integer, Customer>() {
+      public Customer convert(Integer id) {
         return Customer.find(id);
       }
     };
   }
 
   public Converter<String, Customer> getStringToCustomerConverter() {
-    return new Converter<java.lang.String, Customer>() {
+    return new Converter<String, Customer>() {
       public Customer convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), Customer.class);
       }
     };
   }
 
-  public Converter<ManagedContent, String> getManagedContentToStringConverter() {
-    return new Converter<ManagedContent, java.lang.String>() {
-      public String convert(ManagedContent managedContent) {
-        return new StringBuilder().append(managedContent.getCss()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, ManagedContent> getIdToManagedContentConverter() {
-    return new Converter<java.lang.Integer, ManagedContent>() {
-      public ManagedContent convert(java.lang.Integer id) {
-        return ManagedContent.find(id);
-      }
-    };
-  }
-
-  public Converter<String, ManagedContent> getStringToManagedContentConverter() {
-    return new Converter<java.lang.String, ManagedContent>() {
-      public ManagedContent convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), ManagedContent.class);
-      }
-    };
-  }
-
   public Converter<UserArticle, String> getUserArticleToStringConverter() {
-    return new Converter<UserArticle, java.lang.String>() {
+    return new Converter<UserArticle, String>() {
       public String convert(UserArticle userArticle) {
         return new StringBuilder().append(userArticle.getTitle()).append(' ').append(userArticle.getText()).append(' ')
             .toString();
@@ -770,15 +785,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   }
 
   public Converter<Integer, UserArticle> getIdToUserArticleConverter() {
-    return new Converter<java.lang.Integer, UserArticle>() {
-      public UserArticle convert(java.lang.Integer id) {
+    return new Converter<Integer, UserArticle>() {
+      public UserArticle convert(Integer id) {
         return UserArticle.find(id);
       }
     };
   }
 
   public Converter<String, UserArticle> getStringToUserArticleConverter() {
-    return new Converter<java.lang.String, UserArticle>() {
+    return new Converter<String, UserArticle>() {
       public UserArticle convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), UserArticle.class);
       }
@@ -835,10 +850,20 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getIdToTaskAttachmentConverter());
     registry.addConverter(getStringToTaskAttachmentConverter());
 
+    // managed content
+    registry.addConverter(getManagedContentToStringConverter());
+    registry.addConverter(getIdToManagedContentConverter());
+    registry.addConverter(getStringToManagedContentConverter());
+
     // content type
     registry.addConverter(getContentTypeToStringConverter());
     registry.addConverter(getIdToContentTypeConverter());
     registry.addConverter(getStringToContentTypeConverter());
+
+    // content
+    registry.addConverter(getContentToStringConverter());
+    registry.addConverter(getIdToContentConverter());
+    registry.addConverter(getStringToContentConverter());
 
     // reader type
     registry.addConverter(getReaderTypeToStringConverter());
@@ -893,16 +918,10 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getArticleRateToStringConverter());
     registry.addConverter(getIdToArticleRateConverter());
     registry.addConverter(getStringToArticleRateConverter());
-    registry.addConverter(getContentToStringConverter());
-    registry.addConverter(getIdToContentConverter());
-    registry.addConverter(getStringToContentConverter());
 
     registry.addConverter(getCustomerToStringConverter());
     registry.addConverter(getIdToCustomerConverter());
     registry.addConverter(getStringToCustomerConverter());
-    registry.addConverter(getManagedContentToStringConverter());
-    registry.addConverter(getIdToManagedContentConverter());
-    registry.addConverter(getStringToManagedContentConverter());
 
     registry.addConverter(getReaderTypeToStringConverter());
     registry.addConverter(getIdToReaderTypeConverter());
