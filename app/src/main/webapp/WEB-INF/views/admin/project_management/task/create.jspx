@@ -4,7 +4,7 @@
   <jsp:output omit-xml-declaration="yes" />
   <form:create id="fc_task" modelAttribute="task" path="/admin/project_management/task">
     <field:input field="title" id="c_task_title" required="true" max="250" />
-    <field:textarea field="description" id="c_task_description" max="1000" />
+    <field:editor field="description" id="c_task_description" />
     <field:select field="priority" id="c_task_priority" itemValue="id" items="${taskPriorityList}" path="/admin/project_management/task_priority" required="true" />
     <field:select field="ownerUser" id="c_task_owneruser" itemValue="id" items="${userList}" path="/admin/project_management/user" required="false" />
     <field:select field="parentTask" id="c_task_parenttask" itemValue="id" items="${parentTaskList}" path="/admin/project_management/task" required="false" />

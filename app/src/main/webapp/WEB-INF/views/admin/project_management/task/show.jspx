@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form"
+  xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
   <table class="inputGridTable">
@@ -20,7 +21,13 @@
       <td id="ps_task_col_2">
         <!-- Attachment -->
         <form:create id="fc_taskattachment" modelAttribute="taskAttachment" path="/admin/project_management/task/attachment/${task.id}" multipart="true" list="false" openPane="true">
-          <field:file field="content" id="c_taskAttachment_content" required="true" />
+          <field:file field="content" id="c_taskAttachment_content" />
+          <c:if test="${not empty attachment_required}">
+            <spring:message code="validation_attachment_is_required" var="requiredErrorMessage" />
+            <div class="errors">
+              <c:out value="${requiredErrorMessage}" />
+            </div>
+          </c:if>
         </form:create>
         <BR />
         <page:list id="pl_taskattachment" items="${taskAttachmentList}" create="false" openPane="true">

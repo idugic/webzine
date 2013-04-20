@@ -17,9 +17,10 @@ body {
   margin-right: auto;
   margin-left: auto;
   /* fix max-width incompatibility in IE6 */
-  width: expression(document.body.clientWidth >         800 ?         "800px" :
+  width: expression(document.body.clientWidth >             800 ?            
+    "800px" :  
          
-      "auto");
+        "auto");
   overflow: hidden;
   display: block;
 }
@@ -265,7 +266,6 @@ a img {
 tr {
   background-color: #FFFFFF;
 }
-
 
 tr:nth-child(odd) {
   background-color: #FFFFFF;
@@ -613,8 +613,8 @@ fieldset th {
 
 /* task */
 #l_task_id {
-	text-align: right;
-	font-weight: bold;
+  text-align: right;
+  font-weight: bold;
 }
 
 #l_task_title {
@@ -629,10 +629,12 @@ fieldset th {
   width: 40em !important;
 }
 
-#_title_fc_task_id #_description_id {
-	width: 475px;
-  max-width: 475px;
-  height: 300px;
+#_title_fc_task_id #_description_id_ {
+  margin-left: 100px;
+  width: 480px;
+  max-width: 480px;
+  height: 200px;
+  border-top: 1px solid #CCCCCC;
 }
 
 #_title_fc_task_id #widget__parentTask_id {
@@ -641,6 +643,10 @@ fieldset th {
 
 #_title_ps_task_id {
   width: 635px;
+}
+
+#_s_task_description_description_id {
+  margin-left: 100px;
 }
 
 #_title_pss_task_id {
@@ -662,15 +668,15 @@ fieldset th {
 }
 
 #l_taskcomment_text {
-	width: 400px;
+  width: 400px;
 }
 
 #_title_fc_taskattachment_id {
-   width: 435px;
+  width: 435px;
 }
 
 #_title_fc_taskattachment_id #_content_id_val {
-	 width: 235px !important;
+  width: 235px !important;
 }
 
 #ps_task_col_2 {
@@ -693,10 +699,12 @@ fieldset th {
   width: 40em !important;
 }
 
-#_title_fu_task_id #_description_id {
-  width: 475px;
-  max-width: 475px;
-  height: 300px;
+#_title_fu_task_id #_description_id_ {
+  margin-left: 100px;
+  width: 480px;
+  max-width: 480px;
+  height: 200px;
+  border-top: 1px solid #CCCCCC;
 }
 
 #_title_fu_task_id #widget__parentTask_id {

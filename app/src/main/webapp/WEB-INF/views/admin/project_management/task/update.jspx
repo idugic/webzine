@@ -5,7 +5,7 @@
   <form:update id="fu_task" modelAttribute="task" path="/admin/project_management/task" versionField="none">
     <field:input field="id" id="c_task_id" readonly="true" />
     <field:input field="title" id="c_task_title" required="true" max="250" />
-    <field:textarea field="description" id="c_task_description" max="1000" />
+    <field:editor field="description" id="c_task_description" />
     <field:select field="status" id="c_task_status" itemValue="id" items="${taskStatusList}" path="/admin/project_management/task_status" required="true" />
     <field:select field="priority" id="c_task_priority" itemValue="id" items="${taskPriorityList}" path="/admin/project_management/task_priority" required="true" />
     <field:select field="ownerUser" id="c_task_owneruser" itemValue="id" items="${userList}" path="/admin/project_management/user" required="false" />
