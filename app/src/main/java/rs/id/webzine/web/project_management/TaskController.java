@@ -184,6 +184,12 @@ public class TaskController extends WebController {
         populateShowForm(uiModel, taskId);
         return PATH + "/" + SHOW;
       }
+      
+      if (taskAttachment.getContent() == null || taskAttachment.getContent().length == 0) {
+        populateShowForm(uiModel, taskId);
+        uiModel.addAttribute("attachment_required", "!");
+        return PATH + "/" + SHOW;
+      }
 
       taskAttachment.setName(content.getOriginalFilename());
       taskAttachment.setContentType(content.getContentType());
