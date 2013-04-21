@@ -12,11 +12,11 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class TaskPriorityService extends GenericService<TaskPriority> {
 
-  public static String CD_NORMAL = "normal";
+  public static final String CD_NORMAL = "normal";
 
-  public static String CD_HIGH = "high";
+  public static final String CD_HIGH = "high";
 
-  public static String CD_LOW = "low";
+  public static final String CD_LOW = "low";
 
   public TaskPriority findForCd(String cd) {
     TaskPriority taskPriority = null;

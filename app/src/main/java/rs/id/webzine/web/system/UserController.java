@@ -102,7 +102,7 @@ public class UserController extends WebController {
 
     if (create) {
       // restrict available roles for user
-      uiModel.addAttribute("roleList", roleService.findListForUserCreate());
+      uiModel.addAttribute("roleList", roleService.findForUserCreate());
     } else {
       // update (all available roles)
       uiModel.addAttribute("roleList", roleService.findAll());

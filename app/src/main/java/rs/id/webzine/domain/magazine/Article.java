@@ -1,21 +1,20 @@
-package rs.id.webzine.domain;
+package rs.id.webzine.domain.magazine;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
@@ -23,23 +22,28 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import rs.id.webzine.domain.content_management.ManagedContent;
 import rs.id.webzine.domain.system.User;
-import rs.id.webzine.domain.util.Session;
 
 @Entity
 @Table(schema = "ADMIN", name = "ARTICLE")
 @Configurable
-public class Article extends IdEntity {
+public class Article {
 
-  @Transient
-  String abstractMediaUrl;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "ID")
+  private Integer id;
+
+  @ManyToOne
+  @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
+  private ArticleStatus status;
 
   @Column(name = "TITLE", length = 200)
   @NotNull
   private String title;
 
   @ManyToOne
-  @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
-  private ArticleStatus statusId;
+  @JoinColumn(name = "MANAGED_CONTENT_ID", referencedColumnName = "ID", nullable = false)
+  private ManagedContent managedContent;
 
   @Column(name = "ABSTRACT_TEXT", length = 500)
   private String abstractText;
@@ -50,12 +54,7 @@ public class Article extends IdEntity {
   private byte[] abstractMedia;
 
   @Column(name = "ABSTRACT_MEDIA_CONTENT_TYPE", length = 200)
-  @NotNull
   private String abstractMediaContentType;
-
-  @ManyToOne
-  @JoinColumn(name = "MANAGED_CONTENT_ID", referencedColumnName = "ID", nullable = false)
-  private ManagedContent managedContentId;
 
   @ManyToOne
   @JoinColumn(name = "PUBLISHED_BY", referencedColumnName = "ID")
@@ -85,6 +84,22 @@ public class Article extends IdEntity {
   @DateTimeFormat(style = "MM")
   private Calendar dm;
 
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public ArticleStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(ArticleStatus status) {
+    this.status = status;
+  }
+
   public String getTitle() {
     return title;
   }
@@ -93,12 +108,12 @@ public class Article extends IdEntity {
     this.title = title;
   }
 
-  public ArticleStatus getStatusId() {
-    return statusId;
+  public ManagedContent getManagedContent() {
+    return managedContent;
   }
 
-  public void setStatusId(ArticleStatus statusId) {
-    this.statusId = statusId;
+  public void setManagedContent(ManagedContent managedContent) {
+    this.managedContent = managedContent;
   }
 
   public String getAbstractText() {
@@ -123,14 +138,6 @@ public class Article extends IdEntity {
 
   public void setAbstractMediaContentType(String abstractMediaContentType) {
     this.abstractMediaContentType = abstractMediaContentType;
-  }
-
-  public ManagedContent getManagedContentId() {
-    return managedContentId;
-  }
-
-  public void setManagedContentId(ManagedContent managedContentId) {
-    this.managedContentId = managedContentId;
   }
 
   public User getPublishedBy() {
@@ -179,70 +186,6 @@ public class Article extends IdEntity {
 
   public void setDm(Calendar dm) {
     this.dm = dm;
-  }
-
-  public String getAbstractMediaUrl() {
-    return abstractMediaUrl;
-  }
-
-  public void setAbstractMediaUrl(String abstractMediaUrl) {
-    this.abstractMediaUrl = abstractMediaUrl;
-  }
-
-  public static long count() {
-    return entityManager().createQuery("SELECT COUNT(o) FROM Article o", Long.class).getSingleResult();
-  }
-
-  public static List<Article> findAll() {
-    return entityManager().createQuery("SELECT o FROM Article o", Article.class).getResultList();
-  }
-
-  public static Article find(Integer id) {
-    if (id == null)
-      return null;
-    return entityManager().find(Article.class, id);
-  }
-
-  public static void publish(Integer id) {
-    Article article = find(id);
-    article.setStatusId(ArticleStatus.findForCd(ArticleStatus.CD_PUBLISHED));
-    article.setPublishedBy(Session.getCurrentUser());
-    article.setPublishedAt(Calendar.getInstance());
-    article.merge();
-  }
-
-  public static List<Article> findEntries(int firstResult, int maxResults) {
-    return entityManager().createQuery("SELECT o FROM Article o", Article.class).setFirstResult(firstResult)
-        .setMaxResults(maxResults).getResultList();
-  }
-
-  public static List<Article> findForAd(Integer adId) {
-    if (adId == null) {
-      return null;
-    } else {
-      TypedQuery<Article> query = entityManager().createQuery(
-          "SELECT aa.articleId FROM AdArticle aa JOIN aa.adId a WHERE a.id = :adId", Article.class);
-      query.setParameter("adId", adId);
-      return query.getResultList();
-    }
-  }
-
-  public static List<Article> findAvailableForAd(Integer adId) {
-    if (adId == null) {
-      return null;
-    } else {
-      List<Article> list = new ArrayList<Article>();
-      List<Article> adArticleList = Article.findForAd(adId);
-      if (adArticleList.isEmpty()) {
-        list = findAll();
-      } else {
-        TypedQuery<Article> query = entityManager().createQuery(
-            "SELECT a FROM Article a WHERE a NOT IN :adArticleList", Article.class);
-        query.setParameter("adArticleList", adArticleList);
-        list = query.getResultList();
-      }
-      return list;
-    }
   }
 
 }

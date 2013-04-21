@@ -25,11 +25,11 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import rs.id.webzine.domain.Ad;
 import rs.id.webzine.domain.AdArticle;
 import rs.id.webzine.domain.AdStatus;
-import rs.id.webzine.domain.Article;
 import rs.id.webzine.domain.Customer;
 import rs.id.webzine.domain.content_management.Content;
 import rs.id.webzine.domain.content_management.ContentType;
 import rs.id.webzine.domain.content_management.ManagedContent;
+import rs.id.webzine.domain.magazine.Article;
 import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.Service;
 

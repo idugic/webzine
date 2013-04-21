@@ -26,7 +26,7 @@ public class TaskService extends GenericService<Task> {
   @Autowired
   TaskAttachmentService taskAttachmentService;
 
-  public List<Task> findForParent(Integer id) {
+  public List<Task> findAvailableAsParent(Integer id) {
     List<Task> taskList;
     if (id == null) {
       taskList = findAll();
@@ -49,7 +49,9 @@ public class TaskService extends GenericService<Task> {
   @Override
   @Transactional
   public void create(Task task) {
+
     task.setStatus(taskStatusService.findForCd(TaskStatusService.CD_NEW));
+
     task.setUc(currentUser());
     task.setDc(Calendar.getInstance());
 
@@ -84,6 +86,13 @@ public class TaskService extends GenericService<Task> {
     }
 
     super.update(task);
+  }
+
+  @Override
+  @Transactional
+  public void delete(Integer id) {
+    Task persistedTask = find(id);
+    persistedTask.setStatus(taskStatusService.findForCd(TaskStatusService.CD_DELETED));
   }
 
   @Transactional

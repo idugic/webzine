@@ -11,21 +11,21 @@ import org.springframework.format.support.FormattingConversionServiceFactoryBean
 
 import rs.id.webzine.domain.Ad;
 import rs.id.webzine.domain.AdStatus;
-import rs.id.webzine.domain.Article;
-import rs.id.webzine.domain.ArticleBookmark;
-import rs.id.webzine.domain.ArticleCategory;
-import rs.id.webzine.domain.ArticleComment;
-import rs.id.webzine.domain.ArticleCommentStatus;
-import rs.id.webzine.domain.ArticleRate;
-import rs.id.webzine.domain.ArticleStatus;
-import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.Customer;
-import rs.id.webzine.domain.ReaderType;
-import rs.id.webzine.domain.UserArticle;
-import rs.id.webzine.domain.UserArticleStatus;
 import rs.id.webzine.domain.content_management.Content;
 import rs.id.webzine.domain.content_management.ContentType;
 import rs.id.webzine.domain.content_management.ManagedContent;
+import rs.id.webzine.domain.magazine.Article;
+import rs.id.webzine.domain.magazine.ArticleBookmark;
+import rs.id.webzine.domain.magazine.ArticleCategory;
+import rs.id.webzine.domain.magazine.ArticleComment;
+import rs.id.webzine.domain.magazine.ArticleCommentStatus;
+import rs.id.webzine.domain.magazine.ArticleRate;
+import rs.id.webzine.domain.magazine.ArticleStatus;
+import rs.id.webzine.domain.magazine.Category;
+import rs.id.webzine.domain.magazine.ReaderType;
+import rs.id.webzine.domain.magazine.UserArticle;
+import rs.id.webzine.domain.magazine.UserArticleStatus;
 import rs.id.webzine.domain.project_management.Task;
 import rs.id.webzine.domain.project_management.TaskAttachment;
 import rs.id.webzine.domain.project_management.TaskComment;
@@ -38,6 +38,17 @@ import rs.id.webzine.domain.system.UserStatus;
 import rs.id.webzine.service.content_management.ContentService;
 import rs.id.webzine.service.content_management.ContentTypeService;
 import rs.id.webzine.service.content_management.ManagedContentService;
+import rs.id.webzine.service.magazine.ArticleBookmarkService;
+import rs.id.webzine.service.magazine.ArticleCategoryService;
+import rs.id.webzine.service.magazine.ArticleCommentService;
+import rs.id.webzine.service.magazine.ArticleCommentStatusService;
+import rs.id.webzine.service.magazine.ArticleRateService;
+import rs.id.webzine.service.magazine.ArticleService;
+import rs.id.webzine.service.magazine.ArticleStatusService;
+import rs.id.webzine.service.magazine.CategoryService;
+import rs.id.webzine.service.magazine.ReaderTypeService;
+import rs.id.webzine.service.magazine.UserArticleService;
+import rs.id.webzine.service.magazine.UserArticleStatusService;
 import rs.id.webzine.service.project_management.TaskAttachmentService;
 import rs.id.webzine.service.project_management.TaskCommentService;
 import rs.id.webzine.service.project_management.TaskPriorityService;
@@ -92,6 +103,39 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   @Autowired
   ContentService contentService;
+
+  @Autowired
+  ReaderTypeService readerTypeService;
+
+  @Autowired
+  CategoryService categoryService;
+
+  @Autowired
+  ArticleStatusService articleStatusService;
+
+  @Autowired
+  ArticleService articleService;
+
+  @Autowired
+  ArticleCategoryService articleCategoryService;
+
+  @Autowired
+  ArticleRateService articleRateService;
+
+  @Autowired
+  ArticleCommentStatusService articleCommentStatusService;
+
+  @Autowired
+  ArticleCommentService articleCommentService;
+
+  @Autowired
+  ArticleBookmarkService articleBookmarkService;
+
+  @Autowired
+  UserArticleStatusService userArticleStatusService;
+
+  @Autowired
+  UserArticleService userArticleService;
 
   // role
   public Converter<Role, String> getRoleToStringConverter() {
@@ -465,7 +509,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, ReaderType> getIdToReaderTypeConverter() {
     return new Converter<Integer, ReaderType>() {
       public ReaderType convert(Integer id) {
-        return ReaderType.find(id);
+        return readerTypeService.find(id);
       }
     };
   }
@@ -490,7 +534,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, Category> getIdToCategoryConverter() {
     return new Converter<Integer, Category>() {
       public Category convert(Integer id) {
-        return Category.find(id);
+        return categoryService.find(id);
       }
     };
   }
@@ -515,7 +559,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, ArticleStatus> getIdToArticleStatusConverter() {
     return new Converter<Integer, ArticleStatus>() {
       public ArticleStatus convert(Integer id) {
-        return ArticleStatus.find(id);
+        return articleStatusService.find(id);
       }
     };
   }
@@ -528,7 +572,84 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  // article comment
+  // article
+  public Converter<Article, String> getArticleToStringConverter() {
+    return new Converter<Article, String>() {
+      public String convert(Article article) {
+        return new StringBuilder().append(article.getId()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, Article> getIdToArticleConverter() {
+    return new Converter<Integer, Article>() {
+      public Article convert(Integer id) {
+        return articleService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, Article> getStringToArticleConverter() {
+    return new Converter<String, Article>() {
+      public Article convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), Article.class);
+      }
+    };
+  }
+
+  public Converter<ArticleCategory, String> getArticleCategoryToStringConverter() {
+    return new Converter<ArticleCategory, String>() {
+      public String convert(ArticleCategory articleCategory) {
+        return new StringBuilder().append(articleCategory.getDc()).append(' ').append(articleCategory.getDm())
+            .toString();
+      }
+    };
+  }
+
+  // article category
+  public Converter<Integer, ArticleCategory> getIdToArticleCategoryConverter() {
+    return new Converter<Integer, ArticleCategory>() {
+      public ArticleCategory convert(Integer id) {
+        return articleCategoryService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, ArticleCategory> getStringToArticleCategoryConverter() {
+    return new Converter<String, ArticleCategory>() {
+      public ArticleCategory convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), ArticleCategory.class);
+      }
+    };
+  }
+
+  // article rate
+  public Converter<ArticleRate, String> getArticleRateToStringConverter() {
+    return new Converter<ArticleRate, String>() {
+      public String convert(ArticleRate articleRate) {
+        return new StringBuilder().append(articleRate.getRate()).append(' ').append(articleRate.getDc()).append(' ')
+            .append(articleRate.getDm()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, ArticleRate> getIdToArticleRateConverter() {
+    return new Converter<Integer, ArticleRate>() {
+      public ArticleRate convert(Integer id) {
+        return articleRateService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, ArticleRate> getStringToArticleRateConverter() {
+    return new Converter<String, ArticleRate>() {
+      public ArticleRate convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), ArticleRate.class);
+      }
+    };
+  }
+
+  // article comment status
   public Converter<ArticleCommentStatus, String> getArticleCommentStatusToStringConverter() {
     return new Converter<ArticleCommentStatus, String>() {
       public String convert(ArticleCommentStatus articleStatus) {
@@ -540,7 +661,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, ArticleCommentStatus> getIdToArticleCommentStatusConverter() {
     return new Converter<Integer, ArticleCommentStatus>() {
       public ArticleCommentStatus convert(Integer id) {
-        return ArticleCommentStatus.find(id);
+        return articleCommentStatusService.find(id);
       }
     };
   }
@@ -549,6 +670,57 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     return new Converter<String, ArticleCommentStatus>() {
       public ArticleCommentStatus convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), ArticleCommentStatus.class);
+      }
+    };
+  }
+
+  // article comment
+  public Converter<ArticleComment, String> getArticleCommentToStringConverter() {
+    return new Converter<ArticleComment, String>() {
+      public String convert(ArticleComment articleComment) {
+        return new StringBuilder().append(articleComment.getText()).append(' ').append(articleComment.getPublishedAt())
+            .append(' ').append(articleComment.getDc()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, ArticleComment> getIdToArticleCommentConverter() {
+    return new Converter<Integer, ArticleComment>() {
+      public ArticleComment convert(Integer id) {
+        return articleCommentService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, ArticleComment> getStringToArticleCommentConverter() {
+    return new Converter<String, ArticleComment>() {
+      public ArticleComment convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), ArticleComment.class);
+      }
+    };
+  }
+
+  // article bookmark
+  public Converter<ArticleBookmark, String> getArticleBookmarkToStringConverter() {
+    return new Converter<ArticleBookmark, String>() {
+      public String convert(ArticleBookmark articleBookmark) {
+        return new StringBuilder().append(articleBookmark.getId()).toString();
+      }
+    };
+  }
+
+  public Converter<Integer, ArticleBookmark> getIdToArticleBookmarkConverter() {
+    return new Converter<Integer, ArticleBookmark>() {
+      public ArticleBookmark convert(Integer id) {
+        return articleBookmarkService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, ArticleBookmark> getStringToArticleBookmarkConverter() {
+    return new Converter<String, ArticleBookmark>() {
+      public ArticleBookmark convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), ArticleBookmark.class);
       }
     };
   }
@@ -565,7 +737,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, UserArticleStatus> getIdToUserArticleStatusConverter() {
     return new Converter<Integer, UserArticleStatus>() {
       public UserArticleStatus convert(Integer id) {
-        return UserArticleStatus.find(id);
+        return userArticleStatusService.find(id);
       }
     };
   }
@@ -574,6 +746,32 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     return new Converter<String, UserArticleStatus>() {
       public UserArticleStatus convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), UserArticleStatus.class);
+      }
+    };
+  }
+
+  // user article
+  public Converter<UserArticle, String> getUserArticleToStringConverter() {
+    return new Converter<UserArticle, String>() {
+      public String convert(UserArticle userArticle) {
+        return new StringBuilder().append(userArticle.getTitle()).append(' ').append(userArticle.getText()).append(' ')
+            .toString();
+      }
+    };
+  }
+
+  public Converter<Integer, UserArticle> getIdToUserArticleConverter() {
+    return new Converter<Integer, UserArticle>() {
+      public UserArticle convert(Integer id) {
+        return userArticleService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, UserArticle> getStringToUserArticleConverter() {
+    return new Converter<String, UserArticle>() {
+      public UserArticle convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), UserArticle.class);
       }
     };
   }
@@ -627,130 +825,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  public Converter<Article, String> getArticleToStringConverter() {
-    return new Converter<Article, String>() {
-      public String convert(Article article) {
-        return new StringBuilder().append(article.getId()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, Article> getIdToArticleConverter() {
-    return new Converter<Integer, Article>() {
-      public Article convert(Integer id) {
-        return Article.find(id);
-      }
-    };
-  }
-
-  public Converter<String, Article> getStringToArticleConverter() {
-    return new Converter<String, Article>() {
-      public Article convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), Article.class);
-      }
-    };
-  }
-
-  public Converter<ArticleBookmark, String> getArticleBookmarkToStringConverter() {
-    return new Converter<ArticleBookmark, String>() {
-      public String convert(ArticleBookmark articleBookmark) {
-        return new StringBuilder().append(articleBookmark.getDc()).append(' ').append(articleBookmark.getDm())
-            .toString();
-      }
-    };
-  }
-
-  public Converter<Integer, ArticleBookmark> getIdToArticleBookmarkConverter() {
-    return new Converter<Integer, ArticleBookmark>() {
-      public ArticleBookmark convert(Integer id) {
-        return ArticleBookmark.findArticleBookmark(id);
-      }
-    };
-  }
-
-  public Converter<String, ArticleBookmark> getStringToArticleBookmarkConverter() {
-    return new Converter<String, ArticleBookmark>() {
-      public ArticleBookmark convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), ArticleBookmark.class);
-      }
-    };
-  }
-
-  public Converter<ArticleCategory, String> getArticleCategoryToStringConverter() {
-    return new Converter<ArticleCategory, String>() {
-      public String convert(ArticleCategory articleCategory) {
-        return new StringBuilder().append(articleCategory.getDc()).append(' ').append(articleCategory.getDm())
-            .toString();
-      }
-    };
-  }
-
-  public Converter<Integer, ArticleCategory> getIdToArticleCategoryConverter() {
-    return new Converter<Integer, ArticleCategory>() {
-      public ArticleCategory convert(Integer id) {
-        return ArticleCategory.find(id);
-      }
-    };
-  }
-
-  public Converter<String, ArticleCategory> getStringToArticleCategoryConverter() {
-    return new Converter<String, ArticleCategory>() {
-      public ArticleCategory convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), ArticleCategory.class);
-      }
-    };
-  }
-
-  public Converter<ArticleComment, String> getArticleCommentToStringConverter() {
-    return new Converter<ArticleComment, String>() {
-      public String convert(ArticleComment articleComment) {
-        return new StringBuilder().append(articleComment.getText()).append(' ').append(articleComment.getPublishedAt())
-            .append(' ').append(articleComment.getDc()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, ArticleComment> getIdToArticleCommentConverter() {
-    return new Converter<Integer, ArticleComment>() {
-      public ArticleComment convert(Integer id) {
-        return ArticleComment.find(id);
-      }
-    };
-  }
-
-  public Converter<String, ArticleComment> getStringToArticleCommentConverter() {
-    return new Converter<String, ArticleComment>() {
-      public ArticleComment convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), ArticleComment.class);
-      }
-    };
-  }
-
-  public Converter<ArticleRate, String> getArticleRateToStringConverter() {
-    return new Converter<ArticleRate, String>() {
-      public String convert(ArticleRate articleRate) {
-        return new StringBuilder().append(articleRate.getRate()).append(' ').append(articleRate.getDc()).append(' ')
-            .append(articleRate.getDm()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, ArticleRate> getIdToArticleRateConverter() {
-    return new Converter<Integer, ArticleRate>() {
-      public ArticleRate convert(Integer id) {
-        return ArticleRate.findArticleRate(id);
-      }
-    };
-  }
-
-  public Converter<String, ArticleRate> getStringToArticleRateConverter() {
-    return new Converter<String, ArticleRate>() {
-      public ArticleRate convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), ArticleRate.class);
-      }
-    };
-  }
-
   public Converter<Customer, String> getCustomerToStringConverter() {
     return new Converter<Customer, String>() {
       public String convert(Customer customer) {
@@ -771,31 +845,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     return new Converter<String, Customer>() {
       public Customer convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), Customer.class);
-      }
-    };
-  }
-
-  public Converter<UserArticle, String> getUserArticleToStringConverter() {
-    return new Converter<UserArticle, String>() {
-      public String convert(UserArticle userArticle) {
-        return new StringBuilder().append(userArticle.getTitle()).append(' ').append(userArticle.getText()).append(' ')
-            .toString();
-      }
-    };
-  }
-
-  public Converter<Integer, UserArticle> getIdToUserArticleConverter() {
-    return new Converter<Integer, UserArticle>() {
-      public UserArticle convert(Integer id) {
-        return UserArticle.find(id);
-      }
-    };
-  }
-
-  public Converter<String, UserArticle> getStringToUserArticleConverter() {
-    return new Converter<String, UserArticle>() {
-      public UserArticle convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), UserArticle.class);
       }
     };
   }
@@ -880,10 +929,35 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getIdToArticleStatusConverter());
     registry.addConverter(getStringToArticleStatusConverter());
 
+    // article
+    registry.addConverter(getArticleToStringConverter());
+    registry.addConverter(getIdToArticleConverter());
+    registry.addConverter(getStringToArticleConverter());
+
+    // article category
+    registry.addConverter(getArticleCategoryToStringConverter());
+    registry.addConverter(getIdToArticleCategoryConverter());
+    registry.addConverter(getStringToArticleCategoryConverter());
+
+    // article rate
+    registry.addConverter(getArticleRateToStringConverter());
+    registry.addConverter(getIdToArticleRateConverter());
+    registry.addConverter(getStringToArticleRateConverter());
+
     // article comment status
     registry.addConverter(getArticleCommentStatusToStringConverter());
     registry.addConverter(getIdToArticleCommentStatusConverter());
     registry.addConverter(getStringToArticleCommentStatusConverter());
+
+    // article comment
+    registry.addConverter(getArticleCommentToStringConverter());
+    registry.addConverter(getIdToArticleCommentConverter());
+    registry.addConverter(getStringToArticleCommentConverter());
+
+    // article bookmark
+    registry.addConverter(getArticleBookmarkToStringConverter());
+    registry.addConverter(getIdToArticleBookmarkConverter());
+    registry.addConverter(getStringToArticleBookmarkConverter());
 
     // user article status
     registry.addConverter(getUserArticleStatusToStringConverter());
@@ -903,21 +977,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getAdToStringConverter());
     registry.addConverter(getIdToAdConverter());
     registry.addConverter(getStringToAdConverter());
-    registry.addConverter(getArticleToStringConverter());
-    registry.addConverter(getIdToArticleConverter());
-    registry.addConverter(getStringToArticleConverter());
-    registry.addConverter(getArticleBookmarkToStringConverter());
-    registry.addConverter(getIdToArticleBookmarkConverter());
-    registry.addConverter(getStringToArticleBookmarkConverter());
-    registry.addConverter(getArticleCategoryToStringConverter());
-    registry.addConverter(getIdToArticleCategoryConverter());
-    registry.addConverter(getStringToArticleCategoryConverter());
-    registry.addConverter(getArticleCommentToStringConverter());
-    registry.addConverter(getIdToArticleCommentConverter());
-    registry.addConverter(getStringToArticleCommentConverter());
-    registry.addConverter(getArticleRateToStringConverter());
-    registry.addConverter(getIdToArticleRateConverter());
-    registry.addConverter(getStringToArticleRateConverter());
 
     registry.addConverter(getCustomerToStringConverter());
     registry.addConverter(getIdToCustomerConverter());

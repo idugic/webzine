@@ -13,13 +13,13 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class RoleService extends GenericService<Role> {
 
-  public static String CD_ADMINISTRATOR = "administrator";
+  public static final String CD_ADMINISTRATOR = "administrator";
 
-  public static String CD_EDITOR_IN_CHIEF = "editor-00";
+  public static final String CD_EDITOR_IN_CHIEF = "editor-00";
 
-  public static String CD_ASSOCIATE_EDITOR = "editor-01";
+  public static final String CD_ASSOCIATE_EDITOR = "editor-01";
 
-  public static String CD_VISITOR = "visitor";
+  public static final String CD_VISITOR = "visitor";
 
   public Role findForCd(String cd) {
     Role role = null;
@@ -36,7 +36,7 @@ public class RoleService extends GenericService<Role> {
     return role;
   }
 
-  public List<Role> findListForUserCreate() {
+  public List<Role> findForUserCreate() {
     List<Role> roleList = null;
 
     // available roles based on user role

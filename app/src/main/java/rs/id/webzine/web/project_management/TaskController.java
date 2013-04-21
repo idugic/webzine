@@ -82,7 +82,7 @@ public class TaskController extends WebController {
     addDateTimeFormat(uiModel);
 
     uiModel.addAttribute("task", task);
-    uiModel.addAttribute("parentTaskList", taskService.findForParent(task.getId()));
+    uiModel.addAttribute("parentTaskList", taskService.findAvailableAsParent(task.getId()));
     uiModel.addAttribute("taskStatusList", taskStatusService.findAll());
     uiModel.addAttribute("taskPriorityList", taskPriorityService.findAll());
     uiModel.addAttribute("userList", userService.findForSystem());
@@ -111,7 +111,7 @@ public class TaskController extends WebController {
     addDateTimeFormat(uiModel);
 
     uiModel.addAttribute("task", taskService.find(taskId));
-    uiModel.addAttribute("parentTaskList", taskService.findForParent(taskId));
+    uiModel.addAttribute("parentTaskList", taskService.findAvailableAsParent(taskId));
     uiModel.addAttribute("taskStatusList", taskStatusService.findAll());
     uiModel.addAttribute("taskPriorityList", taskPriorityService.findAll());
     uiModel.addAttribute("userList", userService.findForSystem());

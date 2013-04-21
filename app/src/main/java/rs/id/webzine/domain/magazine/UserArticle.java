@@ -1,19 +1,20 @@
-package rs.id.webzine.domain;
+package rs.id.webzine.domain.magazine;
 
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
@@ -24,14 +25,16 @@ import rs.id.webzine.domain.system.User;
 @Entity
 @Table(schema = "ADMIN", name = "USER_ARTICLE")
 @Configurable
-public class UserArticle extends IdEntity {
+public class UserArticle {
 
-  @Transient
-  String mediaUrl;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "ID")
+  private Integer id;
 
   @ManyToOne
   @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
-  private UserArticleStatus statusId;
+  private UserArticleStatus status;
 
   @Column(name = "TITLE", length = 200)
   @NotNull
@@ -67,31 +70,20 @@ public class UserArticle extends IdEntity {
   @DateTimeFormat(style = "MM")
   private Calendar dm;
 
-  public static long count() {
-    return entityManager().createQuery("SELECT COUNT(o) FROM UserArticle o", Long.class).getSingleResult();
+  public Integer getId() {
+    return id;
   }
 
-  public static List<UserArticle> findAll() {
-    return entityManager().createQuery("SELECT o FROM UserArticle o", UserArticle.class).getResultList();
+  public void setId(Integer id) {
+    this.id = id;
   }
 
-  public static UserArticle find(Integer id) {
-    if (id == null)
-      return null;
-    return entityManager().find(UserArticle.class, id);
+  public UserArticleStatus getStatus() {
+    return status;
   }
 
-  public static List<UserArticle> findEntries(int firstResult, int maxResults) {
-    return entityManager().createQuery("SELECT o FROM UserArticle o", UserArticle.class).setFirstResult(firstResult)
-        .setMaxResults(maxResults).getResultList();
-  }
-
-  public UserArticleStatus getStatusId() {
-    return statusId;
-  }
-
-  public void setStatusId(UserArticleStatus statusId) {
-    this.statusId = statusId;
+  public void setStatus(UserArticleStatus status) {
+    this.status = status;
   }
 
   public String getTitle() {
@@ -156,14 +148,6 @@ public class UserArticle extends IdEntity {
 
   public void setDm(Calendar dm) {
     this.dm = dm;
-  }
-
-  public String getMediaUrl() {
-    return mediaUrl;
-  }
-
-  public void setMediaUrl(String mediaUrl) {
-    this.mediaUrl = mediaUrl;
   }
 
 }

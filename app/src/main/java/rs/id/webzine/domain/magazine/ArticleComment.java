@@ -1,36 +1,41 @@
-package rs.id.webzine.domain;
+package rs.id.webzine.domain.magazine;
 
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import rs.id.webzine.domain.system.User;
-import rs.id.webzine.domain.util.Session;
 
 @Configurable
 @Entity
 @Table(schema = "ADMIN", name = "ARTICLE_COMMENT")
-public class ArticleComment extends IdEntity {
+public class ArticleComment {
 
-  @ManyToOne
-  @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ID", nullable = false)
-  private Article articleId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "ID")
+  private Integer id;
 
   @ManyToOne
   @JoinColumn(name = "STATUS_ID", referencedColumnName = "ID")
-  private ArticleCommentStatus statusId;
+  private ArticleCommentStatus status;
+
+  @ManyToOne
+  @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ID", nullable = false)
+  private Article article;
 
   @Column(name = "TEXT", length = 250)
   @NotNull
@@ -64,20 +69,28 @@ public class ArticleComment extends IdEntity {
   @DateTimeFormat(style = "MM")
   private Calendar dm;
 
-  public Article getArticleId() {
-    return articleId;
+  public Integer getId() {
+    return id;
   }
 
-  public void setArticleId(Article articleId) {
-    this.articleId = articleId;
+  public void setId(Integer id) {
+    this.id = id;
   }
 
-  public ArticleCommentStatus getStatusId() {
-    return statusId;
+  public ArticleCommentStatus getStatus() {
+    return status;
   }
 
-  public void setStatusId(ArticleCommentStatus statusId) {
-    this.statusId = statusId;
+  public void setStatus(ArticleCommentStatus status) {
+    this.status = status;
+  }
+
+  public Article getArticle() {
+    return article;
+  }
+
+  public void setArticle(Article article) {
+    this.article = article;
   }
 
   public String getText() {
@@ -136,43 +149,4 @@ public class ArticleComment extends IdEntity {
     this.dm = dm;
   }
 
-  public static long count() {
-    return entityManager().createQuery("SELECT COUNT(o) FROM ArticleComment o", Long.class).getSingleResult();
-  }
-
-  public static List<ArticleComment> findAll() {
-    return entityManager().createQuery("SELECT o FROM ArticleComment o", ArticleComment.class).getResultList();
-  }
-
-  public static ArticleComment find(Integer id) {
-    if (id == null)
-      return null;
-    return entityManager().find(ArticleComment.class, id);
-  }
-
-  public static List<ArticleComment> findEntries(int firstResult, int maxResults) {
-    return entityManager().createQuery("SELECT o FROM ArticleComment o", ArticleComment.class)
-        .setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
-  }
-
-  public static List<ArticleComment> findForArticle(Integer articleId) {
-    if (articleId == null) {
-      return null;
-    } else {
-      TypedQuery<ArticleComment> query = entityManager()
-          .createQuery(
-              "SELECT ac FROM ArticleComment ac JOIN ac.articleId a JOIN ac.statusId s WHERE s.cd <> '0' AND a.id = :articleId",
-              ArticleComment.class);
-      query.setParameter("articleId", articleId);
-      return query.getResultList();
-    }
-  }
-
-  public static void publish(Integer id) {
-    ArticleComment articleComment = find(id);
-    articleComment.setStatusId(ArticleCommentStatus.findForCd(ArticleCommentStatus.CD_PUBLISHED));
-    articleComment.setPublishedBy(Session.getCurrentUser());
-    articleComment.setPublishedAt(Calendar.getInstance());
-    articleComment.merge();
-  }
 }

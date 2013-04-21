@@ -25,15 +25,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-import rs.id.webzine.domain.Article;
-import rs.id.webzine.domain.ArticleCategory;
-import rs.id.webzine.domain.ArticleComment;
-import rs.id.webzine.domain.ArticleCommentStatus;
-import rs.id.webzine.domain.ArticleStatus;
-import rs.id.webzine.domain.Category;
 import rs.id.webzine.domain.content_management.Content;
 import rs.id.webzine.domain.content_management.ContentType;
 import rs.id.webzine.domain.content_management.ManagedContent;
+import rs.id.webzine.domain.magazine.Article;
+import rs.id.webzine.domain.magazine.ArticleCategory;
+import rs.id.webzine.domain.magazine.ArticleComment;
+import rs.id.webzine.domain.magazine.ArticleCommentStatus;
+import rs.id.webzine.domain.magazine.ArticleStatus;
+import rs.id.webzine.domain.magazine.Category;
 import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.Service;
 

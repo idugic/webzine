@@ -12,9 +12,13 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class TaskStatusService extends GenericService<TaskStatus> {
 
-  public static String CD_NEW = "new";
+  public static final String CD_NEW = "new";
 
-  public static String CD_COMPLETED = "completed";
+  public static final String CD_ASSIGNED = "assigned";
+
+  public static final String CD_COMPLETED = "completed";
+
+  public static final String CD_DELETED = "deleted";
 
   public TaskStatus findForCd(String cd) {
     TaskStatus taskStatus = null;
