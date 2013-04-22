@@ -1,4 +1,4 @@
-package rs.id.webzine.web;
+package rs.id.webzine.web.magazine;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,27 +6,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import rs.id.webzine.service.magazine.ArticleStatusService;
+import rs.id.webzine.service.magazine.ReaderTypeService;
+import rs.id.webzine.web.WebController;
 
-@RequestMapping(ArticleStatusController.PATH)
+@RequestMapping(ReaderTypeController.PATH)
 @Controller
-public class ArticleStatusController extends WebController {
+public class ReaderTypeController extends WebController {
 
-  public static final String PATH = "admin/magazine/article_status";
+  public static final String PATH = "admin/magazine/reader_type";
 
   @Autowired
-  ArticleStatusService articleStatusService;
+  ReaderTypeService readerTypeService;
 
   @RequestMapping(value = "/{id}", produces = "text/html")
   public String show(@PathVariable("id") Integer id, Model uiModel) {
-    uiModel.addAttribute("articleStatus", articleStatusService.find(id));
+    uiModel.addAttribute("readerType", readerTypeService.find(id));
     uiModel.addAttribute("itemId", id);
     return PATH + "/" + SHOW;
   }
 
   @RequestMapping(produces = "text/html")
   public String list(Model uiModel) {
-    uiModel.addAttribute("articleStatusList", articleStatusService.findAll());
+    uiModel.addAttribute("readerTypeList", readerTypeService.findAll());
     return PATH + "/" + LIST;
   }
 

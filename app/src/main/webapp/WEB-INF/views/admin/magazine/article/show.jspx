@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+
+  <table class="inputGridTable">
+    <tr>
+      <td id="ps_article_col_1">
+        <page:show id="ps_article" object="${article}" path="/admin/magazine/article">
+          <field:display field="title" id="s_article_title" object="${article}" />
+          <field:display field="status" id="s_article_status" object="${article}" />
+          <field:display field="publishedBy" id="s_article_publishedby" object="${article}" />
+          <field:display calendar="true" dateTimePattern="${date_time_format}" field="publishedAt" id="s_article_publishedat" object="${article}" />
+          <field:display field="abstractText" id="s_article_abstracttext" object="${article}" />
+          <field:media field="abstractMediaUrl" contentType="abstractMediaContentType" id="s_article_abstractmedia" object="${article}" />
+        </page:show>
+      </td>
+      <td id="ps_article_col_2">
+        <!-- Categories -->
+        <form:create id="fc_articlecategory" modelAttribute="articleCategory" path="/admin/magazine/article/category/${article.id}" render="${empty dependencies}" list="false">
+          <field:select field="category" id="c_articlecategory_category" itemValue="id" items="${availableCategoryList}" path="/admin/magazine/category" />
+        </form:create>
+        <BR />
+        <page:list id="pl_articlecategory" items="${articleCategoryList}" create="false">
+          <table:table data="${articleCategoryList}" id="l_articlecategory" path="/admin/magazine/article/category/${article.id}" create="false" update="false" show="false">
+            <table:column id="c_articlecategory_category" property="category" />
+          </table:table>
+        </page:list>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <page:show id="ps_article" object="${article}" path="/admin/magazine/article" label="article_show_stamps" list="false" create="false" update="false" delete="false">
+          <field:display field="uc" id="s_article_uc" object="${article}" />
+          <field:display calendar="true" dateTimePattern="${article_dc_date_format}" field="dc" id="s_article_dc" object="${article}" />
+          <field:display field="um" id="s_article_um" object="${article}" />
+          <field:display calendar="true" dateTimePattern="${article_dm_date_format}" field="dm" id="s_article_dm" object="${article}" />
+        </page:show>
+      </td>
+      <td>
+        <!-- Comments -->
+        <form:create id="fc_articlecomment" modelAttribute="articleComment" path="/admin/magazine/article/comment/${article.id}" render="${empty dependencies}" list="false">
+          <field:input field="text" id="c_articlecomment_text" required="true" max="250" />
+        </form:create>
+        <BR />
+        <!-- TODO publish article comment? -->
+        <page:list id="pl_articlecomment" items="${articleCommentList}" create="false">
+          <table:table data="${articleCommentList}" id="l_articlecomment" path="/admin/magazine/article/comment/${article.id}" create="false" update="false" show="false">
+            <table:column calendar="true" dateTimePattern="${date_time_format}" id="c_articlecomment_dc" property="dc" />
+            <table:column id="c_articlecomment_text" property="text" />
+            <table:column id="c_articlecomment_uc" property="uc" />
+          </table:table>
+        </page:list>
+      </td>
+    </tr>
+  </table>
+</div>

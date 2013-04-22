@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+  <page:show id="ps_category" object="${category}" path="/admin/magazine/category">
+    <field:display field="name" id="s_category_name" object="${category}" />
+    <field:display field="readerType" id="s_category_readertype" object="${category}" />
+  </page:show>
+  <BR />
+  <!-- Category Stamps-->
+  <page:show id="pss_category" object="${category}" path="/admin/magazine/category" openPane="false" label="category_show_stamps" list="false" create="false" update="false" delete="false">
+    <field:display field="uc" id="s_category_uc" object="${category}" />
+    <field:display calendar="true" dateTimePattern="${date_time_format}" field="dc" id="s_category_dc" object="${category}" />
+    <field:display field="um" id="s_category_um" object="${category}" />
+    <field:display calendar="true" dateTimePattern="${date_time_format}" field="dm" id="s_category_dm" object="${category}" />
+  </page:show>
+</div>

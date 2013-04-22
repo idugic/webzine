@@ -7,7 +7,7 @@
   <table class="inputGridTable">
     <tr>
       <td id="fu_user_column_1">
-        <!-- Update user -->
+        <!-- Update User -->
         <form:update id="fu_user" modelAttribute="userForm" idField="userId" path="/admin/system/user" multipart="true" versionField="none">
           <field:select field="role" id="c_user_role" itemValue="id" items="${roleList}" path="/admin/system/role" disabled="true" />
           <field:select field="status" id="c_user_status" itemValue="id" items="${userStatusList}" path="/admin/system/user_status" />
