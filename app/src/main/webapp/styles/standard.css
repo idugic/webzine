@@ -683,14 +683,6 @@ fieldset th {
 	width: 435px;
 }
 
-#ps_task_col_3 {
-	background-color: #fff;
-}
-
-#ps_task_col_4 {
-	background-color: #fff;
-}
-
 #_title_fu_task_id {
 	width: 635px;
 }
@@ -765,4 +757,60 @@ fieldset th {
 
 #_title_ps_articlestatus_id {
   width: 535px;
+}
+
+/* article */
+#l_article_id {
+  text-align: right;
+  font-weight: bold;
+}
+
+#l_article_title {
+  width: 750px;
+}
+
+#_title_fc_article_id {
+  width: 635px;
+}
+
+#_title_fc_article_id #widget__title_id {
+  width: 40em !important;
+}
+
+#_title_fc_article_id #_abstractText_id_ {
+  margin-left: 100px;
+  width: 480px;
+  max-width: 480px;
+  height: 200px;
+  border-top: 1px solid #CCCCCC;
+}
+
+#_title_fc_article_id #_abstractMedia_id_val {
+  width: 423px !important;
+}
+
+#_title_ps_article_id {
+  width: 635px;
+}
+
+#ps_article_col_2 {
+  width: 435px;
+}
+
+#_title_pl_articlecomment_id {
+  width: 635px;
+}
+
+#_title_fc_articlecomment_id {
+  width: 635px;
+}
+
+#_title_fc_articlecomment_id #_text_id {
+  width: 475px;
+  max-width: 475px;
+  height: 75px;
+}
+
+#_title_pss_article_id {
+  width: 635px;
 }

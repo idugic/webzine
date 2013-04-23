@@ -1,4 +1,4 @@
-package rs.id.webzine.web;
+package rs.id.webzine.web.magazine;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import rs.id.webzine.service.magazine.ArticleStatusService;
+import rs.id.webzine.web.WebController;
 
 @RequestMapping(ArticleStatusController.PATH)
 @Controller

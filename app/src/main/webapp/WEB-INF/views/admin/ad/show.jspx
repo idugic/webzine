@@ -7,12 +7,12 @@
     <field:display field="description" id="s_rs_id_webzine_domain_Ad_description" object="${ad}" />
     <field:display field="statusId" id="s_rs_id_webzine_domain_Ad_statusId" object="${ad}" />
     <field:display field="customerId" id="s_rs_id_webzine_domain_Ad_customerId" object="${ad}" />
-    <field:display calendar="true" dateTimePattern="${date_format}" field="validFrom" id="s_rs_id_webzine_domain_Ad_validFrom" object="${ad}" />
-    <field:display calendar="true" dateTimePattern="${date_format}" field="validUntil" id="s_rs_id_webzine_domain_Ad_validUntil" object="${ad}" />
+    <field:display calendar="true" dateTimePattern="${date_pattern}" field="validFrom" id="s_rs_id_webzine_domain_Ad_validFrom" object="${ad}" />
+    <field:display calendar="true" dateTimePattern="${date_pattern}" field="validUntil" id="s_rs_id_webzine_domain_Ad_validUntil" object="${ad}" />
     <field:display field="uc" id="s_rs_id_webzine_domain_Ad_uc" object="${ad}" />
-    <field:display calendar="true" dateTimePattern="${ad_dc_date_format}" field="dc" id="s_rs_id_webzine_domain_Ad_dc" object="${ad}" />
+    <field:display calendar="true" dateTimePattern="${ad_dc_date_pattern}" field="dc" id="s_rs_id_webzine_domain_Ad_dc" object="${ad}" />
     <field:display field="um" id="s_rs_id_webzine_domain_Ad_um" object="${ad}" />
-    <field:display calendar="true" dateTimePattern="${ad_dm_date_format}" field="dm" id="s_rs_id_webzine_domain_Ad_dm" object="${ad}" />
+    <field:display calendar="true" dateTimePattern="${ad_dm_date_pattern}" field="dm" id="s_rs_id_webzine_domain_Ad_dm" object="${ad}" />
   </page:show>
   <BR />
   <!-- Articles -->

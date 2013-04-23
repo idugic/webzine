@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -21,8 +20,10 @@ public class ManagedContent {
   private Integer id;
 
   @Column(name = "CSS")
-  @NotNull
   private String css;
+
+  @Column(name = "SCRIPT")
+  private String script;
 
   public Integer getId() {
     return id;
@@ -38,6 +39,14 @@ public class ManagedContent {
 
   public void setCss(String css) {
     this.css = css;
+  }
+
+  public String getScript() {
+    return script;
+  }
+
+  public void setScript(String script) {
+    this.script = script;
   }
 
 }

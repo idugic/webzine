@@ -29,6 +29,11 @@ public class WebController {
 
   public static final String IMAGE = "image";
 
+  public static final String DESIGN = "design";
+  
+  public static final String ABSTRACT_MEDIA = "abstract_media";
+
+  
   public <E> List<E> prepareList(GenericService<E> service, String listName, Integer page, Integer size, Model uiModel) {
     List<E> list;
 
@@ -62,11 +67,11 @@ public class WebController {
     return pathSegment;
   }
 
-  public void addDateFormat(Model uiModel) {
-    uiModel.addAttribute("date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
+  public void addDatePattern(Model uiModel) {
+    uiModel.addAttribute("date_pattern", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
   }
 
-  public void addDateTimeFormat(Model uiModel) {
-    uiModel.addAttribute("date_time_format", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
+  public void addDateTimePattern(Model uiModel) {
+    uiModel.addAttribute("date_time_pattern", DateTimeFormat.patternForStyle("MM", LocaleContextHolder.getLocale()));
   }
 }

@@ -25,8 +25,6 @@
    <object objectType="Table" objectID="9F0947DB-0590-6B61-D8EA-B70197EBB0BE" name="TASK_PRIORITY" seqName="seg_0"/>
    <object objectType="Table" objectID="E4AC0556-7550-90E4-0F7F-0490684EC3AC" name="TASK_STATUS" seqName="seg_0"/>
    <object objectType="Table" objectID="60D89F99-3DD9-F9BE-0821-D6DE2C62467C" name="USERS" seqName="seg_0"/>
-   <object objectType="Table" objectID="575432BE-1D1B-FF5C-C9F9-BCFB9CBD58B7" name="USER_ARTICLE" seqName="seg_0"/>
-   <object objectType="Table" objectID="8D156953-C754-AA81-BE0A-F88D5A93E309" name="USER_ARTICLE_STATUS" seqName="seg_0"/>
    <object objectType="Table" objectID="394A95CE-5F14-AFEB-909B-328E4E44C29F" name="USER_STATUS" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="57A7B522-7B45-F2CB-4886-9B648F40C881" name="AD_AD_STAT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="E1DB61D3-6FE3-694B-1EC9-66E64A9F2578" name="AD_ARTI_AD_FK_1" seqName="seg_0"/>
@@ -76,9 +74,6 @@
    <object objectType="FKIndexAssociation" objectID="F73C526F-D207-9A6B-FD1F-0B51536060FB" name="TASK_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="4C9278DE-5628-1BC1-E0CE-9B11C7E5CC02" name="TASK_USER_FK_3" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="C0744002-2B9F-394D-8402-0B1092AB403A" name="USER_ADDR_FK_1" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="3CE52722-383E-EF64-8609-0A36B7F81289" name="USER_ARTI_USER_ARTI_STAT_FK_1" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="87BE4AA5-A53B-8822-CA73-320F5946DEBE" name="USER_ARTI_USER_FK_1" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="ABFCB3EF-45A2-53F5-F52F-FC8F8A502A85" name="USER_ARTI_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="CECF21C3-6237-F1A8-7FFD-4E3DB204FC45" name="USER_ROLE_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="CC298D7C-4A1F-F2C5-5EF2-C818488FA71E" name="USER_USER_STAT_FK_1" seqName="seg_0"/>
    <object objectType="Note" objectID="6765C1B3-E919-3C89-84B1-0A359DA83176" name="Note_1" seqName="seg_0"/>

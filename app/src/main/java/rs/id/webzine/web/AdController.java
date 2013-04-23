@@ -194,7 +194,7 @@ public class AdController extends WebController {
   // }
   //
   // void addDateTimeFormatPatterns(Model uiModel) {
-  // uiModel.addAttribute("date_format", DateTimeFormat.patternForStyle("MM",
+  // uiModel.addAttribute("date_pattern", DateTimeFormat.patternForStyle("MM",
   // LocaleContextHolder.getLocale()));
   // }
   //

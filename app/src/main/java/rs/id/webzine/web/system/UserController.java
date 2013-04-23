@@ -98,6 +98,8 @@ public class UserController extends WebController {
   }
 
   void populateEditForm(Model uiModel, UserForm userForm, HttpServletRequest httpServletRequest, boolean create) {
+    addDatePattern(uiModel);
+
     uiModel.addAttribute("userForm", userForm);
 
     if (create) {
@@ -124,8 +126,8 @@ public class UserController extends WebController {
 
       uiModel.addAttribute("userImageForm", userForm);
     }
+
     uiModel.addAttribute("userStatusList", userStatusService.findAll());
-    addDateFormat(uiModel);
   }
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
@@ -191,7 +193,7 @@ public class UserController extends WebController {
 
       uiModel.addAttribute("userForm", userForm);
       uiModel.addAttribute("itemId", id);
-      addDateFormat(uiModel);
+      addDatePattern(uiModel);
 
       return PATH + "/" + SHOW;
     } catch (Exception e) {

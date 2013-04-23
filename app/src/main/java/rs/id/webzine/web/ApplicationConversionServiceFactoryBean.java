@@ -24,8 +24,6 @@ import rs.id.webzine.domain.magazine.ArticleRate;
 import rs.id.webzine.domain.magazine.ArticleStatus;
 import rs.id.webzine.domain.magazine.Category;
 import rs.id.webzine.domain.magazine.ReaderType;
-import rs.id.webzine.domain.magazine.UserArticle;
-import rs.id.webzine.domain.magazine.UserArticleStatus;
 import rs.id.webzine.domain.project_management.Task;
 import rs.id.webzine.domain.project_management.TaskAttachment;
 import rs.id.webzine.domain.project_management.TaskComment;
@@ -47,8 +45,6 @@ import rs.id.webzine.service.magazine.ArticleService;
 import rs.id.webzine.service.magazine.ArticleStatusService;
 import rs.id.webzine.service.magazine.CategoryService;
 import rs.id.webzine.service.magazine.ReaderTypeService;
-import rs.id.webzine.service.magazine.UserArticleService;
-import rs.id.webzine.service.magazine.UserArticleStatusService;
 import rs.id.webzine.service.project_management.TaskAttachmentService;
 import rs.id.webzine.service.project_management.TaskCommentService;
 import rs.id.webzine.service.project_management.TaskPriorityService;
@@ -130,12 +126,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   @Autowired
   ArticleBookmarkService articleBookmarkService;
-
-  @Autowired
-  UserArticleStatusService userArticleStatusService;
-
-  @Autowired
-  UserArticleService userArticleService;
 
   // role
   public Converter<Role, String> getRoleToStringConverter() {
@@ -725,57 +715,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  // user article status
-  public Converter<UserArticleStatus, String> getUserArticleStatusToStringConverter() {
-    return new Converter<UserArticleStatus, String>() {
-      public String convert(UserArticleStatus articleStatus) {
-        return new StringBuilder().append(articleStatus.getName()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, UserArticleStatus> getIdToUserArticleStatusConverter() {
-    return new Converter<Integer, UserArticleStatus>() {
-      public UserArticleStatus convert(Integer id) {
-        return userArticleStatusService.find(id);
-      }
-    };
-  }
-
-  public Converter<String, UserArticleStatus> getStringToUserArticleStatusConverter() {
-    return new Converter<String, UserArticleStatus>() {
-      public UserArticleStatus convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), UserArticleStatus.class);
-      }
-    };
-  }
-
-  // user article
-  public Converter<UserArticle, String> getUserArticleToStringConverter() {
-    return new Converter<UserArticle, String>() {
-      public String convert(UserArticle userArticle) {
-        return new StringBuilder().append(userArticle.getTitle()).append(' ').append(userArticle.getText()).append(' ')
-            .toString();
-      }
-    };
-  }
-
-  public Converter<Integer, UserArticle> getIdToUserArticleConverter() {
-    return new Converter<Integer, UserArticle>() {
-      public UserArticle convert(Integer id) {
-        return userArticleService.find(id);
-      }
-    };
-  }
-
-  public Converter<String, UserArticle> getStringToUserArticleConverter() {
-    return new Converter<String, UserArticle>() {
-      public UserArticle convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), UserArticle.class);
-      }
-    };
-  }
-
   // ad status
   public Converter<AdStatus, String> getAdStatusToStringConverter() {
     return new Converter<AdStatus, String>() {
@@ -958,16 +897,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getArticleBookmarkToStringConverter());
     registry.addConverter(getIdToArticleBookmarkConverter());
     registry.addConverter(getStringToArticleBookmarkConverter());
-
-    // user article status
-    registry.addConverter(getUserArticleStatusToStringConverter());
-    registry.addConverter(getIdToUserArticleStatusConverter());
-    registry.addConverter(getStringToUserArticleStatusConverter());
-
-    // user article
-    registry.addConverter(getUserArticleToStringConverter());
-    registry.addConverter(getIdToUserArticleConverter());
-    registry.addConverter(getStringToUserArticleConverter());
 
     // ad status
     registry.addConverter(getAdStatusToStringConverter());

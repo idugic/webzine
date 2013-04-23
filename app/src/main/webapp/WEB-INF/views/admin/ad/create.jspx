@@ -6,7 +6,7 @@
     <field:select field="customerId" id="c_rs_id_webzine_domain_Ad_customerId" itemValue="id" items="${customerList}" path="/admin/customer" required="true" />
     <field:input field="name" id="c_rs_id_webzine_domain_Ad_name" required="true" max="100" />
     <field:textarea field="description" id="c_rs_id_webzine_domain_Ad_description" />
-    <field:datetime dateTimePattern="${date_format}" field="validFrom" id="c_rs_id_webzine_domain_Ad_validFrom" required="true" />
-    <field:datetime dateTimePattern="${date_format}" field="validUntil" id="c_rs_id_webzine_domain_Ad_validUntil" />
+    <field:datetime dateTimePattern="${date_pattern}" field="validFrom" id="c_rs_id_webzine_domain_Ad_validFrom" required="true" />
+    <field:datetime dateTimePattern="${date_pattern}" field="validUntil" id="c_rs_id_webzine_domain_Ad_validUntil" />
   </form:create>
 </div>

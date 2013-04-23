@@ -60,6 +60,17 @@
 <dataTypeSize>4000</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="SCRIPT" id="C18EE2B5-C954-0826-5253-DDB32A94A3FB">
+<createdBy>idugic</createdBy>
+<createdTime>2013-04-23 06:17:55 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>4000</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes>
 <ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="987B76B9-4AA6-A17D-E95D-E0EF88ABF496" name="MANA_CONT_PK">

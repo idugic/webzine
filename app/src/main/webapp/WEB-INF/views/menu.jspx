@@ -34,8 +34,6 @@
           <menu:item id="i_article" url="/admin/magazine/article?page=1&amp;size=${empty param.size ? 10 : param.size}" />
           <menu:item id="i_articlecommentstatus" url="/admin/magazine/article_comment_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
           <menu:item id="i_articlecomment" url="/admin/magazine/article_comment?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-          <menu:item id="i_userarticlestatus" url="/admin/magazine/user_article_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-          <menu:item id="i_userarticle" url="/admin/magazine/user_article?page=1&amp;size=${empty param.size ? 10 : param.size}" />
         </menu:category>
       </sec:authorize>
       <sec:authorize access="hasAnyRole('administrator', 'editor-00')">

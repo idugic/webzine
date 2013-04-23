@@ -4,7 +4,7 @@
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" description="The identifier for this tag (do not change!)" />
   <jsp:directive.attribute name="object" type="java.lang.Object" required="true" description="The form backing object" />
-  <jsp:directive.attribute name="field" type="java.lang.String" required="true" description="Media URL" />
+  <jsp:directive.attribute name="url" type="java.lang.String" required="true" description="Media URL" />
   <jsp:directive.attribute name="contentType" type="java.lang.String" required="true" description="Media content type" />
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" description="The label used for this field, will default to a message bundle if not supplied" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
@@ -17,16 +17,16 @@
     </c:if>
 
     <div id="_${fn:escapeXml(id)}_id">
-      <label class="labelDisplay" for="_${fn:escapeXml(field)}_id">
+      <label class="labelDisplay" for="_${fn:escapeXml(id)}_media">
         <c:out value="${label}" />
       </label>
-      <div class="box" id="_${fn:escapeXml(id)}_${fn:escapeXml(field)}_id">
+      <div class="box" id="_${fn:escapeXml(id)}_media">
         <c:choose>
-          <c:when test="${empty object[field]}">
+          <c:when test="${empty url}">
             <spring:message code="entity_empty_field" htmlEscape="false" />
           </c:when>
           <c:when test="${fn:startsWith(contentType, 'image')}">
-            <img alt="${resource_not_found}" src="${object[field]}" />
+            <img alt="${resource_not_found}" src="${url}" />
           </c:when>
           <c:otherwise>
             <spring:message code="media_content_type_not_supported" htmlEscape="false" />

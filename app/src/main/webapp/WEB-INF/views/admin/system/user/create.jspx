@@ -9,7 +9,7 @@
     <field:input field="password" id="c_user_password" required="true" max="15" />
     <field:input field="firstName" id="c_user_firstName" max="50" />
     <field:input field="lastName" id="c_user_lastName" max="50" />
-    <field:datetime field="birthdate" id="c_user_birthdate" dateTimePattern="${date_format}" />
+    <field:datetime field="birthdate" id="c_user_birthdate" dateTimePattern="${date_pattern}" />
 
     <field:file field="image" id="c_user_image" />
 

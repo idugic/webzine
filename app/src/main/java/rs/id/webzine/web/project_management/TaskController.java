@@ -79,7 +79,7 @@ public class TaskController extends WebController {
   }
 
   private void populateEditForm(Model uiModel, Task task) {
-    addDateTimeFormat(uiModel);
+    addDateTimePattern(uiModel);
 
     uiModel.addAttribute("task", task);
     uiModel.addAttribute("parentTaskList", taskService.findAvailableAsParent(task.getId()));
@@ -108,7 +108,7 @@ public class TaskController extends WebController {
   }
 
   private void populateShowForm(Model uiModel, Integer taskId) {
-    addDateTimeFormat(uiModel);
+    addDateTimePattern(uiModel);
 
     uiModel.addAttribute("task", taskService.find(taskId));
     uiModel.addAttribute("parentTaskList", taskService.findAvailableAsParent(taskId));
@@ -184,10 +184,10 @@ public class TaskController extends WebController {
         populateShowForm(uiModel, taskId);
         return PATH + "/" + SHOW;
       }
-      
+
       if (taskAttachment.getContent() == null || taskAttachment.getContent().length == 0) {
         populateShowForm(uiModel, taskId);
-        uiModel.addAttribute("attachment_required", "!");
+        uiModel.addAttribute("attachment_required");
         return PATH + "/" + SHOW;
       }
 

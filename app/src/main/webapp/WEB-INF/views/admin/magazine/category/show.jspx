@@ -10,8 +10,8 @@
   <!-- Category Stamps-->
   <page:show id="pss_category" object="${category}" path="/admin/magazine/category" openPane="false" label="category_show_stamps" list="false" create="false" update="false" delete="false">
     <field:display field="uc" id="s_category_uc" object="${category}" />
-    <field:display calendar="true" dateTimePattern="${date_time_format}" field="dc" id="s_category_dc" object="${category}" />
+    <field:display calendar="true" dateTimePattern="${date_time_pattern}" field="dc" id="s_category_dc" object="${category}" />
     <field:display field="um" id="s_category_um" object="${category}" />
-    <field:display calendar="true" dateTimePattern="${date_time_format}" field="dm" id="s_category_dm" object="${category}" />
+    <field:display calendar="true" dateTimePattern="${date_time_pattern}" field="dm" id="s_category_dm" object="${category}" />
   </page:show>
 </div>

@@ -10,49 +10,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import rs.id.webzine.domain.content_management.ManagedContent;
 import rs.id.webzine.domain.magazine.Article;
-import rs.id.webzine.domain.magazine.Category;
 import rs.id.webzine.domain.util.Session;
 import rs.id.webzine.service.GenericService;
 import rs.id.webzine.service.ServiceException;
 import rs.id.webzine.service.ServiceExceptionCode;
+import rs.id.webzine.service.content_management.ManagedContentService;
 
 @Component
 public class ArticleService extends GenericService<Article> {
 
   @Autowired
-  CategoryService categoryService;
+  private ArticleStatusService articleStatusService;
 
   @Autowired
-  ArticleStatusService articleStatusService;
+  private ManagedContentService managedContentService;
 
-  public List<Category> findCategories(Integer articleId) {
-    if (articleId == null) {
-      return null;
-    } else {
-      TypedQuery<Category> query = entityManager().createQuery(
-          "SELECT ac.category FROM ArticleCategory ac JOIN ac.article a WHERE a.id = :articleId", Category.class);
-      query.setParameter("articleId", articleId);
-      return query.getResultList();
-    }
+  @Override
+  public List<Article> findAll() {
+    List<Article> list = new ArrayList<Article>();
+    TypedQuery<Article> query = entityManager().createQuery(
+        "SELECT a FROM Article a JOIN a.status s WHERE s.cd != :cdDeleted", Article.class);
+    query.setParameter("cdDeleted", ArticleStatusService.CD_DELETED);
+    list = query.getResultList();
+    return list;
   }
 
-  public List<Category> findAvailableCategoryList(Integer articleId) {
-    if (articleId == null) {
-      return null;
-    } else {
-      List<Category> list = new ArrayList<Category>();
-      List<Category> articleCategoryList = findCategories(articleId);
-      if (articleCategoryList.isEmpty()) {
-        list = categoryService.findAll();
-      } else {
-        TypedQuery<Category> query = entityManager().createQuery(
-            "SELECT c FROM Category c WHERE c NOT IN :articleCategoryList", Category.class);
-        query.setParameter("articleCategoryList", articleCategoryList);
-        list = query.getResultList();
-      }
-      return list;
-    }
+  @Override
+  public List<Article> findForList(int firstResult, int maxResults) {
+    List<Article> list = new ArrayList<Article>();
+    TypedQuery<Article> query = entityManager()
+        .createQuery("SELECT a FROM Article a JOIN a.status s WHERE s.cd != :cdDeleted", Article.class)
+        .setFirstResult(firstResult).setMaxResults(maxResults);
+    query.setParameter("cdDeleted", ArticleStatusService.CD_DELETED);
+    list = query.getResultList();
+    return list;
   }
 
   @Transactional
@@ -79,10 +72,43 @@ public class ArticleService extends GenericService<Article> {
 
   @Override
   @Transactional
+  public void create(Article article) {
+    ManagedContent managedContent = new ManagedContent();
+    managedContentService.create(managedContent);
+
+    article.setManagedContent(managedContent);
+    article.setStatus(articleStatusService.findForCd(ArticleStatusService.CD_NEW));
+
+    article.setUc(currentUser());
+    article.setDc(Calendar.getInstance());
+
+    super.create(article);
+  }
+
+  @Override
+  @Transactional
   public void update(Article article) {
     if (ArticleStatusService.CD_PUBLISHED.equals(article.getStatus().getCd())) {
       throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ARTICLE_IS_PUBLISHED);
     }
+
+    Article persistedArticle = find(article.getId());
+
+    article.setManagedContent(persistedArticle.getManagedContent());
+
+    // change abstract media only if provided
+    byte[] abstractMedia = article.getAbstractMedia();
+    if (abstractMedia == null || abstractMedia.length == 0) {
+      article.setAbstractMedia(persistedArticle.getAbstractMedia());
+      article.setAbstractMediaContentType(persistedArticle.getAbstractMediaContentType());
+    }
+
+    article.setUc(persistedArticle.getUc());
+    article.setDc(persistedArticle.getDc());
+
+    article.setUm(currentUser());
+    article.setDm(Calendar.getInstance());
+
     super.update(article);
   }
 
@@ -92,6 +118,30 @@ public class ArticleService extends GenericService<Article> {
     if (ArticleStatusService.CD_PUBLISHED.equals(find(id).getStatus().getCd())) {
       throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ARTICLE_IS_PUBLISHED);
     }
-    super.delete(id);
+
+    Article article = find(id);
+    article.setStatus(articleStatusService.findForCd(ArticleStatusService.CD_DELETED));
+
+    update(article);
   }
+
+  @Transactional
+  public void deleteAbstractMedia(Integer id) {
+    if (ArticleStatusService.CD_PUBLISHED.equals(find(id).getStatus().getCd())) {
+      throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ARTICLE_IS_PUBLISHED);
+    }
+
+    Article persistedArticle = find(id);
+    persistedArticle.setAbstractMedia(null);
+    persistedArticle.setAbstractMediaContentType(null);
+
+    persistedArticle.setUc(persistedArticle.getUc());
+    persistedArticle.setDc(persistedArticle.getDc());
+
+    persistedArticle.setUm(currentUser());
+    persistedArticle.setDm(Calendar.getInstance());
+
+    super.update(persistedArticle);
+  }
+
 }

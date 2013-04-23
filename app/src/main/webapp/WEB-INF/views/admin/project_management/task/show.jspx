@@ -17,9 +17,37 @@
           <field:display field="parentTask" id="s_task_parentTask" object="${task}" />
         </page:show>
         <BR />
+        <!-- Comment -->
+        <page:list id="pl_taskcomment" items="${taskCommentList}" create="false">
+          <table:table data="${taskCommentList}" id="l_taskcomment" path="/admin/project_management/task/comment/${task.id}" create="false" show="false" update="false">
+            <table:column calendar="true" dateTimePattern="${date_time_pattern}" id="c_taskcomment_dc" property="dc" />
+            <table:column id="c_taskcomment_text" property="text" />
+            <table:column id="c_taskcomment_uc" property="uc" />
+          </table:table>
+        </page:list>
+        <BR />
+        <form:create id="fc_taskcomment" modelAttribute="taskComment" path="/admin/project_management/task/comment/${task.id}" list="false">
+          <field:textarea field="text" id="c_taskcomment_text" required="true" max="500" />
+        </form:create>
+        <BR />
+        <!-- Task Stamps-->
+        <page:show id="pss_task" object="${task}" path="/admin/project_management/task" openPane="false" label="task_show_stamps" list="false" create="false" update="false" delete="false">
+          <field:display field="uc" id="s_task_uc" object="${task}" />
+          <field:display calendar="true" dateTimePattern="${date_time_pattern}" field="dc" id="s_task_dc" object="${task}" />
+          <field:display field="um" id="s_task_um" object="${task}" />
+          <field:display calendar="true" dateTimePattern="${date_time_pattern}" field="dm" id="s_task_dm" object="${task}" />
+        </page:show>
+
       </td>
       <td id="ps_task_col_2">
         <!-- Attachment -->
+        <page:list id="pl_taskattachment" items="${taskAttachmentList}" create="false" openPane="true">
+          <table:table data="${taskAttachmentList}" id="l_taskattachment" path="/admin/project_management/task/attachment/${task.id}" create="false" update="false">
+            <table:column id="c_taskattachment_name" property="name" />
+            <table:column id="c_taskattachment_contenttype" property="contentType" />
+          </table:table>
+        </page:list>
+        <BR />
         <form:create id="fc_taskattachment" modelAttribute="taskAttachment" path="/admin/project_management/task/attachment/${task.id}" multipart="true" list="false" openPane="true">
           <field:file field="content" id="c_taskAttachment_content" />
           <c:if test="${not empty attachment_required}">
@@ -29,40 +57,6 @@
             </div>
           </c:if>
         </form:create>
-        <BR />
-        <page:list id="pl_taskattachment" items="${taskAttachmentList}" create="false" openPane="true">
-          <table:table data="${taskAttachmentList}" id="l_taskattachment" path="/admin/project_management/task/attachment/${task.id}" create="false" update="false">
-            <table:column id="c_taskattachment_name" property="name" />
-            <table:column id="c_taskattachment_contenttype" property="contentType" />
-          </table:table>
-        </page:list>
-      </td>
-    </tr>
-    <tr>
-      <td id="ps_task_col_3">
-        <!-- Comment -->
-        <form:create id="fc_taskcomment" modelAttribute="taskComment" path="/admin/project_management/task/comment/${task.id}" list="false">
-          <field:textarea field="text" id="c_taskcomment_text" required="true" max="500" />
-        </form:create>
-        <BR />
-        <page:list id="pl_taskcomment" items="${taskCommentList}" create="false">
-          <table:table data="${taskCommentList}" id="l_taskcomment" path="/admin/project_management/task/comment/${task.id}" create="false" show="false" update="false">
-            <table:column calendar="true" dateTimePattern="${date_time_format}" id="c_taskcomment_dc" property="dc" />
-            <table:column id="c_taskcomment_text" property="text" />
-            <table:column id="c_taskcomment_uc" property="uc" />
-          </table:table>
-        </page:list>
-        <BR />
-        <!-- Task Stamps-->
-        <page:show id="pss_task" object="${task}" path="/admin/project_management/task" openPane="false" label="task_show_stamps" list="false" create="false" update="false" delete="false">
-          <field:display field="uc" id="s_task_uc" object="${task}" />
-          <field:display calendar="true" dateTimePattern="${date_time_format}" field="dc" id="s_task_dc" object="${task}" />
-          <field:display field="um" id="s_task_um" object="${task}" />
-          <field:display calendar="true" dateTimePattern="${date_time_format}" field="dm" id="s_task_dm" object="${task}" />
-        </page:show>
-      </td>
-      <td id="ps_task_col_4">
-        <BR />
       </td>
     </tr>
   </table>
