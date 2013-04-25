@@ -30,6 +30,7 @@ import rs.id.webzine.domain.magazine.Article;
 import rs.id.webzine.domain.magazine.ArticleCategory;
 import rs.id.webzine.domain.magazine.ArticleComment;
 import rs.id.webzine.service.content_management.ContentService;
+import rs.id.webzine.service.content_management.ContentTypeService;
 import rs.id.webzine.service.content_management.ManagedContentService;
 import rs.id.webzine.service.magazine.ArticleCategoryService;
 import rs.id.webzine.service.magazine.ArticleCommentService;
@@ -304,7 +305,7 @@ public class ArticleController extends WebController {
     uiModel.asMap().clear();
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
   }
-  
+
   @RequestMapping(value = "/comment/{articleId}/accept/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String acceptComment(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
       Model uiModel, HttpServletRequest httpServletRequest) {
@@ -315,8 +316,9 @@ public class ArticleController extends WebController {
   }
 
   @RequestMapping(value = "/design/{articleId}", produces = "text/html")
-  public String design(@PathVariable("articleI") Integer articleI, Model uiModel, HttpServletRequest httpServletRequest) {
-    populateDesignForm(uiModel, articleI, httpServletRequest);
+  public String designForm(@PathVariable("articleId") Integer articleId, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    populateDesignForm(uiModel, articleId, httpServletRequest);
     return PATH + "/" + DESIGN;
   }
 
@@ -326,6 +328,8 @@ public class ArticleController extends WebController {
 
     uiModel.addAttribute("managedContent", article.getManagedContent());
     uiModel.addAttribute("contentList", contentService.findForManagedContent(article.getManagedContent().getId()));
+    uiModel.addAttribute("textContent", new Content());
+    uiModel.addAttribute("mediaContent", new Content());
 
     uiModel.addAttribute("itemId", articleId);
   }

@@ -57,7 +57,14 @@
         <tr>
           <c:forTokens items="${columnLabels}" delims="${'&#9999;'}" var="columnHeading">
             <th id="${fn:toLowerCase(id)}_${fn:toLowerCase(columnHeading)}">
-              <c:out value="${columnHeading}" />
+              <c:choose>
+                <c:when test="${columnHeading == 'none'}">
+                </c:when>
+                <c:otherwise>
+                  <c:out value="${columnHeading}" />
+                </c:otherwise>
+
+              </c:choose>
               <spring:eval var="colCounter" expression="colCounter  + 1" />
             </th>
           </c:forTokens>

@@ -7,6 +7,7 @@
     <table:column id="c_article_id" property="id" />
       <table:column id="c_article_title" property="title" />
       <table:column id="c_article_status" property="status" />
+      <table:column id="c_article_design" action="true" property="design" />
     </table:table>
   </page:list>
 </div>

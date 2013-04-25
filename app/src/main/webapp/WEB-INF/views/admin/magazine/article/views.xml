@@ -13,4 +13,7 @@
   <definition extends="default" name="admin/magazine/article/update">
     <put-attribute name="body" value="/WEB-INF/views/admin/magazine/article/update.jspx" />
   </definition>
+  <definition extends="default" name="admin/magazine/article/design">
+    <put-attribute name="body" value="/WEB-INF/views/admin/magazine/article/design.jspx" />
+  </definition>
 </tiles-definitions>
