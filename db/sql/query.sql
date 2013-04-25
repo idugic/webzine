@@ -1,1 +1,1 @@
-ALTER TABLE MANAGED_CONTENT ADD COLUMN SCRIPT VARCHAR(4000);
+select * from article_status;

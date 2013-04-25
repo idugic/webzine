@@ -43,6 +43,8 @@
       <c:set var="delete" value="true" />
     </c:if>
 
+
+
     <spring:message var="typeName" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_new" htmlEscape="false" />
     <c:set var="lengths" value="${fn:split(columnMaxLengths, '&#9999;')}" scope="request" />
     <c:set var="types" value="${fn:split(columnTypes, '&#9999;')}" scope="request" />
@@ -74,6 +76,9 @@
         </tr>
       </thead>
       <c:forEach items="${data}" var="item">
+        <c:set var="itemId">
+          <spring:eval expression="item[typeIdFieldName]" />
+        </c:set>
         <tr>
           <c:forTokens items="${columnProperties}" delims="${'&#9999;'}" var="column" varStatus="num">
             <c:set var="columnMaxLength" value="${lengths[num.count-1]}" />
@@ -91,6 +96,15 @@
                     <fmt:formatDate value="${item[column].time}" pattern="${fn:escapeXml(columnDatePattern)}" var="colTxt" />
                   </spring:escapeBody>
                 </c:when>
+                <c:when test="${columnType eq 'action'}">
+                  <c:set value="" var="colTxt" />
+                  <spring:url value="${path}/${column}/${itemId}" var="action_form_url" />
+                  <spring:url value="/resources/images/${column}.png" var="action_image_url" />
+                  <spring:message arguments="${typeName}" code="entity_${column}" var="action_label" htmlEscape="false" />
+                  <a href="${action_form_url}" title="${fn:escapeXml(action_label)}">
+                    <img class="image" alt="${fn:escapeXml(action_label)}" src="${action_image_url}" title="${fn:escapeXml(action_label)}" />
+                  </a>
+                </c:when>
                 <c:otherwise>
                   <c:set var="colTxt">
                     <spring:eval expression="item[column]" htmlEscape="false" />
@@ -100,12 +114,9 @@
               <c:if test="${columnMaxLength ge 0}">
                 <c:set value="${fn:substring(colTxt, 0, columnMaxLength)}" var="colTxt" />
               </c:if>
-              <c:out value="${colTxt}" escapeXml="false"/>
+              <c:out value="${colTxt}" escapeXml="false" />
             </td>
           </c:forTokens>
-          <c:set var="itemId">
-            <spring:eval expression="item[typeIdFieldName]" />
-          </c:set>
           <c:if test="${show}">
             <td class="utilbox">
               <spring:url value="${path}/${itemId}" var="show_form_url" />

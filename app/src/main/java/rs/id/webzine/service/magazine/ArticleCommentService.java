@@ -9,12 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.domain.magazine.ArticleCategory;
 import rs.id.webzine.domain.magazine.ArticleComment;
 import rs.id.webzine.service.GenericService;
 
 @Component
 public class ArticleCommentService extends GenericService<ArticleComment> {
+
+  public static final String CD_NEW = "new";
+
+  public static final String CD_ACCEPTED = "accepted";
+
+  public static final String CD_DECLINED = "declined";
+
+  public static final String CD_ARCHIVED = "archived";
 
   @Autowired
   ArticleCommentStatusService articleCommentStatusService;
@@ -31,11 +38,21 @@ public class ArticleCommentService extends GenericService<ArticleComment> {
     super.create(articleComment);
   }
 
-  @Override
   @Transactional
-  public void delete(Integer id) {
+  public void decline(Integer id) {
     ArticleComment articleComment = find(id);
-    articleComment.setStatus(articleCommentStatusService.findForCd(ArticleCommentStatusService.CD_DELETED));
+    articleComment.setStatus(articleCommentStatusService.findForCd(ArticleCommentStatusService.CD_DECLINED));
+
+    articleComment.setUm(currentUser());
+    articleComment.setDm(Calendar.getInstance());
+
+    super.delete(id);
+  }
+
+  @Transactional
+  public void accept(Integer id) {
+    ArticleComment articleComment = find(id);
+    articleComment.setStatus(articleCommentStatusService.findForCd(ArticleCommentStatusService.CD_ACCEPTED));
 
     articleComment.setUm(currentUser());
     articleComment.setDm(Calendar.getInstance());

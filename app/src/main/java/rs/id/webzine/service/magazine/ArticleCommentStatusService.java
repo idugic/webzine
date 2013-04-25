@@ -14,11 +14,11 @@ public class ArticleCommentStatusService extends GenericService<ArticleCommentSt
 
   public static final String CD_NEW = "new";
 
-  public static final String CD_READY_TO_BE_PUBLISHED = "ready";
+  public static final String CD_ACCEPTED = "accepted";
 
-  public static final String CD_PUBLISHED = "published";
-
-  public static final String CD_DELETED = "deleted";
+  public static final String CD_DECLINED = "declined";
+ 
+  public static final String CD_ARCHIVED = "archived";
 
   public ArticleCommentStatus findForCd(String cd) {
     ArticleCommentStatus articleCommentStatus = null;

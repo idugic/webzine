@@ -17,18 +17,20 @@
         <BR />
         <page:list id="pl_articlecomment" items="${articleCommentList}" create="false">
           <table:table data="${articleCommentList}" id="l_articlecomment" path="/admin/magazine/article/comment/${article.id}" create="false" update="false" show="false">
+            <table:column action="true" id="c_articlecomment_accept" property="accept" />
             <table:column calendar="true" dateTimePattern="${date_time_pattern}" id="c_articlecomment_dc" property="dc" />
             <table:column id="c_articlecomment_text" property="text" />
             <table:column id="c_articlecomment_uc" property="uc" />
+            <table:column action="true" id="c_articlecomment_decline" property="decline" />
           </table:table>
         </page:list>
         <BR />
-     
+
         <!-- Comments -->
         <form:create id="fc_articlecomment" modelAttribute="articleComment" path="/admin/magazine/article/comment/${article.id}" render="${empty dependencies}" list="false">
           <field:textarea field="text" id="c_articlecomment_text" required="true" max="250" />
         </form:create>
-     
+
         <BR />
         <page:show id="pss_article" object="${article}" path="/admin/magazine/article" label="article_show_stamps" list="false" create="false" update="false" delete="false" openPane="false">
           <field:display field="uc" id="s_article_uc" object="${article}" />
@@ -49,7 +51,7 @@
         <form:create id="fc_articlecategory" modelAttribute="articleCategory" path="/admin/magazine/article/category/${article.id}" list="false">
           <field:select field="category" id="c_articlecategory_category" itemValue="id" items="${availableCategoryList}" path="/admin/magazine/category" />
         </form:create>
-    
+
       </td>
     </tr>
   </table>

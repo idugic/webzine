@@ -92,8 +92,6 @@ public class ArticleController extends WebController {
             + encodeUrlPathSegment(article.getId().toString(), httpServletRequest);
         uiModel.addAttribute("abstractMediaUrl", mediaUrl);
         uiModel.addAttribute("abstractMediaContentType", article.getAbstractMediaContentType());
-        // this prevents abstract media content to be fetched in file value
-        // field
         article.setAbstractMedia(null);
         uiModel.addAttribute("itemId", article.getId());
       }
@@ -208,15 +206,15 @@ public class ArticleController extends WebController {
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(article.getId().toString(), httpServletRequest);
   }
 
-  @RequestMapping(value = "/unpublish", method = RequestMethod.PUT, produces = "text/html")
-  public String unpublish(Article article, BindingResult bindingResult, Model uiModel,
+  @RequestMapping(value = "/recall", method = RequestMethod.PUT, produces = "text/html")
+  public String revoke(Article article, BindingResult bindingResult, Model uiModel,
       HttpServletRequest httpServletRequest) {
     if (bindingResult.hasErrors()) {
       populateEditForm(uiModel, article, httpServletRequest, false);
       return PATH + "/" + UPDATE;
     }
 
-    articleService.unpublish(article.getId());
+    articleService.recall(article.getId());
 
     uiModel.asMap().clear();
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(article.getId().toString(), httpServletRequest);
@@ -298,10 +296,19 @@ public class ArticleController extends WebController {
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
   }
 
-  @RequestMapping(value = "/comment/{articleId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
-  public String deleteComment(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
+  @RequestMapping(value = "/comment/{articleId}/decline/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String declineComment(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
       Model uiModel, HttpServletRequest httpServletRequest) {
-    articleCommentService.delete(id);
+    articleCommentService.decline(id);
+
+    uiModel.asMap().clear();
+    return REDIRECT + PATH + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
+  }
+  
+  @RequestMapping(value = "/comment/{articleId}/accept/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  public String acceptComment(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
+      Model uiModel, HttpServletRequest httpServletRequest) {
+    articleCommentService.accept(id);
 
     uiModel.asMap().clear();
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);

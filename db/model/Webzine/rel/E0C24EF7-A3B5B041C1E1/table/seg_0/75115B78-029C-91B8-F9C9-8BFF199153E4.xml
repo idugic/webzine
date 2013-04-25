@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" id="75115B78-029C-91B8-F9C9-8BFF199153E4" directorySegmentName="seg_0" name="CUSTOMER">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" id="75115B78-029C-91B8-F9C9-8BFF199153E4" directorySegmentName="seg_0" name="ADVERTISER">
 <createdBy>IvanD</createdBy>
 <createdTime>2013-03-06 21:43:44 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
@@ -86,7 +86,7 @@
 </Column>
 </columns>
 <indexes>
-<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="42FC705F-10DE-0D85-A9B2-7051DB50B5F3" name="CUST_PK">
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="42FC705F-10DE-0D85-A9B2-7051DB50B5F3" name="ADVE_PK">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-08 13:23:05 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>
@@ -96,7 +96,7 @@
 <colUsage columnID="B9AB24F9-66E6-0284-278D-A55B523E8A10"/>
 </indexColumnUsage>
 </ind_PK_UK>
-<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="7A46D7D4-62D5-15A7-A518-BA8C93F6B9E4" name="CUST_ADDR_FK_1">
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="7A46D7D4-62D5-15A7-A518-BA8C93F6B9E4" name="ADVE_ADDR_FK_1">
 <createdBy>idugic</createdBy>
 <createdTime>2013-03-08 13:35:06 UTC</createdTime>
 <ownerDesignName>Webzine</ownerDesignName>

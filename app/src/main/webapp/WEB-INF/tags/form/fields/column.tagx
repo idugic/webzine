@@ -10,7 +10,8 @@
   <jsp:directive.attribute name="calendar" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate that this field is of type java.util.Calendar" />
   <jsp:directive.attribute name="dateTimePattern" type="java.lang.String" required="false" rtexprvalue="true" description="The date / time pattern to use if the field is a date or calendar type" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
-
+  <jsp:directive.attribute name="action" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate that this field is an action link" />
+  
   <c:if test="${empty render or render}">
     <c:if test="${empty label}">
       <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
@@ -19,8 +20,7 @@
     <c:if test="${empty dateTimePattern}">
       <c:set value="MM/dd/yyyy" var="dateTimePattern" />
     </c:if>
-
-    <c:choose>
+       <c:choose>
       <c:when test="${date and empty columnTypes}">
         <c:set var="columnTypes" value="date" scope="request" />
         <c:set var="columnDatePatterns" value="${dateTimePattern}" scope="request" />
@@ -36,6 +36,14 @@
       <c:when test="${calendar and not empty columnTypes}">
         <c:set var="columnTypes" value="${columnTypes}&#9999;calendar" scope="request" />
         <c:set var="columnDatePatterns" value="${columnDatePatterns}&#9999;${dateTimePattern}" scope="request" />
+      </c:when>
+      <c:when test="${action and empty columnTypes}">
+        <c:set var="columnTypes" value="action" scope="request" />
+        <c:set var="columnDatePatterns" value="none" scope="request" />
+      </c:when>
+      <c:when test="${action and not empty columnTypes}">
+        <c:set var="columnTypes" value="${columnTypes}&#9999;action" scope="request" />
+        <c:set var="columnDatePatterns" value="${columnDatePatterns}&#9999;none" scope="request" />
       </c:when>
       <c:when test="${empty columnTypes}">
         <c:set var="columnTypes" value="default" scope="request" />

@@ -814,3 +814,27 @@ fieldset th {
 #_title_pss_article_id {
   width: 635px;
 }
+
+#_title_fu_article_id {
+	  width: 635px;
+}
+
+#_title_fu_article_id #widget__title_id {
+  width: 40em !important;
+}
+
+#_title_fu_article_id #_abstractText_id_ {
+  margin-left: 100px;
+  width: 480px;
+  max-width: 480px;
+  height: 200px;
+  border-top: 1px solid #CCCCCC;
+}
+
+#_title_fu_article_id #_abstractMedia_id_val {
+  width: 423px !important;
+}
+
+#fu_article_col_2 {
+  width: 435px;
+}

@@ -60,7 +60,7 @@ public class ArticleService extends GenericService<Article> {
   }
 
   @Transactional
-  public void unpublish(Integer id) {
+  public void recall(Integer id) {
     Article article = find(id);
     article.setStatus(articleStatusService.findForCd(ArticleStatusService.CD_NEW));
 

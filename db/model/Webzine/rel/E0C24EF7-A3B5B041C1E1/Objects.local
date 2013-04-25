@@ -2,6 +2,7 @@
 <oracle.dbtools.crest.model.design.relational.RelationalDesign>
    <object objectType="Table" objectID="1DE4D883-9FC4-D75D-7A88-B8E0B4C30750" name="AD" seqName="seg_0"/>
    <object objectType="Table" objectID="F6124BD9-8AE0-3468-8F7E-39A62A23E915" name="ADDRESS" seqName="seg_0"/>
+   <object objectType="Table" objectID="75115B78-029C-91B8-F9C9-8BFF199153E4" name="ADVERTISER" seqName="seg_0"/>
    <object objectType="Table" objectID="8981833A-5F03-7C02-254B-49759ED92894" name="AD_ARTICLE" seqName="seg_0"/>
    <object objectType="Table" objectID="13003708-9CCE-C5A1-538D-3C09F7E005E7" name="AD_STATUS" seqName="seg_0"/>
    <object objectType="Table" objectID="4BEB4B36-457E-7CED-FBF3-B5AD38DA0B8D" name="ARTICLE" seqName="seg_0"/>
@@ -15,7 +16,6 @@
    <object objectType="Table" objectID="C785633D-6AFC-164A-7CE1-8C60CB77E332" name="CONTENT" seqName="seg_0"/>
    <object objectType="Table" objectID="3ABDC1AC-9FE8-1B7D-1B0C-A7FD513E6620" name="CONTENT_TYPE" seqName="seg_0"/>
    <object objectType="Table" objectID="B1F0EAD8-FAE6-62E0-3307-DE6627E545D0" name="COUNTRY" seqName="seg_0"/>
-   <object objectType="Table" objectID="75115B78-029C-91B8-F9C9-8BFF199153E4" name="CUSTOMER" seqName="seg_0"/>
    <object objectType="Table" objectID="A5380359-6C70-2844-CD55-2022FAD8EF2C" name="MANAGED_CONTENT" seqName="seg_0"/>
    <object objectType="Table" objectID="28B021DF-292D-A217-6C7D-76204FBA2D5F" name="READER_TYPE" seqName="seg_0"/>
    <object objectType="Table" objectID="13DCA6DF-2485-4758-C349-31D447904EDA" name="ROLES" seqName="seg_0"/>
@@ -31,7 +31,7 @@
    <object objectType="FKIndexAssociation" objectID="07DEF696-4E23-088D-AC11-8246953DDA3A" name="AD_ARTI_ARTI_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="253D010A-492C-04FA-A803-50291D63797C" name="AD_ARTI_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="88F64F7B-1136-60EF-58B3-796A32B809E4" name="AD_ARTI_USER_FK_2" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="2EA5129B-A48D-BD55-1A58-AC43B5782A73" name="AD_CUST_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="2EA5129B-A48D-BD55-1A58-AC43B5782A73" name="AD_ADVE_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="45954ECA-5173-0D24-F43D-1C0289FBCF9C" name="AD_MANA_CONT_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="A5A61B7C-285E-27F9-5759-74A3A92B5D66" name="AD_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="2A5A5ACB-F759-19A2-E133-1E340B94E95D" name="AD_USER_FK_2" seqName="seg_0"/>
@@ -60,7 +60,7 @@
    <object objectType="FKIndexAssociation" objectID="0877A311-AA21-5E43-FD99-9189E2C459FB" name="CATE_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="DC096D11-BD8A-D2D0-6350-2CAC9FC19A50" name="CONT_CONT_TYPE_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="143AE3AC-8EDF-2F32-98D9-E80E24CFA400" name="CONT_MANA_CONT_FK_1" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="2D257986-6242-935B-9D63-F8738E1A2D3A" name="CUST_ADDR_FK_1" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="2D257986-6242-935B-9D63-F8738E1A2D3A" name="ADVE_ADDR_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="86061FE0-0B46-6AB4-B433-CAD7000BFF9C" name="TASK_ATTA_TASK_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="22673115-FB80-E22B-899A-FC13BF36C253" name="TASK_ATTA_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="95C4B199-5597-3C06-D2E7-A981152A3495" name="TASK_ATTA_USER_FK_2" seqName="seg_0"/>
