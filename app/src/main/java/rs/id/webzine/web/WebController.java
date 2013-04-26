@@ -29,8 +29,6 @@ public class WebController {
 
   public static final String IMAGE = "image";
 
-  public static final String DESIGN = "design";
-  
   public static final String ABSTRACT_MEDIA = "abstract_media";
 
   

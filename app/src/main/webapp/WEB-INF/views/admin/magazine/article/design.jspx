@@ -7,5 +7,5 @@
     <field:display field="title" id="s_article_title" object="${article}" />
   </page:show>
   <BR />
-  <comp:design id="pd_article" managedContent="${managedContent}" contentList="${contentList}" path="/admin/magazine/article/design/${article.id}" />
+  <comp:design id="pd_article" managedContent="${managedContent}" contentList="${contentList}" path="/admin/magazine/article/design" referenceId="${article.id}" />
 </div>

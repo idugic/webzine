@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:spring="http://www.springframework.org/tags" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0"
+  xmlns:comp="urn:jsptagdir:/WEB-INF/tags/composed">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+
+  <page:show id="ps_managedcontent" object="${managedContent}" path="/admin/content_management/managed_content/${managedContent.id}" list="false" create="false" update="false" delete="false" refresh="true">
+    <comp:managed_content managedContent="${managedContent}" contentList="${contentList}" />
+  </page:show>
+
+</div>

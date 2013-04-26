@@ -47,6 +47,7 @@ public class ContentService extends GenericService<Content> {
         description = description + "...";
       }
     }
+    content.setDescription(description);
 
     content.setOrderNo(getNextOrderNo(managedContentId));
 
@@ -65,6 +66,7 @@ public class ContentService extends GenericService<Content> {
     if (description == null || description.isEmpty()) {
       description = fileName;
     }
+    content.setDescription(description);
 
     content.setOrderNo(getNextOrderNo(managedContentId));
 

@@ -24,14 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-import rs.id.webzine.domain.content_management.Content;
-import rs.id.webzine.domain.content_management.ManagedContent;
 import rs.id.webzine.domain.magazine.Article;
 import rs.id.webzine.domain.magazine.ArticleCategory;
 import rs.id.webzine.domain.magazine.ArticleComment;
-import rs.id.webzine.service.content_management.ContentService;
-import rs.id.webzine.service.content_management.ContentTypeService;
-import rs.id.webzine.service.content_management.ManagedContentService;
 import rs.id.webzine.service.magazine.ArticleCategoryService;
 import rs.id.webzine.service.magazine.ArticleCommentService;
 import rs.id.webzine.service.magazine.ArticleService;
@@ -56,12 +51,6 @@ public class ArticleController extends WebController {
 
   @Autowired
   private ArticleCommentService articleCommentService;
-
-  @Autowired
-  private ManagedContentService managedContentService;
-
-  @Autowired
-  private ContentService contentService;
 
   @InitBinder
   protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
@@ -208,7 +197,7 @@ public class ArticleController extends WebController {
   }
 
   @RequestMapping(value = "/recall", method = RequestMethod.PUT, produces = "text/html")
-  public String revoke(Article article, BindingResult bindingResult, Model uiModel,
+  public String recall(Article article, BindingResult bindingResult, Model uiModel,
       HttpServletRequest httpServletRequest) {
     if (bindingResult.hasErrors()) {
       populateEditForm(uiModel, article, httpServletRequest, false);
@@ -315,115 +304,4 @@ public class ArticleController extends WebController {
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
   }
 
-  @RequestMapping(value = "/design/{articleId}", produces = "text/html")
-  public String designForm(@PathVariable("articleId") Integer articleId, Model uiModel,
-      HttpServletRequest httpServletRequest) {
-    populateDesignForm(uiModel, articleId, httpServletRequest);
-    return PATH + "/" + DESIGN;
-  }
-
-  private void populateDesignForm(Model uiModel, Integer articleId, HttpServletRequest httpServletRequest) {
-    Article article = articleService.find(articleId);
-    uiModel.addAttribute("article", article);
-
-    uiModel.addAttribute("managedContent", article.getManagedContent());
-    uiModel.addAttribute("contentList", contentService.findForManagedContent(article.getManagedContent().getId()));
-    uiModel.addAttribute("textContent", new Content());
-    uiModel.addAttribute("mediaContent", new Content());
-
-    uiModel.addAttribute("itemId", articleId);
-  }
-
-  @RequestMapping(value = "/design/managed_content/{articleId}", method = RequestMethod.PUT, produces = "text/html")
-  public String updateManagedContent(@PathVariable("articleId") Integer articleId, ManagedContent managedContent,
-      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-    if (bindingResult.hasErrors()) {
-      populateDesignForm(uiModel, articleId, httpServletRequest);
-      return PATH + "/" + DESIGN;
-    }
-
-    Article article = articleService.find(articleId);
-
-    ManagedContent articleManagedContent = article.getManagedContent();
-    articleManagedContent.setCss(managedContent.getCss());
-    articleManagedContent.setScript(managedContent.getScript());
-
-    managedContentService.update(articleManagedContent);
-
-    uiModel.asMap().clear();
-    return REDIRECT + PATH + "/" + DESIGN + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
-  }
-
-  @RequestMapping(value = "/design/content/text/{articleId}", method = RequestMethod.POST, produces = "text/html")
-  public String createTextContent(@PathVariable("articleId") Integer articleId, Content content,
-      BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-
-    if (bindingResult.hasErrors()) {
-      populateDesignForm(uiModel, articleId, httpServletRequest);
-      return PATH + "/" + DESIGN;
-    }
-
-    Article article = articleService.find(articleId);
-    contentService.createTextContent(article.getManagedContent().getId(), content.getText(), content.getDescription());
-
-    uiModel.asMap().clear();
-    return REDIRECT + PATH + "/" + DESIGN + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
-  }
-
-  @RequestMapping(value = "/design/content/media/{articleId}", method = RequestMethod.POST, produces = "text/html")
-  public String createMediaContent(@PathVariable("articleId") Integer articleId, Content content,
-      @RequestParam("media") MultipartFile media, BindingResult bindingResult, Model uiModel,
-      HttpServletRequest httpServletRequest) {
-
-    try {
-      if (bindingResult.hasErrors()) {
-        populateDesignForm(uiModel, articleId, httpServletRequest);
-        return PATH + "/" + DESIGN;
-      }
-
-      if (media.getBytes() == null || media.getBytes().length == 0) {
-        populateDesignForm(uiModel, articleId, httpServletRequest);
-        uiModel.addAttribute("media_content_required");
-        return PATH + "/" + DESIGN;
-      }
-
-      Article article = articleService.find(articleId);
-      contentService.createMediaContent(article.getManagedContent().getId(), media.getBytes(), media.getContentType(),
-          media.getOriginalFilename(), content.getDescription());
-
-      uiModel.asMap().clear();
-      return REDIRECT + PATH + "/" + DESIGN + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
-    } catch (IOException e) {
-      log.error(e);
-      throw new RuntimeException(e);
-    }
-  }
-
-  @RequestMapping(value = "/design/content/{articleId}/{id}", method = RequestMethod.DELETE, produces = "text/html")
-  public String deleteContent(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
-      Model uiModel, HttpServletRequest httpServletRequest) {
-    contentService.delete(id);
-
-    uiModel.asMap().clear();
-    return REDIRECT + PATH + "/" + DESIGN + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
-
-  }
-
-  @RequestMapping(value = "/design/content/up/{articleId}/{id}", method = RequestMethod.PUT, produces = "text/html")
-  public String moveContentUp(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
-      Model uiModel, HttpServletRequest httpServletRequest) {
-    contentService.moveUp(id);
-
-    uiModel.asMap().clear();
-    return REDIRECT + PATH + "/" + DESIGN + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
-  }
-
-  @RequestMapping(value = "/design/content/down/{articleId}/{id}", method = RequestMethod.PUT, produces = "text/html")
-  public String moveContentDown(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
-      Model uiModel, HttpServletRequest httpServletRequest) {
-    contentService.moveDown(id);
-
-    uiModel.asMap().clear();
-    return REDIRECT + PATH + "/" + DESIGN + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
-  }
 }

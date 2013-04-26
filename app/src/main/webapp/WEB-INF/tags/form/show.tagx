@@ -14,6 +14,7 @@
   <jsp:directive.attribute name="entityNamePlural" type="java.lang.String" required="false" rtexprvalue="true" description="The label used for the entity list" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane is opened or closed by default (default: true)" />
+  <jsp:directive.attribute name="refresh" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane has refresh action (default: false)" />
 
   <c:if test="${empty render or render}">
     <c:if test="${empty list}">
@@ -32,6 +33,10 @@
       <c:set var="delete" value="true" />
     </c:if>
 
+    <c:if test="${empty refresh}">
+      <c:set var="refresh" value="false" />
+    </c:if>
+
     <c:choose>
       <c:when test="${empty label}">
         <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
@@ -46,6 +51,16 @@
       <c:choose>
         <c:when test="${not empty object}">
           <jsp:doBody />
+          <c:if test="${refresh}">
+            <BR /> 
+            <spring:url value="${path}/${itemId}" var="refresh_form_url" />
+            <form:form action="${refresh_form_url}" method="GET">
+              <spring:message code="button_refresh" var="refresh_button" htmlEscape="false" />
+              <div class="submit" id="${fn:escapeXml(id)}_submit">
+              <input id="proceed" type="submit" value="${fn:escapeXml(refresh_button)}" />
+              </div>
+            </form:form>
+          </c:if>
           <c:if test="${delete or update or create or list}">
             <c:choose>
               <c:when test="${empty entityName}">

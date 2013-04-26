@@ -1,8 +1,9 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page"
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page"
   version="2.0">
   <jsp:output omit-xml-declaration="yes" />
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
+  <jsp:directive.attribute name="referenceId" type="java.lang.Object" required="true" rtexprvalue="true" description="Id of the object that references managed content" />
   <jsp:directive.attribute name="managedContent" type="java.lang.Object" required="true" rtexprvalue="true" description="Managed content object" />
   <jsp:directive.attribute name="contentList" type="java.lang.Object" required="true" rtexprvalue="true" description="List of content objects" />
   <jsp:directive.attribute name="path" type="java.lang.String" required="true" rtexprvalue="true" description="Specify the URL path" />
@@ -12,9 +13,17 @@
   <c:if test="${empty render or render}">
     <table class="inputGridTable">
       <tr>
+        <td colspan="2">
+          <a href="${pageContext.request.contextPath}/admin/content_management/managed_content/${managedContent.id}" target="_blank">
+            <spring:message code="managedcontent_overview" var="overview_title" htmlEscape="false" />
+            <c:out value="${overview_title}" />
+          </a>
+        </td>
+      </tr>
+      <tr>
         <td>
           <div>
-            <form:create id="fc_content" modelAttribute="textContent" path="${path}/content" multipart="true" list="false">
+            <form:create id="fc_content" modelAttribute="content" path="${path}/content/${referenceId}" multipart="true" list="false">
               <field:editor field="text" id="c_content_text" />
               <field:file field="media" id="c_content_media" />
               <field:input field="description" id="c_content_description" />
@@ -24,18 +33,18 @@
           </div>
           <BR />
           <page:list id="pl_content" items="${contentList}" create="false">
-            <table:table data="contentList" id="l_content" path="${path}/content" create="false" update="false" show="false">
+            <table:table data="${contentList}" id="l_content" path="${path}/content/${referenceId}" create="false" update="false" show="false">
               <table:column id="c_content_contenttype" property="contentType" />
               <table:column id="c_content_description" property="description" />
             </table:table>
           </page:list>
         </td>
         <td>
-          <page:update id="puc_managedcontent" modelAttribute="managedContent" path="${path}" versionField="none" list="false">
+          <page:update id="puc_managedcontent" modelAttribute="managedContent" path="${path}/managed_content/css/${referenceId}" versionField="none" list="false">
             <field:textarea id="c_managedcontent_css" field="css" />
           </page:update>
           <BR />
-          <page:update id="pus_managedcontent" modelAttribute="managedContent" path="${path}" versionField="none" list="false">
+          <page:update id="pus_managedcontent" modelAttribute="managedContent" path="${path}/managed_content/script/${referenceId}" versionField="none" list="false">
             <field:textarea id="c_managedcontent_script" field="script" />
           </page:update>
         </td>

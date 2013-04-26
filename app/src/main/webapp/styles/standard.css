@@ -733,6 +733,10 @@ fieldset th {
   width: 30em !important;
 }
 
+#_title_fc_content_id #widget__link_id {
+  width: 30em !important;
+}
+
 #_title_puc_managedcontent_id #_css_id {
 	width: 345px;
 	max-width: 445px;
@@ -883,6 +887,3 @@ fieldset th {
 	width: 435px;
 }
 
-#_title_psd_article_id {
-  width: 525px;
-}
