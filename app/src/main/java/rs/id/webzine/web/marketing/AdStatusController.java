@@ -1,4 +1,4 @@
-package rs.id.webzine.web;
+package rs.id.webzine.web.marketing;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import rs.id.webzine.domain.AdStatus;
+import rs.id.webzine.domain.marketing.AdStatus;
+import rs.id.webzine.web.WebController;
 
 @RequestMapping("admin/ad_status")
 @Controller

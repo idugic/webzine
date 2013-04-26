@@ -286,7 +286,7 @@ public class ArticleController extends WebController {
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
   }
 
-  @RequestMapping(value = "/comment/{articleId}/decline/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  @RequestMapping(value = "/comment/{articleId}/decline/{id}", produces = "text/html")
   public String declineComment(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
       Model uiModel, HttpServletRequest httpServletRequest) {
     articleCommentService.decline(id);
@@ -295,7 +295,7 @@ public class ArticleController extends WebController {
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
   }
 
-  @RequestMapping(value = "/comment/{articleId}/accept/{id}", method = RequestMethod.DELETE, produces = "text/html")
+  @RequestMapping(value = "/comment/{articleId}/accept/{id}", produces = "text/html")
   public String acceptComment(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
       Model uiModel, HttpServletRequest httpServletRequest) {
     articleCommentService.accept(id);

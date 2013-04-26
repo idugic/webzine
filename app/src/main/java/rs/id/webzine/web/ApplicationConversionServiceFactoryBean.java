@@ -9,9 +9,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
-import rs.id.webzine.domain.Ad;
-import rs.id.webzine.domain.AdStatus;
-import rs.id.webzine.domain.Customer;
 import rs.id.webzine.domain.content_management.Content;
 import rs.id.webzine.domain.content_management.ContentType;
 import rs.id.webzine.domain.content_management.ManagedContent;
@@ -24,6 +21,9 @@ import rs.id.webzine.domain.magazine.ArticleRate;
 import rs.id.webzine.domain.magazine.ArticleStatus;
 import rs.id.webzine.domain.magazine.Category;
 import rs.id.webzine.domain.magazine.ReaderType;
+import rs.id.webzine.domain.marketing.Ad;
+import rs.id.webzine.domain.marketing.AdStatus;
+import rs.id.webzine.domain.marketing.Advertiser;
 import rs.id.webzine.domain.project_management.Task;
 import rs.id.webzine.domain.project_management.TaskAttachment;
 import rs.id.webzine.domain.project_management.TaskComment;
@@ -764,26 +764,26 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
-  public Converter<Customer, String> getCustomerToStringConverter() {
-    return new Converter<Customer, String>() {
-      public String convert(Customer customer) {
+  public Converter<Advertiser, String> getCustomerToStringConverter() {
+    return new Converter<Advertiser, String>() {
+      public String convert(Advertiser customer) {
         return new StringBuilder().append(customer.getName()).append(' ').append(customer.getDescription()).toString();
       }
     };
   }
 
-  public Converter<Integer, Customer> getIdToCustomerConverter() {
-    return new Converter<Integer, Customer>() {
-      public Customer convert(Integer id) {
-        return Customer.find(id);
+  public Converter<Integer, Advertiser> getIdToCustomerConverter() {
+    return new Converter<Integer, Advertiser>() {
+      public Advertiser convert(Integer id) {
+        return Advertiser.find(id);
       }
     };
   }
 
-  public Converter<String, Customer> getStringToCustomerConverter() {
-    return new Converter<String, Customer>() {
-      public Customer convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), Customer.class);
+  public Converter<String, Advertiser> getStringToCustomerConverter() {
+    return new Converter<String, Advertiser>() {
+      public Advertiser convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), Advertiser.class);
       }
     };
   }

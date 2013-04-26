@@ -1,4 +1,4 @@
-package rs.id.webzine.domain;
+package rs.id.webzine.domain.marketing;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import rs.id.webzine.domain.IdEntity;
 import rs.id.webzine.domain.content_management.ManagedContent;
 import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.magazine.ArticleService;
@@ -32,7 +33,7 @@ public class Ad extends IdEntity {
 
   @ManyToOne
   @JoinColumn(name = "CUSTOMER_ID", referencedColumnName = "ID", nullable = false)
-  private Customer customerId;
+  private Advertiser customerId;
 
   @Column(name = "NAME", length = 100)
   @NotNull
@@ -83,11 +84,11 @@ public class Ad extends IdEntity {
     this.statusId = statusId;
   }
 
-  public Customer getCustomerId() {
+  public Advertiser getCustomerId() {
     return customerId;
   }
 
-  public void setCustomerId(Customer customerId) {
+  public void setCustomerId(Advertiser customerId) {
     this.customerId = customerId;
   }
 

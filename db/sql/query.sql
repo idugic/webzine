@@ -1,1 +1,1 @@
-select * from article_status;
+select * from content;

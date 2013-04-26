@@ -1,4 +1,4 @@
-package rs.id.webzine.web;
+package rs.id.webzine.web.marketing;
 
 import java.util.Calendar;
 import java.util.List;
@@ -22,16 +22,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-import rs.id.webzine.domain.Ad;
-import rs.id.webzine.domain.AdArticle;
-import rs.id.webzine.domain.AdStatus;
-import rs.id.webzine.domain.Customer;
 import rs.id.webzine.domain.content_management.Content;
 import rs.id.webzine.domain.content_management.ContentType;
 import rs.id.webzine.domain.content_management.ManagedContent;
 import rs.id.webzine.domain.magazine.Article;
+import rs.id.webzine.domain.marketing.Ad;
+import rs.id.webzine.domain.marketing.AdArticle;
+import rs.id.webzine.domain.marketing.AdStatus;
+import rs.id.webzine.domain.marketing.Advertiser;
 import rs.id.webzine.domain.system.User;
 import rs.id.webzine.service.Service;
+import rs.id.webzine.web.WebController;
 
 @RequestMapping("/admin/ad")
 @Controller

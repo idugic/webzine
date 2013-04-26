@@ -75,14 +75,67 @@ public class ContentService extends GenericService<Content> {
   }
 
   @Transactional
-  public void moveUp(Integer id) {
-    // TODO Auto-generated method stub
+  public synchronized void moveDown(Integer id) {
+    Content c1 = find(id);
 
+    List<Content> contentList = findForManagedContent(c1.getManagedContent().getId());
+
+    // find content entity with minimal order number greater then starting
+    // content entity order number
+    Content c2 = null;
+    for (Content content : contentList) {
+      if (content.getOrderNo() > c1.getOrderNo() && !content.getId().equals(c1.getId())
+          && (c2 == null || content.getOrderNo() < c2.getOrderNo())) {
+        c2 = content;
+      }
+    }
+
+    if (c2 != null) {
+      // swap
+      int c1OrderNo = c1.getOrderNo();
+      int c2OrderNo = c2.getOrderNo();
+
+      c2.setOrderNo(-1);
+      update(c2);
+
+      c1.setOrderNo(c2OrderNo);
+      update(c1);
+
+      c2.setOrderNo(c1OrderNo);
+      update(c2);
+    }
   }
 
   @Transactional
-  public void moveDown(Integer id) {
-    // TODO Auto-generated method stub
+  public synchronized void moveUp(Integer id) {
+    Content c1 = find(id);
+
+    List<Content> contentList = findForManagedContent(c1.getManagedContent().getId());
+
+    // find content entity with maximal order number lower then starting
+    // content entity order number
+    Content c2 = null;
+    for (Content content : contentList) {
+      if (content.getOrderNo() < c1.getOrderNo() && !content.getId().equals(c1.getId())
+          && (c2 == null || content.getOrderNo() > c2.getOrderNo())) {
+        c2 = content;
+      }
+    }
+
+    if (c2 != null) {
+      // swap
+      int c1OrderNo = c1.getOrderNo();
+      int c2OrderNo = c2.getOrderNo();
+
+      c2.setOrderNo(-1);
+      update(c2);
+
+      c1.setOrderNo(c2OrderNo);
+      update(c1);
+
+      c2.setOrderNo(c1OrderNo);
+      update(c2);
+    }
 
   }
 

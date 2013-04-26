@@ -1,4 +1,4 @@
-package rs.id.webzine.domain;
+package rs.id.webzine.domain.marketing;
 
 import java.util.List;
 
@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Configurable;
+
+import rs.id.webzine.domain.IdEntity;
 
 @Configurable
 @Entity

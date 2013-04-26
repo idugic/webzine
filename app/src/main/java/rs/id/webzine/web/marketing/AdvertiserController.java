@@ -1,4 +1,4 @@
-package rs.id.webzine.web;
+package rs.id.webzine.web.marketing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import rs.id.webzine.domain.Customer;
+import rs.id.webzine.domain.marketing.Advertiser;
 import rs.id.webzine.domain.system.Address;
+import rs.id.webzine.web.WebController;
 import rs.id.webzine.web.form.CustomerBacking;
 
 @RequestMapping("admin/customer")
 @Controller
-public class CustomerController extends WebController {
+public class AdvertiserController extends WebController {
 
-  private static final Log log = LogFactory.getLog(CustomerController.class);
+  private static final Log log = LogFactory.getLog(AdvertiserController.class);
 
   @RequestMapping(params = "form", produces = "text/html")
   public String createForm(Model uiModel) {
@@ -49,7 +50,7 @@ public class CustomerController extends WebController {
       // address.persist();
 
       // persist
-      Customer customer = new Customer();
+      Advertiser customer = new Advertiser();
       PropertyUtils.copyProperties(customer, customerBacking);
 
       customer.setAddressId(address);
@@ -67,7 +68,7 @@ public class CustomerController extends WebController {
   public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
     try {
       CustomerBacking customerBacking = new CustomerBacking();
-      Customer customer = Customer.find(id);
+      Advertiser customer = Advertiser.find(id);
       PropertyUtils.copyProperties(customerBacking, customer);
       customerBacking.setBackingId(customer.getId());
 
@@ -92,7 +93,7 @@ public class CustomerController extends WebController {
         return "admin/customer/update";
       }
 
-      Customer customer = Customer.find(customerBacking.getBackingId());
+      Advertiser customer = Advertiser.find(customerBacking.getBackingId());
 
       PropertyUtils.copyProperties(customer, customerBacking);
 
@@ -123,7 +124,7 @@ public class CustomerController extends WebController {
     try {
       CustomerBacking customerBacking = new CustomerBacking();
 
-      Customer customer = Customer.find(id);
+      Advertiser customer = Advertiser.find(id);
 
       if (customer.getAddressId() != null) {
         PropertyUtils.copyProperties(customerBacking, customer.getAddressId());
@@ -144,21 +145,21 @@ public class CustomerController extends WebController {
   public String list(@RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
     try {
-      List<Customer> customerList = new ArrayList<Customer>();
+      List<Advertiser> customerList = new ArrayList<Advertiser>();
       if (page != null || size != null) {
         int sizeNo = size == null ? 10 : size.intValue();
         final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
 
-        customerList = Customer.findEntries(firstResult, sizeNo);
-        float nrOfPages = (float) Customer.count() / sizeNo;
+        customerList = Advertiser.findEntries(firstResult, sizeNo);
+        float nrOfPages = (float) Advertiser.count() / sizeNo;
         uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
             : nrOfPages));
       } else {
-        customerList = Customer.findAll();
+        customerList = Advertiser.findAll();
       }
 
       List<CustomerBacking> customerBackingList = new ArrayList<CustomerBacking>();
-      for (Customer customer : customerList) {
+      for (Advertiser customer : customerList) {
         CustomerBacking customerBacking = new CustomerBacking();
         PropertyUtils.copyProperties(customerBacking, customer);
         customerBacking.setBackingId(customer.getId());
@@ -183,7 +184,7 @@ public class CustomerController extends WebController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    Customer customer = Customer.find(id);
+    Advertiser customer = Advertiser.find(id);
     customer.remove();
     uiModel.asMap().clear();
     uiModel.addAttribute("page", (page == null) ? "1" : page.toString());

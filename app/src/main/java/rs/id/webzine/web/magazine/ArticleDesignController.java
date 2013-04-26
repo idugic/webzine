@@ -140,16 +140,17 @@ public class ArticleDesignController extends WebController {
 
   }
 
-  @RequestMapping(value = "content/up/{articleId}/{id}", method = RequestMethod.PUT, produces = "text/html")
+  @RequestMapping(value = "content/{articleId}/up/{id}", produces = "text/html")
   public String moveContentUp(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
       Model uiModel, HttpServletRequest httpServletRequest) {
+
     contentService.moveUp(id);
 
     uiModel.asMap().clear();
     return REDIRECT + PATH + "/" + encodeUrlPathSegment(articleId.toString(), httpServletRequest);
   }
 
-  @RequestMapping(value = "/content/down/{articleId}/{id}", method = RequestMethod.PUT, produces = "text/html")
+  @RequestMapping(value = "/content/{articleId}/down/{id}", produces = "text/html")
   public String moveContentDown(@PathVariable("articleId") Integer articleId, @PathVariable("id") Integer id,
       Model uiModel, HttpServletRequest httpServletRequest) {
     contentService.moveDown(id);

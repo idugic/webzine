@@ -32,14 +32,14 @@
           <menu:item id="i_category" url="/admin/magazine/category?page=1&amp;size=${empty param.size ? 10 : param.size}" />
           <menu:item id="i_articlestatus" url="/admin/magazine/article_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
           <menu:item id="i_article" url="/admin/magazine/article?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-          <menu:item id="i_articlecommentstatus" url="/admin/magazine/article_comment_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+          <menu:item id="i_articlecommentstatus" url="/admin/magazine/article_comment_status" />
         </menu:category>
       </sec:authorize>
       <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
-        <menu:category id="c_customer_care">
-          <menu:item id="i_customer" url="/admin/customer?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-          <menu:item id="i_adstatus" url="/admin/ad_status?page=1&amp;size=${empty param.size ? 10 : param.size}" />
-          <menu:item id="i_ad" url="/admin/ad?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+        <menu:category id="c_marketing">
+          <menu:item id="i_advertiser" url="/admin/marketing/advertiser?page=1&amp;size=${empty param.size ? 10 : param.size}" />
+          <menu:item id="i_adstatus" url="/admin/marketing/ad_status" />
+          <menu:item id="i_ad" url="/admin/marketing/ad?page=1&amp;size=${empty param.size ? 10 : param.size}" />
         </menu:category>
       </sec:authorize>
     </menu:menu>

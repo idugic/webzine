@@ -1,4 +1,4 @@
-package rs.id.webzine.domain;
+package rs.id.webzine.domain.marketing;
 
 import java.util.List;
 
@@ -11,12 +11,13 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
+import rs.id.webzine.domain.IdEntity;
 import rs.id.webzine.domain.system.Address;
 
 @Entity
 @Table(schema = "ADMIN", name = "CUSTOMER")
 @Configurable
-public class Customer extends IdEntity {
+public class Advertiser extends IdEntity {
 
   @Column(name = "NAME", length = 100)
   @NotNull
@@ -57,18 +58,18 @@ public class Customer extends IdEntity {
     return entityManager().createQuery("SELECT COUNT(o) FROM Customer o", Long.class).getSingleResult();
   }
 
-  public static List<Customer> findAll() {
-    return entityManager().createQuery("SELECT o FROM Customer o", Customer.class).getResultList();
+  public static List<Advertiser> findAll() {
+    return entityManager().createQuery("SELECT o FROM Customer o", Advertiser.class).getResultList();
   }
 
-  public static Customer find(Integer id) {
+  public static Advertiser find(Integer id) {
     if (id == null)
       return null;
-    return entityManager().find(Customer.class, id);
+    return entityManager().find(Advertiser.class, id);
   }
 
-  public static List<Customer> findEntries(int firstResult, int maxResults) {
-    return entityManager().createQuery("SELECT o FROM Customer o", Customer.class).setFirstResult(firstResult)
+  public static List<Advertiser> findEntries(int firstResult, int maxResults) {
+    return entityManager().createQuery("SELECT o FROM Customer o", Advertiser.class).setFirstResult(firstResult)
         .setMaxResults(maxResults).getResultList();
   }
 

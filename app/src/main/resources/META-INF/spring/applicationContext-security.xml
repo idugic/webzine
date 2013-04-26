@@ -13,7 +13,7 @@
     <intercept-url pattern="/admin/project_management/**" access="hasAnyRole('administrator', 'editor-00', 'editor-01')" />
     <intercept-url pattern="/admin/content_management/**" access="hasRole('administrator')" />
     <intercept-url pattern="/admin/magazine/**" access="hasAnyRole('administrator', 'editor-00', 'editor-01')" />
-    <intercept-url pattern="/admin/customer_care/**" access="hasAnyRole('administrator', 'editor-00')" />
+    <intercept-url pattern="/admin/marketing/**" access="hasAnyRole('administrator', 'editor-00')" />
     <intercept-url pattern="/resources/**" access="permitAll" />
     <intercept-url pattern="/**" access="permitAll" />
   </http>

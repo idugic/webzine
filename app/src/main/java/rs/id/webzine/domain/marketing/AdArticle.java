@@ -1,4 +1,4 @@
-package rs.id.webzine.domain;
+package rs.id.webzine.domain.marketing;
 
 import java.util.Calendar;
 import java.util.List;
@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import rs.id.webzine.domain.IdEntity;
 import rs.id.webzine.domain.magazine.Article;
 import rs.id.webzine.domain.system.User;
 
