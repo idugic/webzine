@@ -9,8 +9,14 @@
   <spring:url value="/resources/spring/Spring.js" var="spring_url" />
   <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
   <spring:url value="/resources/images/admin/favicon.ico" var="favicon" />
+  <spring:url value="/resources/styles/admin/forms.css" var="forms_css_url" />
+  <spring:url value="/resources/styles/admin/patch_tundra.css" var="patch_tundra_css_url" />
+  
   <link rel="stylesheet" type="text/css" href="${tundra_url}" />
   <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${forms_css_url}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${patch_tundra_css_url}" />
+
   <link rel="SHORTCUT ICON" href="${favicon}" />
 
   <!-- Get the user local from the page context (it was set by Spring MVC's locale resolver) -->
@@ -19,11 +25,28 @@
     <c:out value="${fn:replace(plocale, '_', '-')}" default="en" />
   </c:set>
 
-  <script type="text/javascript">var djConfig = {parseOnLoad: false, isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
+  <script type="text/javascript">
+      var djConfig = {
+        parseOnLoad : false,
+        isDebug : false,
+        locale : '${fn:toLowerCase(userLocale)}'
+      };
+    </script>
 
-  <script src="${dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-  <script src="${spring_url}" type="text/javascript"><!-- /required for FF3 and Opera --></script>
-  <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-  <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
+  <script src="${dojo_url}" type="text/javascript">
+    <!-- required for FF3 and Opera -->
+      
+    </script>
+  <script src="${spring_url}" type="text/javascript">
+    <!-- /required for FF3 and Opera -->
+      
+    </script>
+  <script src="${spring_dojo_url}" type="text/javascript">
+    <!-- required for FF3 and Opera -->
+      
+    </script>
+  <script language="JavaScript" type="text/javascript">
+      dojo.require("dojo.parser");
+    </script>
 
 </jsp:root>
