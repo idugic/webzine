@@ -895,3 +895,73 @@ fieldset th {
 #_title_ps_articlecommentstatus_id {
   width: 535px;
 }
+
+/* ad status */
+#_title_pl_adstatus_id {
+  width: 535px;
+}
+
+#_title_ps_adstatus_id {
+  width: 535px;
+}
+
+/* advertiser */
+#_title_pl_advertiser_id {
+  width: 535px;
+}
+
+#_title_ps_advertiser_id {
+  width: 535px;
+}
+
+#_title_fc_advertiser_id {
+  width: 535px;
+}
+
+#_title_fc_advertiser_id #widget__name_id {
+  width: 30em !important;
+}
+
+#_title_fc_advertiser_id #_description_id {
+  width: 355px;
+  max-width: 355px;
+  height: 75px;
+}
+
+#_title_fc_advertiser_id #widget__email_id {
+  width: 30em !important;
+}
+
+#_title_fc_advertiser_id #widget__streetLine_id {
+  width: 30em !important;
+}
+
+#_title_fc_advertiser_id #widget__www_id {
+  width: 30em !important;
+}
+
+#_title_fu_advertiser_id {
+  width: 535px;
+}
+
+#_title_fu_advertiser_id #widget__name_id {
+  width: 30em !important;
+}
+
+#_title_fu_advertiser_id #_description_id {
+  width: 355px;
+  max-width: 355px;
+  height: 75px;
+}
+
+#_title_fu_advertiser_id #widget__email_id {
+  width: 30em !important;
+}
+
+#_title_fu_advertiser_id #widget__streetLine_id {
+  width: 30em !important;
+}
+
+#_title_fu_advertiser_id #widget__www_id {
+  width: 30em !important;
+}

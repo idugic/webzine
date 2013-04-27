@@ -2,16 +2,17 @@
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <form:update id="fc_rs_id_webzine_domain_Customer" modelAttribute="customerBacking" idField="backingId" path="/admin/customer" render="${empty dependencies}" versionField="none">
-    <field:input field="name" id="c_rs_id_webzine_domain_Customer_name" required="true" max="100" />
-    <field:textarea field="description" id="c_rs_id_webzine_domain_Customer_description" />
-    <field:input field="email" id="c_rs_id_webzine_domain_Address_email" max="100" validationRegex="^.+\@.+\..+$" validationMessageCode="validation.customer.email.invalid" />
-    <field:input field="phone" id="c_rs_id_webzine_domain_Address_phone" max="50" />
-    <field:input field="streetLine" id="c_rs_id_webzine_domain_Address_streetLine" max="100" />
-    <field:input field="city" id="c_rs_id_webzine_domain_Address_city" max="50" />
-    <field:input field="postalCode" id="c_rs_id_webzine_domain_Address_postalCode" max="15" />
-    <field:input field="country" id="c_rs_id_webzine_domain_Address_country" max="50" />
-    <field:input field="countryCode" id="c_rs_id_webzine_domain_Address_countryCode" max="15" />
-    <field:input field="www" id="c_rs_id_webzine_domain_Address_www" max="250" />
+  <form:update id="fc_advertiser" modelAttribute="advertiserForm" idField="advertiserId" path="/admin/marketing/advertiser" versionField="none">
+    <field:input field="name" id="c_advertiser_name" required="true" max="100" />
+    <field:textarea field="description" id="c_advertiser_description" max="500" />
+
+    <field:input field="email" id="c_address_email" validationRegex="^.+\@.+\..+$" validationMessageCode="validation_email_invalid" max="100" />
+    <field:input field="phone" id="c_address_phone" max="50" />
+    <field:input field="streetLine" id="c_address_streetLine" max="100" />
+    <field:input field="city" id="c_address_city" max="50" />
+    <field:input field="postalCode" id="c_address_postalCode" max="15" />
+    <field:input field="country" id="c_address_country" max="50" />
+    <field:input field="countryCode" id="c_address_countryCode" max="15" />
+    <field:input field="www" id="c_address_www" max="250" />
   </form:update>
 </div>

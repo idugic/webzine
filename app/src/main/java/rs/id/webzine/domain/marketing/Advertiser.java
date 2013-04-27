@@ -1,9 +1,10 @@
 package rs.id.webzine.domain.marketing;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -11,13 +12,17 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-import rs.id.webzine.domain.IdEntity;
 import rs.id.webzine.domain.system.Address;
 
 @Entity
-@Table(schema = "ADMIN", name = "CUSTOMER")
+@Table(schema = "ADMIN", name = "ADVERTISER")
 @Configurable
-public class Advertiser extends IdEntity {
+public class Advertiser {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "ID")
+  private Integer id;
 
   @Column(name = "NAME", length = 100)
   @NotNull
@@ -28,7 +33,15 @@ public class Advertiser extends IdEntity {
 
   @ManyToOne
   @JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
-  private Address addressId;
+  private Address address;
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
@@ -46,31 +59,12 @@ public class Advertiser extends IdEntity {
     this.description = description;
   }
 
-  public Address getAddressId() {
-    return addressId;
+  public Address getAddress() {
+    return address;
   }
 
-  public void setAddressId(Address addressId) {
-    this.addressId = addressId;
-  }
-
-  public static long count() {
-    return entityManager().createQuery("SELECT COUNT(o) FROM Customer o", Long.class).getSingleResult();
-  }
-
-  public static List<Advertiser> findAll() {
-    return entityManager().createQuery("SELECT o FROM Customer o", Advertiser.class).getResultList();
-  }
-
-  public static Advertiser find(Integer id) {
-    if (id == null)
-      return null;
-    return entityManager().find(Advertiser.class, id);
-  }
-
-  public static List<Advertiser> findEntries(int firstResult, int maxResults) {
-    return entityManager().createQuery("SELECT o FROM Customer o", Advertiser.class).setFirstResult(firstResult)
-        .setMaxResults(maxResults).getResultList();
+  public void setAddress(Address address) {
+    this.address = address;
   }
 
 }

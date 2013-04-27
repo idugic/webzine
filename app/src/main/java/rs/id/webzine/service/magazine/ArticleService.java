@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import rs.id.webzine.domain.content_management.ManagedContent;
 import rs.id.webzine.domain.magazine.Article;
-import rs.id.webzine.domain.util.Session;
 import rs.id.webzine.service.GenericService;
 import rs.id.webzine.service.ServiceException;
 import rs.id.webzine.service.ServiceExceptionCode;
@@ -53,7 +52,7 @@ public class ArticleService extends GenericService<Article> {
     Article article = find(id);
     article.setStatus(articleStatusService.findForCd(ArticleStatusService.CD_PUBLISHED));
 
-    article.setPublishedBy(Session.getCurrentUser());
+    article.setPublishedBy(currentUser());
     article.setPublishedAt(Calendar.getInstance());
 
     super.update(article);
@@ -64,7 +63,7 @@ public class ArticleService extends GenericService<Article> {
     Article article = find(id);
     article.setStatus(articleStatusService.findForCd(ArticleStatusService.CD_NEW));
 
-    article.setPublishedBy(Session.getCurrentUser());
+    article.setPublishedBy(currentUser());
     article.setPublishedAt(Calendar.getInstance());
 
     super.update(article);

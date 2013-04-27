@@ -19,7 +19,7 @@
 
           <field:file field="image" id="c_user_image" required="true"/>
 
-          <field:input field="email" id="c_address_email" validationRegex="^.+\@.+\..+$" validationMessageCode="validation.email.invalid" max="100" />
+          <field:input field="email" id="c_address_email" validationRegex="^.+\@.+\..+$" validationMessageCode="validation_email_invalid" max="100" />
           <field:input field="phone" id="c_address_phone" max="50" />
           <field:input field="streetLine" id="c_address_streetLine" max="100" />
           <field:input field="city" id="c_address_city" max="50" />

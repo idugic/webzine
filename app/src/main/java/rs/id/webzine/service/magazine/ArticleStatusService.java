@@ -14,6 +14,8 @@ public class ArticleStatusService extends GenericService<ArticleStatus> {
 
   public static final String CD_NEW = "new";
 
+  public static final String CD_IN_DESIGN = "design";
+
   public static final String CD_READY_TO_BE_PUBLISHED = "ready";
 
   public static final String CD_PUBLISHED = "published";

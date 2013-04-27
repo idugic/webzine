@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,65 +21,138 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.domain.marketing.Advertiser;
 import rs.id.webzine.domain.system.Address;
+import rs.id.webzine.service.marketing.AdvertiserService;
+import rs.id.webzine.service.system.AddressService;
 import rs.id.webzine.web.WebController;
-import rs.id.webzine.web.form.CustomerBacking;
 
-@RequestMapping("admin/customer")
+@RequestMapping(AdvertiserController.PATH)
 @Controller
 public class AdvertiserController extends WebController {
 
   private static final Log log = LogFactory.getLog(AdvertiserController.class);
 
-  @RequestMapping(params = "form", produces = "text/html")
-  public String createForm(Model uiModel) {
-    populateEditForm(uiModel, new CustomerBacking());
-    return "admin/customer/create";
-  }
+  public static final String PATH = "admin/marketing/advertiser";
 
-  @RequestMapping(method = RequestMethod.POST, produces = "text/html")
-  public String create(@Valid CustomerBacking customerBacking, BindingResult bindingResult, Model uiModel,
-      HttpServletRequest httpServletRequest) {
+  @Autowired
+  AdvertiserService advertiserService;
+
+  @Autowired
+  AddressService addressService;
+
+  @RequestMapping(produces = "text/html")
+  public String list(@RequestParam(value = "page", required = false) Integer page,
+      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
     try {
-      // bind
-      if (bindingResult.hasErrors()) {
-        populateEditForm(uiModel, customerBacking);
-        return "admin/customer/create";
+      List<Advertiser> advertiserList = prepareList(advertiserService, "advertiserList", page, size, uiModel);
+
+      // prepare form list
+      List<AdvertiserForm> advertiserFormList = new ArrayList<AdvertiserForm>();
+      for (Advertiser advertiser : advertiserList) {
+        AdvertiserForm advertiserForm = new AdvertiserForm();
+        PropertyUtils.copyProperties(advertiserForm, advertiser);
+        advertiserForm.setAdvertiserId(advertiser.getId());
+
+        Address address = advertiser.getAddress();
+        if (address != null) {
+          PropertyUtils.copyProperties(advertiserForm, address);
+        }
+
+        advertiserFormList.add(advertiserForm);
       }
 
-      // address
-      Address address = new Address();
-      PropertyUtils.copyProperties(address, customerBacking);
-      // address.persist();
+      uiModel.addAttribute("advertiserList", advertiserFormList);
 
-      // persist
-      Advertiser customer = new Advertiser();
-      PropertyUtils.copyProperties(customer, customerBacking);
-
-      customer.setAddressId(address);
-      customer.persist();
-
-      uiModel.asMap().clear();
-      return "redirect:/admin/customer/" + encodeUrlPathSegment(customer.getId().toString(), httpServletRequest);
+      return PATH + "/" + LIST;
     } catch (Exception e) {
       log.error(e);
       throw new RuntimeException(e);
     }
   }
 
-  @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
-  public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
-    try {
-      CustomerBacking customerBacking = new CustomerBacking();
-      Advertiser customer = Advertiser.find(id);
-      PropertyUtils.copyProperties(customerBacking, customer);
-      customerBacking.setBackingId(customer.getId());
+  @RequestMapping(params = "form", produces = "text/html")
+  public String createForm(Model uiModel, HttpServletRequest httpServletRequest) {
+    populateEditForm(uiModel, new AdvertiserForm(), httpServletRequest, true);
+    return PATH + "/" + CREATE;
+  }
 
-      if (customer.getAddressId() != null) {
-        PropertyUtils.copyProperties(customerBacking, customer.getAddressId());
+  void populateEditForm(Model uiModel, AdvertiserForm advertiserForm, HttpServletRequest httpServletRequest,
+      boolean create) {
+    addDatePattern(uiModel);
+
+    uiModel.addAttribute("advertiserForm", advertiserForm);
+  }
+
+  @RequestMapping(method = RequestMethod.POST, produces = "text/html")
+  public String create(AdvertiserForm advertiserForm, BindingResult bindingResult, Model uiModel,
+      HttpServletRequest httpServletRequest) {
+    try {
+
+      // validate...
+      AdvertiserCreateValidator validator = new AdvertiserCreateValidator();
+      validator.validate(advertiserForm, bindingResult);
+      if (bindingResult.hasErrors()) {
+        populateEditForm(uiModel, advertiserForm, httpServletRequest, true);
+        return PATH + "/" + CREATE;
       }
 
-      populateEditForm(uiModel, customerBacking);
-      return "admin/customer/update";
+      // address
+      Address address = new Address();
+      PropertyUtils.copyProperties(address, advertiserForm);
+
+      // persist
+      Advertiser advertiser = new Advertiser();
+      PropertyUtils.copyProperties(advertiser, advertiserForm);
+
+      advertiserService.create(advertiser, address);
+
+      uiModel.asMap().clear();
+      return REDIRECT + PATH + "/" + encodeUrlPathSegment(advertiser.getId().toString(), httpServletRequest);
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  @RequestMapping(value = "/{id}", produces = "text/html")
+  public String show(@PathVariable("id") Integer id, Model uiModel, HttpServletRequest httpServletRequest) {
+    try {
+      AdvertiserForm advertiserForm = new AdvertiserForm();
+
+      Advertiser advertiser = advertiserService.find(id);
+      PropertyUtils.copyProperties(advertiserForm, advertiser);
+      advertiserForm.setAdvertiserId(id);
+
+      if (advertiser.getAddress() != null) {
+        PropertyUtils.copyProperties(advertiserForm, advertiser.getAddress());
+      }
+
+      uiModel.addAttribute("advertiserForm", advertiserForm);
+      uiModel.addAttribute("itemId", id);
+
+      return PATH + "/" + SHOW;
+    } catch (Exception e) {
+      log.error(e);
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
+  public String updateForm(@PathVariable("id") Integer id, Model uiModel, HttpServletRequest httpServletRequest) {
+    try {
+      AdvertiserForm advertiserForm = new AdvertiserForm();
+
+      Advertiser advertiser = advertiserService.find(id);
+      PropertyUtils.copyProperties(advertiserForm, advertiser);
+      advertiserForm.setAdvertiserId(advertiser.getId());
+
+      if (advertiser.getAddress() != null) {
+        PropertyUtils.copyProperties(advertiserForm, advertiser.getAddress());
+      }
+
+      populateEditForm(uiModel, advertiserForm, httpServletRequest, false);
+      return PATH + "/" + UPDATE;
     } catch (Exception e) {
       log.error(e);
       throw new RuntimeException(e);
@@ -85,96 +160,28 @@ public class AdvertiserController extends WebController {
   }
 
   @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-  public String update(@Valid CustomerBacking customerBacking, BindingResult bindingResult, Model uiModel,
+  public String update(AdvertiserForm advertiserForm, BindingResult bindingResult, Model uiModel,
       HttpServletRequest httpServletRequest) {
     try {
+      // validate...
+      AdvertiserUpdateValidator validator = new AdvertiserUpdateValidator();
+      validator.validate(advertiserForm, bindingResult);
       if (bindingResult.hasErrors()) {
-        populateEditForm(uiModel, customerBacking);
-        return "admin/customer/update";
+        populateEditForm(uiModel, advertiserForm, httpServletRequest, true);
+        return PATH + "/" + UPDATE;
       }
 
-      Advertiser customer = Advertiser.find(customerBacking.getBackingId());
+      Advertiser advertiser = new Advertiser();
+      PropertyUtils.copyProperties(advertiser, advertiserForm);
 
-      PropertyUtils.copyProperties(customer, customerBacking);
+      Address address = new Address();
+      PropertyUtils.copyProperties(address, advertiserForm);
 
-      customer.setId(customerBacking.getBackingId());
-
-      // address
-      if (customer.getAddressId() != null) {
-        PropertyUtils.copyProperties(customer.getAddressId(), customerBacking);
-      } else {
-        Address address = new Address();
-        PropertyUtils.copyProperties(address, customerBacking);
-        // address.persist();
-
-        customer.setAddressId(address);
-      }
+      advertiserService.update(advertiserForm.getAdvertiserId(), advertiser, address);
 
       uiModel.asMap().clear();
-      customer.merge();
-      return "redirect:/admin/customer/" + encodeUrlPathSegment(customer.getId().toString(), httpServletRequest);
-    } catch (Exception e) {
-      log.error(e);
-      throw new RuntimeException(e);
-    }
-  }
-
-  @RequestMapping(value = "/{id}", produces = "text/html")
-  public String show(@PathVariable("id") Integer id, Model uiModel, HttpServletRequest httpServletRequest) {
-    try {
-      CustomerBacking customerBacking = new CustomerBacking();
-
-      Advertiser customer = Advertiser.find(id);
-
-      if (customer.getAddressId() != null) {
-        PropertyUtils.copyProperties(customerBacking, customer.getAddressId());
-        customerBacking.setBackingId(id);
-      }
-      PropertyUtils.copyProperties(customerBacking, customer);
-
-      uiModel.addAttribute("customerBacking", customerBacking);
-      uiModel.addAttribute("itemId", id);
-      return "admin/customer/show";
-    } catch (Exception e) {
-      log.error(e);
-      throw new RuntimeException(e);
-    }
-  }
-
-  @RequestMapping(produces = "text/html")
-  public String list(@RequestParam(value = "page", required = false) Integer page,
-      @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    try {
-      List<Advertiser> customerList = new ArrayList<Advertiser>();
-      if (page != null || size != null) {
-        int sizeNo = size == null ? 10 : size.intValue();
-        final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-
-        customerList = Advertiser.findEntries(firstResult, sizeNo);
-        float nrOfPages = (float) Advertiser.count() / sizeNo;
-        uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-            : nrOfPages));
-      } else {
-        customerList = Advertiser.findAll();
-      }
-
-      List<CustomerBacking> customerBackingList = new ArrayList<CustomerBacking>();
-      for (Advertiser customer : customerList) {
-        CustomerBacking customerBacking = new CustomerBacking();
-        PropertyUtils.copyProperties(customerBacking, customer);
-        customerBacking.setBackingId(customer.getId());
-
-        Address address = customer.getAddressId();
-        if (address != null) {
-          PropertyUtils.copyProperties(customerBacking, address);
-        }
-
-        customerBackingList.add(customerBacking);
-      }
-
-      uiModel.addAttribute("customerBacking", customerBackingList);
-
-      return "admin/customer/list";
+      return REDIRECT + PATH + "/"
+          + encodeUrlPathSegment(advertiserForm.getAdvertiserId().toString(), httpServletRequest);
     } catch (Exception e) {
       log.error(e);
       throw new RuntimeException(e);
@@ -184,16 +191,41 @@ public class AdvertiserController extends WebController {
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
   public String delete(@PathVariable("id") Integer id, @RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    Advertiser customer = Advertiser.find(id);
-    customer.remove();
+    advertiserService.delete(id);
+
     uiModel.asMap().clear();
-    uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
-    uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-    return "redirect:/admin/customer";
+    return REDIRECT + PATH;
   }
 
-  void populateEditForm(Model uiModel, CustomerBacking customerBacking) {
-    uiModel.addAttribute("customerBacking", customerBacking);
+  private class AdvertiserCreateValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> clazz) {
+      return true;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+      AdvertiserForm form = (AdvertiserForm) target;
+      Advertiser advertiser = advertiserService.findForName(form.getName());
+      if (advertiser != null) {
+        errors.rejectValue("name", "validation_name_already_exists");
+      }
+    }
   }
 
+  private class AdvertiserUpdateValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> clazz) {
+      return true;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+      AdvertiserForm form = (AdvertiserForm) target;
+      Advertiser advertiser = advertiserService.findForName(form.getName());
+      if (advertiser != null && advertiser.getId() != form.getAdvertiserId()) {
+        errors.rejectValue("name", "validation_name_already_exists");
+      }
+    }
+  }
 }

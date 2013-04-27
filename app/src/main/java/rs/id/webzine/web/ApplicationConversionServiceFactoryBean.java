@@ -45,6 +45,9 @@ import rs.id.webzine.service.magazine.ArticleService;
 import rs.id.webzine.service.magazine.ArticleStatusService;
 import rs.id.webzine.service.magazine.CategoryService;
 import rs.id.webzine.service.magazine.ReaderTypeService;
+import rs.id.webzine.service.marketing.AdService;
+import rs.id.webzine.service.marketing.AdStatusService;
+import rs.id.webzine.service.marketing.AdvertiserService;
 import rs.id.webzine.service.project_management.TaskAttachmentService;
 import rs.id.webzine.service.project_management.TaskCommentService;
 import rs.id.webzine.service.project_management.TaskPriorityService;
@@ -126,6 +129,15 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
 
   @Autowired
   ArticleBookmarkService articleBookmarkService;
+
+  @Autowired
+  AdvertiserService advertiserService;
+
+  @Autowired
+  AdStatusService adStatusService;
+
+  @Autowired
+  AdService adService;
 
   // role
   public Converter<Role, String> getRoleToStringConverter() {
@@ -715,11 +727,36 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     };
   }
 
+  // advertiser
+  public Converter<Advertiser, String> getAdvertiserToStringConverter() {
+    return new Converter<Advertiser, String>() {
+      public String convert(Advertiser advertiser) {
+        return advertiser.getName();
+      }
+    };
+  }
+
+  public Converter<Integer, Advertiser> getIdToAdvertiserConverter() {
+    return new Converter<Integer, Advertiser>() {
+      public Advertiser convert(Integer id) {
+        return advertiserService.find(id);
+      }
+    };
+  }
+
+  public Converter<String, Advertiser> getStringToAdvertiserConverter() {
+    return new Converter<String, Advertiser>() {
+      public Advertiser convert(String id) {
+        return getObject().convert(getObject().convert(id, Integer.class), Advertiser.class);
+      }
+    };
+  }
+
   // ad status
   public Converter<AdStatus, String> getAdStatusToStringConverter() {
     return new Converter<AdStatus, String>() {
       public String convert(AdStatus adStatus) {
-        return new StringBuilder().append(adStatus.getName()).toString();
+        return adStatus.getName();
       }
     };
   }
@@ -727,7 +764,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, AdStatus> getIdToAdStatusConverter() {
     return new Converter<Integer, AdStatus>() {
       public AdStatus convert(Integer id) {
-        return AdStatus.find(id);
+        return adStatusService.find(id);
       }
     };
   }
@@ -743,7 +780,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Ad, String> getAdToStringConverter() {
     return new Converter<Ad, String>() {
       public String convert(Ad ad) {
-        return new StringBuilder().append(ad.getName()).toString();
+        return ad.getName();
       }
     };
   }
@@ -751,7 +788,7 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
   public Converter<Integer, Ad> getIdToAdConverter() {
     return new Converter<Integer, Ad>() {
       public Ad convert(Integer id) {
-        return Ad.find(id);
+        return adService.find(id);
       }
     };
   }
@@ -760,30 +797,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     return new Converter<String, Ad>() {
       public Ad convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), Ad.class);
-      }
-    };
-  }
-
-  public Converter<Advertiser, String> getCustomerToStringConverter() {
-    return new Converter<Advertiser, String>() {
-      public String convert(Advertiser customer) {
-        return new StringBuilder().append(customer.getName()).append(' ').append(customer.getDescription()).toString();
-      }
-    };
-  }
-
-  public Converter<Integer, Advertiser> getIdToCustomerConverter() {
-    return new Converter<Integer, Advertiser>() {
-      public Advertiser convert(Integer id) {
-        return Advertiser.find(id);
-      }
-    };
-  }
-
-  public Converter<String, Advertiser> getStringToCustomerConverter() {
-    return new Converter<String, Advertiser>() {
-      public Advertiser convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), Advertiser.class);
       }
     };
   }
@@ -898,22 +911,20 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getIdToArticleBookmarkConverter());
     registry.addConverter(getStringToArticleBookmarkConverter());
 
+    // advertiser
+    registry.addConverter(getAdvertiserToStringConverter());
+    registry.addConverter(getIdToAdvertiserConverter());
+    registry.addConverter(getStringToAdvertiserConverter());
+
     // ad status
     registry.addConverter(getAdStatusToStringConverter());
     registry.addConverter(getIdToAdStatusConverter());
     registry.addConverter(getStringToAdStatusConverter());
 
+    // ad
     registry.addConverter(getAdToStringConverter());
     registry.addConverter(getIdToAdConverter());
     registry.addConverter(getStringToAdConverter());
-
-    registry.addConverter(getCustomerToStringConverter());
-    registry.addConverter(getIdToCustomerConverter());
-    registry.addConverter(getStringToCustomerConverter());
-
-    registry.addConverter(getReaderTypeToStringConverter());
-    registry.addConverter(getIdToReaderTypeConverter());
-    registry.addConverter(getStringToReaderTypeConverter());
 
   }
 
