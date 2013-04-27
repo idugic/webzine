@@ -186,7 +186,7 @@ input.image {
 .inputFileWrapper {
 	margin-left: 96px;
 	height: 24px;
-	background: url('/webzine/resources/images/file.png') 0 0 no-repeat;
+	background: url('/webzine/resources/images/admin/file.png') 0 0 no-repeat;
 	overflow: hidden;
 }
 

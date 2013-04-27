@@ -33,7 +33,7 @@
               <spring:url value="${path}" var="create_form_url">
                 <spring:param name="form" />
               </spring:url>
-              <spring:url value="/resources/images/create.png" var="create_image_url" />
+              <spring:url value="/resources/images/admin/create.png" var="create_image_url" />
               <spring:message arguments="${typeName}" code="entity_create" var="create_label" htmlEscape="false" />
               <span>
                 <a href="${create_form_url}" alt="${fn:escapeXml(create_label)}" title="${fn:escapeXml(create_label)}">
