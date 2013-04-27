@@ -1,4 +1,4 @@
-package rs.id.webzine.web.marketing;
+package rs.id.webzine.controller.marketing;
 
 public class AdvertiserForm {
 

@@ -1,4 +1,4 @@
-package rs.id.webzine.web.magazine;
+package rs.id.webzine.controller.magazine;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
+import rs.id.webzine.controller.WebController;
 import rs.id.webzine.domain.magazine.Article;
 import rs.id.webzine.domain.magazine.ArticleCategory;
 import rs.id.webzine.domain.magazine.ArticleComment;
@@ -31,7 +32,6 @@ import rs.id.webzine.service.magazine.ArticleCategoryService;
 import rs.id.webzine.service.magazine.ArticleCommentService;
 import rs.id.webzine.service.magazine.ArticleService;
 import rs.id.webzine.service.magazine.ArticleStatusService;
-import rs.id.webzine.web.WebController;
 
 @RequestMapping(ArticleController.PATH)
 @Controller

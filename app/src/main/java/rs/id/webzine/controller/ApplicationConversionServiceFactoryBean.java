@@ -1,4 +1,4 @@
-package rs.id.webzine.web;
+package rs.id.webzine.controller;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
@@ -57,7 +57,7 @@ import rs.id.webzine.service.system.CountryService;
 import rs.id.webzine.service.system.RoleService;
 import rs.id.webzine.service.system.UserService;
 import rs.id.webzine.service.system.UserStatusService;
-import rs.id.webzine.web.system.UserForm;
+import rs.id.webzine.controller.system.UserForm;
 
 /**
  * A central place to register application converters and formatters.

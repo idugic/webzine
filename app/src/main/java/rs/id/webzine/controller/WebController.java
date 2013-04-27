@@ -1,4 +1,4 @@
-package rs.id.webzine.web;
+package rs.id.webzine.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;

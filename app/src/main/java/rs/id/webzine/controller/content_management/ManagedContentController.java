@@ -1,4 +1,4 @@
-package rs.id.webzine.web.content_management;
+package rs.id.webzine.controller.content_management;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,10 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import rs.id.webzine.controller.WebController;
 import rs.id.webzine.domain.content_management.ManagedContent;
 import rs.id.webzine.service.content_management.ContentService;
 import rs.id.webzine.service.content_management.ManagedContentService;
-import rs.id.webzine.web.WebController;
 
 @RequestMapping(ManagedContentController.PATH)
 @Controller

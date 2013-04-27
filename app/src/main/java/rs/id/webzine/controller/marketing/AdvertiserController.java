@@ -1,4 +1,4 @@
-package rs.id.webzine.web.marketing;
+package rs.id.webzine.controller.marketing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import rs.id.webzine.controller.WebController;
 import rs.id.webzine.domain.marketing.Advertiser;
 import rs.id.webzine.domain.system.Address;
 import rs.id.webzine.service.marketing.AdvertiserService;
 import rs.id.webzine.service.system.AddressService;
-import rs.id.webzine.web.WebController;
 
 @RequestMapping(AdvertiserController.PATH)
 @Controller

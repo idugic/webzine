@@ -1,38 +1,11 @@
-package rs.id.webzine.web.marketing;
-
-import java.util.Calendar;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
+package rs.id.webzine.controller.marketing;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.format.DateTimeFormat;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-import rs.id.webzine.domain.content_management.Content;
-import rs.id.webzine.domain.content_management.ContentType;
-import rs.id.webzine.domain.content_management.ManagedContent;
-import rs.id.webzine.domain.magazine.Article;
-import rs.id.webzine.domain.marketing.Ad;
-import rs.id.webzine.domain.marketing.AdArticle;
-import rs.id.webzine.domain.marketing.AdStatus;
-import rs.id.webzine.domain.marketing.Advertiser;
-import rs.id.webzine.domain.system.User;
-import rs.id.webzine.service.Service;
-import rs.id.webzine.web.WebController;
+import rs.id.webzine.controller.WebController;
 
 @RequestMapping("/admin/ad")
 @Controller

@@ -1,4 +1,4 @@
-package rs.id.webzine.web.project_management;
+package rs.id.webzine.controller.project_management;
 
 import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
+import rs.id.webzine.controller.WebController;
 import rs.id.webzine.domain.project_management.Task;
 import rs.id.webzine.domain.project_management.TaskAttachment;
 import rs.id.webzine.domain.project_management.TaskComment;
@@ -32,7 +33,6 @@ import rs.id.webzine.service.project_management.TaskPriorityService;
 import rs.id.webzine.service.project_management.TaskService;
 import rs.id.webzine.service.project_management.TaskStatusService;
 import rs.id.webzine.service.system.UserService;
-import rs.id.webzine.web.WebController;
 
 @RequestMapping(TaskController.PATH)
 @Controller

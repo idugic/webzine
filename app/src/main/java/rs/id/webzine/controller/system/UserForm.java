@@ -1,4 +1,4 @@
-package rs.id.webzine.web.system;
+package rs.id.webzine.controller.system;
 
 import java.util.Date;
 

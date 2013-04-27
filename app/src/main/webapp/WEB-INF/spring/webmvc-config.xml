@@ -69,5 +69,5 @@
       </list>
     </property>
   </bean>
-  <bean class="rs.id.webzine.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService" />
+  <bean class="rs.id.webzine.controller.ApplicationConversionServiceFactoryBean" id="applicationConversionService" />
 </beans>

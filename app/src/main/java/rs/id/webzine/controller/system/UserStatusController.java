@@ -1,4 +1,4 @@
-package rs.id.webzine.web.system;
+package rs.id.webzine.controller.system;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import rs.id.webzine.controller.WebController;
 import rs.id.webzine.service.system.UserStatusService;
-import rs.id.webzine.web.WebController;
 
 @RequestMapping(UserStatusController.PATH)
 @Controller

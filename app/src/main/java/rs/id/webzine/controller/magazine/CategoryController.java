@@ -1,4 +1,4 @@
-package rs.id.webzine.web.magazine;
+package rs.id.webzine.controller.magazine;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import rs.id.webzine.controller.WebController;
 import rs.id.webzine.domain.magazine.Category;
 import rs.id.webzine.service.magazine.CategoryService;
 import rs.id.webzine.service.magazine.ReaderTypeService;
-import rs.id.webzine.web.WebController;
 
 @RequestMapping(CategoryController.PATH)
 @Controller

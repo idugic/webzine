@@ -1,4 +1,4 @@
-package rs.id.webzine.web.project_management;
+package rs.id.webzine.controller.project_management;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import rs.id.webzine.controller.WebController;
 import rs.id.webzine.domain.project_management.TaskStatus;
 import rs.id.webzine.service.project_management.TaskStatusService;
-import rs.id.webzine.web.WebController;
 
 @RequestMapping(TaskStatusController.PATH)
 @Controller
