@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.domain.marketing.Advertiser;
-import rs.id.webzine.domain.system.Address;
+import rs.id.webzine.entity.marketing.Advertiser;
+import rs.id.webzine.entity.system.Address;
 import rs.id.webzine.service.GenericService;
 import rs.id.webzine.service.system.AddressService;
 

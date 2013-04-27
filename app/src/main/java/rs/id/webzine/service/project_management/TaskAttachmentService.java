@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
 
-import rs.id.webzine.domain.project_management.TaskAttachment;
+import rs.id.webzine.entity.project_management.TaskAttachment;
 import rs.id.webzine.service.GenericService;
 
 @Component

@@ -3,7 +3,7 @@ package rs.id.webzine.service.content_management;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.domain.content_management.ManagedContent;
+import rs.id.webzine.entity.content_management.ManagedContent;
 import rs.id.webzine.service.GenericService;
 
 @Component

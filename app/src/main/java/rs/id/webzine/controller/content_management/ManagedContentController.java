@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import rs.id.webzine.controller.WebController;
-import rs.id.webzine.domain.content_management.ManagedContent;
+import rs.id.webzine.entity.content_management.ManagedContent;
 import rs.id.webzine.service.content_management.ContentService;
 import rs.id.webzine.service.content_management.ManagedContentService;
 

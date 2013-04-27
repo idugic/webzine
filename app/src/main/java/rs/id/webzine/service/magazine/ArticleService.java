@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.domain.content_management.ManagedContent;
-import rs.id.webzine.domain.magazine.Article;
+import rs.id.webzine.entity.content_management.ManagedContent;
+import rs.id.webzine.entity.magazine.Article;
 import rs.id.webzine.service.GenericService;
 import rs.id.webzine.service.ServiceException;
 import rs.id.webzine.service.ServiceExceptionCode;

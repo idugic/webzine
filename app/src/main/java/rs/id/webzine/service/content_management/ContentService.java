@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.domain.content_management.Content;
+import rs.id.webzine.entity.content_management.Content;
 import rs.id.webzine.service.GenericService;
 
 @Component

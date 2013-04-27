@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.controller.WebController;
-import rs.id.webzine.domain.magazine.Category;
+import rs.id.webzine.entity.magazine.Category;
 import rs.id.webzine.service.magazine.CategoryService;
 import rs.id.webzine.service.magazine.ReaderTypeService;
 

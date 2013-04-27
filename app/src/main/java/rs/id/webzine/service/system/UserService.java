@@ -9,8 +9,8 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.domain.system.Address;
-import rs.id.webzine.domain.system.User;
+import rs.id.webzine.entity.system.Address;
+import rs.id.webzine.entity.system.User;
 import rs.id.webzine.service.GenericService;
 
 @Component

@@ -14,7 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.domain.system.User;
+import rs.id.webzine.entity.system.User;
 
 @Configurable
 public class GenericService<E> {

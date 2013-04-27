@@ -4,8 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import rs.id.webzine.domain.system.Role;
-import rs.id.webzine.domain.system.UserStatus;
+import rs.id.webzine.entity.system.Role;
+import rs.id.webzine.entity.system.UserStatus;
 
 public class UserForm {
 

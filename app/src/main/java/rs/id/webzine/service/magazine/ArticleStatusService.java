@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
 
-import rs.id.webzine.domain.magazine.ArticleStatus;
+import rs.id.webzine.entity.magazine.ArticleStatus;
 import rs.id.webzine.service.GenericService;
 
 @Component

@@ -8,8 +8,8 @@ import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import rs.id.webzine.domain.magazine.Article;
-import rs.id.webzine.domain.marketing.AdArticle;
+import rs.id.webzine.entity.magazine.Article;
+import rs.id.webzine.entity.marketing.AdArticle;
 import rs.id.webzine.service.GenericService;
 import rs.id.webzine.service.magazine.ArticleService;
 

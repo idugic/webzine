@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.controller.WebController;
-import rs.id.webzine.domain.project_management.TaskPriority;
+import rs.id.webzine.entity.project_management.TaskPriority;
 import rs.id.webzine.service.project_management.TaskPriorityService;
 
 @RequestMapping(TaskPriorityController.PATH)

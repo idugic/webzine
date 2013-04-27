@@ -29,8 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.controller.WebController;
-import rs.id.webzine.domain.system.Address;
-import rs.id.webzine.domain.system.User;
+import rs.id.webzine.entity.system.Address;
+import rs.id.webzine.entity.system.User;
 import rs.id.webzine.service.system.AddressService;
 import rs.id.webzine.service.system.RoleService;
 import rs.id.webzine.service.system.UserService;

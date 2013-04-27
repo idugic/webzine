@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import rs.id.webzine.controller.WebController;
-import rs.id.webzine.domain.system.Country;
+import rs.id.webzine.entity.system.Country;
 import rs.id.webzine.service.system.CountryService;
 
 @RequestMapping(CountryController.PATH)

@@ -24,9 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.controller.WebController;
-import rs.id.webzine.domain.project_management.Task;
-import rs.id.webzine.domain.project_management.TaskAttachment;
-import rs.id.webzine.domain.project_management.TaskComment;
+import rs.id.webzine.entity.project_management.Task;
+import rs.id.webzine.entity.project_management.TaskAttachment;
+import rs.id.webzine.entity.project_management.TaskComment;
 import rs.id.webzine.service.project_management.TaskAttachmentService;
 import rs.id.webzine.service.project_management.TaskCommentService;
 import rs.id.webzine.service.project_management.TaskPriorityService;

@@ -21,9 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import rs.id.webzine.controller.WebController;
-import rs.id.webzine.domain.content_management.Content;
-import rs.id.webzine.domain.content_management.ManagedContent;
-import rs.id.webzine.domain.magazine.Article;
+import rs.id.webzine.entity.content_management.Content;
+import rs.id.webzine.entity.content_management.ManagedContent;
+import rs.id.webzine.entity.magazine.Article;
 import rs.id.webzine.service.content_management.ContentService;
 import rs.id.webzine.service.content_management.ManagedContentService;
 import rs.id.webzine.service.magazine.ArticleService;
