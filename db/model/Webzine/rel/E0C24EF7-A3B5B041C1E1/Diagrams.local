@@ -2,7 +2,7 @@
 <oracle.dbtools.crest.model.design.relational.RelationalDesign>
    <object objectType="main_view" objectID="95CD60AC-BB90-40C6-FA11-7D646F2D93E3" name="Webzine Relational" visible="false"/>
    <object objectType="sub_view" objectID="E7DCF4DA-70CE-A0A3-B38D-D06B9ABB7210" name="Content Management" visible="false"/>
-   <object objectType="sub_view" objectID="4A7BA5F3-11B5-17EE-B23A-2654DFAE7E6A" name="Magazine I" visible="false"/>
+   <object objectType="sub_view" objectID="4A7BA5F3-11B5-17EE-B23A-2654DFAE7E6A" name="Magazine I" visible="true"/>
    <object objectType="sub_view" objectID="5B5D7E80-FA9A-5AED-FF7B-EA0F5839AA28" name="Magazine II" visible="false"/>
    <object objectType="sub_view" objectID="367266D6-79A0-F867-E07A-4EF256E63750" name="Marketing" visible="true"/>
    <object objectType="sub_view" objectID="1EF7AA84-1D95-0C01-AF89-7C5AE3AFA3B2" name="Project Management" visible="false"/>

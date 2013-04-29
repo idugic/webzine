@@ -21,7 +21,7 @@
             <table:column calendar="true" dateTimePattern="${date_time_pattern}" id="c_articlecomment_dc" property="dc" />
             <table:column id="c_articlecomment_text" property="text" />
             <table:column id="c_articlecomment_uc" property="uc" />
-            <table:column action="true" id="c_articlecomment_decline" property="decline" />
+            <table:column action="true" id="c_articlecomment_reject" property="reject" />
           </table:table>
         </page:list>
         <BR />

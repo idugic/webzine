@@ -88,7 +88,7 @@ public class ArticleService extends GenericService<Article> {
   @Transactional
   public void update(Article article) {
     if (ArticleStatusService.CD_PUBLISHED.equals(article.getStatus().getCd())) {
-      throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ARTICLE_IS_PUBLISHED);
+      throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ENTITY_IS_PUBLISHED);
     }
 
     Article persistedArticle = find(article.getId());
@@ -115,7 +115,7 @@ public class ArticleService extends GenericService<Article> {
   @Transactional
   public void delete(Integer id) {
     if (ArticleStatusService.CD_PUBLISHED.equals(find(id).getStatus().getCd())) {
-      throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ARTICLE_IS_PUBLISHED);
+      throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ENTITY_IS_PUBLISHED);
     }
 
     Article article = find(id);
@@ -127,7 +127,7 @@ public class ArticleService extends GenericService<Article> {
   @Transactional
   public void deleteAbstractMedia(Integer id) {
     if (ArticleStatusService.CD_PUBLISHED.equals(find(id).getStatus().getCd())) {
-      throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ARTICLE_IS_PUBLISHED);
+      throw new ServiceException(ServiceExceptionCode.OPERATION_NOT_AVAILABLE_ENTITY_IS_PUBLISHED);
     }
 
     Article persistedArticle = find(id);

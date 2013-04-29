@@ -2,36 +2,36 @@
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
-  <page:show id="ps_rs_id_webzine_domain_Ad" object="${ad}" path="/admin/ad">
-    <field:display field="name" id="s_rs_id_webzine_domain_Ad_name" object="${ad}" />
-    <field:display field="description" id="s_rs_id_webzine_domain_Ad_description" object="${ad}" />
-    <field:display field="statusId" id="s_rs_id_webzine_domain_Ad_statusId" object="${ad}" />
-    <field:display field="customerId" id="s_rs_id_webzine_domain_Ad_customerId" object="${ad}" />
-    <field:display calendar="true" dateTimePattern="${date_pattern}" field="validFrom" id="s_rs_id_webzine_domain_Ad_validFrom" object="${ad}" />
-    <field:display calendar="true" dateTimePattern="${date_pattern}" field="validUntil" id="s_rs_id_webzine_domain_Ad_validUntil" object="${ad}" />
-    <field:display field="uc" id="s_rs_id_webzine_domain_Ad_uc" object="${ad}" />
-    <field:display calendar="true" dateTimePattern="${ad_dc_date_pattern}" field="dc" id="s_rs_id_webzine_domain_Ad_dc" object="${ad}" />
-    <field:display field="um" id="s_rs_id_webzine_domain_Ad_um" object="${ad}" />
-    <field:display calendar="true" dateTimePattern="${ad_dm_date_pattern}" field="dm" id="s_rs_id_webzine_domain_Ad_dm" object="${ad}" />
-  </page:show>
-  <BR />
-  <!-- Articles -->
-  <page:list id="pl_rs_id_webzine_domain_AdArticle" items="${adArticleList}" create="false">
-    <table:table data="${adArticleList}" id="l_rs_id_webzine_domain_AdArticle" path="/admin/ad/article" create="false" show="false" update="false" delete="false">
-      <table:column id="c_rs_id_webzine_domain_AdArticle_articleId" property="articleId" />
-    </table:table>
-  </page:list>
-  <BR />
-  <!-- Managed Content -->
-  <page:show id="ps_rs_id_webzine_domain_ManagedContent" object="${managedContent}" path="/admin/ad/managed_content" list="false" create="false" update="false" delete="false">
-    <field:display field="css" id="s_rs_id_webzine_domain_ManagedContent_css" object="${managedContent}" />
-  </page:show>
-  <BR />
-  <!-- Contents -->
-  <page:list id="pl_rs_id_webzine_domain_Content" items="${adContentList}" create="false">
-    <table:table data="${adContentList}" id="l_rs_id_webzine_domain_Content" path="/admin/ad/content" create="false" update="false" show="false" delete="false">
-      <table:column id="c_rs_id_webzine_domain_Content_contentTypeId" property="contentTypeId" />
-      <table:column id="c_rs_id_webzine_domain_Content_description" property="description" />
-    </table:table>
-  </page:list>
+
+  <table class="inputGridTable">
+    <tr>
+      <td id="ps_ad_col_1">
+        <page:show id="ps_ad" object="${ad}" path="/admin/marketing/ad">
+          <field:display field="status" id="s_ad_status" object="${ad}" />
+          <field:display field="advertiser" id="s_advertiser" object="${ad}" />
+          <field:display field="name" id="s_ad_name" object="${ad}" />
+          <field:textarea field="description" id="s_ad_description" object="${ad}" />
+        </page:show>
+        <BR />
+        <page:show id="pss_ad" object="${ad}" path="/admin/marketing/ad" label="ad_show_stamps" list="false" create="false" update="false" delete="false" openPane="false">
+          <field:display field="uc" id="s_ad_uc" object="${ad}" />
+          <field:display calendar="true" dateTimePattern="${date_time_pattern}" field="dc" id="s_ad_dc" object="${ad}" />
+          <field:display field="um" id="s_ad_um" object="${ad}" />
+          <field:display calendar="true" dateTimePattern="${date_time_pattern}" field="dm" id="s_ad_dm" object="${ad}" />
+        </page:show>
+      </td>
+      <td id="ps_ad_col_2">
+        <!-- Articles -->
+        <page:list id="pl_adarticle" items="${adArticleList}" create="false">
+          <table:table data="${adArticleList}" id="l_adArticle" path="/admin/marketing/ad/article" create="false" show="false" update="false" delete="true">
+            <table:column id="c_adarticle_article" property="article" />
+          </table:table>
+          <BR />
+          <form:create id="fc_adarticle" modelAttribute="adArticle" path="/admin/ad/article/${ad.id}" list="false">
+            <field:select field="article" id="c_aaArticle_article" itemValue="id" items="${availableArticleList}" path="/admin/magazine/article" />
+          </form:create>
+        </page:list>
+      </td>
+    </tr>
+  </table>
 </div>

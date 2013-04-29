@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:comp="urn:jsptagdir:/WEB-INF/tags/composed" version="2.0">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
+
+  <page:show id="psd_ad" object="${ad}" path="/admin/marketing/ad" create="false" delete="false">
+    <field:display field="name" id="s_ad_name" object="${ad}" />
+  </page:show>
+  <BR />
+  <comp:design id="pd_ad" managedContent="${managedContent}" contentList="${contentList}" path="/admin/marketing/ad/design" referenceId="${ad.id}" />
+</div>

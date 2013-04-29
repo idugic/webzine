@@ -110,6 +110,30 @@
 <dataTypeSize>500</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="PUBLISHED_BY" id="5E67CFBE-92A7-A7DB-6761-8E4EEE9EB123">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-04-29 17:58:38 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<delegate>1A353260-FAA0-3F2E-367E-F2021BBFD227</delegate>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="83C35721-C64A-2F90-3C7A-4363F1599403" referredColumn="1A353260-FAA0-3F2E-367E-F2021BBFD227"/>
+</associations>
+</Column>
+<Column class="oracle.dbtools.crest.model.design.relational.Column" name="PUBLISHED_AT" id="616B2535-31DA-8BF2-52EA-B98D4109896A">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-04-29 17:59:12 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="UC" id="C6CED9F0-A1C3-AE75-D065-08D62442309A">
 <createdBy>IvanD</createdBy>
 <createdTime>2013-04-07 17:28:38 UTC</createdTime>
@@ -211,6 +235,15 @@
 <indexState>Foreign Key</indexState>
 <indexColumnUsage>
 <colUsage columnID="3B115A72-D014-0F5F-0A29-B235462C3398"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK class="oracle.dbtools.crest.model.design.relational.Index" id="047E0F79-0C7D-2541-B60D-6F7031DECEA4" name="AD_USER_FK_3">
+<createdBy>IvanD</createdBy>
+<createdTime>2013-04-29 18:00:08 UTC</createdTime>
+<ownerDesignName>Webzine</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="5E67CFBE-92A7-A7DB-6761-8E4EEE9EB123"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

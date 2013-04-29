@@ -19,7 +19,7 @@ public class ArticleCommentService extends GenericService<ArticleComment> {
 
   public static final String CD_ACCEPTED = "accepted";
 
-  public static final String CD_DECLINED = "declined";
+  public static final String CD_REJECTED = "rejected";
 
   public static final String CD_ARCHIVED = "archived";
 
@@ -39,9 +39,9 @@ public class ArticleCommentService extends GenericService<ArticleComment> {
   }
 
   @Transactional
-  public void decline(Integer id) {
+  public void reject(Integer id) {
     ArticleComment articleComment = find(id);
-    articleComment.setStatus(articleCommentStatusService.findForCd(ArticleCommentStatusService.CD_DECLINED));
+    articleComment.setStatus(articleCommentStatusService.findForCd(ArticleCommentStatusService.CD_REJECTED));
 
     articleComment.setUm(currentUser());
     articleComment.setDm(Calendar.getInstance());

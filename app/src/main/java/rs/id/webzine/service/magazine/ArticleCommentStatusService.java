@@ -16,7 +16,7 @@ public class ArticleCommentStatusService extends GenericService<ArticleCommentSt
 
   public static final String CD_ACCEPTED = "accepted";
 
-  public static final String CD_DECLINED = "declined";
+  public static final String CD_REJECTED = "rejected";
  
   public static final String CD_ARCHIVED = "archived";
 

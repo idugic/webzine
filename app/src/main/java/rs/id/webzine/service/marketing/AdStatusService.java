@@ -12,9 +12,15 @@ import rs.id.webzine.service.GenericService;
 @Component
 public class AdStatusService extends GenericService<AdStatus> {
 
-  public static final String CD_ACTIVE = "active";
+  public static final String CD_NEW = "new";
 
-  public static final String CD_INACTIVE = "inactive";
+  public static final String CD_IN_DESIGN = "design";
+
+  public static final String CD_READY_TO_BE_PUBLISHED = "ready";
+
+  public static final String CD_PUBLISHED = "published";
+
+  public static final String CD_DELETED = "deleted";
 
   public AdStatus findForCd(String cd) {
     AdStatus adStatus = null;

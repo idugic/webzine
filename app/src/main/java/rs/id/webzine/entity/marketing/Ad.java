@@ -50,6 +50,15 @@ public class Ad {
   private ManagedContent managedContent;
 
   @ManyToOne
+  @JoinColumn(name = "PUBLISHED_BY", referencedColumnName = "ID")
+  private User publishedBy;
+
+  @Column(name = "PUBLISHED_AT")
+  @Temporal(TemporalType.TIMESTAMP)
+  @DateTimeFormat(style = "MM")
+  private Calendar publishedAt;
+
+  @ManyToOne
   @JoinColumn(name = "UC", referencedColumnName = "ID", nullable = false)
   @NotNull
   private User uc;
@@ -115,6 +124,22 @@ public class Ad {
 
   public void setManagedContent(ManagedContent managedContent) {
     this.managedContent = managedContent;
+  }
+
+  public User getPublishedBy() {
+    return publishedBy;
+  }
+
+  public void setPublishedBy(User publishedBy) {
+    this.publishedBy = publishedBy;
+  }
+
+  public Calendar getPublishedAt() {
+    return publishedAt;
+  }
+
+  public void setPublishedAt(Calendar publishedAt) {
+    this.publishedAt = publishedAt;
   }
 
   public User getUc() {

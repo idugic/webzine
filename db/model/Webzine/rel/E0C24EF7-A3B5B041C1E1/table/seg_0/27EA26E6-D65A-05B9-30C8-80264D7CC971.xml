@@ -54,7 +54,6 @@
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="CD" id="8B864F6B-B216-BB0A-6908-77DEF1D58BBB">
 <createdBy>idugic</createdBy>
 <createdTime>2013-04-01 07:03:50 UTC</createdTime>
-<comment>0-Inactive, 1-Active</comment>
 <ownerDesignName>Webzine</ownerDesignName>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>

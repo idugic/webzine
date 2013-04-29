@@ -28,6 +28,7 @@ import rs.id.webzine.service.content_management.ContentService;
 import rs.id.webzine.service.content_management.ManagedContentService;
 import rs.id.webzine.service.magazine.ArticleService;
 
+// TODO implement similar to AdDesignControler using DesignController abstraction
 @RequestMapping(ArticleDesignController.PATH)
 @Controller
 public class ArticleDesignController extends WebController {
