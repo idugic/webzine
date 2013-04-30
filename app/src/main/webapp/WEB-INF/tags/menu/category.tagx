@@ -15,29 +15,24 @@
       <spring:message code="menu_category_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
     </c:if>
 
-    <li id="${fn:escapeXml(id)}">
-      <h2>
-        <spring:url value="${url}" var="menu_item_url" />
+    <spring:url value="${url}" var="menu_item_url" />
 
-        <c:choose>
-          <c:when test="${isSelected}">
-            <a href="${menu_item_url}" title="${fn:escapeXml(label)}" class="category-active">
-              <c:out value="${label}" />
-            </a>
-          </c:when>
-          <c:otherwise>
-            <a href="${menu_item_url}" title="${fn:escapeXml(label)}">
-              <c:out value="${label}" />
-            </a>
-          </c:otherwise>
-        </c:choose>
-      </h2>
-      <ul>
+    <c:choose>
+      <c:when test="${isSelected}">
+        <li class="category-selected">
+          <a href="${menu_item_url}" title="${fn:escapeXml(label)}">
+            <c:out value="${label}" />
+          </a>
+        </li>
+      </c:when>
+      <c:otherwise>
+        <li>
+          <a href="${menu_item_url}" title="${fn:escapeXml(label)}">
+            <c:out value="${label}" />
+          </a>
+        </li>
+      </c:otherwise>
+    </c:choose>
 
-        <c:if test="${isSelected}">
-          <jsp:doBody />
-        </c:if>
-      </ul>
-    </li>
   </c:if>
 </jsp:root>

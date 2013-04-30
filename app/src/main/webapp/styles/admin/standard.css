@@ -17,11 +17,11 @@ body {
 	margin-right: auto;
 	margin-left: auto;
 	/* fix max-width incompatibility in IE6 */
-	width: expression(document.body.clientWidth >                 800 ?
+	width: expression(document.body.clientWidth >                   800 ? 
 		             
-      "800px" :    
+       "800px" :     
          
-          "auto");
+           "auto");
 	overflow: hidden;
 	display: block;
 }
@@ -57,6 +57,26 @@ body {
 	color: #7db223;
 }
 
+#menu_category li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 20px;
+}
+
+.category-selected {
+	font-weight: bold;
+}
+
+#menu_item li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 20px;
+}
+
+.item-selected {
+  font-weight: bold;
+}
+
 #footer {
 	background: #fff;
 	border: none;
@@ -71,54 +91,6 @@ body {
 	overflow: hidden;
 	display: box;
 	clear: both;
-}
-
-#menu {
-	background: #eee;
-  position: relative;
-  float: left;
-  left: 0px;
-  width: 200px;
-  margin-right: 15px;
-}
-
-#menu ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#menu ul li {
-	padding: 0px;
-	float: left;
-	
-}
-
-#menu a,#menu h2 {
-	display: block;
-	margin: 0;
-	padding: 2px 6px;
-	color: #FFFFFF;
-}
-
-#menu h2 {
-	color: #fff;
-	background: #648C1D;
-	text-transform: uppercase;
-	font-weight: bold;
-	font-size: 12px;
-}
-
-#menu a {
-	color: #666666;
-	background: #efefef;
-	text-decoration: none;
-	padding: 2px 12px;
-}
-
-#menu a:hover {
-	color: #648C1D;
-	background: #fff;
 }
 
 .quicklinks {
@@ -189,7 +161,8 @@ input.image {
 .inputFileWrapper {
 	margin-left: 96px;
 	height: 24px;
-	background: url('/webzine/resources/images/admin/file.png') 0 0 no-repeat;
+	background: url('/webzine/resources/images/admin/file.png') 0 0
+		no-repeat;
 	overflow: hidden;
 }
 
@@ -214,13 +187,6 @@ div {
 
 div .box {
 	display: block;
-}
-
-/* menu elements*/
-a.menu,a.menu:link,a.menu:visited {
-	display: block;
-	width: 150px;
-	height: 25px;
 }
 
 /* text styles */
