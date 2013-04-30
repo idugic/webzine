@@ -1,0 +1,19 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+
+  <jsp:directive.attribute name="type" type="java.lang.String" required="true" rtexprvalue="true" description="Alert type" />
+  <jsp:directive.attribute name="heading" type="java.lang.String" required="false" rtexprvalue="true" description="Alert heading text" />
+  <jsp:directive.attribute name="text" type="java.lang.String" required="true" rtexprvalue="true" description="Alert text" />
+  <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
+
+  <c:if test="${empty render or render}">
+    <c:set var="alertClass" value="alert alert-${type}" />
+    <div class="${alertClass}">
+      <a class="close" onclick="this.parentNode.style.display = 'none'">x</a>
+      <div class="heading">
+        <spring:message code="${heading}" />
+      </div>
+      <spring:message code="${text}" />
+    </div>
+  </c:if>
+</jsp:root>

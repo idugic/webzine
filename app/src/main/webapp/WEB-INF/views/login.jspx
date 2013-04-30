@@ -12,59 +12,72 @@
   <spring:message code="login_title" arguments="${app_name}" />
 </title>
 </head>
-<body class="tundra spring">
+<body class="tundra spring" onload="document.getElementById('j_username').focus();">
   <div id="login">
-
+    <div class="login-form-header">
+      <spring:message code="application_name" var="app_name" htmlEscape="false" />
+      <spring:message code="login_welcome" arguments="${app_name}" />
+    </div>
     <c:if test="${not empty param.login_error}">
-      <div class="server-error">
-        <spring:message code="login_unsuccessful" />
-        <!-- <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" /> -->
-      </div>
+      <util:alert type="error" heading="login_error" text="login_unsuccessful" />
+      <!-- <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" /> -->
     </c:if>
     <c:if test="${empty param.login_error}">
-      <div class="server-error">
-        <spring:message code="login_protected_area" />
-      </div>
+      <util:alert type="warn" heading="login_please_login" text="login_protected_area" />
     </c:if>
-
     <spring:url value="/resources/j_spring_security_check" var="form_url" />
     <form name="f" action="${fn:escapeXml(form_url)}" method="POST">
-      <div>
+      <div class="login-form-row">
         <label for="j_username">
           <spring:message code="login_username" />
         </label>
-        <input id="j_username" type='text' name='j_username' style="width: 150px" />
+        <input id="j_username" name='j_username' style="width: 230px" />
+
         <spring:message code="login_username_message" var="username_msg" htmlEscape="false" />
 
         <script type="text/javascript">
           <c:set var="sec_username_msg">
             <spring:escapeBody javaScriptEscape="true">${username_msg}</spring:escapeBody>
           </c:set>
+          <spring:message code="field_required_msg" var="field_required" htmlEscape="false" />
           
-          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_username", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_username_msg}", required : true}})); 
+          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_username", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_username_msg}", missingMessage : '${field_required}', required : true}})); 
         </script>
       </div>
-      <div>
+      <div class="login-form-row">
         <label for="j_password">
           <spring:message code="login_password" />
         </label>
-        <input id="j_password" type='password' name='j_password' style="width: 150px" />
+        <input id="j_password" type='password' name='j_password' style="width: 230px" />
         <spring:message code="login_password_message" var="pwd_msg" htmlEscape="false" />
 
         <script type="text/javascript">
           <c:set var="sec_pwd_msg">
             <spring:escapeBody javaScriptEscape="true">${pwd_msg}</spring:escapeBody>
           </c:set>
+          <spring:message code="field_required_msg" var="field_required" htmlEscape="false" />
           
-          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_password", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_pwd_msg}", required : true}})); 
+          
+          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_password", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_pwd_msg}", missingMessage : '${field_required}', required : true}})); 
         </script>
       </div>
 
-      <div>
-        <spring:message code="button_submit" var="submit_label" htmlEscape="false" />
-        <input id="proceed" type="submit" value="${fn:escapeXml(submit_label)}" />
+      <div class="login-form-submit submit">
+        <spring:message code="button_login" var="submit_label" htmlEscape="false" />
+        <input id="proceed" type="submit" />
 
-        <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
+        <script type="text/javascript">
+        Spring.addDecoration(new Spring.ElementDecoration(
+          {
+            elementId : 'proceed',
+            widgetType : "dijit.form.Button",
+            widgetModule : "dijit.form.Button",
+            widgetAttrs : {
+                label: "${submit_label}"
+            }
+          }));
+        Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));
+        </script>
       </div>
     </form>
   </div>

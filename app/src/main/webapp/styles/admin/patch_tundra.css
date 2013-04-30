@@ -1,16 +1,39 @@
 .dijitArrowButton {
-	height: 20px;
+  height: 20px;
 }
 
 .dijitTextArea {
-	min-height: 5.5em !important;
-	max-height: 22em !important;
-	overflow-y: auto !important;
-	max-width: 175px;
+  min-height: 5.5em !important;
+  max-height: 22em !important;
+  overflow-y: auto !important;
+  max-width: 175px;
 }
 
 .RichTextEditable {
-	min-height: 18em !important;
-	max-height: 18em !important;
+  min-height: 18em !important;
+  max-height: 18em !important;
 }
 
+.tundra .dijitValidationIcon {
+  width: 16px;
+  background: none;
+}
+
+.tundra .dijitTextBoxFocused {
+  border: 1px solid #3A87AD;
+  box-shadow: 0 0 5px #A8D1E6;
+}
+
+.tundra .dijitError {
+  border: 1px solid #B94A48;
+  box-shadow: 0 0 5px #F099A6;
+  background-color: #fff;
+  background-image: none;
+}
+
+.tundra .dijitErrorFocused {
+  border: 1px solid #B94A48;
+  box-shadow: 0 0 5px #F099A6;
+  background-color: #fff;
+  background-image: none;
+}
