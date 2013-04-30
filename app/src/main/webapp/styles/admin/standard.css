@@ -1,13 +1,21 @@
 /* main elements */
 body,div,td {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #666;
+	font-size: 14px;
+	color: #333333;
 }
 
 body {
-	background-color: #fff;
 	text-align: center;
+}
+
+#login {
+	width: 300px;
+	height: 200px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px 0 0 -150px;
 }
 
 #wrapper {
@@ -17,11 +25,11 @@ body {
 	margin-right: auto;
 	margin-left: auto;
 	/* fix max-width incompatibility in IE6 */
-	width: expression(document.body.clientWidth >                   800 ? 
+	width: expression(document.body.clientWidth >                       800 ?   
 		             
-       "800px" :     
+         "800px" :       
          
-           "auto");
+             "auto");
 	overflow: hidden;
 	display: block;
 }
@@ -74,7 +82,7 @@ body {
 }
 
 .item-selected {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 #footer {
