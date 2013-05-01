@@ -4,6 +4,8 @@
 
   <definition name="index" template="/WEB-INF/views/index.jspx" />
 
-  <definition name="login" template="/WEB-INF/views/login.jspx" />
+  <definition extends="common" name="login">
+    <put-attribute name="body" value="/WEB-INF/views/login.jspx" />
+  </definition>
 
 </tiles-definitions>

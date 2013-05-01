@@ -1,85 +1,60 @@
-<html xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util">
-<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+<section xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util">
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+  <jsp:output omit-xml-declaration="yes" />
 
-<jsp:directive.page contentType="text/html;charset=UTF-8" />
-<jsp:output omit-xml-declaration="yes" />
-
-<head>
-<util:load-scripts />
-
-<spring:message code="application_name" var="app_name" htmlEscape="false" />
-<title>
-  <spring:message code="login_title" arguments="${app_name}" />
-</title>
-</head>
-<body class="tundra spring" onload="document.getElementById('j_username').focus();">
-  <div id="login">
-    <div class="login-form-header">
-      <spring:message code="application_name" var="app_name" htmlEscape="false" />
-      <spring:message code="login_welcome" arguments="${app_name}" />
-    </div>
-    <c:if test="${not empty param.login_error}">
-      <util:alert type="error" heading="login_error" text="login_unsuccessful" />
-      <!-- <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" /> -->
-    </c:if>
-    <c:if test="${empty param.login_error}">
-      <util:alert type="warn" heading="login_please_login" text="login_protected_area" />
-    </c:if>
+  <article id="login">
     <spring:url value="/resources/j_spring_security_check" var="form_url" />
-    <form name="f" action="${fn:escapeXml(form_url)}" method="POST">
-      <div class="login-form-row">
-        <label for="j_username">
-          <spring:message code="login_username" />
+    <form name="f" action="${fn:escapeXml(form_url)}" method="POST" class="form-horizontal" novalidate="novalidate">
+      <spring:message code="application_name" var="app_name" htmlEscape="false" />
+      <legend>
+        <spring:message code="login_welcome" arguments="${app_name}" />
+      </legend>
+
+      <c:if test="${not empty param.login_error}">
+        <div class="alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">&amp;times;</button>
+          <strong>
+            <spring:message code="login_error" />
+          </strong>
+          <br />
+          <spring:message code="login_unsuccessful" />
+          <!-- <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" /> -->
+        </div>
+      </c:if>
+
+      <div class="control-group">
+        <spring:message code="login_username" var="username_label" htmlEscape="false" />
+        <label class="control-label" for="j_username">
+          <c:out value="${username_label}"></c:out>
         </label>
-        <input id="j_username" name='j_username' style="width: 230px" />
-
-        <spring:message code="login_username_message" var="username_msg" htmlEscape="false" />
-
-        <script type="text/javascript">
-          <c:set var="sec_username_msg">
-            <spring:escapeBody javaScriptEscape="true">${username_msg}</spring:escapeBody>
-          </c:set>
-          <spring:message code="field_required_msg" var="field_required" htmlEscape="false" />
-          
-          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_username", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_username_msg}", missingMessage : '${field_required}', required : true}})); 
-        </script>
+        <div class="controls">
+          <input id="j_username" name="j_username" type="text" class="input-large" placeholder="${username_label}" required="required" />
+        </div>
       </div>
-      <div class="login-form-row">
-        <label for="j_password">
-          <spring:message code="login_password" />
+      <div class="control-group">
+        <spring:message code="login_password" var="password_label" htmlEscape="false" />
+        <label class="control-label" for="j_password">
+          <c:out value="${password_label}"></c:out>
         </label>
-        <input id="j_password" type='password' name='j_password' style="width: 230px" />
-        <spring:message code="login_password_message" var="pwd_msg" htmlEscape="false" />
-
-        <script type="text/javascript">
-          <c:set var="sec_pwd_msg">
-            <spring:escapeBody javaScriptEscape="true">${pwd_msg}</spring:escapeBody>
-          </c:set>
-          <spring:message code="field_required_msg" var="field_required" htmlEscape="false" />
-          
-          
-          Spring.addDecoration(new Spring.ElementDecoration({elementId : "j_password", widgetType : "dijit.form.ValidationTextBox", widgetAttrs : {promptMessage: "${sec_pwd_msg}", missingMessage : '${field_required}', required : true}})); 
-        </script>
+        <div class="controls">
+          <input id="j_password" name="j_password" type="password" class="input-large" placeholder="${password_label}" required="required" />
+        </div>
       </div>
-
-      <div class="login-form-submit submit">
-        <spring:message code="button_login" var="submit_label" htmlEscape="false" />
-        <input id="proceed" type="submit" />
-
-        <script type="text/javascript">
-        Spring.addDecoration(new Spring.ElementDecoration(
-          {
-            elementId : 'proceed',
-            widgetType : "dijit.form.Button",
-            widgetModule : "dijit.form.Button",
-            widgetAttrs : {
-                label: "${submit_label}"
-            }
-          }));
-        Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));
-        </script>
+      <div class="control-group">
+        <spring:message code="button_login" var="button_label" htmlEscape="false" />
+        <div class="controls">
+          <button type="submit" class="btn">
+            <c:out value="${button_label}"></c:out>
+            <i class="icon-chevron-right"></i>
+          </button>
+        </div>
       </div>
     </form>
-  </div>
-</body>
-</html>
+  </article>
+
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $('#j_username').focus();
+      });
+    </script>
+</section>

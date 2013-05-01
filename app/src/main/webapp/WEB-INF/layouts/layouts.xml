@@ -4,16 +4,14 @@
        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 
 <tiles-definitions>
+  <definition name="common" template="/WEB-INF/layouts/common_template.jspx" />
 
-  <definition name="default" template="/WEB-INF/layouts/admin/default.jspx">
+  <definition name="admin" template="/WEB-INF/layouts/admin_template.jspx">
     <put-attribute name="header" value="/WEB-INF/views/admin/header.jspx" />
     <put-attribute name="menu" value="/WEB-INF/views/admin/menu.jspx" />
     <put-attribute name="footer" value="/WEB-INF/views/admin/footer.jspx" />
   </definition>
 
-  <definition name="public" template="/WEB-INF/layouts/admin/default.jspx">
-    <put-attribute name="header" value="/WEB-INF/views/admin/header.jspx" />
-    <put-attribute name="footer" value="/WEB-INF/views/admin/footer.jspx" />
-  </definition>
+  <!-- TODO public -->
 
 </tiles-definitions>

@@ -43,7 +43,7 @@
   </table>
 
   <!-- 
-  <spring:url var="banner" value="/resources/images/admin/banner-graphic.png" />
+  <spring:url var="banner" value="/resources/img/admin/banner-graphic.png" />
   <spring:url var="home" value="/" />
   <spring:message code="button_home" var="home_label" htmlEscape="false" />
   <a href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}"> <img src="${banner}" />

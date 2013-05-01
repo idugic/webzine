@@ -1,0 +1,14 @@
+#login {
+  width: 550px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -190px 0 0 -290px;
+  border: 1px solid #CCCCCC;
+  -moz-border-radius: 15px;
+  border-radius: 5px;
+  padding: 20px;
+  -moz-box-shadow: 5px 5px 5px #CCCCCC;
+  -webkit-box-shadow: 5px 5px 5px #CCCCCC;
+  box-shadow: 5px 5px 5px #888;
+}
