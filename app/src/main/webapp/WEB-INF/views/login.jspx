@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="control-group">
-        <spring:message code="button_login" var="button_label" htmlEscape="false" />
+        <spring:message code="login_button_login" var="button_label" htmlEscape="false" />
         <div class="controls">
           <button type="submit" class="btn">
             <c:out value="${button_label}"></c:out>

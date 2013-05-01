@@ -7,7 +7,7 @@
     <menu:menu id="_menu">
 
       <!-- Categories -->
-      <ul id="menu_category">
+      <ul class="nav nav-tabs">
         <!-- System -->
         <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
           <menu:category id="c_system" url="/admin/system/user?page=1&amp;size=${empty param.size ? 10 : param.size}" />
@@ -33,7 +33,7 @@
       </ul>
 
       <!-- Items -->
-      <ul id="menu_item">
+      <ul class="nav nav-pills">
         <!-- System -->
         <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
           <sec:authorize access="hasRole('administrator')">

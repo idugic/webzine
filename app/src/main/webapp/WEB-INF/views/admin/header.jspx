@@ -1,52 +1,36 @@
-<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<header xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" version="2.0">
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
 
-  <table id="headerTable">
-    <tr>
-      <td id="headerTitle">
-        <spring:url value="/" var="home" />
+  <div class="row">
+    <div class="span10">
+      <spring:message code="application_name" var="app_name" htmlEscape="false" />
 
-        <spring:message code="application_name" var="app_name" htmlEscape="false" />
-        <a href="${home}">
-          <spring:message arguments="${app_name}" code="header_title" />
-        </a>
-      </td>
-      <td id="headerButtons">
-        <span>
-          <a href="${home}">
-            <spring:message code="button_home" />
-          </a>
-        </span>
-        <c:choose>
-          <c:when test="${pageContext['request'].userPrincipal != null}">
-            <span>
-              <c:out value=" | " />
-              <spring:url value="/resources/j_spring_security_logout" var="logout" />
-              <a href="${logout}">
-                <spring:message code="security_logout" />
-              </a>
-            </span>
-          </c:when>
-          <c:otherwise>
-            <span>
-              <c:out value=" | " />
-              <spring:url value="/login" var="login" />
-              <a href="${login}">
-                <spring:message code="security_login" />
-              </a>
-            </span>
-          </c:otherwise>
-        </c:choose>
-      </td>
-    </tr>
-  </table>
+      <spring:url value="/" var="home" />
+      <a href="${home}" class="btn btn-link btn-large">
+        <spring:message arguments="${app_name}" code="header_title" />
+      </a>
+    </div>
 
-  <!-- 
-  <spring:url var="banner" value="/resources/img/admin/banner-graphic.png" />
-  <spring:url var="home" value="/" />
-  <spring:message code="button_home" var="home_label" htmlEscape="false" />
-  <a href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}"> <img src="${banner}" />
-  </a>
-   -->
-</div>
+    <div class="span2">
+      <c:choose>
+        <c:when test="${pageContext['request'].userPrincipal != null}">
+          <span>
+            <spring:url value="/resources/j_spring_security_logout" var="logout" />
+            <a href="${logout}" class="btn btn-link btn-large pull-right">
+              <spring:message code="security_logout" />
+            </a>
+          </span>
+        </c:when>
+        <c:otherwise>
+          <span>
+            <spring:url value="/login" var="login" />
+            <a href="${login}" class="btn btn-link btn-large pull-right">
+              <spring:message code="security_login" />
+            </a>
+          </span>
+        </c:otherwise>
+      </c:choose>
+    </div>
+  </div>
+</header>

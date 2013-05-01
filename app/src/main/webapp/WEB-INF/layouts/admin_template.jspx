@@ -13,18 +13,16 @@
 
 <spring:message code="application_name" var="app_name" htmlEscape="false" />
 <title>
-  <spring:message code="welcome_h3" arguments="${app_name}" />
+  <spring:message code="welcome_to" arguments="${app_name}" />
 </title>
 </head>
 
-<body class="tundra spring">
-  <div id="wrapper">
+<body>
+  <div class="container">
     <tiles:insertAttribute name="header" ignore="true" />
     <tiles:insertAttribute name="menu" ignore="true" />
-    <div id="main">
-      <tiles:insertAttribute name="body" />
-      <tiles:insertAttribute name="footer" ignore="true" />
-    </div>
+    <tiles:insertAttribute name="body" />
+    <tiles:insertAttribute name="footer" ignore="true" />
   </div>
 </body>
 </html>

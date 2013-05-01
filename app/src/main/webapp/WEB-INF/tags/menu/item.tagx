@@ -41,7 +41,7 @@
 
       <c:choose>
         <c:when test="${isSelected}">
-          <li class="item-selected">
+          <li class="active">
             <a href="${menu_item_url}" title="${fn:escapeXml(label)}">
               <c:out value="${label}" />
             </a>
