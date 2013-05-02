@@ -8,7 +8,6 @@
 
   <definition name="admin" template="/WEB-INF/layouts/admin_template.jspx">
     <put-attribute name="header" value="/WEB-INF/views/admin/header.jspx" />
-    <put-attribute name="menu" value="/WEB-INF/views/admin/menu.jspx" />
     <put-attribute name="footer" value="/WEB-INF/views/admin/footer.jspx" />
   </definition>
 

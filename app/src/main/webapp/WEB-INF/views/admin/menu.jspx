@@ -4,7 +4,7 @@
   <jsp:output omit-xml-declaration="yes" />
 
   <sec:authorize access="isAuthenticated()">
-    <menu:menu id="_menu">
+    <menu:menu>
 
       <!-- Categories -->
       <ul class="nav nav-tabs">

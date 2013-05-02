@@ -12,3 +12,15 @@
   -webkit-box-shadow: 5px 5px 5px #CCCCCC;
   box-shadow: 5px 5px 5px #888;
 }
+
+.action-row {
+  width: 20px !important;
+}
+
+.form-condensed {
+  margin: 0px;
+}
+
+.no-top-border {
+   border-top: 0px !important;
+}

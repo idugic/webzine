@@ -11,18 +11,24 @@
 
 <util:load-scripts />
 
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("a[data-toggle]").tooltip();
+    $("button[data-toggle]").tooltip();
+  });
+</script>
+
 <spring:message code="application_name" var="app_name" htmlEscape="false" />
 <title>
   <spring:message code="welcome_to" arguments="${app_name}" />
 </title>
 </head>
 
-<body>
-  <div class="container">
-    <tiles:insertAttribute name="header" ignore="true" />
-    <tiles:insertAttribute name="menu" ignore="true" />
+<body class="container">
+  <tiles:insertAttribute name="header" ignore="true" />
+  <section>
     <tiles:insertAttribute name="body" />
-    <tiles:insertAttribute name="footer" ignore="true" />
-  </div>
+  </section>
+  <tiles:insertAttribute name="footer" ignore="true" />
 </body>
 </html>

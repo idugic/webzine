@@ -25,6 +25,6 @@
   <script type="text/javascript" src="${bootstrap_js_url}">
     <!-- Ending tag is required for FF -->
       
-    </script>
+  </script>
 
 </jsp:root>
