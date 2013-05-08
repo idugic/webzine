@@ -14,7 +14,7 @@
           <field:textarea field="description" id="c_ad_description" max="500" />
         </form:update>
       </td>
-      <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
+      <sec:authorize access="hasAnyRole('administrator', 'editor')">
         <td id="fu_ad_col_2">
           <!-- Publish Ad -->
           <form:update id="fu_adpublish" label="ad_publish" modelAttribute="ad" path="/admin/marketing/ad/publish" versionField="none" list="false" render="${ad['status']['cd'] != 'published'}" />

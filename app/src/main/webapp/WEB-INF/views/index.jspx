@@ -1,7 +1,7 @@
 <html>
 <body>
   <div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core">
-    <c:redirect url="/admin/system/user" />
+    <c:redirect url="/admin/magazine/article" />
   </div>
 </body>
 </html>

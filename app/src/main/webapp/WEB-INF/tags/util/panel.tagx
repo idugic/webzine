@@ -12,10 +12,10 @@
     </c:if>
 
     <article id="article_${id}">
-      <header>
-        <h4>
+      <header class="article-header">
+        <h3>
           <c:out value="${title}" />
-        </h4>
+        </h3>
       </header>
 
       <jsp:doBody />

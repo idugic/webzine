@@ -3,110 +3,98 @@
   <jsp:output omit-xml-declaration="yes" />
 
   <!-- Heading -->
-  <div class="row">
-    <div class="span10">
-      <spring:message code="application_name" var="app_name" htmlEscape="false" />
-
-      <spring:url value="/" var="home" />
-      <a href="${home}" class="btn btn-link btn-large">
-        <spring:message arguments="${app_name}" code="header_title" />
-      </a>
-    </div>
-
-    <div class="span2">
-      <c:choose>
-        <c:when test="${pageContext['request'].userPrincipal != null}">
-          <spring:url value="/resources/j_spring_security_logout" var="logout" />
-          <a href="${logout}" class="btn btn-link btn-large pull-right">
-            <spring:message code="security_logout" />
-          </a>
-        </c:when>
-        <c:otherwise>
-          <spring:url value="/login" var="login" />
-          <a href="${login}" class="btn btn-link btn-large pull-right">
-            <spring:message code="security_login" />
-          </a>
-        </c:otherwise>
-      </c:choose>
-    </div>
-  </div>
+  <table class="header">
+    <tr>
+      <td>
+        <!-- logo -->
+      </td>
+      <td>
+        <h4>
+          <spring:message code="application_name" var="app_name" htmlEscape="false" />
+          <spring:message arguments="${app_name}" code="header_title" />
+        </h4>
+      </td>
+      <td class="header-current-user">
+        <c:if test="${not empty currentUser}">
+          <strong>
+            <c:out value="${currentUser.firstName}" />
+            <c:out value=" " />
+            <c:out value="${currentUser.lastName}" />
+          </strong>
+          <c:out value=" " />
+          <span class="label">
+            <c:out value="${currentUser.role.name}" />
+          </span>
+        </c:if>
+        <c:choose>
+          <c:when test="${pageContext['request'].userPrincipal != null}">
+            <spring:url value="/resources/j_spring_security_logout" var="logout" />
+            <a href="${logout}" class="btn btn-link">
+              <spring:message code="security_logout" />
+            </a>
+          </c:when>
+          <c:otherwise>
+            <spring:url value="/login" var="login" />
+            <a href="${login}" class="btn btn-link">
+              <spring:message code="security_login" />
+            </a>
+          </c:otherwise>
+        </c:choose>
+      </td>
+    </tr>
+  </table>
 
   <!-- Menu -->
   <div class="row">
     <div class="span12">
-      <sec:authorize access="isAuthenticated()">
-        <menu:menu>
+      <menu:menu>
+        <!-- Categories -->
+        <ul class="nav nav-tabs nav-condensed">
+          <!-- Magazine -->
+          <menu:category id="c_magazine" url="/admin/magazine/article?page=1&amp;size=${empty param.size ? 5 : param.size}" />
 
-          <!-- Categories -->
-          <ul class="nav nav-tabs">
-            <!-- System -->
-            <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
-              <menu:category id="c_system" url="/admin/system/user?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-            </sec:authorize>
+          <!-- Marketing -->
+          <sec:authorize access="hasAnyRole('administrator', 'editor')">
+            <menu:category id="c_marketing" url="/admin/marketing/advertiser?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          </sec:authorize>
 
-            <!-- Project Management -->
-            <menu:category id="c_project_management" url="/admin/project_management/task?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          <!-- Project Management -->
+          <menu:category id="c_project_management" url="/admin/project_management/task?page=1&amp;size=${empty param.size ? 5 : param.size}" />
 
-            <!-- Content Management -->
-            <sec:authorize access="hasRole('administrator')">
-              <menu:category id="c_content_management" url="/admin/content_management/content_type" />
-            </sec:authorize>
+          <!-- System -->
+          <sec:authorize access="hasAnyRole('administrator', 'editor')">
+            <menu:category id="c_system" url="/admin/system/user?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          </sec:authorize>
+        </ul>
 
-            <!-- Magazine -->
-            <sec:authorize access="hasAnyRole('administrator', 'editor-00', 'editor-01')">
-              <menu:category id="c_magazine" url="/admin/magazine/article?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-            </sec:authorize>
+        <!-- Items -->
+        <ul class="nav-sub">
+          <!-- Magazine -->
+          <menu:item id="i_article" url="/admin/magazine/article?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          <sec:authorize access="hasAnyRole('administrator', 'editor')">
+            <menu:item id="i_category" url="/admin/magazine/category?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          </sec:authorize>
 
-            <!-- Marketing -->
-            <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
-              <menu:category id="c_marketing" url="/admin/marketing/advertiser?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-            </sec:authorize>
-          </ul>
+          <!-- Project Management -->
+          <menu:item id="i_task" url="/admin/project_management/task?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          <sec:authorize access="hasAnyRole('administrator')">
+            <menu:item id="i_taskstatus" url="/admin/project_management/task_status?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+            <menu:item id="i_taskpriority" url="/admin/project_management/task_priority?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          </sec:authorize>
 
-          <!-- Items -->
-          <ul class="nav nav-pills">
-            <!-- System -->
-            <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
-              <sec:authorize access="hasRole('administrator')">
-                <menu:item id="i_role" url="/admin/system/role" />
-                <menu:item id="i_userstatus" url="/admin/system/user_status" />
-              </sec:authorize>
-              <menu:item id="i_user" url="/admin/system/user?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-              <menu:item id="i_country" url="/admin/system/country?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-            </sec:authorize>
+          <!-- Marketing -->
+          <sec:authorize access="hasAnyRole('administrator', 'editor')">
+            <menu:item id="i_advertiser" url="/admin/marketing/advertiser?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+            <menu:item id="i_ad" url="/admin/marketing/ad?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          </sec:authorize>
 
-            <!-- Project Management -->
-            <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
-              <menu:item id="i_taskstatus" url="/admin/project_management/task_status?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-              <menu:item id="i_taskpriority" url="/admin/project_management/task_priority?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-            </sec:authorize>
-            <menu:item id="i_task" url="/admin/project_management/task?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-
-            <!-- Content Management -->
-            <sec:authorize access="hasRole('administrator')">
-              <menu:item id="i_contenttype" url="/admin/content_management/content_type" />
-            </sec:authorize>
-
-            <!-- Magazine -->
-            <sec:authorize access="hasAnyRole('administrator', 'editor-00', 'editor-01')">
-              <menu:item id="i_readertype" url="/admin/magazine/reader_type" />
-              <menu:item id="i_category" url="/admin/magazine/category?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-              <menu:item id="i_articlestatus" url="/admin/magazine/article_status?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-              <menu:item id="i_article" url="/admin/magazine/article?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-              <menu:item id="i_articlecommentstatus" url="/admin/magazine/article_comment_status" />
-            </sec:authorize>
-
-            <!-- Marketing -->
-            <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
-              <menu:item id="i_advertiser" url="/admin/marketing/advertiser?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-              <menu:item id="i_adstatus" url="/admin/marketing/ad_status" />
-              <menu:item id="i_ad" url="/admin/marketing/ad?page=1&amp;size=${empty param.size ? 5 : param.size}" />
-            </sec:authorize>
-          </ul>
-        </menu:menu>
-      </sec:authorize>
-
-
+          <!-- System -->
+          <sec:authorize access="hasAnyRole('administrator', 'editor')">
+            <menu:item id="i_user" url="/admin/system/user?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+            <menu:item id="i_country" url="/admin/system/country?page=1&amp;size=${empty param.size ? 5 : param.size}" />
+          </sec:authorize>
+        </ul>
+      </menu:menu>
     </div>
   </div>
 </header>

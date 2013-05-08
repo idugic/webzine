@@ -10,7 +10,7 @@
           <field:display field="status" id="s_ad_status" object="${ad}" />
           <field:display field="advertiser" id="s_advertiser" object="${ad}" />
           <field:display field="name" id="s_ad_name" object="${ad}" />
-          <field:textarea field="description" id="s_ad_description" object="${ad}" />
+          <field:display field="description" id="s_ad_description" object="${ad}" />
         </page:show>
         <BR />
         <page:show id="pss_ad" object="${ad}" path="/admin/marketing/ad" label="ad_show_stamps" list="false" create="false" update="false" delete="false" openPane="false">

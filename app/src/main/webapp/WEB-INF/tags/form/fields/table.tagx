@@ -115,7 +115,7 @@
 
             <c:choose>
               <c:when test="${columnType eq 'action'}">
-                <td id="${id}_${column}" class="action-row">
+                <td id="${id}_${column}" class="action-column">
                   <spring:url value="${path}/${column}/${itemId}" var="action_form_url" />
                   <spring:message arguments="${typeName}" code="entity_${column}" var="action_label" htmlEscape="false" />
                   <a class="btn btn-mini" data-toggle="tooltip" href="${action_form_url}" title="${fn:escapeXml(action_label)}">
@@ -135,7 +135,7 @@
           </c:forTokens>
 
           <c:if test="${show}">
-            <td class="action-row">
+            <td class="action-column">
               <spring:url value="${path}/${itemId}" var="show_form_url" />
               <spring:url value="/resources/img/admin/show.png" var="show_image_url" />
               <spring:message arguments="${typeName}" code="entity_show" var="show_label" htmlEscape="false" />
@@ -145,19 +145,19 @@
             </td>
           </c:if>
           <c:if test="${update}">
-            <td class="action-row">
+            <td class="action-column">
               <spring:url value="${path}/${itemId}" var="update_form_url">
                 <spring:param name="form" />
               </spring:url>
               <spring:url value="/resources/img/admin/update.png" var="update_image_url" />
               <spring:message arguments="${typeName}" code="entity_update" var="update_label" htmlEscape="false" />
               <a class="btn btn-mini" data-toggle="tooltip" href="${update_form_url}" title="${fn:escapeXml(update_label)}">
-                <i class="icon-edit"></i>
+                <i class="icon-pencil"></i>
               </a>
             </td>
           </c:if>
           <c:if test="${delete}">
-            <td class="action-row">
+            <td class="action-column">
               <spring:url value="${path}/${itemId}" var="delete_form_url" />
               <spring:url value="/resources/img/admin/delete.png" var="delete_image_url" />
               <form:form action="${delete_form_url}" method="DELETE" class="form-condensed">
@@ -175,7 +175,7 @@
                 </c:if>
 
                 <button type="button" class="btn btn-mini" onclick="return confirm('${delete_confirm_msg}');" data-toggle="tooltip" title="${fn:escapeXml(delete_label)}">
-                  <i class="icon-remove-sign"></i>
+                  <i class="icon-trash"></i>
                 </button>
 
               </form:form>
@@ -191,22 +191,19 @@
             </c:if>
           </td>
         </tr>
-        <c:if test="${create}">
-          <tr>
-            <td colspan="${colCounter}" class="no-top-border">
-
-              <spring:url value="${path}" var="create_url">
-                <spring:param name="form" />
-              </spring:url>
-              <spring:message arguments="${typeName}" code="global_menu_new" var="add_message" htmlEscape="false" />
-
-              <a class="btn " data-toggle="tooltip" href="${create_url}" title="${fn:escapeXml(add_message)}">
-                <i class="icon-plus-sign"></i>
-              </a>
-            </td>
-          </tr>
-        </c:if>
       </c:if>
     </table>
+    <c:if test="${create}">
+      <div>
+
+        <spring:url value="${path}" var="create_url">
+          <spring:param name="form" />
+        </spring:url>
+        <spring:message arguments="${typeName}" code="entity_create" var="create_label" htmlEscape="false" />
+        <a class="btn btn-primary" href="${create_url}">
+          <c:out value="${create_label}"></c:out>
+        </a>
+      </div>
+    </c:if>
   </c:if>
 </jsp:root>

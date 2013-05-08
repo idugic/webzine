@@ -11,7 +11,7 @@
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane is opened or closed by default (default: true)" />
   <jsp:directive.attribute name="list" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Include 'list' link into table (default true)" />
- 
+
   <c:if test="${empty render or render}">
     <c:if test="${empty list}">
       <c:set var="list" value="true" />
@@ -20,6 +20,7 @@
     <c:if test="${empty label}">
       <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
     </c:if>
+
     <c:set var="enctype" value="application/x-www-form-urlencoded" />
     <c:if test="${multipart}">
       <c:set var="enctype" value="multipart/form-data" />
@@ -30,85 +31,29 @@
 
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <spring:url value="${path}" var="form_url" />
-      <c:set var="jsCall" value="" />
-      <c:if test="${not empty compositePkField}">
-        <c:set var="jsCall" value="encodePk()" />
-      </c:if>
-      <form:form action="${form_url}" method="POST" modelAttribute="${modelAttribute}" enctype="${enctype}" onsubmit="${jsCall}">
+      <form:form action="${form_url}" method="POST" modelAttribute="${modelAttribute}" enctype="${enctype}" novalidate="novalidate">
         <form:errors cssClass="errors" delimiter="&lt;p/&gt;" />
-        <c:if test="${not empty compositePkField}">
-          <form:hidden id="_${fn:escapeXml(compositePkField)}_id" path="${fn:escapeXml(compositePkField)}" />
-          <script type="text/javascript">
-											<![CDATA[
-											dojo
-													.require("dojox.encoding.base64");
-											function encodePk() {
-												var obj = new Object();
-												dojo
-														.query(
-																"input[name^=\"${compositePkField}.\"]")
-														.forEach(
-																function(node,
-																		index,
-																		nodelist) {
-																	obj[node.name
-																			.substring('${compositePkField}'.length + 1)] = node.value;
-																});
-												var json = dojo.toJson(obj);
-												var tokArr = [];
-												for ( var i = 0; i < json.length; i++) {
-													tokArr.push(json
-															.charCodeAt(i));
-												}
-												var encoded = dojox.encoding.base64
-														.encode(tokArr);
-												dojo
-														.byId('_${fn:escapeXml(compositePkField)}_id').value = encoded;
-											}
-											]]>
-										</script>
-        </c:if>
-        <jsp:doBody />
-        <div class="submit" id="${fn:escapeXml(id)}_submit">
-          <spring:message code="button_save" var="save_button" htmlEscape="false" />
-          <script type="text/javascript">
-											
+        <fieldset>
+          <jsp:doBody />
 
-											<![CDATA[
-											function validateForm(myForm) {
-												var valid = true;
 
-												for (i = 0; i < myForm.elements.length; i++) {
-													var elementId = myForm.elements[i].id;
-													if (Spring.decorations[elementId]) {
-														for ( var x = 0; x < Spring.decorations[elementId].length; x++) {
-															if (Spring.decorations[elementId][x].widget
-																	&& !Spring.decorations[elementId][x]
-																			.validate()) {
-																valid = false;
-															}
-														}
-													}
-												}
-												return valid;
-											}
-											]]>
-										</script>
-
-          <input id="proceed" type="submit" value="${fn:escapeXml(save_button)}" onclick="return validateForm(this.form)" />
-        </div>
-        <div class="quicklinks">
-          <span>
+          <div class="form-action">
             <c:if test="${list}">
               <spring:url value="${path}" var="list_form_url" />
               <spring:url value="/resources/img/admin/list.png" var="list_image_url" />
               <spring:message arguments="${typeNamePlural}" code="entity_list_all" var="list_label" htmlEscape="false" />
-              <a href="${list_form_url}" alt="${fn:escapeXml(list_label)}" title="${fn:escapeXml(list_label)}">
-                <img alt="${fn:escapeXml(list_label)}" class="image" src="${list_image_url}" title="${fn:escapeXml(list_label)}" />
+              <a class="btn" href="${list_form_url}">
+                <c:out value="${list_label}"></c:out>
               </a>
+              <c:out value=" " />
             </c:if>
-          </span>
-        </div>
+
+            <spring:message code="button_save" var="button_label" htmlEscape="false" />
+            <button class="btn btn-primary" id="proceed" type="submit" onclick="return validateForm(this.form)">
+              <c:out value="${button_label}"></c:out>
+            </button>
+          </div>
+        </fieldset>
       </form:form>
     </util:panel>
   </c:if>

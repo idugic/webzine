@@ -15,9 +15,9 @@ public class RoleService extends GenericService<Role> {
 
   public static final String CD_ADMINISTRATOR = "administrator";
 
-  public static final String CD_EDITOR_IN_CHIEF = "editor-00";
+  public static final String CD_EDITOR = "editor";
 
-  public static final String CD_ASSOCIATE_EDITOR = "editor-01";
+  public static final String CD_JOURNALIST = "journalist";
 
   public static final String CD_VISITOR = "visitor";
 
@@ -43,12 +43,12 @@ public class RoleService extends GenericService<Role> {
     List<String> cdList = new ArrayList<String>();
     if (currentUser().getRole().getCd().equals(CD_ADMINISTRATOR)) {
       cdList.add(CD_ADMINISTRATOR);
-      cdList.add(CD_EDITOR_IN_CHIEF);
-      cdList.add(CD_ASSOCIATE_EDITOR);
+      cdList.add(CD_EDITOR);
+      cdList.add(CD_JOURNALIST);
       cdList.add(CD_VISITOR);
     }
-    if (currentUser().getRole().getCd().equals(CD_EDITOR_IN_CHIEF)) {
-      cdList.add(CD_ASSOCIATE_EDITOR);
+    if (currentUser().getRole().getCd().equals(CD_EDITOR)) {
+      cdList.add(CD_JOURNALIST);
     }
 
     TypedQuery<Role> query = entityManager().createQuery("SELECT o FROM Role o WHERE o.cd IN :cdList", Role.class);

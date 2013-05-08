@@ -20,7 +20,7 @@
           <field:media url="${abstractMediaUrl}" contentType="${abstractMediaContentType}" id="s_article_abstractmedia" object="${article}" />
         </page:show>
         <br />
-        <sec:authorize access="hasAnyRole('administrator', 'editor-00')">
+        <sec:authorize access="hasAnyRole('administrator', 'editor')">
           <!-- Publish Article -->
           <form:update id="fu_articlepublish" label="article_publish" modelAttribute="article" path="/admin/magazine/article/publish" versionField="none" list="false" render="${article['status']['cd'] != 'published'}" />
 

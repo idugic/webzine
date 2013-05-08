@@ -1,68 +1,33 @@
 -- SYSTEM
 -- ROLES
 INSERT INTO ROLES (CD, NAME) VALUES ('administrator', 'Administrator');
-INSERT INTO ROLES (CD, NAME) VALUES ('editor-00', 'Editor in Chief');
-INSERT INTO ROLES (CD, NAME) VALUES ('editor-01', 'Associate Editor');
-INSERT INTO ROLES (CD, NAME) VALUES ('visitor', 'Visitor');
-
+INSERT INTO ROLES (CD, NAME) VALUES ('editor', 'Urednik');
+INSERT INTO ROLES (CD, NAME) VALUES ('journalist', 'Novinar');
+INSERT INTO ROLES (CD, NAME) VALUES ('visitor', 'Posetilac');
+ 
 -- USER_STATUS
-INSERT INTO USER_STATUS (CD, NAME) VALUES ('active', 'Active');
-INSERT INTO USER_STATUS (CD, NAME) VALUES ('inactive', 'Inactive');
-
--- COUNTRY
-INSERT INTO COUNTRY (CD, NAME) VALUES ('rs', 'Srbija');
+INSERT INTO USER_STATUS (CD, NAME) VALUES ('active', 'Aktivan');
+INSERT INTO USER_STATUS (CD, NAME) VALUES ('inactive', 'Neaktivan');
 
 -- USERS
 INSERT INTO USERS (
   USER_NAME,
   PASSWORD,
+  FIRST_NAME,
+  LAST_NAME,
   STATUS_ID,
   ROLE_ID
 ) VALUES (
-  'admin',
+  'idugic@gmail.com',
   '21893ed8828f762a0d93c4e98b877857', -- admin (md5)
+  'Ivan',
+  'Dugić',
   (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
   (SELECT ID FROM ROLES WHERE CD = 'administrator')
 );
 
--- USERS
-INSERT INTO USERS (
-  USER_NAME,
-  PASSWORD,
-  STATUS_ID,
-  ROLE_ID
-) VALUES (
-  'editor',
-  '1e624427b1feb296a3974e82d19c5ac2', -- editor (md5)
-  (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
-  (SELECT ID FROM ROLES WHERE CD = 'editor-00')
-);
-
--- USERS
-INSERT INTO USERS (
-  USER_NAME,
-  PASSWORD,
-  STATUS_ID,
-  ROLE_ID
-) VALUES (
-  'associate',
-  '2cfa2d89ef465d5463b96a34ff1030d6', -- associate (md5)
-  (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
-  (SELECT ID FROM ROLES WHERE CD = 'editor-01')
-);
-
--- USERS
-INSERT INTO USERS (
-  USER_NAME,
-  PASSWORD,
-  STATUS_ID,
-  ROLE_ID
-) VALUES (
-  'visitor',
-  '24d36ccee928073eb9f673c0635e9f34', -- visitor (md5)
-  (SELECT ID FROM USER_STATUS WHERE CD = 'active'),
-  (SELECT ID FROM ROLES WHERE CD = 'visitor')
-);
+-- COUNTRY
+INSERT INTO COUNTRY (CD, NAME) VALUES ('rs', 'Srbija');
 
 -- PROJECT MANAGEMENT
 -- TASK_STATUS

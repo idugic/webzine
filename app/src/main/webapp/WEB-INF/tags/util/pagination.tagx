@@ -22,16 +22,14 @@
     <c:forEach var="i" begin="5" end="25" step="5">
       <c:choose>
         <c:when test="${size == i}">
-          <strong>
-            <c:out value="${i}" />
-          </strong>
+          <c:out value="${i}" />
         </c:when>
         <c:otherwise>
           <spring:url value="" var="sizeUrl">
             <spring:param name="page" value="1" />
             <spring:param name="size" value="${i}" />
           </spring:url>
-          <a class="btn btn-mini btn-inverse" href="${sizeUrl}">${i}</a>
+          <a href="${sizeUrl}">${i}</a>
         </c:otherwise>
       </c:choose>
       <c:out value=" " />
@@ -45,9 +43,7 @@
       </spring:url>
       <spring:url value="/resources/img/admin/resultset_first.png" var="first_image_url" />
       <spring:message code="list_first" var="first_label" htmlEscape="false" />
-      <a class="btn btn-mini btn-inverse" data-toggle="tooltip" href="${first}" title="${fn:escapeXml(first_label)}">
-        &lt;&lt;
-      </a>
+      <a data-toggle="tooltip" href="${first}" title="${fn:escapeXml(first_label)}"> &lt;&lt; </a>
       <c:out value=" " />
     </c:if>
     <c:if test="${page gt 1}">
@@ -57,9 +53,7 @@
       </spring:url>
       <spring:url value="/resources/img/admin/resultset_previous.png" var="previous_image_url" />
       <spring:message code="list_previous" var="previous_label" htmlEscape="false" />
-      <a class="btn btn-mini btn-inverse" data-toggle="tooltip" href="${previous}" title="${fn:escapeXml(previous_label)}">
-         &lt;
-      </a>
+      <a data-toggle="tooltip" href="${previous}" title="${fn:escapeXml(previous_label)}"> &lt; </a>
     </c:if>
     <c:out value=" " />
     <spring:message code="list_page" arguments="${page},${maxPages}" argumentSeparator="," />
@@ -71,9 +65,7 @@
       </spring:url>
       <spring:url value="/resources/img/admin/resultset_next.png" var="next_image_url" />
       <spring:message code="list_next" var="next_label" htmlEscape="false" />
-      <a class="btn btn-mini btn-inverse" data-toggle="tooltip" href="${next}" title="${fn:escapeXml(next_label)}">
-        &gt;
-      </a>
+      <a data-toggle="tooltip" href="${next}" title="${fn:escapeXml(next_label)}"> &gt; </a>
       <c:out value=" " />
     </c:if>
     <c:if test="${page ne maxPages}">
@@ -83,9 +75,7 @@
       </spring:url>
       <spring:url value="/resources/img/admin/resultset_last.png" var="last_image_url" />
       <spring:message code="list_last" var="last_label" htmlEscape="false" />
-      <a class="btn btn-mini btn-inverse" data-toggle="tooltip" href="${last}" title="${fn:escapeXml(last_label)}">
-         &gt;&gt;
-      </a>
+      <a data-toggle="tooltip" href="${last}" title="${fn:escapeXml(last_label)}"> &gt;&gt; </a>
     </c:if>
   </c:if>
 </jsp:root>

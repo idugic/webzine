@@ -38,8 +38,8 @@
               </spring:url>
               <spring:message arguments="${typeName}" code="entity_create" var="create_label" htmlEscape="false" />
               <span>
-                <a class="btn" data-toggle="tooltip" href="${create_form_url}" title="${fn:escapeXml(create_label)}">
-                  <i class="icon-plus-sign"></i>
+                <a class="btn btn-primary" href="${create_form_url}">
+                  <c:out value="${create_label}"></c:out>
                 </a>
               </span>
             </div>

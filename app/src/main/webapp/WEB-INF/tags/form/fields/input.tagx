@@ -15,6 +15,7 @@
   <jsp:directive.attribute name="type" type="java.lang.String" required="false" rtexprvalue="true" description="Set field type (default 'text', or 'password')" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="readonly" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Specify if this field should be readonly" />
+  <jsp:directive.attribute name="inputClass" type="java.lang.String" required="false" rtexprvalue="true" description="Additional input class" />
 
   <c:if test="${empty render or render}">
 
@@ -56,56 +57,34 @@
       <spring:escapeBody javaScriptEscape="true">${field}</spring:escapeBody>
     </c:set>
 
-    <div id="_${fn:escapeXml(id)}_id">
-      <label class="labelInput" for="_${sec_field}_id">
-        <c:out value="${fn:escapeXml(label)}" />
-      </label>
-      <c:choose>
-        <c:when test="${disableFormBinding}">
-          <input id="_${sec_field}_id" name="${sec_field}" type="${fn:escapeXml(type)}" />
-        </c:when>
-        <c:otherwise>
-          <c:choose>
-            <c:when test="${readonly eq true}">
-              <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" readonly="${readonly}" />
-            </c:when>
-            <c:when test="${type eq 'password'}">
-              <form:password id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" />
-            </c:when>
-            <c:otherwise>
-              <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" />
-            </c:otherwise>
-          </c:choose>
-          <br />
-          <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
-        </c:otherwise>
-      </c:choose>
-      <c:choose>
-        <c:when test="${required}">
-          <spring:message code="field_required" var="field_required" htmlEscape="false" />
-          <spring:message argumentSeparator="," arguments="${label},(${field_required})" code="field_simple_validation" var="field_validation" htmlEscape="false" />
-        </c:when>
-        <c:otherwise>
-          <spring:message argumentSeparator="," arguments="${label}, " code="field_simple_validation" var="field_validation" htmlEscape="false" />
-        </c:otherwise>
-      </c:choose>
-      <c:set var="sec_field_validation">
-        <spring:escapeBody javaScriptEscape="true">${field_validation}</spring:escapeBody>
-      </c:set>
-      <c:set var="sec_field_invalid">
-        <spring:escapeBody javaScriptEscape="true" htmlEscape="true">${field_invalid}</spring:escapeBody>
-      </c:set>
-      <c:set var="sec_field_required">
-        <spring:escapeBody javaScriptEscape="true">${field_required}</spring:escapeBody>
-      </c:set>
-      <c:set var="sec_validation_regex" value="" />
-      <c:if test="${!empty validationRegex}">
-        <c:set var="sec_validation_regex" value="regExp : '${validationRegex}', " />
-      </c:if>
-      <script type="text/javascript">
-        Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType : 'dijit.form.ValidationTextBox', widgetAttrs : {promptMessage: '${sec_field_validation}', invalidMessage: '${sec_field_invalid}', required : ${required}, ${sec_validation_regex} missingMessage : '${sec_field_required}' }})); 
-      </script>
-    </div>
-    <br />
+    <label class="labelInput" for="_${sec_field}_id">
+      <c:out value="${fn:escapeXml(label)}" />
+    </label>
+    <c:choose>
+      <c:when test="${disableFormBinding}">
+        <input id="_${sec_field}_id" name="${sec_field}" type="${fn:escapeXml(type)}" />
+      </c:when>
+      <c:otherwise>
+        <c:choose>
+          <c:when test="${readonly eq true}">
+            <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" readonly="${readonly}" cssClass="${inputClass}" />
+          </c:when>
+          <c:when test="${type eq 'password'}">
+            <form:password id="_${sec_field}_id" path="${sec_field}" maxlength="${max}" required="${required}" cssClass="${inputClass}" />
+          </c:when>
+          <c:otherwise>
+            <c:choose>
+              <c:when test="${required}">
+                <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" required="${required}" cssClass="${inputClass}" />
+              </c:when>
+              <c:otherwise>
+                <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" cssClass="${inputClass}" />
+              </c:otherwise>
+            </c:choose>
+          </c:otherwise>
+        </c:choose>
+        <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
+      </c:otherwise>
+    </c:choose>
   </c:if>
 </jsp:root>
