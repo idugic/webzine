@@ -75,7 +75,10 @@
           <c:otherwise>
             <c:choose>
               <c:when test="${required}">
-                <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" required="${required}" cssClass="${inputClass}" />
+                <div class="input-append">
+                  <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" required="${required}" cssClass="${inputClass}" />
+                  <div id="_${sec_field}_id_required_error" class="label label-error">!</div>
+                </div>
               </c:when>
               <c:otherwise>
                 <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" cssClass="${inputClass}" />

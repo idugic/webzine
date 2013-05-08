@@ -59,3 +59,9 @@
 .form-action {
 	margin-top: 20px;
 }
+
+.label-error {
+	margin-left: 4px;
+	margin-top: 5px;
+  background-color: #E9322D !important;
+}

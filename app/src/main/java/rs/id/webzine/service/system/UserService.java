@@ -54,8 +54,7 @@ public class UserService extends GenericService<User> {
 
     targetUser.setFirstName(userValues.getFirstName());
     targetUser.setLastName(userValues.getLastName());
-    targetUser.setBirthdate(userValues.getBirthdate());
-
+  
     // change image only if provided
     if (userValues.getImage() != null && userValues.getImage() != null && userValues.getImage().length != 0) {
       targetUser.setImage(userValues.getImage());

@@ -12,10 +12,14 @@
 <util:load-scripts />
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $("a[data-toggle]").tooltip();
-    $("button[data-toggle]").tooltip();
-  });
+	$(document).ready(function() {
+		$("a[data-toggle]").tooltip();
+		$("button[data-toggle]").tooltip();
+	});
+
+	function validateForm(myForm) {
+		// TODO
+	}
 </script>
 
 <spring:message code="application_name" var="app_name" htmlEscape="false" />

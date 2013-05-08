@@ -118,16 +118,6 @@
 <dataTypeSize>50</dataTypeSize>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
-<Column class="oracle.dbtools.crest.model.design.relational.Column" name="BIRTHDATE" id="B0CB621A-1F0C-E37C-C9C2-83C2C02A2115">
-<createdBy>IvanD</createdBy>
-<createdTime>2013-03-22 20:36:36 UTC</createdTime>
-<ownerDesignName>Webzine</ownerDesignName>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT007</logicalDatatype>
-<autoIncrementCycle>false</autoIncrementCycle>
-</Column>
 <Column class="oracle.dbtools.crest.model.design.relational.Column" name="IMAGE" id="B3EBDE6C-64CF-3D0E-364C-18E6D8BB956E">
 <createdBy>IvanD</createdBy>
 <createdTime>2013-03-22 20:36:46 UTC</createdTime>

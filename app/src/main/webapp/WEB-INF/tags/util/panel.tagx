@@ -13,9 +13,9 @@
 
     <article id="article_${id}">
       <header class="article-header">
-        <h3>
+        <h4>
           <c:out value="${title}" />
-        </h3>
+        </h4>
       </header>
 
       <jsp:doBody />

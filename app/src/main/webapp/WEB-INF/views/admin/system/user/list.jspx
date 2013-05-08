@@ -7,7 +7,7 @@
   </sec:authorize>
 
   <page:list id="pl_user" items="${userList}">
-    <table:table data="${userList}" id="l_user" typeIdFieldName="userId" path="/admin/system/user" delete="${delete}">
+    <table:table data="${userList}" id="l_user" path="/admin/system/user" delete="${delete}">
       <table:column id="c_user_username" property="userName" />
       <table:column id="c_user_firstname" property="firstName" />
       <table:column id="c_user_lastname" property="lastName" />

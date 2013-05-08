@@ -1,7 +1,5 @@
 package rs.id.webzine.entity.system;
 
-import java.util.Date;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,13 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.format.annotation.DateTimeFormat;
-
 
 @Configurable
 @Entity
@@ -54,11 +48,6 @@ public class User {
 
   @Column(name = "LAST_NAME", length = 50)
   private String lastName;
-
-  @Column(name = "BIRTHDATE")
-  @Temporal(TemporalType.DATE)
-  @DateTimeFormat(style = "M-")
-  private Date birthdate;
 
   @Column(name = "IMAGE")
   @Lob
@@ -126,14 +115,6 @@ public class User {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }
-
-  public Date getBirthdate() {
-    return birthdate;
-  }
-
-  public void setBirthdate(Date birthdate) {
-    this.birthdate = birthdate;
   }
 
   public byte[] getImage() {

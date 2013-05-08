@@ -1,9 +1,6 @@
 package rs.id.webzine.controller.system;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
+import rs.id.webzine.entity.system.Country;
 import rs.id.webzine.entity.system.Role;
 import rs.id.webzine.entity.system.UserStatus;
 
@@ -25,9 +22,6 @@ public class UserForm {
 
   private String lastName;
 
-  @DateTimeFormat(style = "M-")
-  private Date birthdate;
-
   private byte[] image;
 
   private String imageContentType;
@@ -45,9 +39,7 @@ public class UserForm {
 
   private String postalCode;
 
-  private String country;
-
-  private String countryCode;
+  private Country country;
 
   private String www;
 
@@ -111,14 +103,6 @@ public class UserForm {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }
-
-  public Date getBirthdate() {
-    return birthdate;
-  }
-
-  public void setBirthdate(Date birthdate) {
-    this.birthdate = birthdate;
   }
 
   public byte[] getImage() {
@@ -185,20 +169,12 @@ public class UserForm {
     this.postalCode = postalCode;
   }
 
-  public String getCountry() {
+  public Country getCountry() {
     return country;
   }
 
-  public void setCountry(String country) {
+  public void setCountry(Country country) {
     this.country = country;
-  }
-
-  public String getCountryCode() {
-    return countryCode;
-  }
-
-  public void setCountryCode(String countryCode) {
-    this.countryCode = countryCode;
   }
 
   public String getWww() {

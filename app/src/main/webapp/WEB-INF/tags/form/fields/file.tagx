@@ -35,7 +35,7 @@
     <spring:message code="button_file" var="button_label" htmlEscape="false" />
 
     <div class="input-prepend">
-      <button type="button" class="btn" onclick="">
+      <button type="button" class="btn" onclick="$('#_${sec_field}_id').trigger('click');">
         <c:out value="${button_label}"></c:out>
       </button>
       <c:out value=" "></c:out>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="hide">
-      <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" type="file" class="inputFile" onchange="showVal();" />
+      <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" type="file" class="inputFile" onchange="$('#_${sec_field}_id_val').val($('#_${sec_field}_id').val());" />
     </div>
 
     <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />

@@ -48,7 +48,6 @@ CREATE TABLE USERS (
   ROLE_ID            INTEGER         NOT NULL,
   FIRST_NAME         VARCHAR (50),
   LAST_NAME          VARCHAR (50),
-  BIRTHDATE          DATE,
   IMAGE              BLOB,
   IMAGE_CONTENT_TYPE VARCHAR (100),
   ADDRESS_ID         INTEGER

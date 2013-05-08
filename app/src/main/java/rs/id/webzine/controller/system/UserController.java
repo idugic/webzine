@@ -32,6 +32,7 @@ import rs.id.webzine.controller.WebController;
 import rs.id.webzine.entity.system.Address;
 import rs.id.webzine.entity.system.User;
 import rs.id.webzine.service.system.AddressService;
+import rs.id.webzine.service.system.CountryService;
 import rs.id.webzine.service.system.RoleService;
 import rs.id.webzine.service.system.UserService;
 import rs.id.webzine.service.system.UserStatusService;
@@ -56,6 +57,9 @@ public class UserController extends WebController {
   @Autowired
   AddressService addressService;
 
+  @Autowired
+  CountryService countryService;
+
   @InitBinder
   protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws ServletException {
     binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
@@ -64,31 +68,8 @@ public class UserController extends WebController {
   @RequestMapping(produces = "text/html")
   public String list(@RequestParam(value = "page", required = false) Integer page,
       @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-    try {
-      List<User> userList = prepareList(userService, "userList", page, size, uiModel);
-
-      // prepare form list
-      List<UserForm> userFormList = new ArrayList<UserForm>();
-      for (User user : userList) {
-        UserForm userForm = new UserForm();
-        PropertyUtils.copyProperties(userForm, user);
-        userForm.setUserId(user.getId());
-
-        Address address = user.getAddress();
-        if (address != null) {
-          PropertyUtils.copyProperties(userForm, address);
-        }
-
-        userFormList.add(userForm);
-      }
-
-      uiModel.addAttribute("userList", userFormList);
-
-      return PATH + "/" + LIST;
-    } catch (Exception e) {
-      log.error(e);
-      throw new RuntimeException(e);
-    }
+    prepareList(userService, "userList", page, size, uiModel);
+    return PATH + "/" + LIST;
   }
 
   @RequestMapping(params = "form", produces = "text/html")
@@ -120,7 +101,8 @@ public class UserController extends WebController {
         String imageUrl = httpServletRequest.getContextPath() + "/" + PATH + "/" + IMAGE + "/"
             + encodeUrlPathSegment(userForm.getUserId().toString(), httpServletRequest);
         userForm.setImageUrl(imageUrl);
-        userForm.setImage(null); // this prevents image content to be fetched in file value field
+        userForm.setImage(null); // this prevents image content to be fetched in
+                                 // file value field
         uiModel.addAttribute("itemId", userForm.getUserId());
       }
 
@@ -128,6 +110,7 @@ public class UserController extends WebController {
     }
 
     uiModel.addAttribute("userStatusList", userStatusService.findAll());
+    uiModel.addAttribute("countryList", countryService.findAll());
   }
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
