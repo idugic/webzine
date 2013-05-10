@@ -1,8 +1,5 @@
 package rs.id.webzine.controller;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.core.convert.converter.Converter;
@@ -57,15 +54,12 @@ import rs.id.webzine.service.system.CountryService;
 import rs.id.webzine.service.system.RoleService;
 import rs.id.webzine.service.system.UserService;
 import rs.id.webzine.service.system.UserStatusService;
-import rs.id.webzine.controller.system.UserForm;
 
 /**
  * A central place to register application converters and formatters.
  */
 @Configurable
 public class ApplicationConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {
-
-  private static final Log log = LogFactory.getLog(ApplicationConversionServiceFactoryBean.class);
 
   @Autowired
   RoleService roleService;
@@ -220,42 +214,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     return new Converter<String, User>() {
       public User convert(String id) {
         return getObject().convert(getObject().convert(id, Integer.class), User.class);
-      }
-    };
-  }
-
-  public Converter<UserForm, String> getUserFormToStringConverter() {
-    return new Converter<UserForm, String>() {
-      public String convert(UserForm userForm) {
-        return userForm.getUserName();
-      }
-    };
-  }
-
-  public Converter<Integer, UserForm> getIdToUserFormConverter() {
-    return new Converter<Integer, UserForm>() {
-      public UserForm convert(Integer id) {
-        try {
-          UserForm userForm = new UserForm();
-          User user = userService.find(id);
-          PropertyUtils.copyProperties(userForm, user);
-          userForm.setUserId(user.getId());
-          if (user.getAddress() != null) {
-            PropertyUtils.copyProperties(userForm, user.getAddress());
-          }
-          return userForm;
-        } catch (Exception e) {
-          log.error(e);
-          throw new RuntimeException(e);
-        }
-      }
-    };
-  }
-
-  public Converter<String, UserForm> getStringToUserFormConverter() {
-    return new Converter<String, UserForm>() {
-      public UserForm convert(String id) {
-        return getObject().convert(getObject().convert(id, Integer.class), UserForm.class);
       }
     };
   }
@@ -816,10 +774,6 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     registry.addConverter(getUserToStringConverter());
     registry.addConverter(getIdToUserConverter());
     registry.addConverter(getStringToUserConverter());
-
-    registry.addConverter(getUserFormToStringConverter());
-    registry.addConverter(getIdToUserFormConverter());
-    registry.addConverter(getStringToUserFormConverter());
 
     // country
     registry.addConverter(getCountryToStringConverter());

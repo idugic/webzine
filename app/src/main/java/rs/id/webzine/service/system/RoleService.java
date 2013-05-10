@@ -36,7 +36,7 @@ public class RoleService extends GenericService<Role> {
     return role;
   }
 
-  public List<Role> findForUserCreate() {
+  public List<Role> findAvailable() {
     List<Role> roleList = null;
 
     // available roles based on user role

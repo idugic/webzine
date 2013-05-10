@@ -9,7 +9,6 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.id.webzine.entity.system.Address;
 import rs.id.webzine.entity.system.User;
 import rs.id.webzine.service.GenericService;
 
@@ -20,87 +19,47 @@ public class UserService extends GenericService<User> {
   RoleService roleService;
 
   @Autowired
-  AddressService addressService;
-
-  @Autowired
   PasswordEncoder passwordEncoder;
 
   private static final String ENCODER_SALT = "myVerySpecialSalt";
 
   @Transactional
-  public void create(User user, Address address) {
-    addressService.create(address);
-    user.setAddress(address);
-
+  public void createUser(User user) {
     String encodedPassword = passwordEncoder.encodePassword(user.getPassword(), ENCODER_SALT);
 
     user.setPassword(encodedPassword);
 
-    create(user);
+    super.create(user);
   }
 
   @Transactional
-  public void update(Integer userId, User userValues, Address addressValues) {
+  public void updateUser(User user) {
 
-    User targetUser = find(userId);
-
-    targetUser.setStatus(userValues.getStatus());
-
-    // role can't be changed
+    User dbUser = find(user.getId());
 
     // userName can't be changed (unique key)
+    user.setUserName(dbUser.getUserName());
 
-    // password can't be changed
+    // password can't be changed (separate action)
+    user.setPassword(dbUser.getPassword());
 
-    targetUser.setFirstName(userValues.getFirstName());
-    targetUser.setLastName(userValues.getLastName());
-  
-    // change image only if provided
-    if (userValues.getImage() != null && userValues.getImage() != null && userValues.getImage().length != 0) {
-      targetUser.setImage(userValues.getImage());
-      targetUser.setImageContentType(userValues.getImageContentType());
-    }
-
-    // change address only if provided
-    if (addressValues != null) {
-      if (targetUser.getAddress() != null) {
-        Address targetAddress = targetUser.getAddress();
-        targetAddress.setEmail(addressValues.getEmail());
-        targetAddress.setPhone(addressValues.getPhone());
-        targetAddress.setStreetLine(addressValues.getStreetLine());
-        targetAddress.setCity(addressValues.getCity());
-        targetAddress.setPostalCode(addressValues.getPostalCode());
-        targetAddress.setCountry(addressValues.getCountry());
-        targetAddress.setCountryCode(addressValues.getCountryCode());
-        targetAddress.setWww(addressValues.getWww());
-      } else {
-        addressService.create(addressValues);
-        targetUser.setAddress(addressValues);
-      }
-    }
-
-    update(targetUser);
+    super.update(user);
   }
 
   @Transactional
-  public void updatePassword(Integer userId, String password) {
-    User targetUser = find(userId);
+  public void updatePassword(Integer id, String password) {
+    User dbUser = find(id);
 
     String encodedPassword = passwordEncoder.encodePassword(password, ENCODER_SALT);
 
-    targetUser.setPassword(encodedPassword);
+    dbUser.setPassword(encodedPassword);
 
-    update(targetUser);
+    super.update(dbUser);
   }
 
-  @Transactional
-  public void updateRole(Integer userId, String roleCd) {
-    User targetUser = find(userId);
-    targetUser.setRole(roleService.findForCd(roleCd));
-
-    update(targetUser);
-  }
-
+  /**
+   * Find for user name.
+   */
   public User findForUserName(String userName) {
     User user = null;
 
@@ -120,16 +79,19 @@ public class UserService extends GenericService<User> {
   /**
    * Find all users with the role different from Visitor.
    */
-  public List<User> findForSystem() {
+  public List<User> findForSystem(boolean addEmptyUser) {
     List<User> userList;
     TypedQuery<User> query = entityManager().createQuery("SELECT u FROM User u JOIN u.role r WHERE r.cd != :cd",
         User.class);
     query.setParameter("cd", RoleService.CD_VISITOR);
     userList = query.getResultList();
 
-    User emptyUser = new User();
-    emptyUser.setId(-1);
-    userList.add(0, emptyUser); // first one is empty user
+    if (addEmptyUser) {
+      // first entry is empty user
+      User emptyUser = new User();
+      emptyUser.setId(-1);
+      userList.add(0, emptyUser);
+    }
 
     return userList;
   }

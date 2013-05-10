@@ -2,17 +2,20 @@
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
 
-  <sec:authorize access="hasRole('administrator')">
-    <c:set var="delete" value="true" />
-  </sec:authorize>
-
-  <page:list id="pl_user" items="${userList}">
-    <table:table data="${userList}" id="l_user" path="/admin/system/user" delete="${delete}">
-      <table:column id="c_user_username" property="userName" />
-      <table:column id="c_user_firstname" property="firstName" />
-      <table:column id="c_user_lastname" property="lastName" />
-      <table:column id="c_user_role" property="role" />
-      <table:column id="c_user_status" property="status" />
-    </table:table>
-  </page:list>
+  <div class="row">
+    <div class="span9">
+      <page:list id="pl_user" items="${userList}">
+        <table:table data="${userList}" id="l_user" path="/admin/system/user">
+          <table:column id="c_user_username" property="userName" />
+          <table:column id="c_user_firstname" property="firstName" />
+          <table:column id="c_user_lastname" property="lastName" />
+          <table:column id="c_user_role" property="role" />
+          <table:column id="c_user_status" property="status" />
+        </table:table>
+      </page:list>
+    </div>
+    <div class="span3">
+      <c:out value=" " />
+    </div>
+  </div>
 </jsp:root>

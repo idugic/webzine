@@ -13,13 +13,13 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("a[data-toggle]").tooltip();
-		$("button[data-toggle]").tooltip();
+		$('a[data-toggle]').tooltip();
+		$('button[data-toggle]').tooltip();
+		$('form').on('submit', function() {
+			// TODO
+			return false;
+		});
 	});
-
-	function validateForm(myForm) {
-		// TODO
-	}
 </script>
 
 <spring:message code="application_name" var="app_name" htmlEscape="false" />
@@ -31,7 +31,9 @@
 <body class="container">
   <tiles:insertAttribute name="header" ignore="true" />
   <section>
-    <tiles:insertAttribute name="body" />
+    <article>
+      <tiles:insertAttribute name="body" />
+    </article>
   </section>
   <tiles:insertAttribute name="footer" ignore="true" />
 </body>

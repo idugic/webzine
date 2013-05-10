@@ -85,7 +85,7 @@ public class TaskController extends WebController {
     uiModel.addAttribute("parentTaskList", taskService.findAvailableAsParent(task.getId()));
     uiModel.addAttribute("taskStatusList", taskStatusService.findAll());
     uiModel.addAttribute("taskPriorityList", taskPriorityService.findAll());
-    uiModel.addAttribute("userList", userService.findForSystem());
+    uiModel.addAttribute("userList", userService.findForSystem(true));
   }
 
   @RequestMapping(method = RequestMethod.POST, produces = "text/html")
@@ -114,7 +114,7 @@ public class TaskController extends WebController {
     uiModel.addAttribute("parentTaskList", taskService.findAvailableAsParent(taskId));
     uiModel.addAttribute("taskStatusList", taskStatusService.findAll());
     uiModel.addAttribute("taskPriorityList", taskPriorityService.findAll());
-    uiModel.addAttribute("userList", userService.findForSystem());
+    uiModel.addAttribute("userList", userService.findForSystem(true));
 
     uiModel.addAttribute("taskCommentList", taskCommentService.findForTask(taskId));
     uiModel.addAttribute("taskAttachmentList", taskAttachmentService.findForTask(taskId));

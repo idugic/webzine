@@ -40,8 +40,21 @@
 	font-weight: bold;
 }
 
-.article-header {
-	margin-bottom: 20px;
+.panel-header {
+	border: 1px solid #CCCCCC;
+	padding: 5px;
+}
+
+.panel-header-closable {
+  border: 1px solid #CCCCCC;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.panel-body {
+	border: 1px solid #CCCCCC;
+	border-top: 0px;
+	padding: 5px;
 }
 
 .action-column {
@@ -63,5 +76,5 @@
 .label-error {
 	margin-left: 4px;
 	margin-top: 5px;
-  background-color: #E9322D !important;
+	background-color: #E9322D !important;
 }

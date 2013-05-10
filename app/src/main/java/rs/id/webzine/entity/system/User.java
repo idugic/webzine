@@ -1,14 +1,11 @@
 package rs.id.webzine.entity.system;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,6 +32,14 @@ public class User {
   @NotNull
   private Role role;
 
+  @Column(name = "FIRST_NAME", length = 50)
+  @NotNull
+  private String firstName;
+
+  @Column(name = "LAST_NAME", length = 50)
+  @NotNull
+  private String lastName;
+
   @Column(name = "USER_NAME", length = 50, unique = true)
   @NotNull
   private String userName;
@@ -42,24 +47,6 @@ public class User {
   @Column(name = "PASSWORD", length = 250)
   @NotNull
   private String password;
-
-  @Column(name = "FIRST_NAME", length = 50)
-  private String firstName;
-
-  @Column(name = "LAST_NAME", length = 50)
-  private String lastName;
-
-  @Column(name = "IMAGE")
-  @Lob
-  @Basic(fetch = FetchType.LAZY)
-  private byte[] image;
-
-  @Column(name = "IMAGE_CONTENT_TYPE", length = 100)
-  private String imageContentType;
-
-  @ManyToOne
-  @JoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
-  private Address address;
 
   public Integer getId() {
     return id;
@@ -85,22 +72,6 @@ public class User {
     this.role = role;
   }
 
-  public String getUserName() {
-    return userName;
-  }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
   public String getFirstName() {
     return firstName;
   }
@@ -117,28 +88,20 @@ public class User {
     this.lastName = lastName;
   }
 
-  public byte[] getImage() {
-    return image;
+  public String getUserName() {
+    return userName;
   }
 
-  public void setImage(byte[] image) {
-    this.image = image;
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
-  public String getImageContentType() {
-    return imageContentType;
+  public String getPassword() {
+    return password;
   }
 
-  public void setImageContentType(String imageContentType) {
-    this.imageContentType = imageContentType;
-  }
-
-  public Address getAddress() {
-    return address;
-  }
-
-  public void setAddress(Address address) {
-    this.address = address;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
 }

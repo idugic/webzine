@@ -5,23 +5,19 @@
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
   <jsp:directive.attribute name="items" type="java.util.Collection" required="true" rtexprvalue="true" description="The form backing object name" />
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label used for this object, will default to a message bundle if not supplied" />
-  <jsp:directive.attribute name="labelPlural" type="java.lang.String" required="false" rtexprvalue="true" description="The label used for this object, will default to a message bundle if not supplied" />
-  <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="create" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Include 'create' link into table (default true)" />
-  <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if the title pane is opened or closed by default (default: true)" />
+  <jsp:directive.attribute name="closable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if panel is closable (default: true)" />
+  <jsp:directive.attribute name="closed" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Control if panel is closed by default (default: false)" />
+  <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
 
   <c:if test="${empty render or render}">
     <c:if test="${empty label}">
-      <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
-    </c:if>
-    <c:if test="${empty labelPlural}">
-      <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}_plural" var="labelPlural" htmlEscape="false" />
+      <spring:message code="${fn:toLowerCase(fn:substringAfter(id,'_'))}_list" var="label" htmlEscape="false" />
     </c:if>
 
-    <spring:message arguments="${labelPlural}" code="entity_list" var="title_msg" htmlEscape="false" />
-    <spring:message var="typeName" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_new" htmlEscape="false" />
+    <spring:message arguments="${label}" code="entity_list" var="title_label" htmlEscape="false" />
 
-    <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
+    <util:panel id="${id}" title="${title_label}" closable="${closable}" closed="${closed}">
       <c:choose>
         <c:when test="${not empty items}">
           <jsp:doBody />
@@ -29,9 +25,11 @@
         <c:otherwise>
           <div class="alert alert-info">
             <button type="button" class="close" data-dismiss="alert">&amp;times;</button>
-            <spring:message arguments="${label}" code="entity_not_found" />
+            <spring:message code="entity_not_found" />
           </div>
           <c:if test="${empty create or create}">
+            <spring:message var="typeName" code="menu_item_${fn:toLowerCase(fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1])}_new" htmlEscape="false" />
+
             <div>
               <spring:url value="${path}" var="create_form_url">
                 <spring:param name="form" />

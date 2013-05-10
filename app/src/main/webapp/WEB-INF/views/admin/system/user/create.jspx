@@ -2,54 +2,19 @@
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
   <jsp:output omit-xml-declaration="yes" />
 
-  <form:create id="fc_user" modelAttribute="userForm" path="/admin/system/user" multipart="true">
-    <field:select field="status" id="c_user_status" itemValue="id" items="${userStatusList}" path="/admin/system/user_status" required="true" />
-    <field:select field="role" id="c_user_role" itemValue="id" items="${roleList}" path="/admin/system/role" required="true" />
-
-    <div class="row">
-      <div class="span3">
-        <field:input field="userName" id="c_user_userName" required="true" max="50" />
-      </div>
-      <div class="span3">
-        <field:input field="password" id="c_user_password" required="true" max="15" />
-      </div>
-      <div class="span6">
-        <c:out value=" "></c:out>
-      </div>
+  <div class="row">
+    <div class="span6">
+      <form:create id="fc_user" modelAttribute="user" path="/admin/system/user">
+        <field:select field="status" id="c_user_status" itemValue="id" items="${userStatusList}" path="/admin/system/user_status" required="true" />
+        <field:select field="role" id="c_user_role" itemValue="id" items="${roleList}" path="/admin/system/role" required="true" />
+        <field:input field="firstName" id="c_user_firstName" max="50" required="true" />
+        <field:input field="lastName" id="c_user_lastName" max="50" required="true" />
+        <field:input field="userName" id="c_user_userName" max="50" required="true" />
+        <field:input field="password" id="c_user_password" max="15" required="true" />
+      </form:create>
     </div>
-
-    <div class="row">
-      <div class="span3">
-        <field:input field="firstName" id="c_user_firstName" max="50" />
-      </div>
-      <div class="span3">
-        <field:input field="lastName" id="c_user_lastName" max="50" />
-      </div>
-      <div class="span6">
-        <c:out value=" "></c:out>
-      </div>
+    <div class="span6">
+      <c:out value=" " />
     </div>
-
-    <field:file field="image" id="c_user_image" />
-
-    <field:input field="phone" id="c_address_phone" max="50" />
-
-    <field:input field="streetLine" id="c_address_streetLine" max="100" inputClass="input-xxlarge" />
-
-    <div class="row">
-      <div class="span3">
-        <field:input field="city" id="c_address_city" max="50" />
-      </div>
-      <div class="span3">
-        <field:input field="postalCode" id="c_address_postalCode" max="15" inputClass="input-small" />
-      </div>
-      <div class="span6">
-        <c:out value=" "></c:out>
-      </div>
-    </div>
-
-    <field:select field="country" id="c_address_country" itemValue="id" items="${countryList}" path="/admin/system/country" />
-
-    <field:input field="www" id="c_address_www" max="250" inputClass="input-xxlarge" />
-  </form:create>
+  </div>
 </jsp:root>

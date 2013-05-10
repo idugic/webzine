@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Note class="oracle.dbtools.crest.model.design.Note" name="Note_2" id="5C3CE293-CF12-A192-D571-7F3AB9E04BD9" directorySegmentName="seg_0">
+<createdBy>idugic</createdBy>
+<createdTime>2013-05-09 06:48:54 UTC</createdTime>
+<comment>TODO Various user profile aspects</comment>
+<ownerDesignName>Webzine</ownerDesignName>
+<fonts>
+<FontObject class="oracle.dbtools.crest.model.design.FontObjectWr">
+<foType>Title</foType>
+<colorRGB>-16777216</colorRGB>
+</FontObject>
+</fonts>
+</Note>

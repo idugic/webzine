@@ -74,8 +74,8 @@
    <object objectType="FKIndexAssociation" objectID="AAD3D7B2-AF1B-744E-CF76-A5175F6D3D4F" name="TASK_USER_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="F73C526F-D207-9A6B-FD1F-0B51536060FB" name="TASK_USER_FK_2" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="4C9278DE-5628-1BC1-E0CE-9B11C7E5CC02" name="TASK_USER_FK_3" seqName="seg_0"/>
-   <object objectType="FKIndexAssociation" objectID="C0744002-2B9F-394D-8402-0B1092AB403A" name="USER_ADDR_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="CECF21C3-6237-F1A8-7FFD-4E3DB204FC45" name="USER_ROLE_FK_1" seqName="seg_0"/>
    <object objectType="FKIndexAssociation" objectID="CC298D7C-4A1F-F2C5-5EF2-C818488FA71E" name="USER_USER_STAT_FK_1" seqName="seg_0"/>
    <object objectType="Note" objectID="6765C1B3-E919-3C89-84B1-0A359DA83176" name="Note_1" seqName="seg_0"/>
+   <object objectType="Note" objectID="5C3CE293-CF12-A192-D571-7F3AB9E04BD9" name="Note_2" seqName="seg_0"/>
 </oracle.dbtools.crest.model.design.relational.RelationalDesign>
