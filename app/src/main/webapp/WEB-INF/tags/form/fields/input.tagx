@@ -4,18 +4,13 @@
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" rtexprvalue="true" description="The identifier for this tag (do not change!)" />
   <jsp:directive.attribute name="field" type="java.lang.String" required="true" rtexprvalue="true" description="The field exposed from the form backing object" />
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label used for this field, will default to a message bundle if not supplied" />
-  <jsp:directive.attribute name="labelCode" type="java.lang.String" required="false" rtexprvalue="true" description="Key for label message bundle if label is not supplied" />
-  <jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicates if this field is required (default false)" />
-  <jsp:directive.attribute name="disabled" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Specify if this field should be enabled" />
-  <jsp:directive.attribute name="validationRegex" type="java.lang.String" required="false" rtexprvalue="true" description="Specify regular expression to be used for the validation of the input contents" />
-  <jsp:directive.attribute name="validationMessageCode" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the message (message property code) to be displayed if the regular expression validation fails" />
-  <jsp:directive.attribute name="validationMessage" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the message to be displayed if the regular expression validation fails" />
-  <jsp:directive.attribute name="max" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the maximum length of the input contents" />
-  <jsp:directive.attribute name="disableFormBinding" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set to true to disable Spring form binding" />
   <jsp:directive.attribute name="type" type="java.lang.String" required="false" rtexprvalue="true" description="Set field type (default 'text', or 'password')" />
-  <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
+  <jsp:directive.attribute name="disabled" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Specify if this field should be enabled" />
   <jsp:directive.attribute name="readonly" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Specify if this field should be readonly" />
-  <jsp:directive.attribute name="inputClass" type="java.lang.String" required="false" rtexprvalue="true" description="Additional input class" />
+  <jsp:directive.attribute name="max" type="java.lang.String" required="false" rtexprvalue="true" description="Specify the maximum length of the input contents" />
+  <jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicates if this field is required (default false)" />
+  <jsp:directive.attribute name="elementClass" type="java.lang.String" required="false" rtexprvalue="true" description="Additional element class" />
+  <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
 
   <c:if test="${empty render or render}">
 
@@ -28,21 +23,7 @@
     </c:if>
 
     <c:if test="${empty label}">
-      <c:if test="${empty labelCode}">
-        <c:set var="labelCode" value="${fn:substringAfter(id,'_')}" />
-      </c:if>
-      <spring:message code="${fn:toLowerCase(labelCode)}" var="label" htmlEscape="false" />
-    </c:if>
-
-    <c:if test="${empty validationMessage}">
-      <c:choose>
-        <c:when test="${empty validationMessageCode}">
-          <spring:message arguments="${fn:escapeXml(label)}" code="field_invalid" var="field_invalid" htmlEscape="false" />
-        </c:when>
-        <c:otherwise>
-          <spring:message arguments="${fn:escapeXml(label)}" code="${validationMessageCode}" var="field_invalid" htmlEscape="false" />
-        </c:otherwise>
-      </c:choose>
+      <c:set var="label" value="${fn:substringAfter(id,'_')}" />
     </c:if>
 
     <c:if test="${empty required}">
@@ -57,37 +38,36 @@
       <spring:escapeBody javaScriptEscape="true">${field}</spring:escapeBody>
     </c:set>
 
-    <label class="labelInput" for="_${sec_field}_id">
-      <c:out value="${fn:escapeXml(label)}" />
+    <label for="_${sec_field}_id">
+      <spring:message code="${fn:toLowerCase(label)}" var="label_label" htmlEscape="false" />
+
+      <c:out value="${fn:escapeXml(label_label)}" />
     </label>
     <c:choose>
-      <c:when test="${disableFormBinding}">
-        <input id="_${sec_field}_id" name="${sec_field}" type="${fn:escapeXml(type)}" />
+      <c:when test="${readonly eq true}">
+        <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" readonly="${readonly}" cssClass="${elementClass}" />
+      </c:when>
+      <c:when test="${type eq 'password'}">
+        <div class="input-append">
+          <form:password id="_${sec_field}_id" path="${sec_field}" maxlength="${max}" required="${required}" cssClass="${elementClass}" />
+          <div id="_${sec_field}_id_required_error" class="label label-error hide">!</div>
+        </div>
       </c:when>
       <c:otherwise>
         <c:choose>
-          <c:when test="${readonly eq true}">
-            <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" readonly="${readonly}" cssClass="${inputClass}" />
-          </c:when>
-          <c:when test="${type eq 'password'}">
-            <form:password id="_${sec_field}_id" path="${sec_field}" maxlength="${max}" required="${required}" cssClass="${inputClass}" />
+          <c:when test="${required}">
+            <div class="input-append">
+              <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" required="${required}" cssClass="${elementClass}" />
+              <div id="_${sec_field}_id_required_error" class="label label-error hide">!</div>
+            </div>
           </c:when>
           <c:otherwise>
-            <c:choose>
-              <c:when test="${required}">
-                <div class="input-append">
-                  <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" required="${required}" cssClass="${inputClass}" />
-                  <div id="_${sec_field}_id_required_error" class="label label-error">!</div>
-                </div>
-              </c:when>
-              <c:otherwise>
-                <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" cssClass="${inputClass}" />
-              </c:otherwise>
-            </c:choose>
+            <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" maxlength="${max}" cssClass="${elementClass}" />
           </c:otherwise>
         </c:choose>
-        <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
       </c:otherwise>
     </c:choose>
+
+    <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
   </c:if>
 </jsp:root>

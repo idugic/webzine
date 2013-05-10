@@ -10,7 +10,7 @@
         <field:input field="firstName" id="c_user_firstName" max="50" required="true" />
         <field:input field="lastName" id="c_user_lastName" max="50" required="true" />
         <field:input field="userName" id="c_user_userName" max="50" required="true" />
-        <field:input field="password" id="c_user_password" max="15" required="true" />
+        <field:input field="password" type="password" id="c_user_password" max="15" required="true" />
       </form:create>
     </div>
     <div class="span6">

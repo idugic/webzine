@@ -56,7 +56,7 @@
               <c:otherwise>
                 <div class="input-append">
                   <form:select id="_${sec_field}_id" items="${items}" path="${sec_field}" disabled="${disabled}" itemValue="${fn:escapeXml(itemValue)}" required="required" />
-                  <div id="_${sec_field}_id_required_error" class="label label-error">!</div>
+                  <div id="_${sec_field}_id_required_error" class="label label-error hide">!</div>
                 </div>
               </c:otherwise>
             </c:choose>

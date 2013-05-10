@@ -14,10 +14,28 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('a[data-toggle]').tooltip();
+
 		$('button[data-toggle]').tooltip();
+
 		$('form').on('submit', function() {
-			// TODO
-			return false;
+			var valid = true;
+			var isFirstInvalid = true;
+			$(this).find('*[required]').each(function() {
+				if ($(this).is('input') &amp;&amp; this.value == '') {
+					$('#' + $(this).attr('id') + '_required_error').css("display", "inline-block"); // can't use toggle() here because label css
+					if (isFirstInvalid) {
+						$(this).focus();
+						isFirstInvalid = false;
+					}
+					valid = false;
+				}
+				if ($(this).is('select') &amp;&amp; this.value == '-1') {
+			    $('#' + $(this).attr('id') + '_required_error').css("display", "inline-block"); // can't use toggle() here because label css
+			    valid = false;
+			  }
+			});
+			
+			return valid;
 		});
 	});
 </script>
